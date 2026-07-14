@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — GeneFox</title>
+<meta name="description" content="Privacy Policy for the GeneFox app by Vindhya Data Science. No account, no ads, no tracking — GeneFox explores public genomics data and computes on your device.">
+<link rel="canonical" href="https://vindhyadatascience.com/genefox/privacy/">
+<link rel="icon" type="image/png" href="../assets/genefox-icon.png">
+<meta name="theme-color" content="#0E1430">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#0E1430;--ground-2:#141C38;--navy:#1B2547;
+    --line:rgba(150,163,214,.14);--line-strong:rgba(150,163,214,.26);
+    --magenta:#B53694;--magenta-hot:#E24FB6;--pink:#D57BBA;--pink-pale:#F4D7E7;--purple:#6A3A9A;--cyan:#58E5D6;
+    --text:#E7E9F5;--muted:#9AA2C4;--muted-dim:#6B7299;
+    --display:"Bricolage Grotesque",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --body:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1180px;--r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin:0}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ::selection{background:rgba(226,79,182,.32);color:#fff}
+  :focus-visible{outline:2px solid var(--magenta-hot);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,40px)}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:500}
+  .host,code{font-family:var(--mono);font-size:.86em;color:var(--pink-pale);background:rgba(213,123,186,.1);
+    border:1px solid rgba(213,123,186,.2);border-radius:6px;padding:.08em .42em;white-space:nowrap;overflow-wrap:anywhere}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:linear-gradient(180deg,rgba(14,20,48,.86),rgba(14,20,48,.55));border-bottom:1px solid transparent;transition:border-color .3s}
+  header.nav.scrolled{border-bottom-color:var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .brand .tile{width:34px;height:34px;border-radius:9px;flex:none;box-shadow:0 0 0 1px var(--line-strong),0 6px 18px rgba(0,0,0,.35)}
+  .nav-links{display:flex;align-items:center;gap:32px}
+  .nav-links a.link{font-size:15px;color:var(--muted);transition:color .2s}
+  .nav-links a.link:hover{color:var(--text)}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--body);font-weight:600;font-size:15px;
+    padding:11px 20px;border-radius:11px;cursor:pointer;border:1px solid transparent;color:#fff;
+    background:linear-gradient(135deg,var(--magenta),var(--purple));
+    box-shadow:0 8px 24px -6px rgba(181,54,148,.6),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .18s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(226,79,182,.7)}
+  @media(max-width:760px){.nav-links .link{display:none}}
+
+  /* doc header */
+  .doc-head{position:relative;overflow:hidden;padding-block:clamp(44px,6vw,72px) clamp(28px,4vw,44px);border-bottom:1px solid var(--line)}
+  .doc-head .glow{position:absolute;z-index:0;top:-180px;right:-120px;width:460px;height:460px;border-radius:50%;
+    filter:blur(70px);background:radial-gradient(circle,rgba(181,54,148,.3),transparent 68%);pointer-events:none}
+  .doc-head .inner{position:relative;z-index:1}
+  .crumb{font-family:var(--mono);font-size:12.5px;color:var(--muted-dim);letter-spacing:.04em;margin-bottom:20px}
+  .crumb a{color:var(--muted)}.crumb a:hover{color:var(--pink)}
+  .doc-head h1{font-size:clamp(34px,6vw,54px);font-weight:800;margin-bottom:14px}
+  .doc-head .updated{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.02em}
+  .doc-head .updated b{color:var(--pink);font-weight:500}
+  .doc-head .intro{margin-top:20px;color:var(--muted);max-width:64ch;font-size:17px}
+
+  /* doc body */
+  .doc-wrap{display:grid;grid-template-columns:1fr;gap:0}
+  .doc{max-width:72ch;margin-inline:auto;padding-block:clamp(36px,5vw,56px)}
+  .doc p{margin:0 0 18px;color:#D7DBEC}
+  .doc h2{scroll-margin-top:90px;font-size:clamp(21px,3vw,27px);margin:44px 0 14px;padding-top:26px;border-top:1px solid var(--line);
+    display:flex;gap:14px;align-items:baseline}
+  .doc h2 .num{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--magenta-hot);flex:none;letter-spacing:0}
+  .doc h3{font-size:18px;margin:28px 0 10px;color:var(--pink-pale)}
+  .doc ul{margin:0 0 18px;padding-left:0;list-style:none}
+  .doc li{position:relative;padding-left:22px;margin:9px 0;color:#D7DBEC}
+  .doc li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;border-radius:50%;
+    background:var(--magenta);box-shadow:0 0 8px var(--magenta-hot)}
+  .doc a.lnk{color:var(--pink);border-bottom:1px solid rgba(213,123,186,.4);overflow-wrap:anywhere;transition:color .2s,border-color .2s}
+  .doc a.lnk:hover{color:var(--pink-pale);border-bottom-color:var(--pink-pale)}
+  .doc strong{color:#fff;font-weight:600}
+
+  .callout{background:linear-gradient(180deg,rgba(181,54,148,.1),rgba(106,58,154,.05));
+    border:1px solid rgba(213,123,186,.3);border-radius:var(--r);padding:22px 24px;margin:24px 0}
+  .callout .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
+  .callout.warn{background:rgba(226,79,182,.06);border-color:rgba(226,79,182,.34)}
+  .callout ul{margin:0}
+  .callout p:last-child{margin-bottom:0}
+
+  .toc{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:8px 0 6px}
+  .toc .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dim);margin-bottom:14px}
+  .toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:36px}
+  @media(max-width:640px){.toc ol{columns:1}}
+  .toc li{margin:0}
+  .toc a{display:block;padding:5px 0;font-size:14.5px;color:var(--muted);transition:color .2s}
+  .toc a:hover{color:var(--pink-pale)}
+  .toc a .n{font-family:var(--mono);font-size:12px;color:var(--muted-dim);margin-right:8px}
+
+  .svc{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+  .svc:last-child{border-bottom:0}
+  .svc .nm{font-weight:600;color:var(--text);font-size:15.5px;margin-bottom:5px}
+  .svc .ls a{font-family:var(--mono);font-size:12.5px;color:var(--pink);overflow-wrap:anywhere;display:inline}
+  .svc .ls a:hover{color:var(--pink-pale)}
+
+  /* footer (shared) */
+  footer{border-top:1px solid var(--line);padding-block:52px 40px;background:rgba(8,12,28,.6)}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:40px}
+  @media(max-width:760px){.foot-top{grid-template-columns:1fr;gap:26px}}
+  .foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 15px;font-weight:500}
+  .foot-col a{display:block;color:var(--muted);font-size:14.5px;padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--pink-pale)}
+  .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-family:var(--display);font-weight:700;font-size:18px}
+  .foot-brand .tile{width:32px;height:32px;border-radius:8px;box-shadow:0 0 0 1px var(--line-strong)}
+  .foot-brand-desc{color:var(--muted);font-size:14px;max-width:34ch;line-height:1.55}
+  .disclaimer{border-top:1px solid var(--line);padding-top:26px;color:var(--muted-dim);font-size:12.5px;line-height:1.7;max-width:88ch}
+  .disclaimer strong{color:var(--muted)}
+  .foot-legal{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--muted-dim)}
+  .foot-legal .vds{display:inline-flex;align-items:center;gap:9px}
+  .foot-legal .vds img{width:26px;height:auto;opacity:.9}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../" aria-label="GeneFox home">
+      <img class="tile" src="../assets/genefox-icon.png" alt="">GeneFox
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="link" href="../#features">Features</a>
+      <a class="link" href="../#ask">Ask GeneFox</a>
+      <a class="link" href="../#privacy">Privacy</a>
+      <a class="btn" href="../#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<section class="doc-head">
+  <div class="glow"></div>
+  <div class="wrap inner">
+    <p class="crumb"><a href="../">GeneFox</a> &nbsp;/&nbsp; Legal &nbsp;/&nbsp; Privacy Policy</p>
+    <span class="eyebrow">Privacy Policy</span>
+    <h1 style="margin-top:14px">Your questions stay yours.</h1>
+    <p class="updated"><b>Effective</b> July 3, 2026 &nbsp;·&nbsp; <b>Last updated</b> July 14, 2026</p>
+    <p class="intro">How the GeneFox app handles information. GeneFox is developed and published by <strong style="color:var(--text)">Vindhya Data Science</strong> (“we,” “us,” or “our”), and this policy applies to the GeneFox apps for iPhone, iPad, Mac, and Android.</p>
+  </div>
+</section>
+
+<div class="wrap doc-wrap">
+<article class="doc">
+
+  <div class="callout">
+    <div class="k">The short version</div>
+    <p>GeneFox is a tool for exploring <strong>publicly available cancer-genomics and gene-expression data</strong>. It is built to be privacy-respecting by design:</p>
+    <ul>
+      <li><strong>We do not require an account.</strong> There is no sign-up, login, or user profile.</li>
+      <li><strong>We do not require account or profile information</strong>, and we do not operate servers that receive or store your questions, searches, datasets, or results. The third-party services the app contacts process the limited request data described below.</li>
+      <li><strong>No advertising, third-party tracking, crash reporting, Firebase Analytics product, or behavioral-usage analytics</strong> are included in the app. Firebase Remote Config does process the limited installation/configuration metadata described in Section&nbsp;3d.</li>
+      <li>The app connects to public scientific databases and, only if you opt in, to a Google AI service, to answer your genomics questions. What is sent to each is described below.</li>
+      <li>GeneFox is intended for <strong>adults 18 or older</strong> conducting professional or business scientific research. It is nonclinical and must not be used for medical advice, as a medical device, or in clinical practice.</li>
+      <li>Your bookmarks and saved cohorts stay <strong>on your device</strong> and, on Apple devices, sync through <strong>your own private iCloud account</strong> — we cannot see them.</li>
+    </ul>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="k">Contents</div>
+    <ol>
+      <li><a href="#s1"><span class="n">1</span>What GeneFox does</a></li>
+      <li><a href="#s2"><span class="n">2</span>Information we do not collect</a></li>
+      <li><a href="#s3"><span class="n">3</span>Information sent to third parties</a></li>
+      <li><a href="#s4"><span class="n">4</span>Stored on your device &amp; your cloud</a></li>
+      <li><a href="#s5"><span class="n">5</span>Notifications</a></li>
+      <li><a href="#s6"><span class="n">6</span>Third-party services &amp; policies</a></li>
+      <li><a href="#s7"><span class="n">7</span>Data security</a></li>
+      <li><a href="#s8"><span class="n">8</span>Age &amp; permitted audience</a></li>
+      <li><a href="#s9"><span class="n">9</span>International users</a></li>
+      <li><a href="#s10"><span class="n">10</span>Your rights</a></li>
+      <li><a href="#s11"><span class="n">11</span>Changes to this policy</a></li>
+      <li><a href="#s12"><span class="n">12</span>Contact us</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="s1"><span class="num">1</span>What GeneFox does</h2>
+  <p>GeneFox lets you browse and visualize gene-expression and related genomic data from public research repositories — for example TCGA cohorts through the NIH Genomic Data Commons, and public datasets from NCBI’s Gene Expression Omnibus (GEO). To do this, the app sends <strong>scientific identifiers and search terms</strong> (such as gene symbols and dataset accession numbers) to those public services and displays the results. These requests are made directly from your device to the data providers.</p>
+
+  <h2 id="s2"><span class="num">2</span>Information we do not collect</h2>
+  <p>GeneFox does <strong>not</strong> collect, request, or transmit:</p>
+  <ul>
+    <li>Your name, email address, phone number, or mailing address;</li>
+    <li>Account credentials (there are no accounts);</li>
+    <li>Precise location or GPS data: GeneFox does not request location permission or add coordinates to scientific-data or AI requests. Firebase Remote Config automatically receives a country code as configuration metadata (Section&nbsp;3d), which store taxonomies may treat as coarse or approximate location;</li>
+    <li>Contacts, photos, calendar, or files outside the app;</li>
+    <li>Advertising identifiers (e.g., IDFA/AAID) — the app contains no advertising or tracking technology;</li>
+    <li>Screen/action usage analytics or crash telemetry.</li>
+  </ul>
+  <p>The app does not use the Firebase Analytics product, Crashlytics, Firebase Cloud Messaging, or any comparable behavioral analytics/tracking service. It does use Firebase Remote Config and Firebase Installations for the operational model setting described in Section&nbsp;3d; their SDK privacy manifests classify limited, unlinked diagnostic metadata under Apple’s “Analytics” purpose. GeneFox does not display ads.</p>
+  <p>GeneFox is not intended for personal, patient, or confidential information. If you enter such information into a GEO search or an explicitly authorized Cloud Assist question, that text is transmitted to the applicable third-party service as described below.</p>
+
+  <h2 id="s3"><span class="num">3</span>Information sent to third parties when you use the app</h2>
+  <p>To function, GeneFox sends a limited amount of information from your device to the services below. Public biomedical requests are limited to <strong>scientific identifiers</strong> (gene symbols, dataset accession numbers, and public sample identifiers) except where you type free text. Firebase separately receives the integrity and installation/configuration metadata described in Sections&nbsp;3c and&nbsp;3d. All connections use encrypted HTTPS.</p>
+
+  <h3>3a. Public biomedical data providers</h3>
+  <p>When you search, browse, or open a dataset, the app queries public research resources operated by third parties, including:</p>
+  <ul>
+    <li><strong>NIH Genomic Data Commons (GDC) / TCGA</strong> — <span class="host">api.gdc.cancer.gov</span></li>
+    <li><strong>NCBI Entrez / Gene Expression Omnibus (GEO)</strong> — <span class="host">eutils.ncbi.nlm.nih.gov</span>, <span class="host">www.ncbi.nlm.nih.gov</span>, <span class="host">ftp.ncbi.nlm.nih.gov</span> (U.S. National Institutes of Health)</li>
+    <li><strong>UCSC Xena</strong> — <span class="host">*.xenahubs.net</span>, <span class="host">xena.treehouse.gi.ucsc.edu</span></li>
+    <li><strong>EMBL-EBI Expression Atlas</strong> — <span class="host">www.ebi.ac.uk</span>, <span class="host">ftp.ebi.ac.uk</span></li>
+    <li><strong>ARCHS4 (Ma’ayan Lab, Mount Sinai)</strong> — <span class="host">maayanlab.cloud</span></li>
+    <li><strong>Amazon Web Services (S3)</strong> — static reference files hosted for the GDC Xena hub</li>
+  </ul>
+  <p>What is sent to these services is limited to the scientific query itself — for example a gene symbol, a dataset accession, a sample barcode, or, in the GEO search box, <strong>the text you type as a search term</strong>. GeneFox does not add an account identifier, advertising identifier, or app-specific device identifier to these public-portal queries. Like any Internet service, the provider receives standard network request metadata and handles it under its own privacy policy.</p>
+  <p>For conservative store disclosure, GeneFox treats free-text GEO search history as linked to the device because NCBI receives ordinary network metadata with the request, even though GeneFox does not add an account, advertising, or app-specific device identifier.</p>
+  <div class="callout warn"><p><strong>Because a free-text search term is transmitted to NCBI, please do not enter personal or confidential information into search fields.</strong></p></div>
+
+  <h3>3b. “Ask GeneFox” AI assistant (optional, opt-in)</h3>
+  <p>GeneFox includes an optional natural-language assistant, “Ask GeneFox.” It first tries to interpret your question <strong>on your device</strong>. For harder questions it can, <strong>only with your explicit consent</strong>, send the question to Google’s <strong>Gemini</strong> model through <strong>Firebase AI Logic</strong> (a Google service) to interpret it.</p>
+  <ul>
+    <li><strong>This cloud step is opt-in.</strong> Before the first automatic cloud escalation, GeneFox asks for your consent. Choosing <strong>Try harder (interpret with cloud)</strong> after its inline disclosure authorizes that one request. If you decline or dismiss the automatic prompt, that question stays on-device.</li>
+    <li><strong>What is sent when you consent:</strong> your typed question plus app-defined capability flags/tokens, the interpretation instruction, and response-schema metadata.</li>
+    <li><strong>What is not automatically attached:</strong> data files, dataset titles or IDs, raw GEO keys, expression or sample values, bookmarks, saved cohorts, and prior chat history. Anything you type in the question is transmitted, so do not include personal, patient, confidential, or otherwise sensitive information.</li>
+    <li><strong>Who may use it:</strong> Cloud Assist is only for adults 18 or older using it for professional or business scientific research. It is nonclinical and must not be used for medical advice, as a medical device, or in clinical practice.</li>
+    <li>Google handles the request under Google’s terms and privacy policy (see Section&nbsp;6). Retention and possible provider product-improvement use vary with the deployed Gemini service. Under Google’s current terms, unpaid service content may be used for product improvement and may be reviewed by humans; Paid Service prompts and responses are not used to improve Google’s products, but may be logged temporarily. GeneFox does not claim a particular tier or zero retention unless that deployment is verified as release evidence. Store disclosures therefore conservatively treat Cloud Assist content as device-linked and eligible for other purposes.</li>
+    <li>You can withdraw standing consent at any time by turning off <strong>Cloud Assist</strong> in <strong>About/Settings</strong>. This prevents future automatic cloud interpretation requests; a later <strong>Try harder</strong> tap can still authorize its one disclosed request. Withdrawal cannot change a provider’s retention or handling of requests already sent.</li>
+  </ul>
+
+  <h3>3c. App integrity verification</h3>
+  <p>To help ensure that Cloud Assist requests come from a genuine GeneFox app, production iPhone and iPad Release builds use <strong>Firebase App Check</strong> with Apple’s <strong>App Attest</strong> and production Android Release builds use <strong>Google Play Integrity</strong>. Developer and test builds use Firebase’s registered debug providers. Production Cloud Assist is unavailable in the native macOS app because that target has no configured production attestation provider.</p>
+  <p>App Check sends cryptographic app/device attestation and an <strong>integrity token</strong> to Google. This processing is for security and fraud prevention, not advertising or tracking. Because an integrity token accompanies a Cloud Assist request, Google may be able to associate that request with app/device integrity state. Provider registration and Firebase AI Logic enforcement are console-side controls that the installed client cannot verify; they must be confirmed independently as release evidence.</p>
+
+  <h3>3d. Cloud configuration metadata (automatic)</h3>
+  <p>Firebase-enabled iPhone/iPad and Android builds use <strong>Firebase Remote Config</strong> at startup to obtain the currently deployed Cloud Assist model name and retain a real-time listener for published configuration changes while the app runs. These configuration exchanges occur even if you never consent to send a Cloud Assist question. They do <strong>not</strong> include a question, search term, dataset, result, bookmark, or saved cohort.</p>
+  <p>For these exchanges, Firebase uses a pseudonymous <strong>Firebase Installation ID</strong> to select and deliver configuration values and receives limited app/device configuration metadata such as country and language codes, time zone, operating-system version, Firebase app ID, and bundle/package identifier. On Android, Firebase Installations also collects a Firebase user agent containing the device OS, name, model, brand and form factor, the app installer, and the names and versions of included Firebase SDKs; Google says this user agent is not linked to a user/device identifier and is used to understand platform/version adoption and maintain and improve Firebase services. Firebase’s Apple SDK privacy manifests classify limited aggregate SDK/OS metadata as <strong>Other Diagnostic Data</strong>, used for the store’s <strong>Analytics</strong> purpose, not linked to you, and not used for tracking. This store-purpose label does not mean that GeneFox includes the Firebase Analytics product or records your in-app screens, actions, searches, or analyses. Google handles this metadata and the installation identifier under Firebase’s privacy and retention controls linked in Section&nbsp;6. Firebase documents that it retains a Firebase Installation ID until the Firebase customer calls the deletion API; after that call, the data is removed from live and backup systems within 180 days. The identifier is unique to an app installation and does not uniquely identify a person or physical device.</p>
+
+  <h2 id="s4"><span class="num">4</span>Information stored on your device and in your own cloud</h2>
+  <ul>
+    <li><strong>On your device:</strong> GeneFox stores your bookmarks and pinned cohorts, a short list of recently viewed items, your AI-assistant consent choice, and cached data files that make the app faster. This information stays on your device. You can clear cached data from within the app, and uninstalling the app removes it.</li>
+    <li><strong>In your own iCloud (Apple devices only):</strong> On iPhone, iPad, and Mac, your bookmarks and pinned cohorts sync through your <strong>private iCloud (CloudKit) database</strong> so they are available across your Apple devices. This data lives in <strong>your</strong> iCloud account under Apple’s control; <strong>we cannot access it</strong>. Its handling is governed by Apple’s iCloud terms and privacy policy. On Android, this data is stored locally only; you can move it between devices by exporting and importing a file yourself.</li>
+  </ul>
+
+  <h2 id="s5"><span class="num">5</span>Notifications</h2>
+  <p>GeneFox does not send marketing notifications or user-visible alert notifications. On Apple devices, the private CloudKit/SwiftData bookmark sync may register with Apple’s Push Notification service and use <strong>silent remote notifications</strong> in the background to learn that data in your private iCloud database changed. These Apple-managed sync signals are used only to keep your private iCloud data current; GeneFox does not use Firebase Cloud Messaging or a marketing-notification service.</p>
+
+  <h2 id="s6"><span class="num">6</span>Third-party services and their privacy policies</h2>
+  <p>The third parties GeneFox connects to process information under their own privacy policies:</p>
+  <div>
+    <div class="svc"><div class="nm">Google / Firebase — AI assistant, app-integrity checks, and Remote Config</div>
+      <div class="ls"><a class="lnk" href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a> · <a class="lnk" href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a> · <a class="lnk" href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">ai.google.dev/gemini-api/terms</a></div></div>
+    <div class="svc"><div class="nm">Apple iCloud — bookmark sync on Apple devices</div>
+      <div class="ls"><a class="lnk" href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></div></div>
+    <div class="svc"><div class="nm">U.S. National Institutes of Health — NCBI / GEO and the Genomic Data Commons</div>
+      <div class="ls"><a class="lnk" href="https://www.ncbi.nlm.nih.gov/home/about/policies/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/home/about/policies</a> · <a class="lnk" href="https://www.cancer.gov/policies" target="_blank" rel="noopener">cancer.gov/policies</a></div></div>
+    <div class="svc"><div class="nm">UCSC Xena</div>
+      <div class="ls"><a class="lnk" href="https://xenabrowser.net/" target="_blank" rel="noopener">xenabrowser.net</a></div></div>
+    <div class="svc"><div class="nm">EMBL-EBI</div>
+      <div class="ls"><a class="lnk" href="https://www.ebi.ac.uk/data-protection/privacy-notice/" target="_blank" rel="noopener">ebi.ac.uk/data-protection/privacy-notice</a></div></div>
+    <div class="svc"><div class="nm">ARCHS4 / Ma’ayan Lab (Icahn School of Medicine at Mount Sinai)</div>
+      <div class="ls"><a class="lnk" href="https://maayanlab.cloud/" target="_blank" rel="noopener">maayanlab.cloud</a></div></div>
+  </div>
+  <p style="margin-top:18px">GeneFox does not control these providers’ retention or downstream processing. Review the linked policies before sending free text.</p>
+
+  <h2 id="s7"><span class="num">7</span>Data security</h2>
+  <p>All network connections made by GeneFox use encrypted HTTPS/TLS. Because GeneFox does not operate a backend that stores your data, there is no central store of personal information operated by Vindhya Data Science. Third-party providers may retain request data under their terms as described above.</p>
+
+  <h2 id="s8"><span class="num">8</span>Age and permitted audience</h2>
+  <p>GeneFox is intended only for adults <strong>18 or older</strong> conducting professional or business scientific research. It is not directed to children or students under 18. Cloud Assist is not a consumer service and must not be used for medical advice, as a medical device, in clinical practice, or for any other regulated medical use. Free-text requests sent to third-party providers remain subject to their terms and privacy policies.</p>
+
+  <h2 id="s9"><span class="num">9</span>International users</h2>
+  <p>The public data providers and Google services described above are operated primarily in the United States, so information sent to them (scientific identifiers, Firebase configuration metadata and, if applicable, your typed query) is processed in the United States and other countries where those providers operate.</p>
+  <p>Cloud Assist may be used only in locations where Google makes the deployed Gemini service available and where its billing requirements are satisfied. The allowed-region list, deployed Paid or unpaid service status, and Firebase App Check enforcement are external release controls that the installed app cannot prove; the publisher must verify and record them before each release. If the service is unavailable, GeneFox’s local interpretation path remains available.</p>
+
+  <h2 id="s10"><span class="num">10</span>Your rights</h2>
+  <p>Depending on where you live, you may have rights under laws such as the EU/UK GDPR or the California Consumer Privacy Act (CCPA). Vindhya operates no receiving backend and generally cannot access provider-held request data. Data stored on your device is under your control (clear it in-app or uninstall the app); iCloud-synced bookmarks are managed through your Apple account. Requests sent to third parties are governed by their policies and rights processes. If you have questions about your rights, contact us using the details below.</p>
+
+  <h2 id="s11"><span class="num">11</span>Changes to this policy</h2>
+  <p>We may update this Privacy Policy from time to time. When we do, we will revise the “Last updated” date above and post the new version at the same location. Material changes will also be reflected in the app’s store listing.</p>
+
+  <h2 id="s12"><span class="num">12</span>Contact us</h2>
+  <p>If you have any questions about this Privacy Policy or GeneFox’s privacy practices, contact:</p>
+  <div class="callout">
+    <p style="margin-bottom:6px"><strong>Vindhya Data Science</strong></p>
+    <p style="margin-bottom:6px">Email: <a class="lnk" href="mailto:info@vindhyadatascience.com">info@vindhyadatascience.com</a></p>
+    <p style="margin-bottom:0">Website: <a class="lnk" href="https://vindhyadatascience.com" target="_blank" rel="noopener">vindhyadatascience.com</a></p>
+  </div>
+
+</article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col">
+        <div class="foot-brand"><img class="tile" src="../assets/genefox-icon.png" alt="">GeneFox</div>
+        <p class="foot-brand-desc">A native browser for public cancer genomics data, developed by Vindhya Data Science.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="../#features">Features</a>
+        <a href="../#ask">Ask GeneFox</a>
+        <a href="../#privacy">Privacy</a>
+        <a href="../#download">Download</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal &amp; data</h4>
+        <a href="./">Privacy Policy</a>
+        <a href="https://gdc.cancer.gov" target="_blank" rel="noopener">NCI Genomic Data Commons ↗</a>
+        <a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">NCBI GEO ↗</a>
+        <a href="https://xenabrowser.net" target="_blank" rel="noopener">UCSC Xena ↗</a>
+      </div>
+    </div>
+    <p class="disclaimer">
+      <strong>GeneFox is an independent, nonclinical app</strong> for professional or business scientific research by adults 18 or older. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making.
+    </p>
+    <div class="foot-legal">
+      <span class="vds"><img src="../assets/vds-symbol.svg" alt="Vindhya Data Science">© Vindhya Data Science</span>
+      <span>Public research data · TCGA · GEO · GTEx · Xena · CCLE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var nav=document.getElementById("nav");
+  var onScroll=function(){ nav.classList.toggle("scrolled", window.scrollY>8); };
+  onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
+})();
+</script>
+</body>
+</html>
