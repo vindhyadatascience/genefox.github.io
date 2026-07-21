@@ -223,6 +223,36 @@
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ---------- email signup banner (hidden until SIGNUP_ENDPOINT is set) ---------- */
+  .eb{position:fixed;right:20px;bottom:20px;z-index:60;width:360px;max-width:calc(100vw - 32px);
+    background:linear-gradient(160deg,#182142,#0f1530);border:1px solid var(--line-strong);border-radius:16px;
+    padding:18px 18px 15px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(150,163,214,.08);
+    visibility:hidden;opacity:0;transform:translateY(140%);pointer-events:none;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s}
+  .eb.show{visibility:visible;opacity:1;transform:none;pointer-events:auto}
+  .eb-x{position:absolute;top:9px;right:9px;width:26px;height:26px;border:0;background:transparent;color:var(--muted-dim);
+    font-size:19px;line-height:1;cursor:pointer;border-radius:7px}
+  .eb-x:hover{color:var(--text);background:rgba(255,255,255,.05)}
+  .eb-badge{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--magenta-hot);background:rgba(226,79,182,.13);border:1px solid rgba(226,79,182,.4);border-radius:6px;padding:2px 7px}
+  .eb h4{font-family:var(--display);font-weight:700;font-size:16.5px;margin:12px 0 6px;color:var(--text);letter-spacing:-.01em}
+  .eb-lede{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 12px}
+  .eb-form{display:flex;gap:8px}
+  .eb-form input{flex:1;min-width:0;background:rgba(0,0,0,.25);border:1px solid var(--line-strong);border-radius:9px;
+    padding:9px 11px;color:var(--text);font-family:var(--body);font-size:13.5px}
+  .eb-form input::placeholder{color:var(--muted-dim)}
+  .eb-form input:focus{outline:none;border-color:var(--pink)}
+  .eb-form button{flex:none;border:0;border-radius:9px;padding:9px 14px;font-family:var(--body);font-weight:600;font-size:13.5px;
+    color:#fff;background:linear-gradient(135deg,var(--magenta),var(--purple));cursor:pointer;transition:transform .15s,filter .15s}
+  .eb-form button:hover{transform:translateY(-1px);filter:brightness(1.08)}
+  .eb-form button:disabled{opacity:.6;cursor:default;transform:none;filter:none}
+  .eb-msg{font-size:12.5px;line-height:1.45;margin:10px 0 0}
+  .eb-msg.ok{color:var(--cyan)}.eb-msg.err{color:var(--magenta-hot)}
+  .eb-note{font-size:11.5px;color:var(--muted);margin:10px 0 0;line-height:1.45}
+  .eb-note a{color:var(--pink);text-decoration:none}.eb-note a:hover{text-decoration:underline}
+  @media(prefers-reduced-motion:reduce){.eb{transition:opacity .3s}}
+  @media(max-width:560px){.eb{right:12px;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;max-width:none}}
 </style>
 </head>
 <body>
@@ -715,6 +745,74 @@
       (function loop(ts){ if(start===null) start=ts; draw(ts-start); requestAnimationFrame(loop); })(0);
     }
   })();
+})();
+</script>
+
+<!-- Voluntary email signup. Stays hidden until SIGNUP_ENDPOINT (below) is set. -->
+<aside class="eb" id="signup" aria-label="Get GeneFox updates">
+  <button class="eb-x" type="button" aria-label="Dismiss" data-eb-close>&times;</button>
+  <span class="eb-badge">Beta</span>
+  <h4>Follow GeneFox&rsquo;s progress</h4>
+  <p class="eb-lede">GeneFox is in beta. Get the occasional note on new features and release milestones &mdash; no spam, unsubscribe anytime.</p>
+  <form class="eb-form" id="eb-form" novalidate>
+    <input type="email" id="eb-email" name="email" placeholder="you@lab.edu" autocomplete="email" required aria-label="Email address">
+    <input type="text" id="eb-hp" name="hp_company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <button type="submit" id="eb-submit">Keep me posted</button>
+  </form>
+  <p class="eb-msg" id="eb-msg" role="status" aria-live="polite" tabindex="-1"></p>
+  <p class="eb-note">We only use your email to send GeneFox updates &mdash; nothing else is collected. See our <a href="privacy/">Privacy Policy</a>.</p>
+</aside>
+<script>
+(function(){
+  /* ===== CONFIGURE: paste your deployed Apps Script Web App /exec URL ===== */
+  var SIGNUP_ENDPOINT = "";   /* e.g. "https://script.google.com/macros/s/AKfyc.../exec" */
+  /* ======================================================================= */
+  var STORE_KEY = "gf_signup_v1";
+  var el = document.getElementById("signup");
+  if (!el || !SIGNUP_ENDPOINT) return;            /* stay hidden until configured */
+
+  var acted = false;                              /* in-memory fallback if storage is blocked */
+  function seen(){ try { return localStorage.getItem(STORE_KEY) || (acted ? "mem" : null); } catch (e) { return acted ? "mem" : null; } }
+  function remember(v){ acted = true; try { localStorage.setItem(STORE_KEY, v); } catch (e) {} }
+  if (seen()) return;
+
+  var form   = document.getElementById("eb-form"),
+      input  = document.getElementById("eb-email"),
+      hp     = document.getElementById("eb-hp"),
+      submit = document.getElementById("eb-submit"),
+      msg    = document.getElementById("eb-msg");
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function close(){ remember("dismissed"); el.classList.remove("show"); }
+  setTimeout(function(){ el.classList.add("show"); }, 1400);
+  el.querySelector("[data-eb-close]").addEventListener("click", close);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && el.classList.contains("show")) close(); });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (hp.value) return;                          /* honeypot: silently drop bots that fill it */
+    var email = (input.value || "").trim();
+    if (!EMAIL_RE.test(email) || email.length > 254){
+      msg.className = "eb-msg err"; msg.textContent = "Please enter a valid email address."; input.focus(); return;
+    }
+    submit.disabled = true; submit.textContent = "Sending…"; msg.className = "eb-msg"; msg.textContent = "";
+    /* Apps Script can't return a readable CORS response, so this is a best-effort
+       no-cors send (a completed request is treated as sent). Only the email address
+       is transmitted. For CONFIRMABLE delivery + double-opt-in consent, use the
+       Firebase backend option described in backend/SETUP.md. */
+    fetch(SIGNUP_ENDPOINT, {
+      method: "POST", mode: "no-cors", cache: "no-store",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ email: email, source: "website", ts: new Date().toISOString() })
+    }).then(function(){
+      remember("done"); form.style.display = "none";
+      msg.className = "eb-msg ok"; msg.textContent = "Thanks — we’ve got your email. 🦊";
+      msg.focus();
+    }).catch(function(){
+      submit.disabled = false; submit.textContent = "Keep me posted";
+      msg.className = "eb-msg err"; msg.textContent = "Something went wrong — please try again.";
+    });
+  });
 })();
 </script>
 </body>
