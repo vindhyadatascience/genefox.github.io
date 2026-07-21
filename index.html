@@ -114,7 +114,7 @@
   .screen{position:relative;width:100%;height:100%;border-radius:32px;background:
     radial-gradient(120% 80% at 50% -10%,#1a2444,#0c1126);overflow:hidden;border:1px solid rgba(150,163,214,.1)}
   .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:24px;background:#0a0e20;border-radius:14px;z-index:5}
-  .scr-pad{padding:20px 16px 16px}
+  .scr-pad{padding:46px 16px 16px}
   .scr-head{display:flex;align-items:center;gap:9px;margin-bottom:14px}
   .scr-head .glyph{width:22px;height:22px;flex:none}
   .scr-title{font-family:var(--display);font-weight:700;font-size:15px}
@@ -444,6 +444,29 @@
           </div>
           <h3>100+ GDC cohorts</h3>
           <p>Case counts, sites, disease types, and demographics — with a Summary tab for at-a-glance context.</p>
+        </article>
+
+        <!-- GEO triage -->
+        <article class="feat wide reveal">
+          <span class="ktag">GEO</span>
+          <div class="viz">
+            <svg viewBox="0 0 340 112" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9" fill="#9AA2C4">
+                <rect x="24" y="12" width="292" height="20" rx="10" fill="rgba(255,255,255,.03)" stroke="rgba(150,163,214,.2)"/>
+                <circle cx="38" cy="22" r="4.5" fill="none" stroke="#D57BBA" stroke-width="1.6"/><line x1="41.5" y1="25.5" x2="45" y2="29" stroke="#D57BBA" stroke-width="1.6"/>
+                <text x="54" y="26" fill="#F4D7E7">breast cancer</text>
+                <text x="250" y="26" fill="#6B7299">RNA-seq · array</text>
+                <rect x="24" y="40" width="292" height="20" rx="5" fill="rgba(88,229,214,.09)" stroke="rgba(88,229,214,.3)"/>
+                <path d="M34 50 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="53" fill="#F4D7E7">GSE96058</text><text x="200" y="53">3,409 samples · ARCHS4</text>
+                <rect x="24" y="66" width="292" height="20" rx="5" fill="rgba(88,229,214,.09)" stroke="rgba(88,229,214,.3)"/>
+                <path d="M34 76 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="79" fill="#F4D7E7">GSE20685</text><text x="200" y="79">327 samples · array</text>
+                <rect x="24" y="92" width="292" height="18" rx="5" fill="rgba(255,255,255,.03)" stroke="rgba(150,163,214,.14)"/>
+                <path d="M34 101 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="105" fill="#F4D7E7">GSE45827</text><text x="200" y="105">155 samples · supp. matrix</text>
+              </g>
+            </svg>
+          </div>
+          <h3>40,000+ GEO datasets, triaged</h3>
+          <p>Search NCBI GEO with smart cancer-term expansion — over 40,000 Series come pre-verified to actually have usable expression data, spanning microarray, supplementary matrices, and ARCHS4 (human &amp; mouse) RNA-seq.</p>
         </article>
 
         <!-- reports -->
