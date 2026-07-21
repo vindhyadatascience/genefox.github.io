@@ -72,14 +72,14 @@ exports.signup = onRequest({ region: "us-central1", maxInstances: 5, cors: false
     }
     const source = String(body.source || "web").slice(0, 40);
 
-    // App Check: verify if a token is present; REQUIRE it for the app (which always has it).
+    // App Check: verify + RECORD if a token is present. Not hard-required yet — iOS
+    // sends a real App Attest token; Android (Play Integrity from Swift) is a follow-up,
+    // and honeypot + rate-limit still guard the app path. Flip to a hard requirement for
+    // source:"app" once both platforms reliably send a token.
     let appCheckOk = false;
     const token = req.header("X-Firebase-AppCheck");
     if (token) {
       try { await getAppCheck().verifyToken(token); appCheckOk = true; } catch (e) { appCheckOk = false; }
-    }
-    if (source === "app" && !appCheckOk) {
-      res.status(401).json({ ok: false, error: "app_check_required" }); return;
     }
 
     const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.ip || "unknown";
