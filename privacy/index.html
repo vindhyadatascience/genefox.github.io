@@ -148,7 +148,7 @@
     <p class="crumb"><a href="../">GeneFox</a> &nbsp;/&nbsp; Legal &nbsp;/&nbsp; Privacy Policy</p>
     <span class="eyebrow">Privacy Policy</span>
     <h1 style="margin-top:14px">Your questions stay yours.</h1>
-    <p class="updated"><b>Effective</b> July 3, 2026 &nbsp;·&nbsp; <b>Last updated</b> July 14, 2026</p>
+    <p class="updated"><b>Effective</b> July 3, 2026 &nbsp;·&nbsp; <b>Last updated</b> July 21, 2026</p>
     <p class="intro">How the GeneFox app handles information. GeneFox is developed and published by <strong style="color:var(--text)">Vindhya Data Science</strong> (“we,” “us,” or “our”), and this policy applies to the GeneFox apps for iPhone, iPad, Mac, and Android.</p>
   </div>
 </section>
@@ -161,7 +161,7 @@
     <p>GeneFox is a tool for exploring <strong>publicly available cancer-genomics and gene-expression data</strong>. It is built to be privacy-respecting by design:</p>
     <ul>
       <li><strong>We do not require an account.</strong> There is no sign-up, login, or user profile.</li>
-      <li><strong>We do not require account or profile information</strong>, and we do not operate servers that receive or store your questions, searches, datasets, or results. The third-party services the app contacts process the limited request data described below.</li>
+      <li><strong>We do not require account or profile information</strong>, and we do not operate servers that receive or store your questions, searches, datasets, or results. The one thing we store is an email address you <em>choose</em> to submit to the optional &ldquo;GeneFox updates&rdquo; signup (Section&nbsp;3e) &mdash; voluntary, and it unlocks nothing. The third-party services the app contacts process the limited request data described below.</li>
       <li><strong>No advertising, third-party tracking, crash reporting, Firebase Analytics product, or behavioral-usage analytics</strong> are included in the app. Firebase Remote Config does process the limited installation/configuration metadata described in Section&nbsp;3d.</li>
       <li>The app connects to public scientific databases and, only if you opt in, to a Google AI service, to answer your genomics questions. What is sent to each is described below.</li>
       <li>GeneFox is intended for <strong>adults 18 or older</strong> conducting professional or business scientific research. It is nonclinical and must not be used for medical advice, as a medical device, or in clinical practice.</li>
@@ -193,7 +193,7 @@
   <h2 id="s2"><span class="num">2</span>Information we do not collect</h2>
   <p>GeneFox does <strong>not</strong> collect, request, or transmit:</p>
   <ul>
-    <li>Your name, email address, phone number, or mailing address;</li>
+    <li>Your name, phone number, or mailing address &mdash; and your email address, <em>except</em> the address you voluntarily provide to the optional &ldquo;GeneFox updates&rdquo; email signup (Section&nbsp;3e);</li>
     <li>Account credentials (there are no accounts);</li>
     <li>Precise location or GPS data: GeneFox does not request location permission or add coordinates to scientific-data or AI requests. Firebase Remote Config automatically receives a country code as configuration metadata (Section&nbsp;3d), which store taxonomies may treat as coarse or approximate location;</li>
     <li>Contacts, photos, calendar, or files outside the app;</li>
@@ -239,6 +239,14 @@
   <p>Firebase-enabled iPhone/iPad and Android builds use <strong>Firebase Remote Config</strong> at startup to obtain the currently deployed Cloud Assist model name and retain a real-time listener for published configuration changes while the app runs. These configuration exchanges occur even if you never consent to send a Cloud Assist question. They do <strong>not</strong> include a question, search term, dataset, result, bookmark, or saved cohort.</p>
   <p>For these exchanges, Firebase uses a pseudonymous <strong>Firebase Installation ID</strong> to select and deliver configuration values and receives limited app/device configuration metadata such as country and language codes, time zone, operating-system version, Firebase app ID, and bundle/package identifier. On Android, Firebase Installations also collects a Firebase user agent containing the device OS, name, model, brand and form factor, the app installer, and the names and versions of included Firebase SDKs; Google says this user agent is not linked to a user/device identifier and is used to understand platform/version adoption and maintain and improve Firebase services. Firebase’s Apple SDK privacy manifests classify limited aggregate SDK/OS metadata as <strong>Other Diagnostic Data</strong>, used for the store’s <strong>Analytics</strong> purpose, not linked to you, and not used for tracking. This store-purpose label does not mean that GeneFox includes the Firebase Analytics product or records your in-app screens, actions, searches, or analyses. Google handles this metadata and the installation identifier under Firebase’s privacy and retention controls linked in Section&nbsp;6. Firebase documents that it retains a Firebase Installation ID until the Firebase customer calls the deletion API; after that call, the data is removed from live and backup systems within 180 days. The identifier is unique to an app installation and does not uniquely identify a person or physical device.</p>
 
+  <h3>3e. Optional email signup (voluntary)</h3>
+  <p>GeneFox offers an <strong>entirely optional</strong> way to receive occasional product updates. If you choose to enter your email address in the signup banner on our website or in the app&rsquo;s <strong>About/Settings</strong> screen, that address is sent to and stored by <strong>Vindhya Data Science</strong>, using <strong>Google Cloud Firestore</strong> as our data processor, solely to email you GeneFox news (new features and releases). This is voluntary and <strong>gates nothing</strong> &mdash; every feature, including Cloud Assist, works whether or not you sign up.</p>
+  <ul>
+    <li><strong>What is stored:</strong> only your email address, a source tag (&ldquo;web&rdquo; or &ldquo;app&rdquo;), and timestamps &mdash; no message content, search terms, datasets, results, or tracking identifiers. An app submission also carries a Firebase App Check integrity token (Section&nbsp;3c) for abuse prevention, which is verified and not stored with your address.</li>
+    <li><strong>Use:</strong> to send you occasional GeneFox updates. We do not sell or share the list, and we do not use it for advertising or behavioral tracking.</li>
+    <li><strong>Unsubscribe or delete:</strong> email <a class="lnk" href="mailto:info@vindhyadatascience.com">info@vindhyadatascience.com</a> to unsubscribe or have your address deleted at any time.</li>
+  </ul>
+
   <h2 id="s4"><span class="num">4</span>Information stored on your device and in your own cloud</h2>
   <ul>
     <li><strong>On your device:</strong> GeneFox stores your bookmarks and pinned cohorts, a short list of recently viewed items, your AI-assistant consent choice, and cached data files that make the app faster. This information stays on your device. You can clear cached data from within the app, and uninstalling the app removes it.</li>
@@ -267,7 +275,7 @@
   <p style="margin-top:18px">GeneFox does not control these providers’ retention or downstream processing. Review the linked policies before sending free text.</p>
 
   <h2 id="s7"><span class="num">7</span>Data security</h2>
-  <p>All network connections made by GeneFox use encrypted HTTPS/TLS. Because GeneFox does not operate a backend that stores your data, there is no central store of personal information operated by Vindhya Data Science. Third-party providers may retain request data under their terms as described above.</p>
+  <p>All network connections made by GeneFox use encrypted HTTPS/TLS. Apart from the voluntary email signup described in Section&nbsp;3e &mdash; email addresses you choose to submit, held in Google Cloud Firestore &mdash; GeneFox does not operate a backend that stores your data, and there is no other central store of personal information operated by Vindhya Data Science. Third-party providers may retain request data under their terms as described above.</p>
 
   <h2 id="s8"><span class="num">8</span>Age and permitted audience</h2>
   <p>GeneFox is intended only for adults <strong>18 or older</strong> conducting professional or business scientific research. It is not directed to children or students under 18. Cloud Assist is not a consumer service and must not be used for medical advice, as a medical device, in clinical practice, or for any other regulated medical use. Free-text requests sent to third-party providers remain subject to their terms and privacy policies.</p>
@@ -277,7 +285,7 @@
   <p>Cloud Assist may be used only in locations where Google makes the deployed Gemini service available and where its billing requirements are satisfied. The allowed-region list, deployed Paid or unpaid service status, and Firebase App Check enforcement are external release controls that the installed app cannot prove; the publisher must verify and record them before each release. If the service is unavailable, GeneFox’s local interpretation path remains available.</p>
 
   <h2 id="s10"><span class="num">10</span>Your rights</h2>
-  <p>Depending on where you live, you may have rights under laws such as the EU/UK GDPR or the California Consumer Privacy Act (CCPA). Vindhya operates no receiving backend and generally cannot access provider-held request data. Data stored on your device is under your control (clear it in-app or uninstall the app); iCloud-synced bookmarks are managed through your Apple account. Requests sent to third parties are governed by their policies and rights processes. If you have questions about your rights, contact us using the details below.</p>
+  <p>Depending on where you live, you may have rights under laws such as the EU/UK GDPR or the California Consumer Privacy Act (CCPA). Except for the voluntary email signup (Section&nbsp;3e) &mdash; for which you can request access or deletion at any time by emailing us &mdash; Vindhya operates no receiving backend and generally cannot access provider-held request data. Data stored on your device is under your control (clear it in-app or uninstall the app); iCloud-synced bookmarks are managed through your Apple account. Requests sent to third parties are governed by their policies and rights processes. If you have questions about your rights, contact us using the details below.</p>
 
   <h2 id="s11"><span class="num">11</span>Changes to this policy</h2>
   <p>We may update this Privacy Policy from time to time. When we do, we will revise the “Last updated” date above and post the new version at the same location. Material changes will also be reflected in the app’s store listing.</p>
