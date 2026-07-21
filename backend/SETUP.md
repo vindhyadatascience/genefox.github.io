@@ -1,4 +1,18 @@
-# Website email signup — backend setup (~5 minutes)
+# Website email signup — backend setup
+
+> **Chosen backend: Firebase.** The banner is now wired for the **Firebase Cloud
+> Function** (`fetch` in CORS mode, reads a real `{ok:true}`) — see
+> [`firebase/README.md`](./firebase/README.md). That path gives confirmable success,
+> App Check, and one list shared with the in-app signup.
+>
+> The **Google Apps Script → Sheet** path documented below is the lightweight,
+> no-Firebase alternative. To use it instead, revert the banner's `fetch` to the
+> `no-cors` / `text/plain` variant (in git history) — Apps Script can't return a
+> readable CORS response, so the current CORS-reading banner won't work against it.
+
+---
+
+## Alternative: Apps Script → Google Sheet (~5 minutes, no Firebase)
 
 The home-page banner collects voluntary emails and appends them to a **Google
 Sheet** via a **Google Apps Script Web App** — no database or server to run, and

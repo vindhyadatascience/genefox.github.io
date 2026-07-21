@@ -764,9 +764,9 @@
 </aside>
 <script>
 (function(){
-  /* ===== CONFIGURE: paste your deployed Apps Script Web App /exec URL ===== */
-  var SIGNUP_ENDPOINT = "";   /* e.g. "https://script.google.com/macros/s/AKfyc.../exec" */
-  /* ======================================================================= */
+  /* ===== CONFIGURE: paste your deployed signup function URL (backend/firebase/README.md) ===== */
+  var SIGNUP_ENDPOINT = "";   /* e.g. "https://us-central1-<project>.cloudfunctions.net/signup" */
+  /* ========================================================================================= */
   var STORE_KEY = "gf_signup_v1";
   var el = document.getElementById("signup");
   if (!el || !SIGNUP_ENDPOINT) return;            /* stay hidden until configured */
@@ -796,21 +796,28 @@
       msg.className = "eb-msg err"; msg.textContent = "Please enter a valid email address."; input.focus(); return;
     }
     submit.disabled = true; submit.textContent = "Sending…"; msg.className = "eb-msg"; msg.textContent = "";
-    /* Apps Script can't return a readable CORS response, so this is a best-effort
-       no-cors send (a completed request is treated as sent). Only the email address
-       is transmitted. For CONFIRMABLE delivery + double-opt-in consent, use the
-       Firebase backend option described in backend/SETUP.md. */
+    /* The Firebase signup function returns CORS JSON, so we confirm a real {ok:true}
+       before locking the banner. Only the email + a source tag are sent. */
     fetch(SIGNUP_ENDPOINT, {
-      method: "POST", mode: "no-cors", cache: "no-store",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ email: email, source: "website", ts: new Date().toISOString() })
-    }).then(function(){
-      remember("done"); form.style.display = "none";
-      msg.className = "eb-msg ok"; msg.textContent = "Thanks — we’ve got your email. 🦊";
-      msg.focus();
+      method: "POST", cache: "no-store",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, source: "web", hp: hp.value })
+    }).then(function(r){
+      return r.json().catch(function(){ return { ok: r.ok }; });
+    }).then(function(res){
+      if (res && res.ok) {
+        remember("done"); form.style.display = "none";
+        msg.className = "eb-msg ok"; msg.textContent = "Thanks — you’re on the list. 🦊"; msg.focus();
+      } else {
+        submit.disabled = false; submit.textContent = "Keep me posted";
+        msg.className = "eb-msg err";
+        msg.textContent = (res && res.error === "rate_limited")
+          ? "Too many attempts — please try again in a bit."
+          : "Hmm, that didn’t go through. Please try again.";
+      }
     }).catch(function(){
       submit.disabled = false; submit.textContent = "Keep me posted";
-      msg.className = "eb-msg err"; msg.textContent = "Something went wrong — please try again.";
+      msg.className = "eb-msg err"; msg.textContent = "Network error — please try again.";
     });
   });
 })();
