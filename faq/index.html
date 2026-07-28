@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — GeneFox</title>
+<meta name="description" content="Frequently asked questions about GeneFox: what it does, where the data comes from, which statistics it uses, privacy, Cloud Assist, and what it must not be used for.">
+<link rel="canonical" href="https://genefox.app/faq/">
+<link rel="icon" type="image/png" href="../assets/genefox-icon.png">
+<meta name="theme-color" content="#0E1430">
+<meta property="og:title" content="FAQ — GeneFox">
+<meta property="og:description" content="Common questions about GeneFox — the data sources, the statistics, privacy, and Cloud Assist.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://genefox.app/faq/">
+<meta property="og:image" content="https://genefox.app/assets/genefox-og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#0E1430;--ground-2:#141C38;--navy:#1B2547;
+    --line:rgba(150,163,214,.14);--line-strong:rgba(150,163,214,.26);
+    --magenta:#B53694;--magenta-hot:#E24FB6;--pink:#D57BBA;--pink-pale:#F4D7E7;--purple:#6A3A9A;--cyan:#58E5D6;
+    --text:#E7E9F5;--muted:#9AA2C4;--muted-dim:#6B7299;
+    --display:"Bricolage Grotesque",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --body:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1180px;--r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin:0}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ::selection{background:rgba(226,79,182,.32);color:#fff}
+  :focus-visible{outline:2px solid var(--magenta-hot);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,40px)}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:500}
+  .host,code{font-family:var(--mono);font-size:.86em;color:var(--pink-pale);background:rgba(213,123,186,.1);
+    border:1px solid rgba(213,123,186,.2);border-radius:6px;padding:.08em .42em;white-space:nowrap;overflow-wrap:anywhere}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:linear-gradient(180deg,rgba(14,20,48,.86),rgba(14,20,48,.55));border-bottom:1px solid transparent;transition:border-color .3s}
+  header.nav.scrolled{border-bottom-color:var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .brand .tile{width:34px;height:34px;border-radius:9px;flex:none;box-shadow:0 0 0 1px var(--line-strong),0 6px 18px rgba(0,0,0,.35)}
+  .nav-links{display:flex;align-items:center;gap:32px}
+  .nav-links a.link{font-size:15px;color:var(--muted);transition:color .2s}
+  .nav-links a.link:hover{color:var(--text)}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--body);font-weight:600;font-size:15px;
+    padding:11px 20px;border-radius:11px;cursor:pointer;border:1px solid transparent;color:#fff;
+    background:linear-gradient(135deg,var(--magenta),var(--purple));
+    box-shadow:0 8px 24px -6px rgba(181,54,148,.6),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .18s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(226,79,182,.7)}
+  @media(max-width:760px){.nav-links .link{display:none}}
+
+  /* doc header */
+  .doc-head{position:relative;overflow:hidden;padding-block:clamp(44px,6vw,72px) clamp(28px,4vw,44px);border-bottom:1px solid var(--line)}
+  .doc-head .glow{position:absolute;z-index:0;top:-180px;right:-120px;width:460px;height:460px;border-radius:50%;
+    filter:blur(70px);background:radial-gradient(circle,rgba(181,54,148,.3),transparent 68%);pointer-events:none}
+  .doc-head .inner{position:relative;z-index:1}
+  .crumb{font-family:var(--mono);font-size:12.5px;color:var(--muted-dim);letter-spacing:.04em;margin-bottom:20px}
+  .crumb a{color:var(--muted)}.crumb a:hover{color:var(--pink)}
+  .doc-head h1{font-size:clamp(34px,6vw,54px);font-weight:800;margin-bottom:14px}
+  .doc-head .updated{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.02em}
+  .doc-head .updated b{color:var(--pink);font-weight:500}
+  .doc-head .intro{margin-top:20px;color:var(--muted);max-width:64ch;font-size:17px}
+
+  /* doc body */
+  .doc-wrap{display:grid;grid-template-columns:1fr;gap:0}
+  .doc{max-width:72ch;margin-inline:auto;padding-block:clamp(36px,5vw,56px)}
+  .doc p{margin:0 0 18px;color:#D7DBEC}
+  .doc h2{scroll-margin-top:90px;font-size:clamp(21px,3vw,27px);margin:44px 0 14px;padding-top:26px;border-top:1px solid var(--line);
+    display:flex;gap:14px;align-items:baseline}
+  .doc h2 .num{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--magenta-hot);flex:none;letter-spacing:0}
+  .doc h3{font-size:18px;margin:28px 0 10px;color:var(--pink-pale)}
+  .doc ul{margin:0 0 18px;padding-left:0;list-style:none}
+  .doc li{position:relative;padding-left:22px;margin:9px 0;color:#D7DBEC}
+  .doc li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;border-radius:50%;
+    background:var(--magenta);box-shadow:0 0 8px var(--magenta-hot)}
+  .doc a.lnk{color:var(--pink);border-bottom:1px solid rgba(213,123,186,.4);overflow-wrap:anywhere;transition:color .2s,border-color .2s}
+  .doc a.lnk:hover{color:var(--pink-pale);border-bottom-color:var(--pink-pale)}
+  .doc strong{color:#fff;font-weight:600}
+
+  .callout{background:linear-gradient(180deg,rgba(181,54,148,.1),rgba(106,58,154,.05));
+    border:1px solid rgba(213,123,186,.3);border-radius:var(--r);padding:22px 24px;margin:24px 0}
+  .callout .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
+  .callout.warn{background:rgba(226,79,182,.06);border-color:rgba(226,79,182,.34)}
+  .callout ul{margin:0}
+  .callout p:last-child{margin-bottom:0}
+
+  .toc{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:8px 0 6px}
+  .toc .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dim);margin-bottom:14px}
+  .toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:36px}
+  @media(max-width:640px){.toc ol{columns:1}}
+  .toc li{margin:0}
+  .toc a{display:block;padding:5px 0;font-size:14.5px;color:var(--muted);transition:color .2s}
+  .toc a:hover{color:var(--pink-pale)}
+  .toc a .n{font-family:var(--mono);font-size:12px;color:var(--muted-dim);margin-right:8px}
+
+  .svc{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+  .svc:last-child{border-bottom:0}
+  .svc .nm{font-weight:600;color:var(--text);font-size:15.5px;margin-bottom:5px}
+  .svc .ls a{font-family:var(--mono);font-size:12.5px;color:var(--pink);overflow-wrap:anywhere;display:inline}
+  .svc .ls a:hover{color:var(--pink-pale)}
+
+  /* footer (shared) */
+  footer{border-top:1px solid var(--line);padding-block:52px 40px;background:rgba(8,12,28,.6)}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:40px}
+  @media(max-width:760px){.foot-top{grid-template-columns:1fr;gap:26px}}
+  .foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 15px;font-weight:500}
+  .foot-col a{display:block;color:var(--muted);font-size:14.5px;padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--pink-pale)}
+  .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-family:var(--display);font-weight:700;font-size:18px}
+  .foot-brand .tile{width:32px;height:32px;border-radius:8px;box-shadow:0 0 0 1px var(--line-strong)}
+  .foot-brand-desc{color:var(--muted);font-size:14px;max-width:34ch;line-height:1.55}
+  .disclaimer{border-top:1px solid var(--line);padding-top:26px;color:var(--muted-dim);font-size:12.5px;line-height:1.7;max-width:88ch}
+  .disclaimer strong{color:var(--muted)}
+  .foot-legal{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--muted-dim)}
+  .foot-legal .vds{display:inline-flex;align-items:center;gap:9px}
+  .foot-legal .vds img{width:26px;height:auto;opacity:.9}
+</style>
+<style>
+  /* FAQ-specific: question blocks reuse the .doc rhythm, with the answer indented to
+     align under the question text rather than the number. */
+  .doc h2.q{align-items:flex-start}
+  .doc h2.q .num{position:relative;top:.15em}
+  .q-a{margin-left:0}
+  @media(min-width:700px){.q-a{margin-left:29px}}
+  .lede-q{color:var(--pink-pale);font-weight:600}
+  .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin:2px 0 20px}
+  .pill{font-family:var(--mono);font-size:12.5px;color:var(--muted);
+    border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;background:rgba(255,255,255,.02)}
+  .pill b{color:var(--pink-pale);font-weight:500}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is GeneFox?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GeneFox is a native app for exploring public gene-expression and cancer-genomics data on a phone, tablet, or desktop. You pick a gene and a cohort, and it draws the figure — expression by tumour stage or subtype, tumour versus normal, a survival curve, a clustered heatmap — and reports the statistics behind it. It is a reading and exploration tool , not a pipeline. Nothing needs to be installed, configured, or scripted, and the figures are computed on the device in front of you rather than on a server we operate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is GeneFox for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scientists who work with gene-expression data and want to look something up without writing code. If you have ever wanted to check whether a gene is higher in tumour than normal, or whether its expression tracks with survival, and did not want that to become an afternoon of R, GeneFox is built for you. It is equally useful to computational biologists as a quick look-up, but no command line, R, or Python is required at any point."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which devices does it run on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "iPhone & iPad iOS/iPadOS 17.6+ Mac macOS 14+ Android 9.0+ (API 28) GeneFox is a genuinely native app on each platform rather than a wrapped web page, so the charts, gestures, and system integration behave the way they should on the device you are holding. An internet connection is needed to fetch a dataset, because the underlying data lives in public research repositories. Once a dataset is loaded, the analysis itself runs locally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where does the data come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "From established public repositories, requested directly by your device: NIH Genomic Data Commons (GDC) — TCGA and related programmes; 60+ cohorts covering the major tumour types. UCSC Xena — harmonised expression, phenotype, and survival data for those cohorts. NCBI Gene Expression Omnibus (GEO) — over 40,000 pre-screened Series, so you are not opening datasets that turn out to be unusable. GTEx — expression across normal human tissues, served through Xena’s uniformly processed compendium so tumour and normal are directly comparable. CCLE — 933 cancer cell lines. GeneFox does not host or re-publish these datasets. It reads them from the providers and shows you the result, and each provider’s own site remains the authoritative source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can I actually analyse?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Expression by group — stratify a cohort by stage, subtype, mutation status, or other clinical variables, as box, bar, or strip plots. Tumour versus normal — paired comparison within a cohort. Pan-cancer — one gene across every available cohort at once. Copy number and methylation — alongside RNA-seq expression, you can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported TCGA cohorts. Survival — Kaplan–Meier curves for overall, disease-specific, progression-free, and disease-free endpoints, with a hazard ratio and a check on the proportional-hazards assumption. Differential expression — volcano plots with multiple-testing control. Heatmaps — gene panels with hierarchical clustering and annotation tracks. Correlation — how two genes track together within a cohort. Signature scoring — bundled hallmark, KEGG, immune, and subtype gene sets, or your own list of genes. Worth knowing The bundled gene sets are curated reproductions for exploratory use and are not endorsed by the consortia that originated them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which statistical methods does it use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tests are named on screen and carried into every export, so a figure is never a black box: Mann–Whitney U for two-group expression comparisons. Log-rank test for survival differences, with Cox proportional hazards for the hazard ratio and a Grambsch–Therneau check on the proportional-hazards assumption. Benjamini–Hochberg false-discovery-rate control for differential expression. Pearson and Spearman correlation. Every statistic and figure is computed on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use my own data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can import your own expression matrix and analyse it with the same tools used for the public cohorts. Imported data stays on your device . It is not uploaded to us, and it is never sent to the optional Cloud Assist feature."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I export results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — as PDF and HTML reports, or CSV for the underlying numbers. Reports carry an automatically generated methods section naming the tests, the data source, and the sample counts behind each figure, which is what you need when the figure ends up in a lab meeting or a supplement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an account? What happens to my data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No account, no sign-up, no profile. Open the app and use it. No ads, no third-party tracking, no behavioural analytics. Statistics and figures are computed on your device ; the network is used only to fetch the public data you ask for. Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through your own private iCloud account — we cannot see them. The full detail is in the Privacy Policy . One caution Text you type into the GEO search field is sent to NCBI in order to search, so do not enter personal, patient, or confidential information there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Cloud Assist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An optional feature that lets you ask a question in plain language and get an interactive answer. GeneFox interprets many questions on your device; Cloud Assist hands the harder ones to a Google AI service. It is off unless you turn it on , and it sends only your typed question — never your data files, dataset identifiers, or history. Its provider’s terms restrict it to adults 18 or older . That restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement. It is not available in the native macOS app . Do not type personal, patient, or confidential information into it. Everything else in GeneFox works whether or not you ever enable it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is GeneFox affiliated with the NIH, NCI, or NCBI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. GeneFox is an independent application developed by Vindhya Data Science. It is not a government app, and it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any of the data providers it reads from. Consult each provider’s official site for the authoritative source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use GeneFox for clinical decisions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No GeneFox is a nonclinical research and exploration tool. It must not be used for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Analyses produced by the app are exploratory . Survival curves, differential-expression results, and natural-language answers should be validated against the source data and the primary literature before you draw a scientific conclusion, and its outputs have not been independently validated for clinical decision-making."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I stop the update emails?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The “GeneFox updates” signup is entirely optional and unlocks nothing — every feature works the same whether or not you sign up. If you did sign up, you can unsubscribe in the app’s Settings with a single tap, or email info@vindhyadatascience.com and ask us to remove your address."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get help or report a problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Email info@vindhyadatascience.com . If you are reporting something that looks wrong in a figure, telling us the gene, the cohort, and the analysis makes it much faster to track down."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../" aria-label="GeneFox home">
+      <img class="tile" src="../assets/genefox-icon.png" alt="">GeneFox
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="link" href="../#features">Features</a>
+      <a class="link" href="../#ask">Ask GeneFox</a>
+      <a class="link" href="./">FAQ</a>
+      <a class="link" href="../#privacy">Privacy</a>
+      <a class="btn" href="../#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<section class="doc-head">
+  <div class="glow"></div>
+  <div class="wrap inner">
+    <p class="crumb"><a href="../">GeneFox</a> &nbsp;/&nbsp; FAQ</p>
+    <span class="eyebrow">Frequently asked questions</span>
+    <h1 style="margin-top:14px">Questions, answered.</h1>
+    <p class="intro">What GeneFox does, where its data comes from, how the statistics are
+    computed, and what it deliberately will not do. If your question is not here, email
+    <a class="lnk" href="mailto:info@vindhyadatascience.com">info@vindhyadatascience.com</a>.</p>
+  </div>
+</section>
+
+<div class="wrap doc-wrap">
+<article class="doc">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="k">Contents</div>
+    <ol>
+      <li><a href="#what-is"><span class="n">1</span>What is GeneFox?</a></li>
+      <li><a href="#who-for"><span class="n">2</span>Who is GeneFox for?</a></li>
+      <li><a href="#devices"><span class="n">3</span>Which devices does it run on?</a></li>
+      <li><a href="#data-sources"><span class="n">4</span>Where does the data come from?</a></li>
+      <li><a href="#analyses"><span class="n">5</span>What can I actually analyse?</a></li>
+      <li><a href="#statistics"><span class="n">6</span>Which statistical methods does it use?</a></li>
+      <li><a href="#own-data"><span class="n">7</span>Can I use my own data?</a></li>
+      <li><a href="#export"><span class="n">8</span>Can I export results?</a></li>
+      <li><a href="#account-privacy"><span class="n">9</span>Do I need an account? What happens to my data?</a></li>
+      <li><a href="#cloud-assist"><span class="n">10</span>What is Cloud Assist?</a></li>
+      <li><a href="#affiliation"><span class="n">11</span>Is GeneFox affiliated with the NIH, NCI, or NCBI?</a></li>
+      <li><a href="#clinical"><span class="n">12</span>Can I use GeneFox for clinical decisions?</a></li>
+      <li><a href="#emails"><span class="n">13</span>How do I stop the update emails?</a></li>
+      <li><a href="#support"><span class="n">14</span>How do I get help or report a problem?</a></li>
+    </ol>
+  </nav>
+
+  <h2 class="q" id="what-is"><span class="num">1</span>What is GeneFox?</h2>
+  <div class="q-a">
+    <p>GeneFox is a native app for exploring <strong>public gene-expression and cancer-genomics
+    data</strong> on a phone, tablet, or desktop. You pick a gene and a cohort, and it draws the
+    figure &mdash; expression by tumour stage or subtype, tumour versus normal, a survival curve,
+    a clustered heatmap &mdash; and reports the statistics behind it.</p>
+    <p>It is a <strong>reading and exploration tool</strong>, not a pipeline. Nothing needs to be
+    installed, configured, or scripted, and the figures are computed on the device in front of you
+    rather than on a server we operate.</p>
+  </div>
+
+  <h2 class="q" id="who-for"><span class="num">2</span>Who is GeneFox for?</h2>
+  <div class="q-a">
+    <p>Scientists who work with gene-expression data and want to look something up without writing
+    code. If you have ever wanted to check whether a gene is higher in tumour than normal, or
+    whether its expression tracks with survival, and did not want that to become an afternoon of
+    R, GeneFox is built for you.</p>
+    <p>It is equally useful to computational biologists as a quick look-up, but <strong>no
+    command line, R, or Python is required</strong> at any point.</p>
+  </div>
+
+  <h2 class="q" id="devices"><span class="num">3</span>Which devices does it run on?</h2>
+  <div class="q-a">
+    <div class="pill-row">
+      <span class="pill"><b>iPhone &amp; iPad</b> &nbsp;iOS/iPadOS 17.6+</span>
+      <span class="pill"><b>Mac</b> &nbsp;macOS 14+</span>
+      <span class="pill"><b>Android</b> &nbsp;9.0+ (API 28)</span>
+    </div>
+    <p>GeneFox is a genuinely native app on each platform rather than a wrapped web page, so the
+    charts, gestures, and system integration behave the way they should on the device you are
+    holding.</p>
+    <p>An internet connection is needed to <em>fetch</em> a dataset, because the underlying data
+    lives in public research repositories. Once a dataset is loaded, the analysis itself runs
+    locally.</p>
+  </div>
+
+  <h2 class="q" id="data-sources"><span class="num">4</span>Where does the data come from?</h2>
+  <div class="q-a">
+    <p>From established public repositories, requested directly by your device:</p>
+    <ul>
+      <li><strong>NIH Genomic Data Commons (GDC)</strong> &mdash; TCGA and related programmes;
+        <strong>60+</strong> cohorts covering the major tumour types.</li>
+      <li><strong>UCSC Xena</strong> &mdash; harmonised expression, phenotype, and survival data
+        for those cohorts.</li>
+      <li><strong>NCBI Gene Expression Omnibus (GEO)</strong> &mdash; over <strong>40,000</strong>
+        pre-screened Series, so you are not opening datasets that turn out to be unusable.</li>
+      <li><strong>GTEx</strong> &mdash; expression across normal human tissues, served through
+        Xena&rsquo;s uniformly processed compendium so tumour and normal are directly
+        comparable.</li>
+      <li><strong>CCLE</strong> &mdash; <strong>933</strong> cancer cell lines.</li>
+    </ul>
+    <p>GeneFox does not host or re-publish these datasets. It reads them from the providers and
+    shows you the result, and each provider&rsquo;s own site remains the authoritative source.</p>
+  </div>
+
+  <h2 class="q" id="analyses"><span class="num">5</span>What can I actually analyse?</h2>
+  <div class="q-a">
+    <ul>
+      <li><strong>Expression by group</strong> &mdash; stratify a cohort by stage, subtype,
+        mutation status, or other clinical variables, as box, bar, or strip plots.</li>
+      <li><strong>Tumour versus normal</strong> &mdash; paired comparison within a cohort.</li>
+      <li><strong>Pan-cancer</strong> &mdash; one gene across every available cohort at once.</li>
+      <li><strong>Copy number and methylation</strong> &mdash; alongside RNA-seq expression, you
+        can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported
+        TCGA cohorts.</li>
+      <li><strong>Survival</strong> &mdash; Kaplan&ndash;Meier curves for overall, disease-specific,
+        progression-free, and disease-free endpoints, with a hazard ratio and a check on the
+        proportional-hazards assumption.</li>
+      <li><strong>Differential expression</strong> &mdash; volcano plots with multiple-testing
+        control.</li>
+      <li><strong>Heatmaps</strong> &mdash; gene panels with hierarchical clustering and
+        annotation tracks.</li>
+      <li><strong>Correlation</strong> &mdash; how two genes track together within a cohort.</li>
+      <li><strong>Signature scoring</strong> &mdash; bundled hallmark, KEGG, immune, and subtype
+        gene sets, or your own list of genes.</li>
+    </ul>
+    <div class="callout">
+      <div class="k">Worth knowing</div>
+      <p>The bundled gene sets are curated reproductions for exploratory use and are not endorsed
+      by the consortia that originated them.</p>
+    </div>
+  </div>
+
+  <h2 class="q" id="statistics"><span class="num">6</span>Which statistical methods does it use?</h2>
+  <div class="q-a">
+    <p>The tests are named on screen and carried into every export, so a figure is never a black
+    box:</p>
+    <ul>
+      <li><strong>Mann&ndash;Whitney U</strong> for two-group expression comparisons.</li>
+      <li><strong>Log-rank test</strong> for survival differences, with <strong>Cox proportional
+        hazards</strong> for the hazard ratio and a Grambsch&ndash;Therneau check on the
+        proportional-hazards assumption.</li>
+      <li><strong>Benjamini&ndash;Hochberg</strong> false-discovery-rate control for differential
+        expression.</li>
+      <li><strong>Pearson</strong> and <strong>Spearman</strong> correlation.</li>
+    </ul>
+    <p>Every statistic and figure is computed on your device.</p>
+  </div>
+
+  <h2 class="q" id="own-data"><span class="num">7</span>Can I use my own data?</h2>
+  <div class="q-a">
+    <p>Yes. You can import your own expression matrix and analyse it with the same tools used for
+    the public cohorts.</p>
+    <p>Imported data stays <strong>on your device</strong>. It is not uploaded to us, and it is
+    never sent to the optional Cloud Assist feature.</p>
+  </div>
+
+  <h2 class="q" id="export"><span class="num">8</span>Can I export results?</h2>
+  <div class="q-a">
+    <p>Yes &mdash; as <strong>PDF</strong> and <strong>HTML</strong> reports, or <strong>CSV</strong>
+    for the underlying numbers. Reports carry an automatically generated methods section naming
+    the tests, the data source, and the sample counts behind each figure, which is what you need
+    when the figure ends up in a lab meeting or a supplement.</p>
+  </div>
+
+  <h2 class="q" id="account-privacy"><span class="num">9</span>Do I need an account? What happens to my data?</h2>
+  <div class="q-a">
+    <p><strong>No account, no sign-up, no profile.</strong> Open the app and use it.</p>
+    <ul>
+      <li><strong>No ads, no third-party tracking, no behavioural analytics.</strong></li>
+      <li>Statistics and figures are <strong>computed on your device</strong>; the network is used
+        only to fetch the public data you ask for.</li>
+      <li>Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through
+        <strong>your own private iCloud account</strong> &mdash; we cannot see them.</li>
+    </ul>
+    <p>The full detail is in the <a class="lnk" href="../privacy/">Privacy&nbsp;Policy</a>.</p>
+    <div class="callout warn">
+      <div class="k">One caution</div>
+      <p>Text you type into the GEO search field is sent to NCBI in order to search, so do not
+      enter personal, patient, or confidential information there.</p>
+    </div>
+  </div>
+
+  <h2 class="q" id="cloud-assist"><span class="num">10</span>What is Cloud Assist?</h2>
+  <div class="q-a">
+    <p>An <strong>optional</strong> feature that lets you ask a question in plain language and get
+    an interactive answer. GeneFox interprets many questions on your device; Cloud Assist hands
+    the harder ones to a Google AI service.</p>
+    <ul>
+      <li>It is <strong>off unless you turn it on</strong>, and it sends only <strong>your typed
+        question</strong> &mdash; never your data files, dataset identifiers, or history.</li>
+      <li>Its provider&rsquo;s terms restrict it to <strong>adults 18 or older</strong>. That
+        restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement.</li>
+      <li>It is <strong>not available in the native macOS app</strong>.</li>
+      <li>Do not type personal, patient, or confidential information into it.</li>
+    </ul>
+    <p>Everything else in GeneFox works whether or not you ever enable it.</p>
+  </div>
+
+  <h2 class="q" id="affiliation"><span class="num">11</span>Is GeneFox affiliated with the NIH, NCI, or NCBI?</h2>
+  <div class="q-a">
+    <p><strong>No.</strong> GeneFox is an independent application developed by Vindhya Data
+    Science. It is not a government app, and it does not represent, and is not affiliated with or
+    endorsed by, any government entity or agency (including the U.S. National Institutes of
+    Health, National Cancer Institute, or NCBI) or any of the data providers it reads from.</p>
+    <p>Consult each provider&rsquo;s official site for the authoritative source.</p>
+  </div>
+
+  <h2 class="q" id="clinical"><span class="num">12</span>Can I use GeneFox for clinical decisions?</h2>
+  <div class="q-a">
+    <div class="callout warn">
+      <div class="k">No</div>
+      <p>GeneFox is a <strong>nonclinical</strong> research and exploration tool. It must not be
+      used for medical advice, as a medical device, in clinical practice, or for diagnosis or
+      treatment.</p>
+    </div>
+    <p>Analyses produced by the app are <strong>exploratory</strong>. Survival curves,
+    differential-expression results, and natural-language answers should be validated against the
+    source data and the primary literature before you draw a scientific conclusion, and its
+    outputs have not been independently validated for clinical decision-making.</p>
+  </div>
+
+  <h2 class="q" id="emails"><span class="num">13</span>How do I stop the update emails?</h2>
+  <div class="q-a">
+    <p>The &ldquo;GeneFox updates&rdquo; signup is entirely optional and unlocks nothing &mdash;
+    every feature works the same whether or not you sign up.</p>
+    <p>If you did sign up, you can <strong>unsubscribe in the app&rsquo;s Settings</strong> with a
+    single tap, or email
+    <a class="lnk" href="mailto:info@vindhyadatascience.com">info@vindhyadatascience.com</a> and
+    ask us to remove your address.</p>
+  </div>
+
+  <h2 class="q" id="support"><span class="num">14</span>How do I get help or report a problem?</h2>
+  <div class="q-a">
+    <p>Email <a class="lnk" href="mailto:info@vindhyadatascience.com">info@vindhyadatascience.com</a>.
+    If you are reporting something that looks wrong in a figure, telling us the gene, the cohort,
+    and the analysis makes it much faster to track down.</p>
+  </div>
+
+</article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col">
+        <div class="foot-brand"><img class="tile" src="../assets/genefox-icon.png" alt="">GeneFox</div>
+        <p class="foot-brand-desc">A native browser for public gene-expression and genomics data, developed by Vindhya Data Science.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="../#features">Features</a>
+        <a href="../#ask">Ask GeneFox</a>
+        <a href="./">FAQ</a>
+        <a href="../#privacy">Privacy</a>
+        <a href="../#download">Download</a>
+        <a href="mailto:info@vindhyadatascience.com">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal &amp; data</h4>
+        <a href="../privacy/">Privacy Policy</a>
+        <a href="https://gdc.cancer.gov" target="_blank" rel="noopener">NCI Genomic Data Commons ↗</a>
+        <a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">NCBI GEO ↗</a>
+        <a href="https://xenabrowser.net" target="_blank" rel="noopener">UCSC Xena ↗</a>
+      </div>
+    </div>
+    <p class="disclaimer">
+      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. The optional Cloud Assist feature is restricted to adults 18 or older by its AI provider&rsquo;s terms.
+    </p>
+    <div class="foot-legal">
+      <span class="vds"><img src="../assets/vds-symbol.svg" alt="Vindhya Data Science">© Vindhya Data Science</span>
+      <span>Public research data · TCGA · GEO · GTEx · Xena · CCLE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var nav=document.getElementById("nav");
+  var onScroll=function(){ nav.classList.toggle("scrolled", window.scrollY>8); };
+  onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
+})();
+</script>
+</body>
+</html>
