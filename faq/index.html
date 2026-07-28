@@ -188,7 +188,7 @@
       "name": "Which statistical methods does it use?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The tests are named on screen and carried into every export, so a figure is never a black box: Mann–Whitney U for two-group expression comparisons. Log-rank test for survival differences, with Cox proportional hazards for the hazard ratio and a Grambsch–Therneau check on the proportional-hazards assumption. Benjamini–Hochberg false-discovery-rate control for differential expression. Pearson and Spearman correlation. Every statistic and figure is computed on your device."
+        "text": "The tests are named on screen and carried into every export, so a figure is never a black box: Mann–Whitney U for two-group expression comparisons, and Kruskal–Wallis automatically when a split has more than two groups — so stratifying by stage or subtype uses the right test without you choosing one. Log-rank test for survival differences, with Cox proportional hazards for the hazard ratio and a Grambsch–Therneau check on the proportional-hazards assumption. Benjamini–Hochberg false-discovery-rate control for differential expression. Pearson and Spearman correlation. Every statistic and figure is computed on your device."
       }
     },
     {
@@ -399,7 +399,10 @@
     <p>The tests are named on screen and carried into every export, so a figure is never a black
     box:</p>
     <ul>
-      <li><strong>Mann&ndash;Whitney U</strong> for two-group expression comparisons.</li>
+      <li><strong>Mann&ndash;Whitney U</strong> for two-group expression comparisons, and
+        <strong>Kruskal&ndash;Wallis</strong> automatically when a split has more than two groups
+        &mdash; so stratifying by stage or subtype uses the right test without you choosing
+        one.</li>
       <li><strong>Log-rank test</strong> for survival differences, with <strong>Cox proportional
         hazards</strong> for the hazard ratio and a Grambsch&ndash;Therneau check on the
         proportional-hazards assumption.</li>
