@@ -81,7 +81,7 @@
 <ul>
   <li>it is stored on your device in the <strong>system Keychain on Apple devices</strong> or as <strong>AES-256-GCM-encrypted ciphertext in app-private preferences on Android, with the encryption key held by Android Keystore</strong>;</li>
   <li>it is sent only to NCBI E-utilities, as the <code>api_key</code> request parameter, and is not sent to Vindhya Data Science, Firebase, Gemini, or any other public data provider; and</li>
-  <li>you can delete it at any time by saving a blank value in the NCBI API Key setting.</li>
+  <li>a successful blank save in the NCBI API Key setting deletes the stored value.</li>
 </ul>
 <p>Because this optional key identifies the user&rsquo;s separate NCBI account, store disclosures conservatively treat it as a User ID used for app functionality, linked to the user, and not used for tracking.</p>
 <p>For conservative store disclosure, GeneFox treats free-text GEO search history as linked because NCBI receives ordinary network metadata with the request and, when configured, the optional NCBI API key. GeneFox does not add a GeneFox account identifier, advertising identifier, or app-specific device identifier.</p>
