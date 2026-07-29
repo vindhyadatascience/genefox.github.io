@@ -19,18 +19,34 @@
  * Deploy: see ../README.md.
  */
 const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const { initializeApp } = require("firebase-admin/app");
-const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const {
+  getFirestore,
+  FieldValue,
+  Timestamp,
+} = require("firebase-admin/firestore");
 const { getAppCheck } = require("firebase-admin/app-check");
 const crypto = require("crypto");
+const {
+  rateLimitDecision,
+  rateLimitDocumentID,
+} = require("./rate-limit");
 
 initializeApp();
 const db = getFirestore();
+const rateLimitHmacKey = defineSecret("RATE_LIMIT_HMAC_KEY");
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const FUNCTION_OPTIONS = {
+  region: "us-central1",
+  maxInstances: 5,
+  cors: false,
+  secrets: [rateLimitHmacKey],
+};
 
-// Browsers that may call this from the website. The app path is authenticated by
-// App Check, not by Origin (native requests have no browser Origin).
+// Browsers that may call this from the website. Native app requests have no
+// browser Origin; App Check is verified separately when a token is present.
 const ALLOWED_ORIGINS = new Set([
   "https://genefox.app",
   "https://www.genefox.app",
@@ -50,23 +66,34 @@ function setCors(req, res) {
   res.set("Access-Control-Max-Age", "3600");
 }
 
-// Simple fixed-window per-IP limiter (a transaction on ratelimits/{ip}).
+// Fixed-window limiter keyed by an opaque HMAC, never by the source IP itself.
+// `expiresAt` is the TTL field for the `ratelimits_v2` collection group.
 async function underRateLimit(ip, maxPerHour) {
-  const ref = db.collection("ratelimits").doc(String(ip).replace(/[^\w.:-]/g, "_").slice(0, 120) || "unknown");
-  const WINDOW = 3600000;
+  const id = rateLimitDocumentID(ip, rateLimitHmacKey.value());
+  const ref = db.collection("ratelimits_v2").doc(id);
+
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     const now = Date.now();
-    let d = snap.exists ? snap.data() : { count: 0, windowStart: now };
-    if (now - d.windowStart > WINDOW) d = { count: 0, windowStart: now };
-    if (d.count >= maxPerHour) return false;
-    d.count += 1;
-    tx.set(ref, d);
+    const decision = rateLimitDecision(
+      snap.exists ? snap.data() : undefined,
+      now,
+      maxPerHour,
+    );
+
+    if (!decision.allowed) return false;
+
+    tx.set(ref, {
+      count: decision.state.count,
+      windowStart: decision.state.windowStart,
+      expiresAt: Timestamp.fromMillis(decision.state.expiresAtMillis),
+      schemaVersion: decision.state.schemaVersion,
+    });
     return true;
   });
 }
 
-exports.signup = onRequest({ region: "us-central1", maxInstances: 5, cors: false }, async (req, res) => {
+exports.signup = onRequest(FUNCTION_OPTIONS, async (req, res) => {
   setCors(req, res);
   if (req.method === "OPTIONS") { res.status(204).send(""); return; }
   if (req.method !== "POST") { res.status(405).json({ ok: false, error: "method_not_allowed" }); return; }
@@ -127,7 +154,7 @@ exports.signup = onRequest({ region: "us-central1", maxInstances: 5, cors: false
   }
 });
 
-exports.unsubscribe = onRequest({ region: "us-central1", maxInstances: 5, cors: false }, async (req, res) => {
+exports.unsubscribe = onRequest(FUNCTION_OPTIONS, async (req, res) => {
   setCors(req, res);
 
   if (req.method === "OPTIONS") { res.status(204).send(""); return; }

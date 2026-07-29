@@ -3,6 +3,9 @@
   "description": "GeneFox voluntary email signup collector (website + app)",
   "main": "index.js",
   "engines": { "node": "20" },
+  "scripts": {
+    "test": "node --test rate-limit.test.js"
+  },
   "dependencies": {
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.1.0"
