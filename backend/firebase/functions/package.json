@@ -4,7 +4,7 @@
   "main": "index.js",
   "engines": { "node": "20" },
   "scripts": {
-    "test": "node --test rate-limit.test.js"
+    "test": "node --test"
   },
   "dependencies": {
     "firebase-admin": "^12.6.0",

@@ -1,20 +1,21 @@
 /**
  * GeneFox signup collector — Firebase HTTP Cloud Function (2nd gen).
  * Shared by BOTH the website banner and the in-app "optional email" screen.
- * Writes to Firestore `signups` (deduped by a hash of the email), returns a real
- * JSON status (so the caller can confirm success), and is protected by CORS +
- * honeypot + per-IP rate limiting + optional App Check.
+ * Writes an unconfirmed record to Firestore `signups` (deduped by a hash of the
+ * email), returns a real JSON status (so the caller can confirm receipt), and is
+ * protected by CORS + honeypot + per-IP rate limiting + optional App Check.
  *
  * `unsubscribe` is the mirror of `signup`: it writes to a separate `unsubscribes`
  * suppression collection keyed by the SAME sha256(email) doc id, and never deletes
- * from `signups`. The mailing list is therefore the anti-join
- * (`signups` minus active `unsubscribes`) — see mailingList() below, which is the
- * ONLY supported way to build a send list.
+ * from `signups`. The mailing list is therefore the confirmed-only anti-join
+ * (`confirmed signups` minus active `unsubscribes`) — see mailingList() below,
+ * which is the ONLY supported way to build a send list.
  *
- * Suppression documents are never deleted, so an unsubscribe cannot be lost by a
- * later re-import. Re-subscribing does not erase the record either: `signup` flips
- * `active` to false and stamps `resubscribedAt`, leaving the history intact. The
- * anti-join therefore tests `active === true`, not mere existence.
+ * Suppression documents are not deleted by either public endpoint, so an
+ * unsubscribe cannot be lost by a later re-import. The public signup endpoint
+ * neither proves ownership nor clears an active suppression. A separate
+ * verification flow must confirm ownership before setting `confirmed: true` or
+ * reactivating a suppressed address.
  *
  * Deploy: see ../README.md.
  */
@@ -32,12 +33,21 @@ const {
   rateLimitDecision,
   rateLimitDocumentID,
 } = require("./rate-limit");
+const {
+  confirmationForUnverifiedSignup,
+  isMailingListEligible,
+  validatedSignupSource,
+} = require("./signup-policy");
 
 initializeApp();
 const db = getFirestore();
 const rateLimitHmacKey = defineSecret("RATE_LIMIT_HMAC_KEY");
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SIGNUP_ACCEPTED_RESPONSE = Object.freeze({
+  ok: true,
+  confirmationRequired: true,
+});
 const FUNCTION_OPTIONS = {
   region: "us-central1",
   maxInstances: 5,
@@ -66,10 +76,11 @@ function setCors(req, res) {
   res.set("Access-Control-Max-Age", "3600");
 }
 
-// Fixed-window limiter keyed by an opaque HMAC, never by the source IP itself.
-// `expiresAt` is the TTL field for the `ratelimits_v2` collection group.
-async function underRateLimit(ip, maxPerHour) {
-  const id = rateLimitDocumentID(ip, rateLimitHmacKey.value());
+// Fixed-window limiter keyed by an endpoint-scoped opaque HMAC, never by the
+// source IP itself. Signup traffic therefore cannot consume the unsubscribe
+// allowance. `expiresAt` is the TTL field for `ratelimits_v2`.
+async function underRateLimit(scope, ip, maxPerHour) {
+  const id = rateLimitDocumentID(scope, ip, rateLimitHmacKey.value());
   const ref = db.collection("ratelimits_v2").doc(id);
 
   return db.runTransaction(async (tx) => {
@@ -101,14 +112,17 @@ exports.signup = onRequest(FUNCTION_OPTIONS, async (req, res) => {
   try {
     const body = req.body || {};
 
-    // Honeypot: pretend success so bots that fill it get no signal.
-    if (body.hp) { res.json({ ok: true }); return; }
+    // Honeypot: return the same pending-confirmation response as a real request.
+    if (body.hp) { res.json(SIGNUP_ACCEPTED_RESPONSE); return; }
 
     const email = String(body.email || "").trim().toLowerCase();
     if (!EMAIL_RE.test(email) || email.length > 254) {
       res.status(400).json({ ok: false, error: "invalid_email" }); return;
     }
-    const source = String(body.source || "web").slice(0, 40);
+    const source = validatedSignupSource(body.source);
+    if (!source) {
+      res.status(400).json({ ok: false, error: "invalid_source" }); return;
+    }
 
     // App Check: verify + RECORD if a token is present. Not hard-required yet — iOS
     // sends a real App Attest token; Android (Play Integrity from Swift) is a follow-up,
@@ -121,7 +135,7 @@ exports.signup = onRequest(FUNCTION_OPTIONS, async (req, res) => {
     }
 
     const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.ip || "unknown";
-    if (!(await underRateLimit(ip, 20))) {
+    if (!(await underRateLimit("signup", ip, 20))) {
       res.status(429).json({ ok: false, error: "rate_limited" }); return;
     }
 
@@ -129,25 +143,23 @@ exports.signup = onRequest(FUNCTION_OPTIONS, async (req, res) => {
     // once (first signup) and a re-submit only bumps updatedAt — never duplicates.
     const id = crypto.createHash("sha256").update(email).digest("hex");
     const ref = db.collection("signups").doc(id);
-    const suppressionRef = db.collection("unsubscribes").doc(id);
     await db.runTransaction(async (tx) => {
-      // Read BOTH before any write: Firestore transactions forbid a read after a write.
       const snap = await tx.get(ref);
-      const suppression = await tx.get(suppressionRef);
-      const data = { email, source, appCheck: appCheckOk, updatedAt: FieldValue.serverTimestamp() };
+      const data = {
+        email,
+        source,
+        appCheck: appCheckOk,
+        confirmed: confirmationForUnverifiedSignup(
+          snap.exists ? snap.data() : undefined,
+        ),
+        updatedAt: FieldValue.serverTimestamp(),
+      };
       if (!snap.exists) data.createdAt = FieldValue.serverTimestamp();
       tx.set(ref, data, { merge: true });
-      // Signing up again is an explicit opt-in, so it lifts an earlier suppression —
-      // but keeps the record, so the unsubscribe history survives.
-      if (suppression.exists && suppression.data().active === true) {
-        tx.set(suppressionRef, {
-          active: false,
-          resubscribedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
-      }
     });
 
-    res.json({ ok: true });
+    // Do not reveal whether the address was new, already confirmed, or suppressed.
+    res.json(SIGNUP_ACCEPTED_RESPONSE);
   } catch (err) {
     console.error("signup error", err);
     res.status(500).json({ ok: false, error: "server_error" });
@@ -169,7 +181,10 @@ exports.unsubscribe = onRequest(FUNCTION_OPTIONS, async (req, res) => {
     if (!EMAIL_RE.test(email) || email.length > 254) {
       res.status(400).json({ ok: false, error: "invalid_email" }); return;
     }
-    const source = String(body.source || "web").slice(0, 40);
+    const source = validatedSignupSource(body.source);
+    if (!source) {
+      res.status(400).json({ ok: false, error: "invalid_source" }); return;
+    }
 
     let appCheckOk = false;
     const token = req.header("X-Firebase-AppCheck");
@@ -178,7 +193,7 @@ exports.unsubscribe = onRequest(FUNCTION_OPTIONS, async (req, res) => {
     }
 
     const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.ip || "unknown";
-    if (!(await underRateLimit(ip, 20))) {
+    if (!(await underRateLimit("unsubscribe", ip, 20))) {
       res.status(429).json({ ok: false, error: "rate_limited" }); return;
     }
 
@@ -210,21 +225,24 @@ exports.unsubscribe = onRequest(FUNCTION_OPTIONS, async (req, res) => {
 });
 
 /**
- * The ONLY supported way to build a send list: every signup whose address is not
- * currently suppressed. Run with the Admin SDK (a script or the Functions shell);
- * this is not exposed over HTTP because it returns the whole list.
+ * The ONLY supported way to build a send list: every ownership-confirmed signup
+ * whose address is not currently suppressed. Run with the Admin SDK (a script or
+ * the Functions shell); this is not exposed over HTTP because it returns the
+ * whole list.
  *
  *   const { mailingList } = require("./index");
  *   const addresses = await mailingList();
  */
 async function mailingList() {
   const [signups, unsubscribes] = await Promise.all([
-    db.collection("signups").get(),
+    db.collection("signups").where("confirmed", "==", true).get(),
     db.collection("unsubscribes").where("active", "==", true).get(),
   ]);
   const suppressed = new Set(unsubscribes.docs.map((d) => d.id));
   return signups.docs
-    .filter((d) => !suppressed.has(d.id))
+    .filter((d) =>
+      isMailingListEligible(d.data(), suppressed.has(d.id)),
+    )
     .map((d) => d.data().email)
     .filter((e) => typeof e === "string" && e.length > 0);
 }

@@ -12,25 +12,39 @@ const SECRET_A = "a".repeat(32);
 const SECRET_B = "b".repeat(32);
 
 test("rate-limit IDs are deterministic opaque HMACs", () => {
-  const first = rateLimitDocumentID("203.0.113.42", SECRET_A);
-  const again = rateLimitDocumentID("203.0.113.42", SECRET_A);
+  const first = rateLimitDocumentID("signup", "203.0.113.42", SECRET_A);
+  const again = rateLimitDocumentID("signup", "203.0.113.42", SECRET_A);
 
   assert.equal(first, again);
   assert.match(first, /^[a-f0-9]{64}$/);
   assert.equal(first.includes("203"), false);
 });
 
+test("signup and unsubscribe requests use independent opaque IDs", () => {
+  assert.notEqual(
+    rateLimitDocumentID("signup", "203.0.113.42", SECRET_A),
+    rateLimitDocumentID("unsubscribe", "203.0.113.42", SECRET_A),
+  );
+});
+
 test("different secrets cannot correlate the same source identifier", () => {
   assert.notEqual(
-    rateLimitDocumentID("2001:db8::1", SECRET_A),
-    rateLimitDocumentID("2001:db8::1", SECRET_B),
+    rateLimitDocumentID("signup", "2001:db8::1", SECRET_A),
+    rateLimitDocumentID("signup", "2001:db8::1", SECRET_B),
   );
 });
 
 test("short HMAC secrets fail closed", () => {
   assert.throws(
-    () => rateLimitDocumentID("203.0.113.42", "too-short"),
+    () => rateLimitDocumentID("signup", "203.0.113.42", "too-short"),
     /at least 32 bytes/,
+  );
+});
+
+test("unknown rate-limit scopes fail closed", () => {
+  assert.throws(
+    () => rateLimitDocumentID("other", "203.0.113.42", SECRET_A),
+    /scope must be signup or unsubscribe/,
   );
 });
 
@@ -77,7 +91,7 @@ test("the window resets exactly at one hour with a one-hour TTL", () => {
       count: 1,
       windowStart: start + RATE_LIMIT_WINDOW_MS,
       expiresAtMillis: start + 2 * RATE_LIMIT_WINDOW_MS,
-      schemaVersion: 2,
+      schemaVersion: 3,
     },
   });
 });

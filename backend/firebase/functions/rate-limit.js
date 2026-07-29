@@ -4,6 +4,7 @@ const crypto = require("crypto");
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const MINIMUM_HMAC_SECRET_BYTES = 32;
+const RATE_LIMIT_SCOPES = new Set(["signup", "unsubscribe"]);
 
 /**
  * Derive an opaque Firestore document ID without retaining the source IP.
@@ -11,7 +12,11 @@ const MINIMUM_HMAC_SECRET_BYTES = 32;
  * A keyed HMAC is deliberately used instead of a plain hash: the input space for
  * IPv4 addresses is small enough that an unsalted hash can be reversed cheaply.
  */
-function rateLimitDocumentID(ip, secret) {
+function rateLimitDocumentID(scope, ip, secret) {
+  if (!RATE_LIMIT_SCOPES.has(scope)) {
+    throw new Error("rate-limit scope must be signup or unsubscribe");
+  }
+
   const key = String(secret || "");
   if (Buffer.byteLength(key, "utf8") < MINIMUM_HMAC_SECRET_BYTES) {
     throw new Error(
@@ -21,6 +26,9 @@ function rateLimitDocumentID(ip, secret) {
 
   return crypto
     .createHmac("sha256", key)
+    .update("genefox-rate-limit\u0000", "utf8")
+    .update(scope, "utf8")
+    .update("\u0000", "utf8")
     .update(String(ip || "unknown"), "utf8")
     .digest("hex");
 }
@@ -61,7 +69,7 @@ function rateLimitDecision(current, now, maxPerWindow) {
       count: count + 1,
       windowStart,
       expiresAtMillis: windowStart + RATE_LIMIT_WINDOW_MS,
-      schemaVersion: 2,
+      schemaVersion: 3,
     },
   };
 }
@@ -69,6 +77,7 @@ function rateLimitDecision(current, now, maxPerWindow) {
 module.exports = {
   MINIMUM_HMAC_SECRET_BYTES,
   RATE_LIMIT_WINDOW_MS,
+  RATE_LIMIT_SCOPES,
   rateLimitDecision,
   rateLimitDocumentID,
 };

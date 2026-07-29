@@ -1,15 +1,15 @@
 # Signup backend — Firebase (shared by website + app)
 
-A single HTTP Cloud Function, **`signup`**, writes voluntary emails to a Firestore
-`signups` collection. Both the **website banner** and the **in-app optional email
-screen** call it. Unlike the Apps Script/Sheet alternative, this path returns a real
-JSON status (so the caller can *confirm* the write) and is protected by CORS +
-honeypot + a privacy-preserving per-IP rate limiter + optional App Check.
+The **`signup`** and **`unsubscribe`** HTTP Cloud Functions manage voluntary email
+records in Firestore. Both the **website banner** and the **in-app optional email
+screen** use this backend. Unlike the Apps Script/Sheet alternative, this path
+returns a real JSON status (so the caller can confirm receipt) and is protected by
+CORS + honeypot + privacy-preserving per-IP rate limiters + optional App Check.
 
 ```
 website banner ─┐
-                ├─► POST /signup  ─►  Firestore "signups"   (deduped by sha256(email))
-app screen ─────┘   (CORS · honeypot · rate-limit · App Check)
+                ├─► POST /signup  ─►  Firestore "signups"
+app screen ─────┘   (pending ownership confirmation; deduped by sha256(email))
 ```
 
 ## Deploy (~10 min, needs the Firebase CLI)
@@ -47,8 +47,10 @@ app screen ─────┘   (CORS · honeypot · rate-limit · App Check)
 ## Wire up the website
 
 In `../../index.html`, set `SIGNUP_ENDPOINT` (in the signup `<script>`) to that URL.
-Commit + push. The banner now reads the function's `{ok:true}` response and only shows
-success on a real 2xx.
+Commit + push. The function returns `{ok:true, confirmationRequired:true}` after
+accepting a request. First-party UI must treat that response only as confirmation
+of receipt, not as a confirmed subscription. It deliberately does not reveal
+whether an address was new, previously confirmed, or suppressed.
 
 Make sure your site's origin is in `ALLOWED_ORIGINS` in `functions/index.js`
 (`https://genefox.app` is already there).
@@ -61,14 +63,21 @@ Tokens are verified and the result is recorded when present; they are not yet
 required because the public Android release does not send one. The email screen
 is **optional** (a skippable step).
 
+Both first-party clients must send exactly `source: "web"` or `source: "app"`.
+Other or missing values are rejected rather than stored.
+
 ## What's collected / privacy
 
 Signup and unsubscribe records contain `email`, `source` (`"web"|"app"`), whether
-App Check passed, and timestamps. The service also uses the request IP to derive
-a secret-keyed HMAC solely for abuse prevention. It does not retain the IP itself.
+App Check passed, confirmation/suppression state, and timestamps. The service also
+uses the request IP to derive an endpoint-scoped, secret-keyed HMAC solely for
+abuse prevention. It does not write the raw IP to Firestore. Each endpoint has an
+independent counter, so signup traffic cannot consume the unsubscribe allowance.
 The opaque rate-limit record expires after its one-hour enforcement window and,
 with the required Firestore TTL policy active, is normally deleted within the
-following 24 hours. No user agent is stored.
+following 24 hours. The application does not write a user agent to Firestore;
+Google-managed request logs may separately contain ordinary network metadata
+under the project's Cloud Logging retention settings.
 
 Apple App Privacy and Play Data Safety must declare the voluntary email. The
 opaque, short-lived rate-limit identifier should also be disclosed conservatively
@@ -77,9 +86,16 @@ as a device/other identifier used for app functionality and fraud prevention.
 ## Anti-abuse notes
 
 - **Honeypot** `hp` field (bots that fill it get a fake success).
-- **Rate limit**: 20 requests/hour per secret-keyed IP HMAC
-  (`ratelimits_v2/{hmac}`), tune in `index.js`.
+- **Rate limit**: 20 requests/hour per endpoint-scoped, secret-keyed IP HMAC
+  (`ratelimits_v2/{hmac}`), with independent signup and unsubscribe allowances;
+  tune in `index.js`.
 - **App Check**: verified when present. For the *website*, requiring App Check needs
   the Firebase Web SDK + reCAPTCHA; deferred for v1 (honeypot + rate limit cover it).
-- **Double opt-in**: not built yet. For a real mailing list, add a confirmation email
-  + a `confirmed` flag before treating an address as subscribed (CAN-SPAM/GDPR).
+- **Ownership confirmation is not built yet.** Every new public signup is stored
+  with `confirmed: false`. Re-submitting an address preserves an existing
+  `confirmed: true` value but never clears an active suppression. `mailingList()`
+  returns only confirmed, non-suppressed addresses. **Do not send any campaign**
+  until a separate ownership-verification flow has been implemented and tested to
+  set `confirmed: true`; that future flow must also be the only way to reactivate a
+  suppressed address. This repository does not currently select or claim an email
+  sender or confirmation provider.
