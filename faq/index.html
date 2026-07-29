@@ -13,18 +13,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://genefox.app/faq/">
 <meta property="og:image" content="https://genefox.app/assets/genefox-og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ground:#0E1430;--ground-2:#141C38;--navy:#1B2547;
     --line:rgba(150,163,214,.14);--line-strong:rgba(150,163,214,.26);
     --magenta:#B53694;--magenta-hot:#E24FB6;--pink:#D57BBA;--pink-pale:#F4D7E7;--purple:#6A3A9A;--cyan:#58E5D6;
     --text:#E7E9F5;--muted:#9AA2C4;--muted-dim:#6B7299;
-    --display:"Bricolage Grotesque",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    --body:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --display:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1180px;--r:16px;
   }
   *{box-sizing:border-box}
@@ -204,7 +201,7 @@
       "name": "Can I export results?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — as PDF and HTML reports, or CSV for the underlying numbers. Reports carry an automatically generated methods section naming the tests, the data source, and the sample counts behind each figure, which is what you need when the figure ends up in a lab meeting or a supplement."
+        "text": "Yes. Apple devices export reports as PDF or HTML; Android exports reports as HTML. Underlying numbers can be exported as CSV. Reports carry an automatically generated methods section naming the tests, the data source, and the sample counts behind each figure."
       }
     },
     {
@@ -212,7 +209,7 @@
       "name": "Do I need an account? What happens to my data?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No account, no sign-up, no profile. Open the app and use it. No ads, no third-party tracking, no behavioural analytics. Statistics and figures are computed on your device ; the network is used only to fetch the public data you ask for. Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through your own private iCloud account — we cannot see them. The full detail is in the Privacy Policy . One caution Text you type into the GEO search field is sent to NCBI in order to search, so do not enter personal, patient, or confidential information there."
+        "text": "No GeneFox account, login, or profile is required. The optional updates request unlocks nothing. There are no ads, third-party tracking, or behavioural analytics. Statistics and figures are computed on your device. Scientific requests go to the public providers you choose; production iPhone and iPad builds also use disclosed Firebase configuration and optional Cloud Assist paths. Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through your own private iCloud account — we cannot see them. See the Privacy Policy for the complete platform-specific data flows. Do not enter personal, patient, or confidential information into GEO search or Cloud Assist."
       }
     },
     {
@@ -220,7 +217,7 @@
       "name": "What is Cloud Assist?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "An optional feature that lets you ask a question in plain language and get an interactive answer. GeneFox interprets many questions on your device; Cloud Assist hands the harder ones to a Google AI service. It is off unless you turn it on , and it sends only your typed question — never your data files, dataset identifiers, or history. Its provider’s terms restrict it to adults 18 or older . That restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement. It is not available in the native macOS app . Do not type personal, patient, or confidential information into it. Everything else in GeneFox works whether or not you ever enable it."
+        "text": "Cloud Assist is an optional production iPhone and iPad feature for questions the local interpreter cannot handle. No cloud request is sent without explicit authorization. It sends the typed question, interpretation instructions, capability flags, and response-schema metadata to a Google AI service, but never automatically attaches data files, dataset identifiers, expression values, bookmarks, or chat history. Public Android v1 and native macOS use the local interpreter only. The provider’s terms restrict Cloud Assist to adults 18 or older. Do not type personal, patient, or confidential information into it."
       }
     },
     {
@@ -424,19 +421,21 @@
 
   <h2 class="q" id="export"><span class="num">8</span>Can I export results?</h2>
   <div class="q-a">
-    <p>Yes &mdash; as <strong>PDF</strong> and <strong>HTML</strong> reports, or <strong>CSV</strong>
-    for the underlying numbers. Reports carry an automatically generated methods section naming
-    the tests, the data source, and the sample counts behind each figure, which is what you need
-    when the figure ends up in a lab meeting or a supplement.</p>
+    <p>Yes. Apple devices export reports as <strong>PDF</strong> or <strong>HTML</strong>;
+    Android exports reports as <strong>HTML</strong>. Underlying numbers can be exported as
+    <strong>CSV</strong>. Reports carry an automatically generated methods section naming the
+    tests, data source, and sample counts behind each figure.</p>
   </div>
 
   <h2 class="q" id="account-privacy"><span class="num">9</span>Do I need an account? What happens to my data?</h2>
   <div class="q-a">
-    <p><strong>No account, no sign-up, no profile.</strong> Open the app and use it.</p>
+    <p><strong>No GeneFox account, login, or profile is required.</strong> The optional updates
+      request unlocks nothing.</p>
     <ul>
       <li><strong>No ads, no third-party tracking, no behavioural analytics.</strong></li>
-      <li>Statistics and figures are <strong>computed on your device</strong>; the network is used
-        only to fetch the public data you ask for.</li>
+      <li>Statistics and figures are <strong>computed on your device</strong>. Scientific
+        requests go to the public providers you choose; production iPhone and iPad builds also
+        use the disclosed Firebase configuration and optional Cloud Assist paths.</li>
       <li>Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through
         <strong>your own private iCloud account</strong> &mdash; we cannot see them.</li>
     </ul>
@@ -450,15 +449,15 @@
 
   <h2 class="q" id="cloud-assist"><span class="num">10</span>What is Cloud Assist?</h2>
   <div class="q-a">
-    <p>An <strong>optional</strong> feature that lets you ask a question in plain language and get
-    an interactive answer. GeneFox interprets many questions on your device; Cloud Assist hands
-    the harder ones to a Google AI service.</p>
+    <p>An <strong>optional production iPhone and iPad feature</strong> for questions the local
+    interpreter cannot handle. Public Android v1 and native macOS use the local interpreter only.</p>
     <ul>
-      <li>It is <strong>off unless you turn it on</strong>, and it sends only <strong>your typed
-        question</strong> &mdash; never your data files, dataset identifiers, or history.</li>
+      <li>No cloud request is sent without <strong>your explicit authorization</strong>.</li>
+      <li>It sends the typed question, interpretation instructions, capability flags, and
+        response-schema metadata. It never automatically attaches data files, dataset identifiers,
+        expression values, bookmarks, or chat history.</li>
       <li>Its provider&rsquo;s terms restrict it to <strong>adults 18 or older</strong>. That
         restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement.</li>
-      <li>It is <strong>not available in the native macOS app</strong>.</li>
       <li>Do not type personal, patient, or confidential information into it.</li>
     </ul>
     <p>Everything else in GeneFox works whether or not you ever enable it.</p>
