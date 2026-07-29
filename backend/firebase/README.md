@@ -14,10 +14,15 @@ app screen ─────┘   (pending ownership confirmation; deduped by sha2
 
 ## Deploy (~10 min, needs the Firebase CLI)
 
-1. `npm i -g firebase-tools && firebase login`
+1. Use Node.js 22, then install/login to the Firebase CLI:
+   `npm i -g firebase-tools && firebase login`.
 2. From this folder (`backend/firebase/`): copy `.firebaserc.example` → `.firebaserc`
    and set your Firebase **project ID** (the same project the app already uses).
-3. Install deps: `cd functions && npm install && cd ..`
+3. Install the reviewed dependency lock exactly:
+   `cd functions && npm ci && npm audit --omit=dev --omit=optional && cd ..`.
+   The committed `.npmrc` omits Firebase Admin's unused optional modules; Firestore
+   is declared directly because it is the only optional Google Cloud module this
+   backend uses.
 4. Create a random secret containing at least 32 bytes:
    `firebase functions:secrets:set RATE_LIMIT_HMAC_KEY`. This secret keys the HMAC
    used for rate-limit document IDs; never commit it or reuse it elsewhere.
