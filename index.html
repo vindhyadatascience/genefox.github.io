@@ -13,9 +13,6 @@
 <meta property="og:url" content="https://genefox.app/">
 <meta property="og:image" content="https://genefox.app/assets/genefox-og.jpg">
 <meta name="theme-color" content="#0E1430">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ground:#0E1430;
@@ -32,9 +29,9 @@
     --text:#E7E9F5;
     --muted:#9AA2C4;
     --muted-dim:#6B7299;
-    --display:"Bricolage Grotesque",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    --body:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --display:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1180px;
     --r:18px;
   }
@@ -753,16 +750,16 @@
 <!-- Voluntary email signup. Stays hidden until SIGNUP_ENDPOINT (below) is set. -->
 <aside class="eb" id="signup" aria-label="Get GeneFox updates">
   <button class="eb-x" type="button" aria-label="Dismiss" data-eb-close>&times;</button>
-  <span class="eb-badge">Beta</span>
-  <h4>Follow GeneFox&rsquo;s progress</h4>
-  <p class="eb-lede">GeneFox is in beta. Get the occasional note on new features and release milestones &mdash; no spam, unsubscribe anytime.</p>
+  <span class="eb-badge">Updates</span>
+  <h4>Request GeneFox updates</h4>
+  <p class="eb-lede">Request an occasional note about new features and releases. A successful request does not subscribe the address yet; address confirmation is required before any update can be sent.</p>
   <form class="eb-form" id="eb-form" novalidate>
     <input type="email" id="eb-email" name="email" placeholder="you@lab.edu" autocomplete="email" required aria-label="Email address">
     <input type="text" id="eb-hp" name="hp_company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-    <button type="submit" id="eb-submit">Keep me posted</button>
+    <button type="submit" id="eb-submit">Request updates</button>
   </form>
   <p class="eb-msg" id="eb-msg" role="status" aria-live="polite" tabindex="-1"></p>
-  <p class="eb-note">We only use your email to send GeneFox updates, and you can unsubscribe any time. See our <a href="privacy/">Privacy Policy</a> for exactly what is stored.</p>
+  <p class="eb-note">We use your email only for GeneFox updates after confirmation. You can unsubscribe any time. See our <a href="privacy/">Privacy Policy</a> for exactly what is stored.</p>
 </aside>
 <script>
 (function(){
@@ -770,12 +767,37 @@
   var SIGNUP_ENDPOINT = "https://us-central1-vds-genefox.cloudfunctions.net/signup";
   /* ========================================================================================= */
   var STORE_KEY = "gf_signup_v1";
+  var DISMISS_FOR_MS = 30 * 24 * 60 * 60 * 1000;
+  var SUBMISSION_FOR_MS = 180 * 24 * 60 * 60 * 1000;
   var el = document.getElementById("signup");
   if (!el || !SIGNUP_ENDPOINT) return;            /* stay hidden until configured */
 
   var acted = false;                              /* in-memory fallback if storage is blocked */
-  function seen(){ try { return localStorage.getItem(STORE_KEY) || (acted ? "mem" : null); } catch (e) { return acted ? "mem" : null; } }
-  function remember(v){ acted = true; try { localStorage.setItem(STORE_KEY, v); } catch (e) {} }
+  function seen(){
+    try {
+      var value = localStorage.getItem(STORE_KEY);
+      if (!value) return acted;
+      var record = JSON.parse(value);
+      if (!record || typeof record.expiresAt !== "number" || record.expiresAt <= Date.now()) {
+        localStorage.removeItem(STORE_KEY);
+        return acted;
+      }
+      return true;
+    } catch (e) {
+      /* Retire legacy/invalid indefinite markers instead of preserving them forever. */
+      try { localStorage.removeItem(STORE_KEY); } catch (ignored) {}
+      return acted;
+    }
+  }
+  function remember(state, durationMs){
+    acted = true;
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        state: state,
+        expiresAt: Date.now() + durationMs
+      }));
+    } catch (e) {}
+  }
   if (seen()) return;
 
   var form   = document.getElementById("eb-form"),
@@ -785,7 +807,7 @@
       msg    = document.getElementById("eb-msg");
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  function close(){ remember("dismissed"); el.classList.remove("show"); }
+  function close(){ remember("dismissed", DISMISS_FOR_MS); el.classList.remove("show"); }
   setTimeout(function(){ el.classList.add("show"); }, 1400);
   el.querySelector("[data-eb-close]").addEventListener("click", close);
   document.addEventListener("keydown", function(e){ if (e.key === "Escape" && el.classList.contains("show")) close(); });
@@ -798,27 +820,29 @@
       msg.className = "eb-msg err"; msg.textContent = "Please enter a valid email address."; input.focus(); return;
     }
     submit.disabled = true; submit.textContent = "Sending…"; msg.className = "eb-msg"; msg.textContent = "";
-    /* The Firebase signup function returns CORS JSON, so we confirm a real {ok:true}
-       before locking the banner. Only the email + a source tag are sent. */
+    /* Only the email + a fixed source tag are sent. A successful response records
+       a request; ownership confirmation is still required before any mailing. */
     fetch(SIGNUP_ENDPOINT, {
       method: "POST", cache: "no-store",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, source: "web", hp: hp.value })
     }).then(function(r){
-      return r.json().catch(function(){ return { ok: r.ok }; });
-    }).then(function(res){
-      if (res && res.ok) {
-        remember("done"); form.style.display = "none";
-        msg.className = "eb-msg ok"; msg.textContent = "Thanks — you’re on the list. 🦊"; msg.focus();
+      return r.json().catch(function(){ return null; }).then(function(body){
+        return { accepted: r.ok && body && body.ok === true };
+      });
+    }).then(function(result){
+      if (result.accepted) {
+        remember("submitted", SUBMISSION_FOR_MS); form.style.display = "none";
+        msg.className = "eb-msg ok";
+        msg.textContent = "Thanks — request received. We must confirm the address before it can receive an update.";
+        msg.focus();
       } else {
-        submit.disabled = false; submit.textContent = "Keep me posted";
+        submit.disabled = false; submit.textContent = "Request updates";
         msg.className = "eb-msg err";
-        msg.textContent = (res && res.error === "rate_limited")
-          ? "Too many attempts — please try again in a bit."
-          : "Hmm, that didn’t go through. Please try again.";
+        msg.textContent = "That request didn’t go through. Please wait a moment and try again.";
       }
     }).catch(function(){
-      submit.disabled = false; submit.textContent = "Keep me posted";
+      submit.disabled = false; submit.textContent = "Request updates";
       msg.className = "eb-msg err"; msg.textContent = "Network error — please try again.";
     });
   });
