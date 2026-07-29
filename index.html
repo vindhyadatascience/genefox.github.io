@@ -314,8 +314,8 @@
               </div>
 
               <div class="card">
-                <div class="card-l"><span class="t"><span class="gene">TP53</span> expression by stage</span><span class="s">n=1,082</span></div>
-                <svg viewBox="0 0 280 120" width="100%" height="120" aria-label="Box-and-violin plot of TP53 expression across tumor stages">
+                <div class="card-l"><span class="t"><span class="gene">TP53</span> expression by stage</span><span class="s">Android · n=1,082</span></div>
+                <svg viewBox="0 0 280 120" width="100%" height="120" aria-label="Android example of a violin plot of TP53 expression across tumor stages">
                   <g stroke="rgba(150,163,214,.26)" stroke-width="1">
                     <line x1="30" y1="12" x2="30" y2="98"/><line x1="30" y1="98" x2="272" y2="98"/>
                   </g>
@@ -398,8 +398,8 @@
               </g>
             </svg>
           </div>
-          <h3>Stratified expression, five ways to see it</h3>
-          <p>Plot any cohort as box, bar, strip, or violin — split by clinical stage, subtype, sample type, or mutation status, with effect sizes and Mann–Whitney statistics.</p>
+          <h3>Stratified expression, flexible views</h3>
+          <p>Plot supported cohorts as box, bar, or strip on every platform; Android also offers violin plots. Split by clinical stage, subtype, sample type, or mutation status, with effect sizes and Mann–Whitney or Kruskal–Wallis statistics as applicable.</p>
         </article>
 
         <!-- big: survival -->
@@ -488,16 +488,16 @@
                 <text x="54" y="26" fill="#F4D7E7">breast cancer</text>
                 <text x="250" y="26" fill="#6B7299">RNA-seq · array</text>
                 <rect x="24" y="40" width="292" height="20" rx="5" fill="rgba(88,229,214,.09)" stroke="rgba(88,229,214,.3)"/>
-                <path d="M34 50 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="53" fill="#F4D7E7">GSE96058</text><text x="200" y="53">3,409 samples · ARCHS4</text>
+                <circle cx="38" cy="50" r="3.2" fill="none" stroke="#D57BBA" stroke-width="1.4"/><text x="50" y="53" fill="#F4D7E7">GSE96058</text><text x="200" y="53">historical prediction</text>
                 <rect x="24" y="66" width="292" height="20" rx="5" fill="rgba(88,229,214,.09)" stroke="rgba(88,229,214,.3)"/>
-                <path d="M34 76 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="79" fill="#F4D7E7">GSE20685</text><text x="200" y="79">327 samples · array</text>
+                <circle cx="38" cy="76" r="3.2" fill="none" stroke="#D57BBA" stroke-width="1.4"/><text x="50" y="79" fill="#F4D7E7">GSE20685</text><text x="200" y="79">historical prediction</text>
                 <rect x="24" y="92" width="292" height="18" rx="5" fill="rgba(255,255,255,.03)" stroke="rgba(150,163,214,.14)"/>
-                <path d="M34 101 l3 3 l6 -7" fill="none" stroke="#58E5D6" stroke-width="1.8"/><text x="50" y="105" fill="#F4D7E7">GSE45827</text><text x="200" y="105">155 samples · supp. matrix</text>
+                <circle cx="38" cy="101" r="3.2" fill="none" stroke="#6B7299" stroke-width="1.4"/><text x="50" y="105" fill="#F4D7E7">GSE45827</text><text x="200" y="105">verify when opened</text>
               </g>
             </svg>
           </div>
-          <h3>40,000+ GEO datasets, triaged</h3>
-          <p>Search NCBI GEO with smart cancer-term expansion — over 40,000 Series come pre-verified to actually have usable expression data, spanning microarray, supplementary matrices, and ARCHS4 (human &amp; mouse) RNA-seq.</p>
+          <h3>40,000+ GEO availability signals</h3>
+          <p>Search NCBI GEO with cancer-term expansion. Bundled availability badges are historical predictions, not verified results; GeneFox verifies a Series when you open it. Supported paths include Series Matrix files, human NCBI-generated RNA-seq counts, and author-supplied supplementary matrices.</p>
         </article>
 
         <!-- reports -->
@@ -536,7 +536,7 @@
           <div class="chip"><span class="q">›</span> summarize this cohort <span class="caret">→</span></div>
         </div>
         <p style="color:var(--muted-dim);font-size:13.5px;margin-top:22px;max-width:44ch;font-family:var(--mono);line-height:1.6">
-          On iPhone and iPad, optional Cloud Assist sends only your typed question — never your data files, dataset IDs, or history — and only when you explicitly authorize it. Android and Mac use the local interpreter only.</p>
+          On eligible production iPhone/iPad hardware, optional Cloud Assist sends your typed question plus interpretation instructions, capability flags/tokens, and response-schema metadata to Google after a one-time authorization or previously granted standing consent. It does not automatically attach data files, dataset titles or IDs, expression values, bookmarks, or history. The iPad app running on Mac, public Android v1, and native macOS remain local-only. Cloud Assist is for adults using it for professional or business scientific research.</p>
       </div>
 
       <div class="result reveal" aria-label="Example Ask GeneFox result card">
@@ -569,7 +569,7 @@
         <div class="pill reveal">
           <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
           <h3>No ads, no tracking</h3>
-          <p>No Firebase Analytics, no behavioral telemetry, no third-party trackers, and no advertising identifiers — verified in the app's privacy manifests.</p>
+          <p>GeneFox does not include Firebase Analytics, behavioral telemetry, third-party trackers, or advertising identifiers. The Privacy Policy details each platform&rsquo;s data flows.</p>
         </div>
         <div class="pill reveal">
           <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
@@ -639,7 +639,7 @@
     </div>
 
     <p class="disclaimer">
-      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. The optional Cloud Assist feature is restricted to adults 18 or older by its AI provider&rsquo;s terms.
+      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. GeneFox is intended for researchers and other professional users; its scientific content has no age restriction. Optional Cloud Assist is available only on eligible production iPhone/iPad hardware and may be used only by adults 18 or older for professional or business scientific research.
     </p>
 
     <div class="foot-legal">

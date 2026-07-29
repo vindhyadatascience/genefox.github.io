@@ -4,7 +4,7 @@ Marketing site for **GeneFox**, a native browser for public cancer-genomics data
 developed by Vindhya Data Science.
 
 - `index.html` — the landing page (self-contained: inline CSS + JS, brand data-viz
-  drawn as inline SVG/Canvas, Google Fonts loaded over the network).
+  drawn as inline SVG/Canvas, with system font stacks and no network font dependency).
 - `assets/` — brand imagery: app icon, Open Graph image, VDS symbol.
 - `.nojekyll` — serve the files as-is (skip Jekyll processing).
 
@@ -18,16 +18,19 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 
 ## Deploy (GitHub Pages)
 
-Enable Pages for this repo (Settings → Pages → Deploy from branch → `main` / root).
-To use a custom domain, add a `CNAME` file containing the domain and configure DNS.
+GitHub Pages deploys from `main` / root to [genefox.app](https://genefox.app).
+The checked-in `CNAME` contains `genefox.app`, and DNS is configured for that domain.
+The canonical privacy page is `privacy/index.html`; keep it byte-identical to
+`docs/privacy-policy.html` in the app repository and run the app repository's
+`Scripts/validate-live-privacy-policy.sh` before release.
 
 ## Brand
 
 - Ground navy `#1B2547` · magenta `#B53694` · pink `#D57BBA` · pale `#F4D7E7`
 - Display **Bricolage Grotesque** · body **Hanken Grotesk** · mono **IBM Plex Mono**
 
-## To wire up before launch
+## Store-link release switch
 
-- Real **App Store** and **Google Play** URLs (the store badges currently link to `#`).
-- Final **domain** + `CNAME`, and the canonical **privacy policy** page
-  (`docs/privacy-policy.html` from the app repo) hosted at the URL the store listings expect.
+The store badges intentionally retain the current TestFlight and Google Play beta links.
+After each public store listing is live, replace its beta wording/tag and, for Apple,
+the TestFlight URL with the public App Store URL.

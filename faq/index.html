@@ -145,7 +145,7 @@
       "name": "What is GeneFox?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "GeneFox is a native app for exploring public gene-expression and cancer-genomics data on a phone, tablet, or desktop. You pick a gene and a cohort, and it draws the figure — expression by tumour stage or subtype, tumour versus normal, a survival curve, a clustered heatmap — and reports the statistics behind it. It is a reading and exploration tool , not a pipeline. Nothing needs to be installed, configured, or scripted, and the figures are computed on the device in front of you rather than on a server we operate."
+        "text": "GeneFox is a native app for exploring public gene-expression and cancer-genomics data on a phone, tablet, or desktop. You pick a gene and a cohort, and it draws the figure — expression by tumour stage or subtype, tumour versus normal, a survival curve, a clustered heatmap — and reports the statistics behind it. It is a reading and exploration tool, not a pipeline. Nothing needs to be installed, configured, or scripted, and the figures are computed on the device in front of you rather than on a server we operate."
       }
     },
     {
@@ -169,7 +169,7 @@
       "name": "Where does the data come from?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "From established public repositories, requested directly by your device: NIH Genomic Data Commons (GDC) — TCGA and related programmes; 60+ cohorts covering the major tumour types. UCSC Xena — harmonised expression, phenotype, and survival data for those cohorts. NCBI Gene Expression Omnibus (GEO) — over 40,000 pre-screened Series, so you are not opening datasets that turn out to be unusable. GTEx — expression across normal human tissues, served through Xena’s uniformly processed compendium so tumour and normal are directly comparable. CCLE — 933 cancer cell lines. GeneFox does not host or re-publish these datasets. It reads them from the providers and shows you the result, and each provider’s own site remains the authoritative source."
+        "text": "From established public repositories, requested directly by your device: NIH Genomic Data Commons (GDC) — TCGA and related programmes; 60+ cohorts covering the major tumour types. UCSC Xena — harmonised expression, phenotype, and survival data for those cohorts. NCBI Gene Expression Omnibus (GEO) — over 40,000 historical availability predictions used as search hints. These are not verified results; GeneFox verifies a Series when you open it. GTEx — healthy-donor expression served through Xena’s TOIL compendium for scale-compatible exploratory comparison. GTEx remains an unpaired cross-study reference, without adjustment for study or collection effects. CCLE — 933 cancer cell lines. GeneFox does not host or re-publish these datasets. It reads them from the providers and shows you the result, and each provider’s own site remains the authoritative source."
       }
     },
     {
@@ -177,7 +177,7 @@
       "name": "What can I actually analyse?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Expression by group — stratify a cohort by stage, subtype, mutation status, or other clinical variables, as box, bar, or strip plots. Tumour versus normal — paired comparison within a cohort. Pan-cancer — one gene across every available cohort at once. Copy number and methylation — alongside RNA-seq expression, you can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported TCGA cohorts. Survival — Kaplan–Meier curves for overall, disease-specific, progression-free, and disease-free endpoints, with a hazard ratio and a check on the proportional-hazards assumption. Differential expression — volcano plots with multiple-testing control. Heatmaps — gene panels with hierarchical clustering and annotation tracks. Correlation — how two genes track together within a cohort. Signature scoring — 41 documented hallmark, immune, oncogenic, and pathway presets, or your own list of genes. Worth knowing The bundled presets identify their source, release, citation, and license. Sources include MSigDB, Reactome, WikiPathways, and the Wagle et al. MPAS panel; no KEGG gene sets are bundled."
+        "text": "Expression by group — stratify a cohort by stage, subtype, mutation status, or other clinical variables, as box, bar, or strip plots; Android also offers violin plots. Tumour versus normal — participant-level exploratory comparison with adjacent-normal samples and, where supported, a tissue-matched GTEx healthy-donor reference; GTEx is unpaired and cross-study. Pan-cancer — one gene across supported, analyzable TCGA cohorts. Copy number and methylation — alongside RNA-seq expression, you can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported TCGA cohorts. Survival — Kaplan–Meier curves for overall, disease-specific, progression-free, and disease-free endpoints, with median survival and eligible two-group log-rank tests. Differential expression — volcano plots with multiple-testing control. Heatmaps — gene panels with hierarchical clustering and annotation tracks. Correlation — Pearson correlation between two genes within a cohort. Signature scoring — 41 documented hallmark, immune, oncogenic, and pathway presets, or your own list of genes. Worth knowing: The bundled presets identify their source, release, citation, and license. Sources include MSigDB, Reactome, WikiPathways, and the Wagle et al. MPAS panel; no KEGG gene sets are bundled."
       }
     },
     {
@@ -185,7 +185,7 @@
       "name": "Which statistical methods does it use?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The tests are named on screen and carried into every export, so a figure is never a black box: Mann–Whitney U for two-group expression comparisons, and Kruskal–Wallis automatically when a split has more than two groups — so stratifying by stage or subtype uses the right test without you choosing one. Log-rank test for survival differences, with Cox proportional hazards for the hazard ratio and a Grambsch–Therneau check on the proportional-hazards assumption. Benjamini–Hochberg false-discovery-rate control for differential expression. Pearson and Spearman correlation. Every statistic and figure is computed on your device."
+        "text": "The tests are named on screen and carried into every export, so a figure is never a black box: Mann–Whitney U for eligible two-group expression comparisons, and Kruskal–Wallis when a split has more than two eligible groups. Eligible two-group survival comparisons use a log-rank test with exact conditional label permutation when tractable and an asymptotic chi-square tail otherwise; median survival is reported when reached. Pan-cancer survival applies Benjamini–Hochberg false-discovery-rate control across analyzable cohorts. Differential expression also uses Benjamini–Hochberg false-discovery-rate control. Correlation uses Pearson r. The signed log-rank direction statistic is not a hazard ratio. Every statistic and figure is computed on your device."
       }
     },
     {
@@ -193,7 +193,7 @@
       "name": "Can I use my own data?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. You can import your own expression matrix and analyse it with the same tools used for the public cohorts. Imported data stays on your device . It is not uploaded to us, and it is never sent to the optional Cloud Assist feature."
+        "text": "Yes. You can import your own expression matrix and analyse it with the same tools used for the public cohorts. Imported files stay on your device and are not uploaded to Vindhya Data Science or automatically attached to Cloud Assist. Anything typed in a question that is sent to Cloud Assist is transmitted to Google."
       }
     },
     {
@@ -209,7 +209,7 @@
       "name": "Do I need an account? What happens to my data?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No GeneFox account, login, or profile is required. The optional updates request unlocks nothing. There are no ads, third-party tracking, or behavioural analytics. Statistics and figures are computed on your device. Scientific requests go to the public providers you choose; production iPhone and iPad builds also use disclosed Firebase configuration and optional Cloud Assist paths. Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through your own private iCloud account — we cannot see them. See the Privacy Policy for the complete platform-specific data flows. Do not enter personal, patient, or confidential information into GEO search or Cloud Assist."
+        "text": "No GeneFox account, login, or profile is required. The optional updates request unlocks nothing. There are no ads, third-party tracking, or behavioural analytics. Statistics and figures are computed on your device. Scientific requests go to the public providers you choose; eligible production iPhone/iPad hardware also uses the disclosed Firebase configuration and optional Cloud Assist paths. The iPad app running on Mac, public Android v1, and native macOS use local interpretation only. Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through your own private iCloud account — we cannot see them. See the Privacy Policy for the complete platform-specific data flows. Do not enter personal, patient, or confidential information into GEO search or Cloud Assist."
       }
     },
     {
@@ -217,7 +217,7 @@
       "name": "What is Cloud Assist?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Cloud Assist is an optional production iPhone and iPad feature for questions the local interpreter cannot handle. No cloud request is sent without explicit authorization. It sends the typed question, interpretation instructions, capability flags, and response-schema metadata to a Google AI service, but never automatically attaches data files, dataset identifiers, expression values, bookmarks, or chat history. Public Android v1 and native macOS use the local interpreter only. The provider’s terms restrict Cloud Assist to adults 18 or older. Do not type personal, patient, or confidential information into it."
+        "text": "Cloud Assist is an optional feature on eligible production iPhone/iPad hardware for questions the local interpreter cannot handle. No cloud request is sent without a one-time authorization or previously granted standing consent. It sends the typed question, interpretation instructions, capability flags/tokens, and response-schema metadata to Google Gemini through Firebase AI Logic, but never automatically attaches data files, dataset titles or identifiers, expression values, bookmarks, or chat history. The iPad app running on Mac, public Android v1, and native macOS use the local interpreter only. Cloud Assist is limited to adults 18 or older using it for professional or business scientific research. That restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement. Do not type personal, patient, or confidential information into it."
       }
     },
     {
@@ -233,7 +233,7 @@
       "name": "Can I use GeneFox for clinical decisions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No GeneFox is a nonclinical research and exploration tool. It must not be used for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Analyses produced by the app are exploratory . Survival curves, differential-expression results, and natural-language answers should be validated against the source data and the primary literature before you draw a scientific conclusion, and its outputs have not been independently validated for clinical decision-making."
+        "text": "No. GeneFox is a nonclinical research and exploration tool. It must not be used for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Analyses produced by the app are exploratory. Survival curves, differential-expression results, and natural-language answers should be validated against the source data and the primary literature before you draw a scientific conclusion, and its outputs have not been independently validated for clinical decision-making."
       }
     },
     {
@@ -249,7 +249,7 @@
       "name": "How do I get help or report a problem?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Email info@vindhyadatascience.com . If you are reporting something that looks wrong in a figure, telling us the gene, the cohort, and the analysis makes it much faster to track down."
+        "text": "Email info@vindhyadatascience.com. If you are reporting something that looks wrong in a figure, telling us the gene, the cohort, and the analysis makes it much faster to track down."
       }
     }
   ]
@@ -353,10 +353,11 @@
       <li><strong>UCSC Xena</strong> &mdash; harmonised expression, phenotype, and survival data
         for those cohorts.</li>
       <li><strong>NCBI Gene Expression Omnibus (GEO)</strong> &mdash; over <strong>40,000</strong>
-        pre-screened Series, so you are not opening datasets that turn out to be unusable.</li>
-      <li><strong>GTEx</strong> &mdash; expression across normal human tissues, served through
-        Xena&rsquo;s uniformly processed compendium so tumour and normal are directly
-        comparable.</li>
+        historical availability predictions used as search hints. These are not verified results;
+        GeneFox verifies a Series when you open it.</li>
+      <li><strong>GTEx</strong> &mdash; healthy-donor expression served through Xena&rsquo;s TOIL
+        compendium for scale-compatible exploratory comparison. GTEx remains an unpaired
+        cross-study reference, without adjustment for study or collection effects.</li>
       <li><strong>CCLE</strong> &mdash; <strong>933</strong> cancer cell lines.</li>
     </ul>
     <p>GeneFox does not host or re-publish these datasets. It reads them from the providers and
@@ -367,28 +368,33 @@
   <div class="q-a">
     <ul>
       <li><strong>Expression by group</strong> &mdash; stratify a cohort by stage, subtype,
-        mutation status, or other clinical variables, as box, bar, or strip plots.</li>
-      <li><strong>Tumour versus normal</strong> &mdash; paired comparison within a cohort.</li>
-      <li><strong>Pan-cancer</strong> &mdash; one gene across every available cohort at once.</li>
+        mutation status, or other clinical variables, as box, bar, or strip plots; Android also
+        offers violin plots.</li>
+      <li><strong>Tumour versus normal</strong> &mdash; participant-level exploratory comparison
+        with adjacent-normal samples and, where supported, a tissue-matched GTEx healthy-donor
+        reference; GTEx is unpaired and cross-study.</li>
+      <li><strong>Pan-cancer</strong> &mdash; one gene across supported, analyzable TCGA
+        cohorts.</li>
       <li><strong>Copy number and methylation</strong> &mdash; alongside RNA-seq expression, you
         can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported
         TCGA cohorts.</li>
       <li><strong>Survival</strong> &mdash; Kaplan&ndash;Meier curves for overall, disease-specific,
-        progression-free, and disease-free endpoints, with a hazard ratio and a check on the
-        proportional-hazards assumption.</li>
+        progression-free, and disease-free endpoints, with median survival and eligible two-group
+        log-rank tests.</li>
       <li><strong>Differential expression</strong> &mdash; volcano plots with multiple-testing
         control.</li>
       <li><strong>Heatmaps</strong> &mdash; gene panels with hierarchical clustering and
         annotation tracks.</li>
-      <li><strong>Correlation</strong> &mdash; how two genes track together within a cohort.</li>
+      <li><strong>Correlation</strong> &mdash; Pearson correlation between two genes within a
+        cohort.</li>
       <li><strong>Signature scoring</strong> &mdash; 41 documented hallmark, immune, oncogenic,
         and pathway presets, or your own list of genes.</li>
     </ul>
     <div class="callout">
       <div class="k">Worth knowing</div>
       <p>The bundled presets identify their source, release, citation, and license. Sources include
-      MSigDB, Reactome, WikiPathways, and the Wagle et al. MPAS panel; no KEGG gene sets are
-      bundled.</p>
+        MSigDB, Reactome, WikiPathways, and the Wagle et al. MPAS panel; no KEGG gene sets are
+        bundled.</p>
     </div>
   </div>
 
@@ -397,16 +403,16 @@
     <p>The tests are named on screen and carried into every export, so a figure is never a black
     box:</p>
     <ul>
-      <li><strong>Mann&ndash;Whitney U</strong> for two-group expression comparisons, and
-        <strong>Kruskal&ndash;Wallis</strong> automatically when a split has more than two groups
-        &mdash; so stratifying by stage or subtype uses the right test without you choosing
-        one.</li>
-      <li><strong>Log-rank test</strong> for survival differences, with <strong>Cox proportional
-        hazards</strong> for the hazard ratio and a Grambsch&ndash;Therneau check on the
-        proportional-hazards assumption.</li>
+      <li><strong>Mann&ndash;Whitney U</strong> for eligible two-group expression comparisons, and
+        <strong>Kruskal&ndash;Wallis</strong> when a split has more than two eligible groups.</li>
+      <li>Eligible two-group survival comparisons use a <strong>log-rank test</strong> with exact
+        conditional label permutation when tractable and an asymptotic chi-square tail otherwise;
+        median survival is reported when reached. Pan-cancer survival applies
+        <strong>Benjamini&ndash;Hochberg</strong> false-discovery-rate control across analyzable
+        cohorts. The signed log-rank direction statistic is not a hazard ratio.</li>
       <li><strong>Benjamini&ndash;Hochberg</strong> false-discovery-rate control for differential
         expression.</li>
-      <li><strong>Pearson</strong> and <strong>Spearman</strong> correlation.</li>
+      <li><strong>Pearson r</strong> correlation.</li>
     </ul>
     <p>Every statistic and figure is computed on your device.</p>
   </div>
@@ -415,8 +421,9 @@
   <div class="q-a">
     <p>Yes. You can import your own expression matrix and analyse it with the same tools used for
     the public cohorts.</p>
-    <p>Imported data stays <strong>on your device</strong>. It is not uploaded to us, and it is
-    never sent to the optional Cloud Assist feature.</p>
+    <p>Imported files stay <strong>on your device</strong> and are not uploaded to Vindhya Data
+    Science or automatically attached to Cloud Assist. Anything typed in a question that is sent
+    to Cloud Assist is transmitted to Google.</p>
   </div>
 
   <h2 class="q" id="export"><span class="num">8</span>Can I export results?</h2>
@@ -434,8 +441,9 @@
     <ul>
       <li><strong>No ads, no third-party tracking, no behavioural analytics.</strong></li>
       <li>Statistics and figures are <strong>computed on your device</strong>. Scientific
-        requests go to the public providers you choose; production iPhone and iPad builds also
-        use the disclosed Firebase configuration and optional Cloud Assist paths.</li>
+        requests go to the public providers you choose; eligible production iPhone/iPad hardware
+        also uses the disclosed Firebase configuration and optional Cloud Assist paths. The iPad
+        app running on Mac, public Android v1, and native macOS use local interpretation only.</li>
       <li>Bookmarks and saved cohorts stay on your device and, on Apple devices, sync through
         <strong>your own private iCloud account</strong> &mdash; we cannot see them.</li>
     </ul>
@@ -449,15 +457,19 @@
 
   <h2 class="q" id="cloud-assist"><span class="num">10</span>What is Cloud Assist?</h2>
   <div class="q-a">
-    <p>An <strong>optional production iPhone and iPad feature</strong> for questions the local
-    interpreter cannot handle. Public Android v1 and native macOS use the local interpreter only.</p>
+    <p>An <strong>optional feature on eligible production iPhone/iPad hardware</strong> for
+    questions the local interpreter cannot handle. The iPad app running on Mac, public Android v1,
+    and native macOS use the local interpreter only.</p>
     <ul>
-      <li>No cloud request is sent without <strong>your explicit authorization</strong>.</li>
-      <li>It sends the typed question, interpretation instructions, capability flags, and
-        response-schema metadata. It never automatically attaches data files, dataset identifiers,
-        expression values, bookmarks, or chat history.</li>
-      <li>Its provider&rsquo;s terms restrict it to <strong>adults 18 or older</strong>. That
-        restriction applies to Cloud Assist alone; the rest of GeneFox has no age requirement.</li>
+      <li>No cloud request is sent without a <strong>one-time authorization or previously granted
+        standing consent</strong>.</li>
+      <li>It sends the typed question, interpretation instructions, capability flags/tokens, and
+        response-schema metadata to Google Gemini through Firebase AI Logic. It never automatically
+        attaches data files, dataset titles or identifiers, expression values, bookmarks, or chat
+        history.</li>
+      <li>Cloud Assist is limited to <strong>adults 18 or older using it for professional or
+        business scientific research</strong>. That restriction applies to Cloud Assist alone;
+        the rest of GeneFox has no age requirement.</li>
       <li>Do not type personal, patient, or confidential information into it.</li>
     </ul>
     <p>Everything else in GeneFox works whether or not you ever enable it.</p>
@@ -531,7 +543,7 @@
       </div>
     </div>
     <p class="disclaimer">
-      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. The optional Cloud Assist feature is restricted to adults 18 or older by its AI provider&rsquo;s terms.
+      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. GeneFox is intended for researchers and other professional users; its scientific content has no age restriction. Optional Cloud Assist is available only on eligible production iPhone/iPad hardware and may be used only by adults 18 or older for professional or business scientific research.
     </p>
     <div class="foot-legal">
       <span class="vds"><img src="../assets/vds-symbol.svg" alt="Vindhya Data Science">© Vindhya Data Science</span>
