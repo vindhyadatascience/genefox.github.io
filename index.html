@@ -360,9 +360,10 @@
       <span class="lbl">Public data from</span>
       <a class="src" href="https://gdc.cancer.gov" target="_blank" rel="noopener"><span class="dot"></span>NCI GDC · TCGA</a>
       <a class="src" href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener"><span class="dot"></span>NCBI GEO</a>
+      <a class="src" href="https://archs4.org/help" target="_blank" rel="noopener"><span class="dot"></span>ARCHS4</a>
       <a class="src" href="https://gtexportal.org" target="_blank" rel="noopener"><span class="dot"></span>GTEx</a>
       <a class="src" href="https://xenabrowser.net" target="_blank" rel="noopener"><span class="dot"></span>UCSC Xena</a>
-      <a class="src" href="https://sites.broadinstitute.org/ccle/" target="_blank" rel="noopener"><span class="dot"></span>CCLE</a>
+      <a class="src" href="https://treehousegenomics.ucsc.edu/public-data-html/previous-compendia/" target="_blank" rel="noopener"><span class="dot"></span>CCLE via Treehouse</a>
     </div>
   </div>
 
@@ -399,7 +400,7 @@
             </svg>
           </div>
           <h3>Stratified expression, flexible views</h3>
-          <p>Plot supported cohorts as box, bar, or strip on every platform; Android also offers violin plots. Split by clinical stage, subtype, sample type, or mutation status, with effect sizes and Mann–Whitney or Kruskal–Wallis statistics as applicable.</p>
+          <p>Plot supported cohorts as box, bar, or strip on every platform; Android also offers violin plots. Split by clinical stage, subtype, sample type, or mutation status, with effect sizes and Mann–Whitney or Kruskal–Wallis statistics as applicable. For CCLE, stratify 933 Treehouse cell lines by TCGA Acronym, tissue, disease, histology, or subtype.</p>
         </article>
 
         <!-- big: survival -->
@@ -415,7 +416,7 @@
             </svg>
           </div>
           <h3>Kaplan–Meier, with the math to back it</h3>
-          <p>Stratify survival by clinical variable, expression, or mutation. Log-rank p-values, median survival, and per-cohort pan-cancer drill-down are one tap away.</p>
+          <p>Stratify survival by clinical variable, expression, or mutation. Eligible High-versus-Low views present log-rank inference, median survival, and a Cox hazard ratio with 95% confidence interval plus its proportional-hazards diagnostic or non-estimable explanation.</p>
         </article>
 
         <!-- volcano -->
@@ -458,7 +459,7 @@
             </svg>
           </div>
           <h3>Custom signature scoring</h3>
-          <p>Score any cohort against a gene signature — histogram, statistics, and signature-split survival.</p>
+          <p>Score a custom signature or choose among 41 documented presets. The Wagle ten-gene MPAS panel defaults to a sample-centric full-transcriptome percentile-rank mean; its paper-associated within-cohort standardized Z-sum remains selectable.</p>
         </article>
 
         <!-- cohorts -->
@@ -473,7 +474,7 @@
               </g>
             </svg>
           </div>
-          <h3>60+ GDC cohorts</h3>
+          <h3>65 supported GDC cohorts</h3>
           <p>Case counts, sites, disease types, and demographics — with a Summary tab for at-a-glance context.</p>
         </article>
 
@@ -497,7 +498,7 @@
             </svg>
           </div>
           <h3>40,000+ GEO availability signals</h3>
-          <p>Search NCBI GEO with cancer-term expansion. Bundled availability badges are historical predictions, not verified results; GeneFox verifies a Series when you open it. Supported paths include Series Matrix files, human NCBI-generated RNA-seq counts, and author-supplied supplementary matrices.</p>
+          <p>Search NCBI GEO with cancer-term expansion. Bundled availability badges are historical predictions, not verified results; GeneFox verifies a Series when you open it. Supported paths include Series Matrix files, human NCBI-generated RNA-seq counts, bounded complete-cohort ARCHS4 raw counts only for GEO-classified human or mouse expression RNA-seq Series, and author-supplied supplementary matrices.</p>
         </article>
 
         <!-- reports -->
@@ -536,7 +537,7 @@
           <div class="chip"><span class="q">›</span> summarize this cohort <span class="caret">→</span></div>
         </div>
         <p style="color:var(--muted-dim);font-size:13.5px;margin-top:22px;max-width:44ch;font-family:var(--mono);line-height:1.6">
-          On eligible production iPhone/iPad hardware, optional Cloud Assist sends your typed question plus interpretation instructions, capability flags/tokens, and response-schema metadata to Google after a one-time authorization or previously granted standing consent. It does not automatically attach data files, dataset titles or IDs, expression values, bookmarks, or history. The iPad app running on Mac, public Android v1, and native macOS remain local-only. Cloud Assist is for adults using it for professional or business scientific research.</p>
+          On supported production iPhone, iPad, native macOS, iPad-on-Mac, and Android execution, optional Cloud Assist sends your typed question plus interpretation instructions, capability flags/tokens, and response-schema metadata to Google after a one-time authorization or previously granted standing consent. It does not automatically attach data files, dataset titles or IDs, expression values, bookmarks, or history. Unsupported or misconfigured destinations fail closed to local interpretation. Cloud Assist is for adults using it for professional or business scientific research.</p>
       </div>
 
       <div class="result reveal" aria-label="Example Ask GeneFox result card">
@@ -632,19 +633,20 @@
         <h4>Data sources</h4>
         <a href="https://gdc.cancer.gov" target="_blank" rel="noopener">NCI Genomic Data Commons ↗</a>
         <a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">NCBI GEO ↗</a>
+        <a href="https://archs4.org/help" target="_blank" rel="noopener">ARCHS4 ↗</a>
         <a href="https://gtexportal.org" target="_blank" rel="noopener">GTEx Portal ↗</a>
         <a href="https://xenabrowser.net" target="_blank" rel="noopener">UCSC Xena ↗</a>
-        <a href="https://sites.broadinstitute.org/ccle/" target="_blank" rel="noopener">CCLE ↗</a>
+        <a href="https://treehousegenomics.ucsc.edu/public-data-html/previous-compendia/" target="_blank" rel="noopener">CCLE via Treehouse ↗</a>
       </div>
     </div>
 
     <p class="disclaimer">
-      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. GeneFox is intended for researchers and other professional users; its scientific content has no age restriction. Optional Cloud Assist is available only on eligible production iPhone/iPad hardware and may be used only by adults 18 or older for professional or business scientific research.
+      <strong>GeneFox is an independent, nonclinical app</strong> for scientific research. It is <strong>not a government application</strong>: it does not represent, and is not affiliated with or endorsed by, any government entity or agency (including the U.S. National Institutes of Health, National Cancer Institute, or NCBI) or any data provider listed above. Do not use GeneFox for medical advice, as a medical device, in clinical practice, or for diagnosis or treatment. Its data and outputs have not been independently validated for clinical decision-making. GeneFox is intended for researchers and other professional users; its scientific content has no age restriction. Optional Cloud Assist is available on supported production destinations and may be used only by adults 18 or older for professional or business scientific research.
     </p>
 
     <div class="foot-legal">
       <span class="vds"><img src="assets/vds-symbol.svg" alt="Vindhya Data Science">© Vindhya Data Science</span>
-      <span>Public research data · TCGA · GEO · GTEx · Xena · CCLE</span>
+      <span>Public research data · TCGA · GEO · ARCHS4 · GTEx · Xena · CCLE</span>
     </div>
   </div>
 </footer>
