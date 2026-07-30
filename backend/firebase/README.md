@@ -63,10 +63,12 @@ Make sure your site's origin is in `ALLOWED_ORIGINS` in `functions/index.js`
 ## Wire up the app
 
 The app posts the same JSON to the same URL, adding an **App Check** token header
-`X-Firebase-AppCheck` when the platform can obtain one. Send `source: "app"`.
-Tokens are verified and the result is recorded when present; they are not yet
-required because the public Android release does not send one. The email screen
-is **optional** (a skippable step).
+`X-Firebase-AppCheck` when the optional-email client can obtain one. Send
+`source: "app"`. Tokens are verified and the result is recorded when present;
+they are not yet required because the Android optional-email client does not send
+one. This statement applies only to the signup/unsubscribe endpoint: Android
+Cloud Assist separately uses Play Integrity on its Firebase AI path and does not
+call these email functions. The email screen is **optional** (a skippable step).
 
 Both first-party clients must send exactly `source: "web"` or `source: "app"`.
 Other or missing values are rejected rather than stored.

@@ -124,10 +124,11 @@ exports.signup = onRequest(FUNCTION_OPTIONS, async (req, res) => {
       res.status(400).json({ ok: false, error: "invalid_source" }); return;
     }
 
-    // App Check: verify + RECORD if a token is present. Not hard-required yet — iOS
-    // sends a real App Attest token; Android (Play Integrity from Swift) is a follow-up,
-    // and honeypot + rate-limit still guard the app path. Flip to a hard requirement for
-    // source:"app" once both platforms reliably send a token.
+    // App Check: verify + RECORD if a token is present. Not hard-required yet —
+    // supported Apple optional-email clients send an Apple App Check token, while
+    // the Android optional-email client currently sends none. Android Cloud Assist
+    // separately uses Play Integrity on its Firebase AI path and never calls this
+    // function. Honeypot + rate limiting still guard this email endpoint.
     let appCheckOk = false;
     const token = req.header("X-Firebase-AppCheck");
     if (token) {
