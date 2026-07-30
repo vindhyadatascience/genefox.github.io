@@ -169,7 +169,7 @@
       "name": "Where does the data come from?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "From established public repositories, requested directly by your device: NIH Genomic Data Commons (GDC) — TCGA and related programmes; 65 supported cohorts covering the major tumour types. UCSC Xena — harmonised expression, phenotype, and survival data for those cohorts. NCBI Gene Expression Omnibus (GEO) — over 40,000 historical availability predictions used as search hints. These are not verified results; GeneFox verifies a Series when you open it. ARCHS4 — a raw-count fallback for GEO-classified human or mouse expression RNA-seq Series after a directly usable Series Matrix and NCBI-generated counts are unavailable; GeneFox accepts only complete public-GSM coverage, never silently truncates a cohort, and does not call these values TPM. GTEx — healthy-donor expression served through Xena’s TOIL compendium for scale-compatible exploratory comparison. GTEx remains an unpaired cross-study reference, without adjustment for study or collection effects. CCLE via Treehouse — 933 cancer cell lines with six fixed metadata fields: cell-line name plus five grouping dimensions—TCGA Acronym, Tissue, disease, Histology, and Subtype/subcategory. GeneFox does not host or re-publish these datasets. It reads them from the providers and shows you the result, and each provider’s own site remains the authoritative source."
+        "text": "From established public repositories, requested directly by your device: NIH Genomic Data Commons (GDC) — TCGA and related programmes; 65 supported cohorts covering the major tumour types. UCSC Xena — harmonised expression, phenotype, and survival data for those cohorts. NCBI Gene Expression Omnibus (GEO) — over 40,000 historical availability predictions used as search hints. These are not verified results; GeneFox verifies a Series when you open it. ARCHS4 — a raw-count fallback for GEO-classified human or mouse expression RNA-seq Series after a directly usable Series Matrix and NCBI-generated counts are unavailable; GeneFox accepts only complete public-GSM coverage, never silently truncates a cohort, and does not call these values TPM. GTEx — healthy-donor expression served through Xena’s TOIL compendium for scale-compatible exploratory comparison. GTEx remains an unpaired cross-study reference, without adjustment for study or collection effects. CCLE via Treehouse — 933 cancer cell lines with six fixed metadata fields: cell-line name plus five grouping dimensions—TCGA Acronym, Tissue, disease, Histology, and Subtype/subcategory. Treehouse Tumor Compendium 25.01 PolyA — 1,761 pediatric and rare-tumour samples across 25 disease cohorts, drawn only from contributing studies independent of TCGA and TARGET: St. Jude Cloud, the Sequence Read Archive, EGA, ICGC, and the Children’s Brain Tumor Network. The compendium’s own TCGA and TARGET specimens are excluded, because they are the same specimens GeneFox already serves from the GDC hub, re-quantified through a different pipeline. GeneFox does not host or re-publish these datasets. It reads them from the providers and shows you the result, and each provider’s own site remains the authoritative source."
       }
     },
     {
@@ -177,7 +177,7 @@
       "name": "What can I actually analyse?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Expression by group — stratify a cohort by stage, subtype, mutation status, or other clinical variables, as box, bar, or strip plots; Android also offers violin plots. Tumour versus normal — participant-level exploratory comparison with adjacent-normal samples and, where supported, a tissue-matched GTEx healthy-donor reference; GTEx is unpaired and cross-study. Pan-cancer — one gene across supported, analyzable TCGA cohorts. Copy number and methylation — alongside RNA-seq expression, you can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported TCGA cohorts. Survival — Kaplan–Meier curves for overall, disease-specific, progression-free, and disease-free endpoints, with median survival and eligible two-group log-rank tests; eligible High-versus-Low views also present a Cox hazard ratio with 95% confidence interval and a proportional-hazards diagnostic or a clear non-estimable explanation. Differential expression — volcano plots with multiple-testing control. Heatmaps — gene panels with hierarchical clustering and annotation tracks. Correlation — Pearson correlation between two genes within a cohort. Signature scoring — 41 documented hallmark, immune, oncogenic, and pathway presets, or your own list of genes. Worth knowing: The bundled presets identify their source, release, citation, and license. Sources include MSigDB, Reactome, WikiPathways, and the Wagle et al. ten-gene MPAS panel; no KEGG gene sets are bundled. MPAS defaults to a sample-centric mean of the panel genes’ percentile ranks within each sample’s complete Xena transcriptome, while the paper-associated within-cohort standardized Z-sum remains selectable."
+        "text": "Expression by group — stratify a cohort by stage, subtype, mutation status, or other clinical variables, as box, bar, or strip plots; Android also offers violin plots. Tumour versus normal — participant-level exploratory comparison with adjacent-normal samples and, where supported, a tissue-matched GTEx healthy-donor reference; GTEx is unpaired and cross-study. Pan-cancer — one gene across supported, analyzable TCGA cohorts. Pediatric and rare tumours — one gene across the independent-source Treehouse cohorts, grouped by disease, pediatric/AYA status, sex, or source study, with CSV export. Copy number and methylation — alongside RNA-seq expression, you can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported TCGA cohorts. Survival — Kaplan–Meier curves for overall, disease-specific, progression-free, and disease-free endpoints, with median survival and eligible two-group log-rank tests; eligible High-versus-Low views also present a Cox hazard ratio with 95% confidence interval and a proportional-hazards diagnostic or a clear non-estimable explanation. Differential expression — volcano plots with multiple-testing control. Heatmaps — gene panels with hierarchical clustering and annotation tracks. Correlation — Pearson correlation between two genes within a cohort. Signature scoring — 41 documented hallmark, immune, oncogenic, and pathway presets, or your own list of genes. Worth knowing: The bundled presets identify their source, release, citation, and license. Sources include MSigDB, Reactome, WikiPathways, and the Wagle et al. ten-gene MPAS panel; no KEGG gene sets are bundled. MPAS defaults to a sample-centric mean of the panel genes’ percentile ranks within each sample’s complete Xena transcriptome, while the paper-associated within-cohort standardized Z-sum remains selectable."
       }
     },
     {
@@ -369,6 +369,14 @@
         <strong>933</strong> cancer cell lines, with six fixed metadata fields:
         cell-line name plus five grouping dimensions &mdash; TCGA Acronym, Tissue,
         disease, Histology, and Subtype/subcategory.</li>
+      <li><strong><a class="lnk" href="https://treehousegenomics.ucsc.edu/public-data/"
+        target="_blank" rel="noopener">Treehouse Tumor Compendium 25.01 PolyA</a></strong>
+        &mdash; <strong>1,761</strong> pediatric and rare-tumour samples across
+        <strong>25</strong> disease cohorts, drawn only from contributing studies independent
+        of TCGA and TARGET: St. Jude Cloud, the Sequence Read Archive, EGA, ICGC, and the
+        Children&rsquo;s Brain Tumor Network. The compendium&rsquo;s own TCGA and TARGET
+        specimens are excluded, because they are the same specimens GeneFox already serves
+        from the GDC hub, re-quantified through a different pipeline.</li>
     </ul>
     <p>GeneFox does not host or re-publish these datasets. It reads them from the providers and
     shows you the result, and each provider&rsquo;s own site remains the authoritative source.</p>
@@ -385,6 +393,9 @@
         reference; GTEx is unpaired and cross-study.</li>
       <li><strong>Pan-cancer</strong> &mdash; one gene across supported, analyzable TCGA
         cohorts.</li>
+      <li><strong>Pediatric and rare tumours</strong> &mdash; one gene across the
+        independent-source Treehouse cohorts, grouped by disease, pediatric/AYA status, sex,
+        or source study, with CSV export.</li>
       <li><strong>Copy number and methylation</strong> &mdash; alongside RNA-seq expression, you
         can browse gene-level GISTIC2 copy number and Illumina 450K methylation for the supported
         TCGA cohorts.</li>
@@ -578,7 +589,7 @@
     </p>
     <div class="foot-legal">
       <span class="vds"><img src="../assets/vds-symbol.svg" alt="Vindhya Data Science">© Vindhya Data Science</span>
-      <span>Public research data · TCGA · GEO · ARCHS4 · GTEx · Xena · CCLE</span>
+      <span>Public research data · TCGA · GEO · ARCHS4 · GTEx · Xena · CCLE · Treehouse</span>
     </div>
   </div>
 </footer>
