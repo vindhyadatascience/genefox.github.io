@@ -1,12 +1,23 @@
 rules_version = '2';
 
-// ⚠️  MERGE these two match blocks into your project's EXISTING firestore.rules —
-//     do NOT deploy this file as-is if your app already uses Firestore, because a
-//     rules deploy REPLACES the whole ruleset. Firestore denies unmatched paths by
-//     default, so these explicit deny-all rules are just defense-in-depth: `signups`,
-//     `unsubscribes`, and rate-limit records are written ONLY by the `signup` /
-//     `unsubscribe` Cloud Functions (the Admin SDK bypasses rules), and no client
-//     (web or app) may read or write them directly.
+// ⚠️  NOT DEPLOYED FROM THIS REPO. Reference copy only.
+//
+// These four collections now live in the GeneFox app's ruleset — RNABrowser/firestore.rules
+// — which is the single file deployed for this project. `firebase.json` here no longer
+// declares a `firestore` section, so a deploy from this directory cannot touch rules.
+//
+// WHY. A Firestore rules deploy REPLACES the entire ruleset for the project. Two repos each
+// shipping a partial firestore.rules for the same project meant only one of them was ever
+// live: deploying from here silently deleted the app's `users/**` rules and took down sync
+// on every device, and deploying from the app repo deleted these and broke the signup form
+// plus every unsubscribe link already mailed. Nothing warned, because each deploy succeeded.
+//
+// If you change what the signup/unsubscribe functions write, edit RNABrowser/firestore.rules
+// and deploy from there. This file is kept so the collections are documented beside the
+// functions that write them, and so a reader here is not left wondering where the rules went.
+//
+// The functions use the Admin SDK, which bypasses rules entirely — these deny-alls are
+// defence in depth, and Firestore already denies unmatched paths by default.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -22,7 +33,5 @@ service cloud.firestore {
     match /ratelimits_v2/{doc} {
       allow read, write: if false;
     }
-
-    // ... your app's other collections keep their existing rules here ...
   }
 }
