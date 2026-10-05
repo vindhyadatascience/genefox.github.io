@@ -1,0 +1,65 @@
+site_name: GeneFox CLI & MCP
+site_description: Documentation for the GeneFox command-line tool and Model Context Protocol (MCP) server.
+site_url: https://genefox.app/docs/
+docs_dir: docs
+site_dir: ../docs
+copyright: GeneFox and its CLI are proprietary software of Vindhya Data Science; documentation &copy; Vindhya Data Science.
+use_directory_urls: true
+
+theme:
+  name: material
+  logo: assets/genefox-icon.png
+  favicon: assets/genefox-icon.png
+  font: false
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+
+extra:
+  generator: false
+
+extra_css:
+  - stylesheets/genefox.css
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+nav:
+  - Overview: index.md
+  - Install & resources: install.md
+  - CLI reference: cli.md
+  - MCP server guide: mcp.md
+  - Tool catalogue: tools.md
+  - Agent plugins: plugins.md
