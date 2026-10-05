@@ -3,15 +3,13 @@
 !!! info "Binary downloads: coming soon"
     Binary downloads are not published yet. This page describes the requirements and layout the CLI uses, so you can plan your setup.
 
-## Requirements
+## Supported platforms
 
-`genefox` is a single executable. The project documents these build and platform requirements:
+`genefox` is a single executable, built and tested for:
 
-- **macOS.** Built with Xcode 26.2 or newer (a dependency of the app's package requires it).
-- **Linux.** Built and tested in the `swift:6.4-noble` container, with `FOXKIT_NO_SKIP=1`, which builds the shared core as a plain Swift package.
-- **Windows.** Built and tested with the official Swift 6.4.0 toolchain, also with `FOXKIT_NO_SKIP=1`. The product is `genefox.exe`. Use an LF checkout (`git config --global core.autocrlf false`) because the text fixtures must stay byte-identical for the cross-platform golden comparisons.
-
-Both package manifests declare `swift-tools-version: 6.2`.
+- **macOS** (universal: Apple silicon and Intel).
+- **Linux** (x86_64 and arm64), including Windows Subsystem for Linux.
+- **Windows** (x86_64), as `genefox.exe`.
 
 ## Installing the binary
 

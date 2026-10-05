@@ -317,10 +317,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#supported-platforms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        Supported platforms
       
     </span>
   </a>
@@ -553,10 +553,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#supported-platforms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        Supported platforms
       
     </span>
   </a>
@@ -668,14 +668,13 @@
 <p class="admonition-title">Binary downloads: coming soon</p>
 <p>Binary downloads are not published yet. This page describes the requirements and layout the CLI uses, so you can plan your setup.</p>
 </div>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p><code>genefox</code> is a single executable. The project documents these build and platform requirements:</p>
+<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
+<p><code>genefox</code> is a single executable, built and tested for:</p>
 <ul>
-<li><strong>macOS.</strong> Built with Xcode 26.2 or newer (a dependency of the app's package requires it).</li>
-<li><strong>Linux.</strong> Built and tested in the <code>swift:6.4-noble</code> container, with <code>FOXKIT_NO_SKIP=1</code>, which builds the shared core as a plain Swift package.</li>
-<li><strong>Windows.</strong> Built and tested with the official Swift 6.4.0 toolchain, also with <code>FOXKIT_NO_SKIP=1</code>. The product is <code>genefox.exe</code>. Use an LF checkout (<code>git config --global core.autocrlf false</code>) because the text fixtures must stay byte-identical for the cross-platform golden comparisons.</li>
+<li><strong>macOS</strong> (universal: Apple silicon and Intel).</li>
+<li><strong>Linux</strong> (x86_64 and arm64), including Windows Subsystem for Linux.</li>
+<li><strong>Windows</strong> (x86_64), as <code>genefox.exe</code>.</li>
 </ul>
-<p>Both package manifests declare <code>swift-tools-version: 6.2</code>.</p>
 <h2 id="installing-the-binary">Installing the binary<a class="headerlink" href="#installing-the-binary" title="Permanent link">&para;</a></h2>
 <p>Copy the binary to any directory on your <code>PATH</code>, together with SwiftPM's resource bundle: it holds the bundled report fonts and marks (see <a href="#bundled-report-resources">Bundled report resources</a>). On macOS the bundle is <code>locus_genefox.bundle</code>, beside the binary. On Linux it is <code>locus_genefox.bundle</code> or <code>locus_genefox.resources</code>; <code>genefox</code> accepts either name. If the bundle is missing, <code>genefox</code> still runs, but <code>report export</code> refuses with a "resource unavailable" sentence instead of drawing substitute artwork.</p>
 <p>If a file named <code>genefox.commit</code> sits beside the binary, the server reports its version as <code>1.1.0+&lt;commit&gt;</code>, using that file's first 64 characters or fewer. Otherwise it reports <code>1.1.0+unknown</code>.</p>
