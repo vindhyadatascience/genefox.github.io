@@ -32,6 +32,27 @@
   .store-badge .sb-l{font-size:10.5px;color:var(--muted);letter-spacing:.04em;line-height:1.1}
   .store-badge .sb-b{font-weight:600;font-size:16px;letter-spacing:-.01em;color:var(--text);
     line-height:1.15}
+  main{width:100%;max-width:46rem}
+  .cli{margin-top:2.6rem;padding-top:1.8rem;border-top:1px solid var(--line-strong);text-align:left}
+  .cli h2{font-size:1.15rem;margin:0 0 .3rem;letter-spacing:-.01em;text-align:center}
+  .cli p{margin:0 0 1rem;font-size:15px}
+  .cli .lead{text-align:center}
+  .cli code,.cli .mono{font:12.5px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .cli pre{margin:.3rem 0 1rem;padding:10px 12px;border-radius:10px;overflow-x:auto;
+    background:rgba(255,255,255,.04);border:1px solid var(--line-strong);color:var(--text)}
+  .cli .soon{font-size:12px;color:var(--pink);margin-left:.4rem}
+  .cli table{width:100%;border-collapse:collapse;font-size:14px;margin:0 0 1rem}
+  .cli th,.cli td{padding:8px 8px;border-bottom:1px solid var(--line-strong);text-align:left;
+    vertical-align:top}
+  .cli th{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.04em}
+  .cli tr.match td{background:rgba(213,123,186,.10)}
+  .cli a{color:var(--pink)}
+  .cli .sha{word-break:break-all;color:var(--text)}
+  .cli button{margin-left:6px;font:inherit;font-size:12px;color:var(--text);cursor:pointer;
+    background:rgba(255,255,255,.04);border:1px solid var(--line-strong);border-radius:6px;
+    padding:1px 8px}
+  .cli button:hover{border-color:var(--pink)}
+  .cli .tablewrap{overflow-x:auto}
   .home{margin-top:1.8rem;font-size:14px}
   .home a{color:var(--pink)}
 </style>
@@ -50,6 +71,13 @@
       <span><span class="sb-l">Get it on</span><span class="sb-b">Google Play</span></span>
       </a>
     </div>
+    <section class="cli" id="cli" aria-labelledby="cli-h">
+      <h2 id="cli-h">Command-line tool (genefox CLI)</h2>
+      <p class="lead">Run GeneFox analyses and its MCP server for agents from a terminal.</p>
+      <p>Install on macOS, Linux or WSL<span class="soon">(coming soon)</span></p>
+      <pre><code>curl -fsSL https://genefox.app/cli/install.sh | bash</code></pre>
+      <div id="cli-dl"><p class="lead">The command-line tool is coming soon.</p></div>
+    </section>
     <p class="home"><a href="/">genefox.app</a></p>
   </main>
   <script>
@@ -75,6 +103,136 @@
       }
       // Windows, Linux, a console, a crawler: no store to send them to, so the page
       // stays put and offers both. Guessing here would strand the visitor.
+    })();
+  </script>
+  <script>
+    // CLI downloads table, rendered from the release manifest. Display only: it never
+    // redirects, and the store logic above is independent of it. Every manifest value is
+    // validated and written with textContent; when anything is off the visitor sees
+    // "coming soon" and no table, never a guessed version or link.
+    (function () {
+      var BASE = "https://storage.googleapis.com/vds-genefox-releases/genefox-cli";
+      var PUBKEY = "RWTc+F0bd3qlNlApONI2qRpbBAcrDfUhxdVUrsoaVYGdkaHjUWAB75BL"; // key id 36A57A771B5DF8DC
+      // Stable "latest" link per manifest artifact id (the release contract).
+      var STABLE = {
+        "darwin-universal": "genefox-cli-macos-universal.zip",
+        "linux-amd64": "genefox-cli-linux-x86_64.tar.gz",
+        "linux-arm64": "genefox-cli-linux-arm64.tar.gz",
+        "windows-x64": "genefox-cli-windows-x64.zip"
+      };
+      var box = document.getElementById("cli-dl");
+      if (!box) return;
+
+      function isStr(v) { return typeof v === "string"; }
+      function underBase(u) {
+        return isStr(u) && u.indexOf(BASE + "/") === 0 && !/[?#\\\s]|\.\./.test(u);
+      }
+      function validRow(a) {
+        if (!a || typeof a !== "object" || !STABLE.hasOwnProperty(a.id)) return null;
+        if (!isStr(a.label) || !/^[A-Za-z0-9 ().+\/-]{1,60}$/.test(a.label)) return null;
+        if (!isStr(a.filename) || !/^[A-Za-z0-9._-]+$/.test(a.filename)) return null;
+        if (!underBase(a.url)) return null;
+        if (!isStr(a.sha256) || !/^[0-9a-fA-F]{64}$/.test(a.sha256)) return null;
+        if (typeof a.sizeBytes !== "number" || a.sizeBytes % 1 !== 0 || a.sizeBytes <= 0) return null;
+        return a;
+      }
+      // Returns {version, checksums, signature, rows} or null.
+      function validate(m) {
+        if (!m || typeof m !== "object" || !Array.isArray(m.artifacts)) return null;
+        if (!isStr(m.version) || !/^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/.test(m.version)) return null;
+        if (!isStr(m.checksums) || !/^[0-9A-Za-z.-]+\/SHA256SUMS$/.test(m.checksums)) return null;
+        if (!isStr(m.signature) || !/^[0-9A-Za-z.-]+\/SHA256SUMS\.minisig$/.test(m.signature)) return null;
+        var rows = [], seen = {};
+        for (var i = 0; i < m.artifacts.length; i++) {
+          var a = validRow(m.artifacts[i]);
+          if (a && !seen[a.id]) { seen[a.id] = 1; rows.push(a); }
+        }
+        if (!rows.length) return null;
+        return { version: m.version, checksums: m.checksums, signature: m.signature, rows: rows };
+      }
+      // Which row to highlight. Android first (its UA contains "Linux"), and no CLI row
+      // for it or for iOS. Highlight only; never navigates.
+      function matchId(ua) {
+        if (/Android/i.test(ua)) return null;
+        if (/iPhone|iPad|iPod/i.test(ua)) return null;
+        if (/Macintosh|Mac OS X/i.test(ua)) return "darwin-universal";
+        if (/Windows/i.test(ua)) return "windows-x64";
+        if (/Linux|X11/i.test(ua)) return /aarch64|arm64|armv8/i.test(ua) ? "linux-arm64" : "linux-amd64";
+        return null;
+      }
+      function mb(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.ceil(n / 1024) + " KB"; }
+      function el(tag, text, cls) {
+        var e = document.createElement(tag);
+        if (text != null) e.textContent = text;
+        if (cls) e.className = cls;
+        return e;
+      }
+      function soon() {
+        box.textContent = "";
+        box.appendChild(el("p", "The command-line tool is coming soon.", "lead"));
+      }
+      function copyButton(text) {
+        var b = el("button", "Copy");
+        b.type = "button";
+        b.addEventListener("click", function () {
+          function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); }
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(done, function () {});
+            }
+          } catch (e) {}
+        });
+        return b;
+      }
+      function render(v, ua) {
+        var hit = matchId(ua);
+        var wrap = el("div", null, "tablewrap");
+        var t = el("table");
+        var hr = el("tr");
+        ["Platform", "File", "Size", "SHA-256"].forEach(function (h) { hr.appendChild(el("th", h)); });
+        t.appendChild(el("thead")).appendChild(hr);
+        var tb = el("tbody");
+        v.rows.forEach(function (a) {
+          var tr = el("tr", null, a.id === hit ? "match" : "");
+          tr.appendChild(el("td", a.label));
+          var f = el("td"), link = el("a", a.filename);
+          link.href = BASE + "/latest/" + STABLE[a.id];
+          f.appendChild(link);
+          tr.appendChild(f);
+          tr.appendChild(el("td", mb(a.sizeBytes)));
+          var h = el("td"), hs = el("span", a.sha256.toLowerCase(), "sha mono");
+          h.appendChild(hs);
+          h.appendChild(copyButton(a.sha256.toLowerCase()));
+          tr.appendChild(h);
+          tb.appendChild(tr);
+        });
+        t.appendChild(tb);
+        wrap.appendChild(t);
+        box.textContent = "";
+        box.appendChild(el("p", "Version " + v.version, "lead"));
+        box.appendChild(wrap);
+        var p = el("p", "Verify a download. Fetch ");
+        var a1 = el("a", "SHA256SUMS"); a1.href = BASE + "/" + v.checksums;
+        var a2 = el("a", "SHA256SUMS.minisig"); a2.href = BASE + "/" + v.signature;
+        p.appendChild(a1); p.appendChild(document.createTextNode(" and "));
+        p.appendChild(a2);
+        p.appendChild(document.createTextNode(" into the download folder, then check the signature with GeneFox's public key (id 36A57A771B5DF8DC) and the hashes:"));
+        box.appendChild(p);
+        box.appendChild(el("pre", "minisign -Vm SHA256SUMS -P " + PUBKEY + "\nshasum -a 256 -c SHA256SUMS --ignore-missing"));
+      }
+      function load(fetchFn, ua) {
+        var p;
+        try { p = fetchFn(BASE + "/latest.json", { credentials: "omit" }); } catch (e) { soon(); return Promise.resolve(); }
+        return p.then(function (r) {
+          if (!r || !r.ok) throw new Error("http");
+          return r.json();
+        }).then(function (m) {
+          var v = validate(m);
+          if (!v) throw new Error("invalid");
+          render(v, ua);
+        }).catch(soon);
+      }
+      if (typeof fetch === "function") load(fetch, navigator.userAgent || ""); else soon();
     })();
   </script>
 </body>
