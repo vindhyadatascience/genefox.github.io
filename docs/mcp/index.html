@@ -1001,6 +1001,10 @@ HTML document.</p>
 <td>The imported-dataset store the legacy <code>render_recipe</code> may read. A tool argument cannot name a store.</td>
 </tr>
 <tr>
+<td><code>--allow-root &lt;dir&gt;</code></td>
+<td>An extra local read root for the legacy <code>validate_recipe</code>/<code>render_recipe</code> paths, repeatable; or <code>GENEFOX_MCP_ALLOWED_ROOTS</code> (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused.</td>
+</tr>
+<tr>
 <td><code>--warm &lt;list&gt;</code></td>
 <td>Prefetch <code>toil</code>, <code>pancan</code> and/or project ids such as <code>TCGA-BRCA</code>, in the background.</td>
 </tr>
@@ -1187,7 +1191,7 @@ fetch it.</p>
 <h2 id="results-and-the-untrusted_-trust-model">Results and the <code>untrusted_*</code> trust model<a class="headerlink" href="#results-and-the-untrusted_-trust-model" title="Permanent link">&para;</a></h2>
 <p>A successful result is a JSON object. Analysis tools return <code>tool</code>, <code>data</code>, <code>display</code> (the
 screen's sentences and tables, to quote verbatim), <code>caveats</code> and <code>provenance</code>. <code>provenance</code>
-holds <code>sources</code>, <code>genefox_cli</code> (the version), <code>transport: "live"</code>, <code>fetched_at</code> and, where a
+holds <code>sources</code>, <code>genefox_cli</code> (the version), <code>transport: "live"</code> (or <code>"record"</code> / <code>"replay"</code>), <code>fetched_at</code> and, where a
 screen applies, <code>parity_screen</code>.</p>
 <p>When a result list is capped, <code>truncated</code> discloses its <code>field</code>, <code>kept</code> and <code>total</code> counts.
 One capped list produces an object; multiple capped lists produce an array of those objects,
@@ -1536,6 +1540,14 @@ also has counts per status. On this build, <code>list_coverage</code> reported 5
 partial, 12 planned and 6 not available headlessly. A final row summarises Pro operations
 without naming any. Call <code>list_coverage</code> for the current state rather than relying on these
 numbers.</p>
+<p>Legacy local recipe paths are limited to the output directory, <code>--imported-store</code>, and
+repeatable <code>--allow-root</code> directories (also <code>GENEFOX_MCP_ALLOWED_ROOTS</code>, separated by <code>:</code> on
+POSIX or <code>;</code> on Windows). The server resolves links before testing containment, then opens
+that canonical file without following replacement links. Validation and rendering consume
+the bytes from that held handle, rather than reopening the model's path. Devices, sockets,
+FIFOs, directories, and files above 64 MiB are refused with <code>local_path_*</code> codes; the byte
+ceiling also applies if a file grows while it is read. <code>fetch_url</code> accepts only an allowed
+public HTTP(S) URL and never turns a <code>file:</code> URL into a local read.</p>
 <h2 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h2>
 <p>See <a href="../plugins/">Agent plugins</a> for the shared skills, launchers, setup and host configuration.</p>
 

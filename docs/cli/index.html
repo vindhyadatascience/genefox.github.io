@@ -916,6 +916,10 @@ corrupt the protocol stream.</p>
 <td>The local imported-dataset store that the legacy <code>render_recipe</code> may read for imported recipes. Only this flag names it; no tool argument can.</td>
 </tr>
 <tr>
+<td><code>--allow-root &lt;dir&gt;</code></td>
+<td>An extra local read root for the legacy <code>validate_recipe</code>/<code>render_recipe</code> paths, repeatable; or <code>GENEFOX_MCP_ALLOWED_ROOTS</code> (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused.</td>
+</tr>
+<tr>
 <td><code>--warm &lt;list&gt;</code></td>
 <td>Comma-separated background prefetch: <code>toil</code>, <code>pancan</code>, or project ids the tools accept (for example <code>TCGA-BRCA</code>). Unknown tokens are logged and skipped. Skipped entirely without resources.</td>
 </tr>
