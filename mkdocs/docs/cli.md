@@ -119,6 +119,7 @@ corrupt the protocol stream.
 | `--output-dir <dir>` | Where figures, CSVs, recipes and HTML are written; or `GENEFOX_OUTPUT_DIR`. Default `<system temp>/genefox-mcp`. |
 | `--enable-legacy-tools` | Also list `report_export_pdf`, `report_export_html`, `validate_recipe`, `fetch_url` and `render_recipe`. These take local paths or URLs. |
 | `--imported-store <dir>` | The local imported-dataset store that the legacy `render_recipe` may read for imported recipes. Only this flag names it; no tool argument can. |
+| `--allow-root <dir>` | An extra local read root for the legacy `validate_recipe`/`render_recipe` paths, repeatable; or `GENEFOX_MCP_ALLOWED_ROOTS` (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused. |
 | `--warm <list>` | Comma-separated background prefetch: `toil`, `pancan`, or project ids the tools accept (for example `TCGA-BRCA`). Unknown tokens are logged and skipped. Skipped entirely without resources. |
 | `--call-timeout <seconds>` | One deadline, from 1 to 3600 seconds, for every call, replacing each tool's own. |
 | `--max-concurrent-calls <n>` | How many `tools/call`s run at once, from 1 to 64 (default: half the processors, at least 2 and at most 4). Up to 16 more queue; beyond that a call answers `rate_limited` (retryable). |

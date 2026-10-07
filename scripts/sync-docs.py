@@ -22,6 +22,8 @@ def public(text):
     text = text.replace("the app's `Sources/Locus/Resources`", "the app's scientific resources directory")
     text = text.replace('`Sources/Locus/Resources`', "the app's scientific resources directory")
     text = text.replace('/src/Sources/Locus/Resources', '/path/to/Resources')
+    text = text.replace('GENEFOX_RESOURCES=Sources/Locus/Resources', 'GENEFOX_RESOURCES=/path/to/Resources')
+    text = text.replace('../Tools/genefox/README.md#mcp-transport-cassettes', 'install.md#mcp-transport-cassettes')
     text = text.replace("FoxCore's engine", "GeneFox's shared engine")
     text = text.replace('same FoxCore function', 'same shared function')
     text = text.replace('FoxCore reached a host', 'The server reached a host')

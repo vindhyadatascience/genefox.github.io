@@ -181,7 +181,45 @@ These are the environment variables the CLI reads:
 | `GENEFOX_CACHE_DIR` | every subcommand | Download cache directory, when no `--cache-dir` flag is given. |
 | `XDG_CACHE_HOME` | Linux cache default | Base directory for the default `GeneFoxCLI` download cache (read by Foundation). |
 | `GENEFOX_OUTPUT_DIR` | `mcp`, `report export`, `doctor` | Output directory, when no `--output-dir` flag is given. |
+| `GENEFOX_MCP_ALLOWED_ROOTS` | `mcp` | Extra local read roots for the legacy path tools, path-separated (`:` on POSIX, `;` on Windows); added to `--allow-root`. |
+| `GENEFOX_TRANSPORT` | `mcp`, `doctor` | `record:<directory>` or `replay:<directory>`; unset uses live transport. Invalid settings fail startup. |
 
 The default output directory comes from Foundation's `FileManager.temporaryDirectory`, which
 follows the platform's usual temporary-directory setting (for example `TMPDIR` on macOS and
 Linux).
+
+## MCP transport cassettes
+
+Start `GENEFOX_TRANSPORT=record:./cassettes genefox mcp` to wrap the existing
+host-allowlisted live transport. Start `GENEFOX_TRANSPORT=replay:./cassettes genefox mcp`
+to serve only recorded responses. Paths may be relative or begin with `~`; the first colon
+separates mode from path. An unset variable uses live transport. Empty or invalid values
+exit 64 before the MCP server accepts input. `doctor` validates the same configuration.
+Tool provenance identifies the launch mode as `live`, `record`, or `replay`, including
+results served from memory. `fetched_at` remains the time the tool result was produced.
+
+Cassette mode supports bounded in-memory responses. Disk-streaming downloads are refused
+rather than materialized in memory or sent through a live fallback; use live mode for
+those datasets. An isolated replay cache makes missing transport coverage visible.
+
+Each request's filename is `<sha256>.cassette`, where SHA-256 covers the UTF-8 HTTP method,
+a newline, the absolute URL, a newline, and the raw request body (empty when absent).
+Headers do not enter the key. Streamed request bodies and bodies that cannot be checked as UTF-8 are refused. A replay miss fails with
+its key and URL and never contacts the network. Corrupt files, unreadable files and response
+size-limit failures also fail; they never fall through to live transport.
+
+A cassette is one atomically written plain file. Its UTF-8 metadata is
+`GENEFOX-CASSETTE-1\n<status>\n<header-count>\n`, then sorted lowercase `name:value` header
+lines, one blank line, then the exact binary response body. With zero headers, the count
+line is followed directly by the blank line. Only `content-type`, `content-encoding`,
+`retry-after`, `etag`, and `last-modified` are stored. Metadata is capped at 16 KiB; the
+caller's byte ceiling still applies to the body. Non-2xx responses are recorded and replayed
+with the shared HTTP status/retry policy. A repeated key replaces that file atomically;
+this is a response snapshot, not an ordered sequence of changing server answers.
+
+Requests carrying Authorization, proxy authorization, cookies, or token/API-key/secret/
+credential/password-looking headers are refused before a live call. URL credentials and
+credential-looking query/form/JSON fields (including NCBI `api_key`) are refused too.
+Request headers, URLs and bodies are never persisted; auth and cookie response headers are
+excluded. Cassettes retain the upstream response body verbatim, so use public-data tools
+and review response content before sharing recordings.

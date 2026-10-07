@@ -22,6 +22,7 @@ genefox mcp --resources /path/to/Resources --output-dir ~/genefox-out
 | `--output-dir <dir>` | Where figures, CSVs, recipes and HTML are written; or set `GENEFOX_OUTPUT_DIR`. Default `<system temp>/genefox-mcp`. Files are only ever created there, never overwritten. |
 | `--enable-legacy-tools` | Also list the five [legacy tools](#legacy-tools), which take local paths or URLs. |
 | `--imported-store <dir>` | The imported-dataset store the legacy `render_recipe` may read. A tool argument cannot name a store. |
+| `--allow-root <dir>` | An extra local read root for the legacy `validate_recipe`/`render_recipe` paths, repeatable; or `GENEFOX_MCP_ALLOWED_ROOTS` (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused. |
 | `--warm <list>` | Prefetch `toil`, `pancan` and/or project ids such as `TCGA-BRCA`, in the background. |
 | `--call-timeout <seconds>` | One deadline (1–3600 s) for every call, replacing each tool's own. |
 | `--max-concurrent-calls <n>` | How many `tools/call`s run at once (1–64; default half the processors, 2 to 4). Up to 16 more queue; beyond that a call answers `rate_limited`. See [Limits](#limits-deadlines-and-cancellation). |
@@ -209,7 +210,7 @@ fetch it.
 
 A successful result is a JSON object. Analysis tools return `tool`, `data`, `display` (the
 screen's sentences and tables, to quote verbatim), `caveats` and `provenance`. `provenance`
-holds `sources`, `genefox_cli` (the version), `transport: "live"`, `fetched_at` and, where a
+holds `sources`, `genefox_cli` (the version), `transport: "live"` (or `"record"` / `"replay"`), `fetched_at` and, where a
 screen applies, `parity_screen`.
 
 When a result list is capped, `truncated` discloses its `field`, `kept` and `total` counts.
@@ -420,6 +421,15 @@ also has counts per status. On this build, `list_coverage` reported 54 available
 partial, 12 planned and 6 not available headlessly. A final row summarises Pro operations
 without naming any. Call `list_coverage` for the current state rather than relying on these
 numbers.
+
+Legacy local recipe paths are limited to the output directory, `--imported-store`, and
+repeatable `--allow-root` directories (also `GENEFOX_MCP_ALLOWED_ROOTS`, separated by `:` on
+POSIX or `;` on Windows). The server resolves links before testing containment, then opens
+that canonical file without following replacement links. Validation and rendering consume
+the bytes from that held handle, rather than reopening the model's path. Devices, sockets,
+FIFOs, directories, and files above 64 MiB are refused with `local_path_*` codes; the byte
+ceiling also applies if a file grows while it is read. `fetch_url` accepts only an allowed
+public HTTP(S) URL and never turns a `file:` URL into a local read.
 
 ## Plugins
 
