@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Build the GeneFox CLI/MCP docs (MkDocs Material) into /docs at the repo root.
-# Run from anywhere. Creates .venv on first use. Fails on any warning.
+# Run with --app-repo <checkout> --genefox <matching-binary>. Fails on docs drift or warnings.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 PY="${PYTHON:-python3}"
+"$PY" scripts/sync-docs.py "$@"
 if [ ! -x .venv/bin/python ]; then
   "$PY" -m venv .venv
 fi
