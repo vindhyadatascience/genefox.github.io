@@ -93,3 +93,79 @@ server-side redirects — for link-shortener analytics, or because a scanner ref
 client-side hop — that means putting Cloudflare in front of the domain or moving hosting to
 Firebase, which the project already uses for Functions and Firestore. Neither is needed for
 the pages to work today.
+
+## Account linking page (`/link`)
+
+`link/index.html` is where a person approves the GeneFox command-line tools on a computer.
+The helper prints a code like `3F9A0-B21C7` and the address `https://genefox.app/link`; the
+person signs in, enters the code, sees which computer is asking, and chooses **Approve** or
+**Don't link**. The computer then asks for its own on-screen confirmation.
+
+- `link/index.html` — markup and inline CSS in the site's style (nav, tokens, footer).
+- `link/link.js` — the flow. Firebase JS SDK 10.14.1 from `www.gstatic.com` (Auth +
+  Functions only, no Analytics), calling the `linkApprove` callable in `us-central1`.
+- `link/code.js` — pure helpers (code format, host-label cleaning, countdown, error
+  wording), kept DOM-free so they can be tested with `node --test`.
+
+Backend contract: `RNABrowser/functions/src/helper-link.ts` (`linkApprove` with
+`{userCode, action: inspect|approve|decline}`; decisions echo the `thumbprint` and `host`
+that `inspect` returned; the signed-in uid alone picks the account). A `?code=` in the URL
+only pre-fills the field: nothing is checked or approved until the person presses buttons.
+
+Safety notes: the helper's `hostLabel` is untrusted, so it is cleaned (control and bidi
+characters removed, capped at 64 characters) and only ever written with `textContent`. The
+page sets a Content-Security-Policy meta tag, sends no referrer, is `noindex`, keeps the
+sign-in for the tab only (session persistence), and refuses to work inside a frame.
+
+### Before it works in production
+
+None of these are done by this branch. Do them in the Firebase / Google Cloud / Apple /
+Microsoft consoles:
+
+1. **Authorized domains.** Firebase console → Authentication → Settings → Authorized
+   domains: add `genefox.app`.
+2. **Sign-in providers on the web.** The page uses popups through
+   `vds-genefox.firebaseapp.com/__/auth/handler` (popups, not redirects, because browsers'
+   third-party storage partitioning breaks redirects when the auth domain differs from the
+   page's domain).
+   - **Google:** enabled in Firebase Authentication; nothing else needed for popups.
+   - **Apple:** Firebase's Apple provider needs a **Services ID** (plus Team ID, Key ID and
+     the Sign in with Apple private key) for web sign-in. In Apple Developer → Identifiers →
+     the Services ID → Sign in with Apple → Configure: add domain
+     `vds-genefox.firebaseapp.com` and return URL
+     `https://vds-genefox.firebaseapp.com/__/auth/handler`.
+   - **Microsoft:** Firebase's `microsoft.com` provider must be enabled with the Entra app's
+     client ID and secret, and that app registration needs a **Web** platform redirect URI
+     `https://vds-genefox.firebaseapp.com/__/auth/handler`. Accounts created by the macOS
+     custom-token path are registered with the `microsoft.com` provider, so the web popup
+     should land on the same account; confirm with one real sign-in.
+3. **Web API key restrictions.** Google Cloud console → APIs & Services → Credentials →
+   the browser key `AIzaSyCd…T_c`: if API restrictions are on, they must include
+   **Identity Toolkit API**, **Token Service API** and **Cloud Functions API**. If HTTP
+   referrer restrictions are on, add `https://genefox.app/*` and
+   `https://vds-genefox.firebaseapp.com/*`.
+4. **Deploy the six functions** (`linkStart`, `linkApprove`, `linkPoll`, `approvalCreate`,
+   `approvalDecide`, `approvalPoll`) from `RNABrowser/functions`:
+   `firebase deploy --only functions:genefox-auth` (never a bare `firebase deploy`). Their
+   CORS allows only `https://genefox.app`, so the page must be served from exactly that
+   origin.
+
+The public web config in `link.js` has only `apiKey`, `authDomain` and `projectId`; Auth and
+Functions need nothing else. (TODO if ever needed: `appId`/`messagingSenderId` from the
+Firebase console's web app settings.)
+
+### Testing locally against the emulators
+
+```sh
+# in a copy of RNABrowser/functions with an entry that calls initializeApp()
+FIREBASE_DEBUG_MODE=true FIREBASE_DEBUG_FEATURES='{"enableCors":true}' \
+  firebase emulators:start --only auth,functions,firestore --project demo-genefox
+python3 -m http.server 8000      # from this repository's root
+open 'http://localhost:8000/link/?emulator=1'
+```
+
+`?emulator=1` is honoured only on `localhost`/`127.0.0.1`; it points the page at the Auth
+(9099) and Functions (5001) emulators under the `demo-genefox` project, which can never reach
+production. The debug CORS flag is needed because the functions only allow `genefox.app`.
+In the emulator `rawRequest.ip` is empty, so the rate limiter refuses every call unless the
+local copy falls back to a fixed address.
