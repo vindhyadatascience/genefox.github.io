@@ -1,0 +1,13 @@
+[
+  {
+    "relation": [ "delegate_permission/common.get_login_creds" ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.vds.GeneFox",
+      "sha256_cert_fingerprints": [
+        "8D:00:3B:09:F2:F8:A4:4E:C5:D9:C3:51:42:EA:2C:9A:2C:79:9A:8A:CF:2E:8C:F0:9E:B2:C1:0B:B4:40:47:B5",
+        "F0:B7:94:14:11:83:91:A6:12:04:E4:28:34:9C:50:2C:5A:B9:FF:23:B7:2A:CA:FA:02:7E:0B:A1:00:7F:7E:26"
+      ]
+    }
+  }
+]
