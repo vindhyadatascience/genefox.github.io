@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Approve AI Assistant Access</title>
+<meta name="description" content="Approve or decline a request from AI assistants on your computer to use GeneFox data, and manage the passkeys that approve them.">
+<!-- An approval page, not content: keep it out of search results and send no referrer
+     (the URL may carry a ?code= prefill or an email link's one-time code). -->
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<!-- GitHub Pages cannot send headers, so the policy rides in a meta tag: exactly the policy of
+     docs/WebPasskeys2026-10.md 6.2 (tests/page.test.mjs checks it). frame-ancestors is ignored in a
+     meta tag; agent-access.js refuses to run inside a frame instead (clickjacking). Emulator
+     sources are added only in a local copy (tests/local-copy.mjs), never here. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-central1-vds-genefox.cloudfunctions.net https://firestore.googleapis.com; frame-src https://vds-genefox.firebaseapp.com https://apis.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<link rel="canonical" href="https://genefox.app/agent-access/">
+<link rel="icon" type="image/png" href="../assets/genefox-icon.png">
+<meta name="theme-color" content="#0E1430">
+<meta name="color-scheme" content="dark">
+<style>
+  :root{
+    --ground:#0E1430;--ground-2:#141C38;--navy:#1B2547;
+    --line:rgba(150,163,214,.14);--line-strong:rgba(150,163,214,.26);
+    --magenta:#B53694;--magenta-hot:#E24FB6;--pink:#D57BBA;--pink-pale:#F4D7E7;--purple:#6A3A9A;--cyan:#58E5D6;
+    --text:#E7E9F5;--muted:#9AA2C4;--muted-dim:#6B7299;
+    --danger:#FF9AA8;--ok:#7FE6C0;
+    --display:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --maxw:1180px;--r:16px;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;min-height:100vh;
+    display:flex;flex-direction:column}
+  main{flex:1}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.15;letter-spacing:-.02em;text-wrap:balance;margin:0}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  [hidden]{display:none !important}
+  ::selection{background:rgba(226,79,182,.32);color:#fff}
+  :focus-visible{outline:2px solid var(--magenta-hot);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(16px,5vw,40px)}
+  .nowrap{white-space:nowrap}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* nav (shared with the other pages) */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:linear-gradient(180deg,rgba(14,20,48,.86),rgba(14,20,48,.55));border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .brand .tile{width:34px;height:34px;border-radius:9px;flex:none;box-shadow:0 0 0 1px var(--line-strong),0 6px 18px rgba(0,0,0,.35)}
+  .nav-links{display:flex;align-items:center;gap:32px}
+  .nav-links a.link{font-size:15px;color:var(--muted);transition:color .2s}
+  .nav-links a.link:hover{color:var(--text)}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);font-weight:600;font-size:16px;
+    min-height:46px;padding:11px 22px;border-radius:11px;cursor:pointer;border:1px solid transparent;color:#fff;
+    background:linear-gradient(135deg,var(--magenta),var(--purple));
+    box-shadow:0 8px 24px -6px rgba(181,54,148,.6),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .18s,box-shadow .25s,opacity .2s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px -8px rgba(226,79,182,.7)}
+  .btn-quiet{background:transparent;color:var(--text);border-color:var(--line-strong);box-shadow:none}
+  .btn-quiet:hover{border-color:var(--pink);background:rgba(213,123,186,.08);box-shadow:none}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+  .btn-provider{width:100%;justify-content:flex-start;background:rgba(255,255,255,.04);color:var(--text);
+    border-color:var(--line-strong);box-shadow:none}
+  .btn-provider:hover{border-color:var(--pink);background:rgba(213,123,186,.08);box-shadow:none}
+  .btn-provider svg{width:20px;height:20px;flex:none}
+  .linkish{font:inherit;background:none;border:0;padding:2px 0;color:var(--pink);cursor:pointer;
+    border-bottom:1px solid rgba(213,123,186,.4)}
+  .linkish:hover{color:var(--pink-pale);border-bottom-color:var(--pink-pale)}
+  @media (prefers-reduced-motion:reduce){.btn,.btn:hover{transition:none;transform:none}}
+
+  /* header */
+  .doc-head{position:relative;overflow:hidden;padding-block:clamp(36px,6vw,64px) clamp(20px,3vw,32px)}
+  .doc-head .glow{position:absolute;z-index:0;top:-180px;right:-120px;width:460px;height:460px;border-radius:50%;
+    filter:blur(70px);background:radial-gradient(circle,rgba(181,54,148,.3),transparent 68%);pointer-events:none}
+  .doc-head .inner{position:relative;z-index:1;max-width:640px;margin-inline:auto}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:500;margin-bottom:14px}
+  .doc-head h1{font-size:clamp(30px,6vw,46px);font-weight:800;margin-bottom:12px}
+  .doc-head p{margin:0;color:var(--muted)}
+
+  /* panel */
+  .panel-wrap{max-width:640px;margin-inline:auto;padding-bottom:clamp(40px,6vw,72px)}
+  .panel{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015));border:1px solid var(--line-strong);
+    border-radius:var(--r);padding:clamp(20px,4vw,30px);margin-top:18px}
+  .panel h2{font-size:22px;margin-bottom:8px}
+  .panel p{margin:0 0 14px;color:#D7DBEC}
+  .panel p.muted,.muted{color:var(--muted)}
+  .stack{display:grid;gap:10px;margin-top:6px}
+  .account{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;justify-content:space-between;
+    font-size:15px;color:var(--muted);padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(8,12,28,.4)}
+  .account strong{color:var(--text);font-weight:600;overflow-wrap:anywhere}
+
+  label.field{display:block;font-weight:600;margin-bottom:8px}
+  .code-input{width:100%;font-family:var(--mono);font-size:clamp(22px,6vw,28px);letter-spacing:.14em;text-align:center;
+    padding:12px 14px;border-radius:12px;background:rgba(8,12,28,.6);color:var(--text);border:1px solid var(--line-strong)}
+  .code-input::placeholder{color:var(--muted-dim)}
+  .code-input:focus-visible{outline:2px solid var(--magenta-hot);outline-offset:2px;border-color:transparent}
+  .code-input[aria-invalid="true"]{border-color:var(--danger)}
+  .hint{font-size:14px;color:var(--muted);margin:8px 0 0}
+  .error{color:var(--danger);font-size:15px;margin:10px 0 0;min-height:0}
+  .error:empty{display:none}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .actions .btn{flex:1 1 180px}
+
+  /* confirmation */
+  .confirm{border-color:rgba(226,79,182,.45);background:linear-gradient(180deg,rgba(181,54,148,.1),rgba(106,58,154,.05))}
+  .confirm h2{font-size:clamp(22px,4.5vw,27px);margin-bottom:14px;overflow-wrap:anywhere}
+  .confirm h2:focus{outline:none}
+  .confirm h2:focus-visible{outline:2px solid var(--magenta-hot)}
+  .hostname{color:var(--pink-pale);overflow-wrap:anywhere}
+  .email{color:#fff;font-weight:600;overflow-wrap:anywhere}
+  .timer{font-family:var(--mono);font-size:14px;color:var(--muted);margin:4px 0 0}
+  .timer b{color:var(--pink-pale);font-weight:500}
+  .outcome h2:focus{outline:none}
+  .outcome h2:focus-visible{outline:2px solid var(--magenta-hot)}
+  .outcome.ok{border-color:rgba(127,230,192,.4)}
+  .outcome .mark{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+  .outcome.ok .mark{color:var(--ok)}
+  .outcome.no .mark{color:var(--muted)}
+  .busy{opacity:.7;pointer-events:none}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding-block:28px;background:rgba(8,12,28,.6);font-size:13px;color:var(--muted-dim)}
+  footer .row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--muted)}
+  footer a:hover{color:var(--pink-pale)}
+  footer .vds{display:inline-flex;align-items:center;gap:9px}
+  footer .vds img{width:26px;height:auto;opacity:.9}
+  footer nav{display:flex;gap:18px}
+  /* agent-access additions */
+  .field-input{width:100%;font:inherit;padding:11px 14px;border-radius:12px;background:rgba(8,12,28,.6);color:var(--text);
+    border:1px solid var(--line-strong)}
+  .field-input:focus-visible{outline:2px solid var(--magenta-hot);outline-offset:2px;border-color:transparent}
+  .choices{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px}
+  .choices li{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(8,12,28,.35)}
+  .choices input{width:20px;height:20px;margin-top:3px;flex:none;accent-color:var(--magenta-hot)}
+  .choices label{flex:1;cursor:pointer;overflow-wrap:anywhere}
+  .choices .note{display:block;font-size:14px;color:var(--muted)}
+  .choices li.off{opacity:.65}
+  .choices li.off label{cursor:not-allowed}
+  .group-title{font-weight:600;margin:18px 0 4px}
+  .what{font-size:15px;color:var(--muted);border-left:3px solid var(--line-strong);padding-left:12px}
+  .warn{font-size:15px;color:var(--pink-pale)}
+  .notice{border-color:rgba(255,154,168,.45);background:rgba(255,154,168,.06)}
+  .banner{border-color:rgba(255,200,120,.5);background:rgba(255,200,120,.07)}
+  .banner p{margin:0 0 10px}
+  .ok-text{color:var(--ok);font-size:15px;margin:10px 0 0}
+  .ok-text:empty{display:none}
+  .keys{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:10px}
+  .keys li{padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(8,12,28,.35)}
+  .keys .name{font-weight:600;overflow-wrap:anywhere}
+  .keys .meta{font-size:14px;color:var(--muted);margin:2px 0 0}
+  .keys .waiting{font-size:14px;color:var(--pink-pale);margin:4px 0 0}
+  .keys .row-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .keys .row-actions .btn{min-height:38px;padding:7px 16px;font-size:15px;flex:0 0 auto}
+  .events{list-style:none;margin:6px 0 0;padding:0;font-size:14px;color:var(--muted);display:grid;gap:6px}
+  dl.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0 0 14px;font-size:15px}
+  dl.facts dt{color:var(--muted)}
+  dl.facts dd{margin:0;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../" aria-label="GeneFox home">
+      <img class="tile" src="../assets/genefox-icon.png" alt="">GeneFox
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="link" href="../faq/">FAQ</a>
+      <a class="link" href="../privacy/">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="doc-head">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap inner">
+      <p class="eyebrow">AI assistant access</p>
+      <h1>Approve AI assistant access</h1>
+      <p>An AI assistant or the GeneFox helper on your computer showed you a code and this address. Sign in with your GeneFox account, enter the code, and decide what it may use.</p>
+    </div>
+  </section>
+
+  <div class="wrap panel-wrap">
+    <noscript>
+      <div class="panel"><p>This page needs JavaScript to sign you in and check the code. Turn JavaScript on, then reload.</p></div>
+    </noscript>
+
+    <!-- A passkey was added recently, or one is still waiting (design 4.2). -->
+    <section class="panel banner" id="banner" aria-labelledby="banner-title" hidden>
+      <h2 id="banner-title" class="sr-only">Passkey notice</h2>
+      <p id="banner-text"></p>
+      <button type="button" class="linkish" id="banner-review">Review passkeys</button>
+    </section>
+
+    <!-- Sign in -->
+    <section class="panel" id="step-signin" aria-labelledby="signin-title" hidden>
+      <h2 id="signin-title">Sign in to GeneFox</h2>
+      <p class="muted">Use the same account you use in the GeneFox app.</p>
+      <div class="stack" role="group" aria-label="Sign-in methods">
+        <button type="button" class="btn btn-provider" data-provider="apple">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M16.37 1.43c.09 1.02-.32 2.02-.94 2.74-.66.77-1.74 1.36-2.79 1.28-.11-1 .38-2.03.97-2.68.66-.74 1.8-1.3 2.76-1.34zM20.6 17.2c-.53 1.22-.78 1.76-1.46 2.84-.95 1.5-2.29 3.36-3.95 3.37-1.47.02-1.85-.96-3.85-.95-2 .01-2.41.97-3.89.95-1.66-.02-2.93-1.7-3.88-3.19-2.65-4.18-2.93-9.08-1.3-11.69 1.17-1.86 3.01-2.95 4.74-2.95 1.76 0 2.87.97 4.33.97 1.42 0 2.28-.97 4.32-.97 1.54 0 3.17.84 4.33 2.29-3.8 2.08-3.19 7.5.46 9.28z"/></svg>
+          Continue with Apple
+        </button>
+        <button type="button" class="btn btn-provider" data-provider="google">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.4c-.24 1.4-1.7 4.1-5.4 4.1-3.25 0-5.9-2.7-5.9-6s2.65-6 5.9-6c1.85 0 3.1.8 3.8 1.45l2.6-2.5C16.75 3.6 14.6 2.6 12 2.6 6.8 2.6 2.6 6.8 2.6 12s4.2 9.4 9.4 9.4c5.4 0 9-3.8 9-9.2 0-.6-.07-1.1-.15-1.6H12z"/></svg>
+          Continue with Google
+        </button>
+        <button type="button" class="btn btn-provider" data-provider="microsoft">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M3 3h8.5v8.5H3z"/><path fill="#7FBA00" d="M12.5 3H21v8.5h-8.5z"/><path fill="#00A4EF" d="M3 12.5h8.5V21H3z"/><path fill="#FFB900" d="M12.5 12.5H21V21h-8.5z"/></svg>
+          Continue with Microsoft
+        </button>
+      </div>
+      <p class="hint">A sign-in window opens. If nothing happens, allow pop-ups for this site.</p>
+      <p class="error" id="signin-error" role="alert"></p>
+    </section>
+
+    <!-- Signed-in account -->
+    <div class="account panel" id="account" hidden>
+      <span>Signed in as <strong id="account-name"></strong></span>
+      <button type="button" class="linkish" id="signout">Not you? Sign out</button>
+    </div>
+
+    <!-- This browser can't run a passkey ceremony -->
+    <section class="panel notice" id="no-passkeys" hidden>
+      <p id="no-passkeys-text"></p>
+    </section>
+
+    <!-- Sign in again: shown over the current step when a step needs a sign-in from the last 5 minutes -->
+    <section class="panel notice" id="reauth" aria-labelledby="reauth-text" hidden>
+      <p id="reauth-text"></p>
+      <div class="actions">
+        <button type="button" class="btn" id="reauth-go"></button>
+      </div>
+      <p class="error" id="reauth-error" role="alert"></p>
+    </section>
+
+    <!-- Enter the code -->
+    <section class="panel" id="step-code" aria-labelledby="code-title" hidden>
+      <h2 id="code-title">Enter the approval code</h2>
+      <form id="code-form" novalidate>
+        <label class="field" for="code">Enter the approval code that your AI assistant or the GeneFox helper on your computer shows.</label>
+        <input class="code-input" id="code" name="code" type="text" inputmode="text" autocomplete="off"
+          autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="16"
+          placeholder="XXXXX-XXXXX" aria-describedby="code-hint code-error" aria-invalid="false">
+        <p class="hint" id="code-hint">10 characters: the digits 0 to 9 and the letters A to F, for example <span class="nowrap">3F9A0-B21C7</span>.</p>
+        <p class="error" id="code-error" role="alert"></p>
+        <div class="actions">
+          <button type="submit" class="btn" id="code-submit">Continue</button>
+        </div>
+      </form>
+      <p class="hint"><button type="button" class="linkish" data-open-passkeys>Manage your passkeys</button></p>
+    </section>
+
+    <!-- Review the request (the approved wording) -->
+    <section class="panel confirm" id="step-review" aria-labelledby="review-title" hidden>
+      <h2 id="review-title" tabindex="-1"></h2>
+      <p id="review-body"></p>
+      <div id="choose" hidden>
+        <p class="group-title" id="choose-heading"></p>
+        <ul class="choices" id="dataset-list" aria-labelledby="choose-heading"></ul>
+      </div>
+      <div id="named" hidden>
+        <p class="group-title" id="named-heading">Datasets</p>
+        <ul class="choices" id="named-list" aria-labelledby="named-heading"></ul>
+      </div>
+      <div id="caps" hidden>
+        <p class="group-title" id="caps-heading">GeneFox Pro features</p>
+        <ul class="choices" id="cap-list" aria-labelledby="caps-heading"></ul>
+      </div>
+      <p class="error" id="review-notice" role="status"></p>
+      <p class="what" id="review-what"></p>
+      <p class="warn" id="review-warn"></p>
+      <p class="timer" id="timer" role="timer" aria-live="off">This request expires in <b id="remaining"></b>.</p>
+      <div class="actions">
+        <button type="button" class="btn" id="cancel"></button>
+        <button type="button" class="btn btn-quiet" id="approve"></button>
+      </div>
+      <p class="hint" id="approve-hint"></p>
+      <div class="actions" id="review-enroll" hidden>
+        <button type="button" class="btn btn-quiet" id="review-add-passkey">Add a passkey on this device</button>
+      </div>
+      <p class="error" id="review-error" role="alert"></p>
+    </section>
+
+    <!-- Add a passkey (case A: vouched by an existing passkey; case B: email link, then 24 hours) -->
+    <section class="panel" id="step-enroll" aria-labelledby="enroll-title" hidden>
+      <h2 id="enroll-title" tabindex="-1">Add a passkey</h2>
+      <p id="enroll-why"></p>
+      <form id="enroll-form" novalidate>
+        <label class="field" for="device-label">Passkey name</label>
+        <input class="field-input" id="device-label" type="text" maxlength="64" autocomplete="off" spellcheck="false" aria-describedby="device-hint">
+        <p class="hint" id="device-hint">Give the passkey a name, such as the device it is on.</p>
+        <div class="actions">
+          <button type="submit" class="btn" id="enroll-start">Continue</button>
+          <button type="button" class="btn btn-quiet" data-back>Back</button>
+        </div>
+      </form>
+      <div id="enroll-vouch" hidden>
+        <p>Your account already has a passkey. To add another, first confirm with one you already have.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="vouch-go">Confirm with an existing passkey</button>
+        </div>
+      </div>
+      <div id="enroll-create" hidden>
+        <p id="enroll-create-text"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="create-go">Create passkey</button>
+        </div>
+      </div>
+      <p class="error" id="enroll-error" role="alert"></p>
+    </section>
+
+    <!-- Case B: waiting for the email link -->
+    <section class="panel" id="step-email" aria-labelledby="email-title" hidden>
+      <h2 id="email-title" tabindex="-1">Check your email</h2>
+      <p id="email-body"></p>
+      <p class="muted" id="email-wait">Waiting for you to open the link…</p>
+      <div id="email-create" hidden>
+        <p>The email link was confirmed. Now create the passkey on this device.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="email-create-go">Create passkey</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-back>Start again</button>
+      </div>
+      <p class="error" id="email-error" role="alert"></p>
+    </section>
+
+    <!-- The email link, opened on any device: says what it confirms before it confirms anything -->
+    <section class="panel confirm" id="step-confirm" aria-labelledby="confirm-title" hidden>
+      <h2 id="confirm-title" tabindex="-1">Checking the email link…</h2>
+      <dl class="facts" id="confirm-facts" hidden>
+        <dt>Passkey name</dt><dd id="confirm-label"></dd>
+        <dt>Asked for</dt><dd id="confirm-when"></dd>
+        <dt>From</dt><dd id="confirm-from"></dd>
+      </dl>
+      <p class="warn" id="confirm-warn" hidden>Only confirm if you just asked to add a passkey on genefox.app. A passkey lets whoever holds it approve AI assistant access to your account. If you didn't ask for this, don't confirm: close this page, and nothing is added.</p>
+      <div class="actions" id="confirm-actions" hidden>
+        <button type="button" class="btn" id="confirm-no">I didn't ask for this</button>
+        <button type="button" class="btn btn-quiet" id="confirm-yes">Confirm</button>
+      </div>
+      <p class="ok-text" id="confirm-ok" role="status"></p>
+      <p class="error" id="confirm-error" role="alert"></p>
+    </section>
+
+    <!-- Every passkey is still in its 24-hour wait -->
+    <section class="panel" id="step-cooling" aria-labelledby="cooling-title" hidden>
+      <h2 id="cooling-title" tabindex="-1"></h2>
+      <p id="cooling-body"></p>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-open-passkeys>Manage passkeys</button>
+        <button type="button" class="btn btn-quiet" data-back>Back</button>
+      </div>
+    </section>
+
+    <!-- Passkeys: list, remove, recent events -->
+    <section class="panel" id="step-passkeys" aria-labelledby="passkeys-title" hidden>
+      <h2 id="passkeys-title" tabindex="-1">Passkeys</h2>
+      <p class="muted">Passkeys approve AI assistants' access to GeneFox Pro or licensed data on your linked computers.</p>
+      <ul class="keys" id="passkey-list" aria-labelledby="passkeys-title"></ul>
+      <p class="muted" id="passkey-empty" hidden>No passkeys yet.</p>
+      <p class="group-title" id="events-title" hidden>Recent changes</p>
+      <ul class="events" id="event-list" aria-labelledby="events-title"></ul>
+      <div class="actions">
+        <button type="button" class="btn" id="passkeys-add">Add a passkey on this device</button>
+        <button type="button" class="btn btn-quiet" data-back>Back</button>
+      </div>
+      <p class="ok-text" id="passkeys-ok" role="status"></p>
+      <p class="error" id="passkeys-error" role="alert"></p>
+    </section>
+
+    <!-- Outcome -->
+    <section class="panel outcome" id="step-done" aria-labelledby="done-title" hidden>
+      <p class="mark" id="done-mark"></p>
+      <h2 id="done-title" tabindex="-1"></h2>
+      <p id="done-body"></p>
+      <p class="muted" id="done-next"></p>
+    </section>
+
+    <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <span class="vds"><img src="../assets/vds-symbol.svg" alt="Vindhya Data Science">&copy; 2026 Vindhya Data Science</span>
+    <nav aria-label="Legal">
+      <a href="../privacy/">Privacy Policy</a>
+      <a href="../terms/">Terms of Service</a>
+      <a href="mailto:info@vindhyadatascience.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="module" src="./agent-access.js"></script>
+</body>
+</html>

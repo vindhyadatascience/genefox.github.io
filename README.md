@@ -16,6 +16,22 @@ Open `index.html` in a browser, or serve the folder:
 python3 -m http.server 8000   # then visit http://localhost:8000
 ```
 
+## /agent-access (approve AI assistant access, web passkeys)
+
+`agent-access/` is the approval and passkey page of the app repository's
+`docs/WebPasskeys2026-10.md`. It is part of the passkey trust base for `genefox.app`: any page
+on this site can ask for passkey gestures, so review every change to this repository with that
+in mind. Its tests need Node 22 or later and nothing installed:
+
+```sh
+node --test "agent-access/tests/*.test.mjs"
+```
+
+They check the CSP against the design's section 6.2, that nothing writes HTML from a string,
+the pinned Firebase SDK, and the page's logic. For the Firebase emulators, make a local copy whose
+CSP allows them (never publish it): `node agent-access/tests/local-copy.mjs <dir>`, then serve
+`<dir>` and open `/agent-access/?emulator=1`.
+
 ## Deploy (GitHub Pages)
 
 GitHub Pages deploys from `main` / root to [genefox.app](https://genefox.app).
