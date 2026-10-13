@@ -151,7 +151,7 @@ export function describeAccessError(err) {
     case "passkey-limit": return "This account already has the most passkeys it can hold. Remove one first.";
     case "ticket-unavailable":
     case "challenge-unavailable":
-      return "That passkey request has expired or was already used. Start again.";
+      return "That passkey request has expired, was already used, or was turned down from the email link. Start again.";
     case "passkey-not-verified": return "That passkey could not be verified. Start again.";
     case "passkey-required":
       return /remove/i.test(message)

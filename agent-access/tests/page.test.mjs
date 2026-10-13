@@ -12,6 +12,14 @@ const DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 const html = readFileSync(join(DIR, "index.html"), "utf8");
 const scripts = readdirSync(DIR).filter((f) => f.endsWith(".js")).map((f) => [f, readFileSync(join(DIR, f), "utf8")]);
 const main = readFileSync(join(DIR, "agent-access.js"), "utf8");
+/** The /link helpers the page imports are part of what it runs. */
+const linkCode = readFileSync(join(DIR, "..", "link", "code.js"), "utf8");
+/** The body of a top-level function in agent-access.js. */
+function body(name) {
+  const start = main.indexOf(`function ${name}(`);
+  assert.ok(start >= 0, name);
+  return main.slice(start, main.indexOf("\n}\n", start));
+}
 
 /** Section 6.2, verbatim. */
 const CSP = [
@@ -47,7 +55,7 @@ test("noindex, no referrer, the canonical address, and one module script from th
 });
 
 test("nothing builds HTML from a string: no innerHTML, outerHTML, insertAdjacentHTML, document.write, eval or Function", () => {
-  for (const [name, source] of [...scripts, ["index.html", html]]) {
+  for (const [name, source] of [...scripts, ["index.html", html], ["../link/code.js", linkCode]]) {
     for (const banned of [/\binnerHTML\b/, /\bouterHTML\b/, /\binsertAdjacentHTML\b/, /\bdocument\.write/, /\beval\s*\(/, /\bnew Function\b/, /\bcreateContextualFragment\b/]) {
       assert.doesNotMatch(source.replace(/^\s*\/\/.*$/gm, ""), banned, `${name}: ${banned}`);
     }
@@ -99,5 +107,43 @@ test("the local emulator copy adds the emulator sources and is refused inside th
     readFileSync(join(out, "link", "code.js"));
   } finally {
     rmSync(out, { recursive: true, force: true });
+  }
+});
+
+test("the page refuses to run in a frame, before Firebase or anything else starts", () => {
+  const guard = main.indexOf("if (window.top !== window.self) {");
+  assert.ok(guard > 0, "frame guard present");
+  assert.match(main.slice(guard, guard + 300), /throw new Error\("framed"\)/);
+  for (const later of ["initializeApp(config)", "onAuthStateChanged(", "openConfirm()"]) {
+    assert.ok(main.indexOf(later) > guard, `${later} runs after the guard`);
+  }
+});
+
+test("the code and email-link parameters are read once, then stripped with replaceState before anything uses the page", () => {
+  assert.equal(main.split("location.search").length - 1, 1, "the address is read in one place, readAddress");
+  assert.match(main, /const address = readAddress\(location\.search\);/);
+  const strip = main.indexOf('history.replaceState(null, "", location.pathname + (q ? `?${q}` : "") + location.hash);');
+  assert.ok(strip > 0);
+  assert.match(main.slice(main.lastIndexOf("{", strip), strip), /const q = address\.keep\.toString\(\);/);
+  for (const later of ["onAuthStateChanged(", "openConfirm()", "api.decide(", "api.emailConfirm("]) {
+    assert.ok(main.indexOf(later) > strip, `${later} comes after the strip`);
+  }
+});
+
+test("removing a passkey: Keep comes first, is the primary button and has focus; Remove is second and plain", () => {
+  const ask = body("askRemove");
+  assert.match(ask, /const keep = el\("button", "btn", "Keep"\);/);
+  assert.match(ask, /const yes = el\("button", "btn btn-quiet", "Remove"\);/);
+  assert.match(ask, /actions\.append\(prompt, keep, yes\);/);
+  assert.match(ask, /keep\.focus\(\);/);
+  assert.doesNotMatch(ask, /yes\.focus\(\)/);
+});
+
+test("\"I didn't ask for this\" spends the ticket on the server; both approval-challenge fetches are checked alike", () => {
+  const no = main.slice(main.indexOf('$("confirm-no").addEventListener'));
+  assert.match(no.slice(0, 600), /action: "reject"/);
+  assert.equal(main.split("api.approvalBegin(").length - 1, 2);
+  for (const [, after] of main.matchAll(/api\.approvalBegin\([^)]*\);\n([^\n]*\n[^\n]*)/g)) {
+    assert.match(after, /prepared = approvalChallenge\(data\);/);
   }
 });

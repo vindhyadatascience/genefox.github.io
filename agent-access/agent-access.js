@@ -308,13 +308,14 @@ function askRemove(item, passkey, nowMs) {
   const prompt = el("p", "meta", `Remove the passkey “${passkeyLabel(passkey.deviceLabel)}”? It stops approving anything new. `
     + "Approvals already made with it stay until they end or you withdraw them under Linked computers."
     + (waiting ? "" : " You'll confirm with one of your passkeys."));
-  const yes = el("button", "btn", "Remove");
-  const keep = el("button", "btn btn-quiet", "Keep");
-  yes.type = "button"; keep.type = "button";
+  // Keep is first, the primary button and focused: a reflexive press keeps the passkey.
+  const keep = el("button", "btn", "Keep");
+  const yes = el("button", "btn btn-quiet", "Remove");
+  keep.type = "button"; yes.type = "button";
   keep.addEventListener("click", () => loadPasskeys());
   yes.addEventListener("click", () => removePasskey(passkey.credentialId, yes, keep, actions));
-  actions.append(prompt, yes, keep);
-  yes.focus();
+  actions.append(prompt, keep, yes);
+  keep.focus();
 }
 
 async function removePasskey(credentialId, yes, keep, actions) {
@@ -512,9 +513,7 @@ async function prepareApproval() {
   try {
     const { data } = await api.approvalBegin({ userCode: review.userCode });
     if (review !== forReview) return;
-    if (!data?.challengeId || !data?.options) throw unexpected();
-    prepared = { challengeId: data.challengeId, options: data.options, expiresAtMs: data.expiresAtMs,
-      clockOffsetMs: Number(data.serverTimeMs) - Date.now() };
+    prepared = approvalChallenge(data);
     if (!busy) updateApprove();
   } catch (err) {
     if (review !== forReview) return;
@@ -528,6 +527,14 @@ async function prepareApproval() {
     }
     refused(err, $("review-error"), () => prepareApproval());
   }
+}
+
+/** webPasskeyApprovalBegin's answer, checked the same way wherever it is fetched. */
+function approvalChallenge(data) {
+  if (!data || typeof data.challengeId !== "string" || !data.options || typeof data.options.challenge !== "string"
+      || !Number.isFinite(data.expiresAtMs) || !Number.isFinite(Number(data.serverTimeMs))) throw unexpected();
+  return { challengeId: data.challengeId, options: data.options, expiresAtMs: data.expiresAtMs,
+    clockOffsetMs: Number(data.serverTimeMs) - Date.now() };
 }
 
 function preparedIsFresh() {
@@ -545,8 +552,7 @@ $("approve").addEventListener("click", async () => {
     // Normally prepared ahead; if not (or stale), fetch now: most browsers still allow the sheet.
     if (!preparedIsFresh()) {
       const { data } = await api.approvalBegin({ userCode: review.userCode });
-      prepared = { challengeId: data.challengeId, options: data.options, expiresAtMs: data.expiresAtMs,
-        clockOffsetMs: Number(data.serverTimeMs) - Date.now() };
+      prepared = approvalChallenge(data);
     }
     const challenge = prepared;
     prepared = null;
@@ -844,11 +850,25 @@ $("confirm-yes").addEventListener("click", async () => {
     setBusy(false, yes, no);
   }
 });
-$("confirm-no").addEventListener("click", () => {
-  $("confirm-actions").hidden = true;
-  $("confirm-warn").hidden = true;
-  setText($("confirm-ok"), "Nothing was added. If you didn't ask for this, someone may be signed in to your account: sign in to the GeneFox app, "
-    + "check Account > Passkeys, and change your account's password or sign-in.");
+// "I didn't ask for this" spends the ticket on the server (action reject), so this link can never be
+// confirmed later, by anyone, and the tab that asked stops waiting.
+$("confirm-no").addEventListener("click", async () => {
+  if (busy || !address.confirm || address.confirm === "broken") return;
+  const yes = $("confirm-yes"), no = $("confirm-no");
+  setBusy(true, yes, no);
+  try {
+    const { data } = await api.emailConfirm({ action: "reject", ticketId: address.confirm.ticketId, oobCode: address.confirm.oobCode });
+    if (data?.status !== "rejected") throw unexpected();
+    $("confirm-actions").hidden = true;
+    $("confirm-warn").hidden = true;
+    setText($("confirm-ok"), "Nothing was added, and this link no longer works. If you didn't ask for this, someone may be signed in to your "
+      + "account: sign in to the GeneFox app, check Account > Passkeys, and change your account's password or sign-in.");
+    announce("Rejected. Nothing was added.");
+  } catch (err) {
+    setText($("confirm-error"), `${describeAccessError(err)} Nothing was added either way: don't confirm this link.`);
+  } finally {
+    setBusy(false, yes, no);
+  }
 });
 
 // ---- start ----
