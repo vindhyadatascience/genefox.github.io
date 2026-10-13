@@ -30,6 +30,16 @@ export const COPY = {
   signInAgain: "For your security, sign in again. This step needs a sign-in from the last 5 minutes.",
   wrongAccount: "That signed in to a different account, so nothing changed. Sign in again with the account shown above.",
   noPasskeySupport: "This browser can't use passkeys. Open this page in a current version of Safari, Chrome, Edge or Firefox.",
+  // Hardened sync and projects (RNABrowser-wgd2.9.1): the same PROPOSED wording as the apps'
+  // AgentApprovalCopy.projectsName and syncNotice, awaiting approval like the rest.
+  projectsName: "your projects",
+  syncNotice: (host) => `This also lets the GeneFox helper service on ${host} keep its own read-only copy of your projects, `
+    + "kept up to date with your account for 30 days. Once you approve access to your projects, "
+    + `AI assistants and other programs on ${host} will be able to read them.`,
+  // Scaffolding around it: the two choices' labels and their group's title.
+  accessHeading: "On this computer",
+  syncChoice: "Sync a read-only copy of your projects to the helper service",
+  projectsChoice: "Let AI assistants read that copy of your projects",
 };
 
 /** The server's limit on resources in one approval (agent-approvals.ts MAX_RESOURCES). */
@@ -80,22 +90,26 @@ export function reviewModel(inspection, titles) {
       ? { id, title: titles.titles.get(id) ?? id, checked: true, disabled: false, note: "" }
       : { id, title: titles.titles.get(id) ?? id, checked: false, disabled: true, note: COPY.notAvailable });
   const capabilities = strings(inspection.capabilities).map((id) => ({ id, name: capabilityName(id), checked: true }));
+  // Sync and projects (wgd2.9.1): only what the helper asked for, ticked; the person may untick, never add.
+  const access = [];
+  if (inspection.sync === true) access.push({ id: "sync", title: COPY.syncChoice, checked: true });
+  if (inspection.projects === true) access.push({ id: "projects", title: COPY.projectsChoice, checked: true });
   let notice = "";
   if (chooseInApp && resources.length === 0) notice = titles.grantsReadable ? COPY.noLicensedDatasets : COPY.datasetsUnavailable;
-  return { chooseInApp, resources, capabilities, notice };
+  return { chooseInApp, resources, capabilities, access, notice };
 }
 
 /** The model with one box toggled, or with a notice when that would pass MAX_CHOSEN. */
 export function toggle(model, kind, id) {
-  const list = kind === "capability" ? model.capabilities : model.resources;
+  const list = kind === "capability" ? model.capabilities : kind === "access" ? (model.access ?? []) : model.resources;
   const target = list.find((item) => item.id === id);
   if (!target || target.disabled) return model;
   const ticked = model.resources.filter((r) => r.checked).length;
   if (kind === "resource" && !target.checked && ticked >= MAX_CHOSEN) return { ...model, notice: COPY.tooManyChosen };
   const flip = (item) => (item.id === id ? { ...item, checked: !item.checked } : item);
-  const next = kind === "capability"
-    ? { ...model, capabilities: model.capabilities.map(flip) }
-    : { ...model, resources: model.resources.map(flip) };
+  const next = kind === "capability" ? { ...model, capabilities: model.capabilities.map(flip) }
+    : kind === "access" ? { ...model, access: model.access.map(flip) }
+      : { ...model, resources: model.resources.map(flip) };
   if (next.notice === COPY.tooManyChosen) next.notice = "";
   return next;
 }
@@ -105,23 +119,38 @@ export function datasetName(model) {
   const names = model.resources.filter((r) => r.checked).map((r) => r.title);
   if (model.chooseInApp && names.length === 0) return COPY.chosenPlaceholder;
   for (const c of model.capabilities) if (c.checked) names.push(c.name);
+  if (accessChecked(model, "projects")) names.push(COPY.projectsName);
   return listWords(names) || "nothing";
+}
+
+/** Whether the sync or projects choice is offered and ticked. */
+export function accessChecked(model, id) {
+  return (model.access ?? []).some((a) => a.id === id && a.checked);
+}
+
+/** The sync notice while sync is ticked, else "". */
+export function syncNotice(model, host) {
+  return accessChecked(model, "sync") ? COPY.syncNotice(host) : "";
 }
 
 /** Approve is offered only for something, and a chooseInApp request needs a ticked dataset. */
 export function canApprove(model) {
   const resources = model.resources.filter((r) => r.checked).length;
   const capabilities = model.capabilities.filter((c) => c.checked).length;
+  const access = (model.access ?? []).filter((a) => a.checked).length;
   if (model.chooseInApp) return resources >= 1 && resources <= MAX_CHOSEN;
-  return resources + capabilities > 0;
+  return resources + capabilities + access > 0;
 }
 
-/** The ids the approve call sends. */
+/** What the approve call sends: the ids, and sync and projects only when ticked (absent otherwise). */
 export function chosenIds(model) {
-  return {
+  const chosen = {
     resourceIds: model.resources.filter((r) => r.checked && !r.disabled).map((r) => r.id),
     capabilities: model.capabilities.filter((c) => c.checked).map((c) => c.id),
   };
+  if (accessChecked(model, "sync")) chosen.sync = true;
+  if (accessChecked(model, "projects")) chosen.projects = true;
+  return chosen;
 }
 
 /** `{host}`: the person's own name for the computer, else "an unnamed computer". */

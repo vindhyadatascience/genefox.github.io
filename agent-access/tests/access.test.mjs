@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
-  COPY, MAX_CHOSEN, capabilityName, listWords, reviewModel, toggle, datasetName, canApprove, chosenIds, hostName,
+  COPY, MAX_CHOSEN, capabilityName, listWords, reviewModel, toggle, datasetName, canApprove, chosenIds, hostName, syncNotice,
   reasonOf, describeAccessError, formatWhen, coolingOff, bannerFor, readAddress, defaultDeviceLabel, reauthProvider,
 } from "../access.js";
 
@@ -173,4 +173,41 @@ test("re-sign-in uses the account's own provider; a custom-token session has non
   assert.equal(reauthProvider({ providerData: [{ providerId: "microsoft.com" }] }), "microsoft");
   assert.equal(reauthProvider({ providerData: [] }), "");
   assert.equal(reauthProvider(null), "");
+});
+
+// RNABrowser-wgd2.9.1: a hardened helper's sync and projects request.
+test("sync and projects: offered only as asked, ticked; untick, never add; named and sent only when ticked", () => {
+  const model = reviewModel({ resourceIds: [], capabilities: [], sync: true, projects: true }, titles([]));
+  assert.deepEqual(model.access, [
+    { id: "sync", title: COPY.syncChoice, checked: true },
+    { id: "projects", title: COPY.projectsChoice, checked: true },
+  ]);
+  assert.equal(datasetName(model), "your projects");
+  assert.equal(syncNotice(model, "Lab PC"), COPY.syncNotice("Lab PC"));
+  assert.deepEqual(chosenIds(model), { resourceIds: [], capabilities: [], sync: true, projects: true });
+  assert.equal(canApprove(model), true);
+  // Unticking sync drops the notice and the flag; unticking both leaves nothing to approve.
+  const noSync = toggle(model, "access", "sync");
+  assert.equal(syncNotice(noSync, "Lab PC"), "");
+  assert.deepEqual(chosenIds(noSync), { resourceIds: [], capabilities: [], projects: true });
+  const nothing = toggle(noSync, "access", "projects");
+  assert.equal(canApprove(nothing), false);
+  assert.deepEqual(chosenIds(nothing), { resourceIds: [], capabilities: [] });
+  assert.equal(datasetName(nothing), "nothing");
+  // Never added: a request that did not ask offers neither, and toggling an unoffered one changes nothing.
+  const plain = reviewModel({ resourceIds: [], capabilities: ["batchExplorer"] }, titles([]));
+  assert.deepEqual(plain.access, []);
+  assert.equal(toggle(plain, "access", "sync"), plain);
+  assert.deepEqual(chosenIds(plain), { resourceIds: [], capabilities: ["batchExplorer"] });
+  assert.equal(syncNotice(plain, "Lab PC"), "");
+  // Only exactly true counts as asked.
+  assert.deepEqual(reviewModel({ resourceIds: [], capabilities: [], sync: "true", projects: 1 }, titles([])).access, []);
+});
+
+test("the proposed sync wording matches the apps' (AgentApprovalCopy.syncNotice, projectsName)", () => {
+  assert.equal(COPY.projectsName, "your projects");
+  assert.equal(COPY.syncNotice("Lab PC"),
+    "This also lets the GeneFox helper service on Lab PC keep its own read-only copy of your projects, "
+    + "kept up to date with your account for 30 days. Once you approve access to your projects, "
+    + "AI assistants and other programs on Lab PC will be able to read them.");
 });

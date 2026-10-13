@@ -37,7 +37,7 @@ import {
 } from "./webauthn.js";
 import { firestoreReaders, readTitles, setText } from "./titles.js";
 import {
-  COPY, reviewModel, toggle, datasetName, canApprove, chosenIds, hostName, reasonOf, describeAccessError,
+  COPY, reviewModel, toggle, datasetName, canApprove, chosenIds, syncNotice, hostName, reasonOf, describeAccessError,
   formatWhen, passkeyLabel, coolingOff, channelWords, bannerFor, readAddress, defaultDeviceLabel, reauthProvider,
   PROVIDER_NAMES,
 } from "./access.js";
@@ -456,9 +456,15 @@ function renderReview() {
   $("choose").hidden = !model.chooseInApp;
   $("named").hidden = model.chooseInApp || model.resources.length === 0;
   $("caps").hidden = model.capabilities.length === 0;
+  $("access").hidden = model.access.length === 0;
+  setText($("access-heading"), COPY.accessHeading);
+  const notice = syncNotice(model, host);
+  $("review-sync").hidden = notice === "";
+  setText($("review-sync"), notice);
   if (model.chooseInApp) setText($("choose-heading"), COPY.chooseHeading);
   fillChoices(model.chooseInApp ? $("dataset-list") : $("named-list"), model.resources, "resource");
   fillChoices($("cap-list"), model.capabilities.map((c) => ({ ...c, title: c.name })), "capability");
+  fillChoices($("access-list"), model.access, "access");
   updateApprove();
 }
 
@@ -565,10 +571,10 @@ $("approve").addEventListener("click", async () => {
       return;
     }
     const response = credentialToJSON(credential);
-    const { resourceIds, capabilities } = chosenIds(review.model);
+    const chosen = chosenIds(review.model);
     const { data } = await api.decide({
       userCode: review.userCode, action: "approve", thumbprint: review.inspection.thumbprint, host: review.inspection.host,
-      resourceIds, capabilities, credentialId: response.id, passkeyAssertion: { challengeId: challenge.challengeId, response },
+      ...chosen, credentialId: response.id, passkeyAssertion: { challengeId: challenge.challengeId, response },
     });
     if (data?.status !== "approved") throw unexpected();
     finish("approved");
