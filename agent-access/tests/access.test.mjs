@@ -183,17 +183,20 @@ test("sync and projects: offered only as asked, ticked; untick, never add; named
     { id: "projects", title: COPY.projectsChoice, checked: true },
   ]);
   assert.equal(datasetName(model), "your projects");
-  assert.equal(syncNotice(model, "Lab PC"), COPY.syncNotice("Lab PC"));
+  assert.equal(syncNotice(model, "Lab PC"), `${COPY.syncSentence("Lab PC")} ${COPY.projectsSentence("Lab PC")}`);
   assert.deepEqual(chosenIds(model), { resourceIds: [], capabilities: [], sync: true, projects: true });
   assert.equal(canApprove(model), true);
-  // Unticking sync drops the notice and the flag; unticking both leaves nothing to approve.
+  // Unticking sync leaves only the projects sentence and drops the flag; unticking both leaves
+  // no notice and nothing to approve.
   const noSync = toggle(model, "access", "sync");
-  assert.equal(syncNotice(noSync, "Lab PC"), "");
+  assert.equal(syncNotice(noSync, "Lab PC"), COPY.projectsSentence("Lab PC"));
+  assert.equal(syncNotice(toggle(model, "access", "projects"), "Lab PC"), COPY.syncSentence("Lab PC"));
   assert.deepEqual(chosenIds(noSync), { resourceIds: [], capabilities: [], projects: true });
   const nothing = toggle(noSync, "access", "projects");
   assert.equal(canApprove(nothing), false);
   assert.deepEqual(chosenIds(nothing), { resourceIds: [], capabilities: [] });
   assert.equal(datasetName(nothing), "nothing");
+  assert.equal(syncNotice(nothing, "Lab PC"), "");
   // Never added: a request that did not ask offers neither, and toggling an unoffered one changes nothing.
   const plain = reviewModel({ resourceIds: [], capabilities: ["batchExplorer"] }, titles([]));
   assert.deepEqual(plain.access, []);
@@ -204,10 +207,12 @@ test("sync and projects: offered only as asked, ticked; untick, never add; named
   assert.deepEqual(reviewModel({ resourceIds: [], capabilities: [], sync: "true", projects: 1 }, titles([])).access, []);
 });
 
-test("the proposed sync wording matches the apps' (AgentApprovalCopy.syncNotice, projectsName)", () => {
+test("the approved sync and projects wording matches the apps' (AgentApprovalCopy, wgd2.9.2)", () => {
   assert.equal(COPY.projectsName, "your projects");
-  assert.equal(COPY.syncNotice("Lab PC"),
-    "This also lets the GeneFox helper service on Lab PC keep its own read-only copy of your projects, "
-    + "kept up to date with your account for 30 days. Once you approve access to your projects, "
-    + "AI assistants and other programs on Lab PC will be able to read them.");
+  assert.equal(COPY.syncSentence("Lab PC"),
+    "This lets the GeneFox helper on Lab PC keep a synced copy of your projects for 30 days.");
+  assert.equal(COPY.projectsSentence("Lab PC"),
+    "Once you approve project access, AI assistants and other programs on Lab PC can read your projects "
+    + "and create or edit projects of their own, but never change yours.");
+  assert.ok(!COPY.syncChoice.includes("read-only"));
 });

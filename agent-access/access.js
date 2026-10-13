@@ -30,15 +30,15 @@ export const COPY = {
   signInAgain: "For your security, sign in again. This step needs a sign-in from the last 5 minutes.",
   wrongAccount: "That signed in to a different account, so nothing changed. Sign in again with the account shown above.",
   noPasskeySupport: "This browser can't use passkeys. Open this page in a current version of Safari, Chrome, Edge or Firefox.",
-  // Hardened sync and projects (RNABrowser-wgd2.9.1): the same PROPOSED wording as the apps'
-  // AgentApprovalCopy.projectsName and syncNotice, awaiting approval like the rest.
+  // Hardened sync and projects (RNABrowser-wgd2.9.1, wgd2.9.2): the wording the user approved
+  // 2026-10-13, the same as the apps' AgentApprovalCopy.syncSentence / projectsSentence.
   projectsName: "your projects",
-  syncNotice: (host) => `This also lets the GeneFox helper service on ${host} keep its own read-only copy of your projects, `
-    + "kept up to date with your account for 30 days. Once you approve access to your projects, "
-    + `AI assistants and other programs on ${host} will be able to read them.`,
+  syncSentence: (host) => `This lets the GeneFox helper on ${host} keep a synced copy of your projects for 30 days.`,
+  projectsSentence: (host) => `Once you approve project access, AI assistants and other programs on ${host} can read `
+    + "your projects and create or edit projects of their own, but never change yours.",
   // Scaffolding around it: the two choices' labels and their group's title.
   accessHeading: "On this computer",
-  syncChoice: "Sync a read-only copy of your projects to the helper service",
+  syncChoice: "Sync a copy of your projects to the helper service",
   projectsChoice: "Let AI assistants read that copy of your projects",
 };
 
@@ -128,9 +128,13 @@ export function accessChecked(model, id) {
   return (model.access ?? []).some((a) => a.id === id && a.checked);
 }
 
-/** The sync notice while sync is ticked, else "". */
+/** What sync and project access allow, for what is ticked (AgentApprovalCopy.syncNotice); "" for neither. */
 export function syncNotice(model, host) {
-  return accessChecked(model, "sync") ? COPY.syncNotice(host) : "";
+  const sync = accessChecked(model, "sync"), projects = accessChecked(model, "projects");
+  if (sync && projects) return `${COPY.syncSentence(host)} ${COPY.projectsSentence(host)}`;
+  if (sync) return COPY.syncSentence(host);
+  if (projects) return COPY.projectsSentence(host);
+  return "";
 }
 
 /** Approve is offered only for something, and a chooseInApp request needs a ticked dataset. */
