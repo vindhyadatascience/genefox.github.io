@@ -39,7 +39,7 @@ export const COPY = {
   // Scaffolding around it: the two choices' labels and their group's title.
   accessHeading: "On this computer",
   syncChoice: "Sync a copy of your projects to the helper service",
-  projectsChoice: "Let AI assistants read that copy of your projects",
+  projectsChoice: "Let AI assistants read your projects and create projects of their own",
 };
 
 /** The server's limit on resources in one approval (agent-approvals.ts MAX_RESOURCES). */

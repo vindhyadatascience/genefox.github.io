@@ -215,4 +215,5 @@ test("the approved sync and projects wording matches the apps' (AgentApprovalCop
     "Once you approve project access, AI assistants and other programs on Lab PC can read your projects "
     + "and create or edit projects of their own, but never change yours.");
   assert.ok(!COPY.syncChoice.includes("read-only"));
+  assert.equal(COPY.projectsChoice, "Let AI assistants read your projects and create projects of their own");
 });
