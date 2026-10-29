@@ -88,9 +88,9 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1 9.3-9.3v-.2L3.6 2.3zm12.5 6.2L13.3 11l2.8 2.8 3.4-1.9c1-.6 1-1.5 0-2.1l-3.4-1.9zM13.9 11.6l-9 9c.4.2.9.1 1.5-.2l7.9-4.4-.4-.4zm-9-9.2l9 9 .4-.4L6.4 2.6c-.6-.3-1.1-.4-1.5-.2z"/></svg>
       <span><span class="sb-l">Get it on</span><span class="sb-b">Google Play</span></span>
       </a>
-      <a class="store-badge" href="https://apps.apple.com/app/genefox/id6778824242" data-store="mac" aria-label="Download GeneFox on the Mac App Store">
+      <a class="store-badge" href="https://apps.apple.com/app/genefox/id6778824242" data-store="mac" aria-label="Download GeneFox on the App Store">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c.09 1.02-.32 2.02-.94 2.74-.66.77-1.74 1.36-2.79 1.28-.11-1 .38-2.03.97-2.68.66-.74 1.8-1.3 2.76-1.34zM20.6 17.2c-.53 1.22-.78 1.76-1.46 2.84-.95 1.5-2.29 3.36-3.95 3.37-1.47.02-1.85-.96-3.85-.95-2 .01-2.41.97-3.89.95-1.66-.02-2.93-1.7-3.88-3.19-2.65-4.18-2.93-9.08-1.3-11.69 1.17-1.86 3.01-2.95 4.74-2.95 1.76 0 2.87.97 4.33.97 1.42 0 2.28-.97 4.32-.97 1.54 0 3.17.84 4.33 2.29-3.8 2.08-3.19 7.5.46 9.28z"/></svg>
-      <span><span class="sb-l">Download on the</span><span class="sb-b">Mac App Store</span></span>
+      <span><span class="sb-l">Download on the</span><span class="sb-b">App Store</span></span>
       </a>
     </div>
 
@@ -142,14 +142,15 @@
         location.replace("https://play.google.com/store/apps/details?id=com.vds.GeneFox");
         return;
       }
-      // iPadOS 13+ reports itself as "Macintosh" in desktop mode. A real Mac has no touch
-      // screen, so a "Macintosh" UA with touch points is an iPad.
-      var ipad = /Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1;
-      if (/iPhone|iPad|iPod/i.test(ua) || ipad) {
+      // Only an explicit iPhone/iPad/iPod UA redirects. A "Macintosh" UA stays on this page
+      // even with touch points: iPadOS desktop mode reports "Macintosh", and so may a
+      // touch-screen Mac, so touch cannot tell them apart. Both are served by the same
+      // App Store link on this page (one universal listing), so neither is misrouted.
+      if (/iPhone|iPad|iPod/i.test(ua)) {
         location.replace("https://apps.apple.com/app/genefox/id6778824242");
         return;
       }
-      // Mac, Windows, Linux: stay here. The page offers the Mac App Store and the
+      // Mac (touch or not), iPad in desktop mode, Windows, Linux: stay here. The page offers the App Store and the
       // command-line tool, and hides the phone store badges.
       document.documentElement.classList.add("desktop");
     })();
