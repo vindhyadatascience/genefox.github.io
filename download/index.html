@@ -34,6 +34,16 @@
     line-height:1.15}
   .home{margin-top:1.8rem;font-size:14px}
   .home a{color:var(--pink)}
+  .cli{width:min(560px,calc(100vw - 4rem));margin-top:2.2rem}
+  .cli h2{font-size:1rem;margin:0 0 .3rem;letter-spacing:-.01em}
+  .cli p{margin:0 0 .9rem;font-size:14px}
+  .cli a{color:var(--pink)}
+  .cli-list{list-style:none;margin:0;padding:0;text-align:left}
+  .cli-list li{padding:11px 0;border-top:1px solid var(--line-strong);font-size:14px}
+  .cli-file{color:var(--muted);font-size:12px;word-break:break-all}
+  .cli-meta{margin-top:4px;color:var(--muted);font-size:12px;word-break:break-all}
+  .cli-hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .cli-pending{opacity:.75}
 </style>
 </head>
 <body>
@@ -50,6 +60,11 @@
       <span><span class="sb-l">Get it on</span><span class="sb-b">Google Play</span></span>
       </a>
     </div>
+    <section class="cli" id="cli" aria-labelledby="cli-h" hidden>
+      <h2 id="cli-h">Command line</h2>
+      <p id="cli-note"></p>
+      <ul class="cli-list" id="cli-list"></ul>
+    </section>
     <p class="home"><a href="/">genefox.app</a></p>
   </main>
   <script>
@@ -75,6 +90,72 @@
       }
       // Windows, Linux, a console, a crawler: no store to send them to, so the page
       // stays put and offers both. Guessing here would strand the visitor.
+    })();
+  </script>
+  <script>
+    // The command-line downloads, from download/releases.json (written by
+    // Scripts/cli-release/virustotal.py stage). Every value is checked before it is shown,
+    // and text is set with textContent, never innerHTML. A missing or malformed file leaves
+    // the list hidden; the store badges above are the page without it.
+    (function () {
+      var section = document.getElementById("cli");
+      if (!section) return;
+      var SHA = /^[0-9a-f]{64}$/;
+      var VT = "https://www.virustotal.com/gui/file/";
+      function el(tag, cls, text) {
+        var node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text != null) node.textContent = text;
+        return node;
+      }
+      function https(value) { return typeof value === "string" && /^https:\/\//.test(value); }
+      fetch("/download/releases.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+        .then(function (data) {
+          if (!data || !Array.isArray(data.artifacts)) return;
+          if (data.placeholder) {
+            document.getElementById("cli-note").textContent =
+              "Placeholder data: not a release. Hashes and scan links appear once the release is staged.";
+          }
+          var list = document.getElementById("cli-list");
+          data.artifacts.forEach(function (a) {
+            var label = typeof a.label === "string" ? a.label : String(a.name || "");
+            var item = el("li");
+            var name = typeof a.name === "string" ? a.name : "";
+            var title = el("div", "cli-title");
+            if (https(a.url)) {
+              var download = el("a", null, label);
+              download.href = a.url;
+              title.appendChild(download);
+            } else {
+              title.appendChild(el("span", null, label));
+            }
+            if (name) title.appendChild(el("div", "cli-file", name));
+            item.appendChild(title);
+
+            var meta = el("div", "cli-meta");
+            var sha = typeof a.sha256 === "string" ? a.sha256 : "";
+            if (SHA.test(sha)) {
+              meta.appendChild(document.createTextNode("SHA-256 "));
+              meta.appendChild(el("span", "cli-hash", sha));
+            } else {
+              meta.appendChild(el("span", "cli-pending", "SHA-256 pending"));
+            }
+            meta.appendChild(document.createTextNode("  \u00b7  "));
+            if (SHA.test(sha) && a.permalink === VT + sha) {
+              var scan = el("a", null, "VirusTotal scan");
+              scan.href = a.permalink;
+              scan.rel = "noopener";
+              meta.appendChild(scan);
+            } else {
+              meta.appendChild(el("span", "cli-pending", "VirusTotal scan pending"));
+            }
+            item.appendChild(meta);
+            list.appendChild(item);
+          });
+          section.hidden = false;
+        })
+        .catch(function () { /* Leave the list hidden. */ });
     })();
   </script>
 </body>
