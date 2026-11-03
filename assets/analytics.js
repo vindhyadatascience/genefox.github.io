@@ -1,7 +1,7 @@
 (function () {
   "use strict";
-  var GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
-  var configured = GA_MEASUREMENT_ID !== "G-XXXXXXXXXX";
+  var GA_MEASUREMENT_ID = "G-QBL2LHE992";
+  var configured = /^G-[A-Z0-9]+$/.test(GA_MEASUREMENT_ID) && GA_MEASUREMENT_ID !== "G-" + "XXXXXXXXXX";
   var key = "gf-analytics-consent";
   var choice = null;
 
