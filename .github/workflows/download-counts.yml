@@ -8,6 +8,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
+    # Off until the public CLI release repository is set as the CLI_RELEASE_REPO repo variable.
+    if: ${{ vars.CLI_RELEASE_REPO != '' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,7 +18,7 @@ jobs:
         id: collect
         env:
           GH_TOKEN: ${{ github.token }}
-          CLI_RELEASE_REPO: ${{ vars.CLI_RELEASE_REPO || 'vindhyadatascience/locus' }}
+          CLI_RELEASE_REPO: ${{ vars.CLI_RELEASE_REPO }}
         run: |
           gh api --paginate --slurp "/repos/$CLI_RELEASE_REPO/releases?per_page=100" > "$RUNNER_TEMP/releases.json"
           python3 - <<'PY'
