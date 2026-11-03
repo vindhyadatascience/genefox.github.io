@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="../assets/analytics.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GeneFox on the App Store</title>
 <!-- Sends the visitor on before anything else parses. GitHub Pages serves static files
      only and cannot issue a real 301, so this redirect is client-side: the meta refresh
-     fires without scripting, the script below beats it when scripting is on, and the
-     visible link is the third fallback. -->
-<meta http-equiv="refresh" content="0; url=https://apps.apple.com/app/genefox/id6778824242">
+     inside noscript fires without scripting, and the visible link is a fallback. -->
+<noscript><meta http-equiv="refresh" content="0; url=https://apps.apple.com/app/genefox/id6778824242"></noscript>
 <link rel="canonical" href="https://apps.apple.com/app/genefox/id6778824242">
 <!-- Not a destination page: it must not compete with the real pages in search. -->
 <meta name="robots" content="noindex, follow">
@@ -35,7 +35,7 @@
   <script>
     // replace(), not assign(): the redirect must leave no history entry, or Back from the
     // store lands here and bounces the visitor straight forward again.
-    location.replace("https://apps.apple.com/app/genefox/id6778824242");
+    window.GeneFoxAnalytics ? GeneFoxAnalytics.storeRedirect("apple", "https://apps.apple.com/app/genefox/id6778824242") : location.replace("https://apps.apple.com/app/genefox/id6778824242");
   </script>
 </body>
 </html>

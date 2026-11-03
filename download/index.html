@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="../assets/analytics.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Get GeneFox</title>
@@ -64,13 +65,13 @@
       // Android first. Its UA contains "Linux", and testing Apple first on some
       // Android builds would be a coin toss rather than a rule.
       if (/Android/i.test(ua)) {
-        location.replace("https://play.google.com/store/apps/details?id=com.vds.GeneFox");
+        window.GeneFoxAnalytics ? GeneFoxAnalytics.storeRedirect("android", "https://play.google.com/store/apps/details?id=com.vds.GeneFox") : location.replace("https://play.google.com/store/apps/details?id=com.vds.GeneFox");
         return;
       }
       // iPadOS 13+ reports itself as "Macintosh", which is usually a nuisance and is
       // harmless here: an iPad and a Mac belong at the same store.
       if (/iPhone|iPad|iPod|Macintosh|Mac OS X/i.test(ua)) {
-        location.replace("https://apps.apple.com/app/genefox/id6778824242");
+        window.GeneFoxAnalytics ? GeneFoxAnalytics.storeRedirect("apple", "https://apps.apple.com/app/genefox/id6778824242") : location.replace("https://apps.apple.com/app/genefox/id6778824242");
         return;
       }
       // Windows, Linux, a console, a crawler: no store to send them to, so the page

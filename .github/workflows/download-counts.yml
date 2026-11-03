@@ -1,0 +1,95 @@
+name: Download counts
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+concurrency:
+  group: download-counts
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Collect CLI release asset counts
+        id: collect
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CLI_RELEASE_REPO: ${{ vars.CLI_RELEASE_REPO || 'vindhyadatascience/locus' }}
+        run: |
+          gh api --paginate --slurp "/repos/$CLI_RELEASE_REPO/releases?per_page=100" > "$RUNNER_TEMP/releases.json"
+          python3 - <<'PY'
+          import datetime, json, os
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'releases.json')) as f:
+              pages = json.load(f)
+          date = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+          rows = [{'date': date, 'release': release['tag_name'], 'asset': asset['name'], 'download_count': asset['download_count']}
+                  for page in pages for release in page if release['tag_name'].startswith('cli-v')
+                  for asset in release['assets']]
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'rows.json'), 'w') as f:
+              json.dump(rows, f)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('has_rows=' + ('true' if rows else 'false') + '\n')
+          if not rows:
+              print('::notice::No CLI release assets found; no counts written.')
+          PY
+      - name: Append counts on stats branch
+        if: steps.collect.outputs.has_rows == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git init stats
+          cd stats
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          if git ls-remote --exit-code --heads origin stats >/dev/null; then
+            git fetch origin stats
+            git checkout -b stats FETCH_HEAD
+          else
+            git checkout --orphan stats
+          fi
+          mkdir -p data
+          python3 - <<'PY'
+          import json, os
+          path = 'data/download-counts.json'
+          if os.path.exists(path):
+              with open(path) as f:
+                  history = json.load(f)
+          else:
+              history = []
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'rows.json')) as f:
+              history.extend(json.load(f))
+          with open(path, 'w') as f:
+              json.dump(history, f, indent=2)
+              f.write('\n')
+          PY
+          git add data/download-counts.json
+          git commit -m 'Record CLI download counts'
+          git push origin HEAD:stats
+      - name: Send counts to GA4
+        if: steps.collect.outputs.has_rows == 'true'
+        env:
+          GA4_API_SECRET: ${{ secrets.GA4_API_SECRET }}
+          GA4_MEASUREMENT_ID: ${{ vars.GA4_MEASUREMENT_ID }}
+        run: |
+          if [ -z "$GA4_API_SECRET" ] || [ -z "$GA4_MEASUREMENT_ID" ]; then
+            exit 0
+          fi
+          python3 - <<'PY'
+          import json, os
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'rows.json')) as f:
+              rows = json.load(f)
+          payload = {'client_id': 'download-counts', 'events': [
+              {'name': 'cli_download_count', 'params': {k: row[k] for k in ('release', 'asset', 'download_count')}} for row in rows]}
+          with open(os.path.join(os.environ['RUNNER_TEMP'], 'ga4-payload.json'), 'w') as f:
+              json.dump(payload, f)
+          PY
+          curl -s -o /dev/null --fail \
+            --url-query "measurement_id=$GA4_MEASUREMENT_ID" \
+            --url-query "api_secret=$GA4_API_SECRET" \
+            --request POST --header 'Content-Type: application/json' \
+            --data-binary "@$RUNNER_TEMP/ga4-payload.json" \
+            'https://www.google-analytics.com/mp/collect'
