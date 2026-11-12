@@ -599,7 +599,8 @@
                 "median",
                 "quantile",
                 "categorical",
-                "mutation"
+                "mutation",
+                "derived"
               ],
               "type": "string"
             },
@@ -661,7 +662,7 @@
               ]
             },
             "variable": {
-              "description": "What was split: expression, methylation, cnv, signature_score, a clinical field or mutation; null for a single curve.",
+              "description": "What was split: expression, methylation, cnv, signature_score, a clinical field, mutation or derived; null for a single curve.",
               "type": [
                 "string",
                 "null"

@@ -45,9 +45,7 @@ def drop_contributor_notes(text):
     text = text.replace('the same FoxCore calls the app', 'the same calls the app')
     text = re.sub(r'both app\s+faces', 'the apps', text).replace(' (`ExportFileName`)', '')
     text = text.replace('the PDF faces (', 'the PDF fonts (')
-    text = text.replace('lines grouped by `--column`, histone type by default, `--h3k27m true` for H3K27M versus others;',
-                        'lines grouped by `--column`;')
-    text = text.replace('`--h3k27m`, ', '').replace(' (rule M29)', '')
+    text = text.replace(' (rule M29)', '')
     text = text.replace('`Tools/genefox/Resources` is copied into the shared `locus_GenefoxTools` resource bundle. It holds',
                         'The `locus_GenefoxTools` resource bundle holds')
     text = text.replace(" ([Tools/genefox-helper/README.md](../genefox-helper/README.md))", '')
