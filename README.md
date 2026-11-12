@@ -185,3 +185,28 @@ open 'http://localhost:8000/link/?emulator=1'
 production. The debug CORS flag is needed because the functions only allow `genefox.app`.
 In the emulator `rawRequest.ip` is empty, so the rate limiter refuses every call unless the
 local copy falls back to a fixed address.
+## CLI downloads section (`/download`)
+
+`download/index.html` also carries a "Command-line tool (genefox CLI)" section (bead
+RNABrowser-o47.6). It is separate from the store logic: its own script, display only, never a
+redirect. The release contract is `docs/CLIReleasePipeline.md` in the app repository.
+
+- **Source of truth:** `https://storage.googleapis.com/vds-genefox-releases/genefox-cli/latest.json`,
+  fetched in the browser (the bucket's CORS allows genefox.app and www.genefox.app). Nothing
+  about a release is hardcoded: no version, no size, no hash.
+- **Fallback:** on a 404, network or CORS failure, malformed JSON, or a missing/invalid
+  version, checksums or signature path, the section shows "The command-line tool is coming
+  soon." and no table. A row failing validation (unknown id, non-https or out-of-bucket URL,
+  sha256 not 64 hex, non-integer size) is dropped; no valid rows means the fallback. Manifest
+  values are written with `textContent` only.
+- **Links:** file links are the stable `<base>/latest/...` names, mapped from the manifest
+  artifact id inside the script (`STABLE`). Four ids are known: `darwin-universal`,
+  `linux-amd64`, `linux-arm64`, `windows-x64`. A new platform in the pipeline needs an entry.
+- **Platform highlight:** Android (tested first) and iOS highlight no row; Mac, Windows and
+  Linux (arm64 vs x86-64 by UA) highlight theirs. Mac and iOS visitors are redirected to the
+  App Store before they see it.
+- **Pinned in the page:** the base URL, the minisign public key line (key id
+  `36A57A771B5DF8DC`, must equal `GENEFOX_CLI_PUBKEY` in the app repo's
+  `Scripts/install-genefox-cli.sh`), and the installer command
+  `curl -fsSL https://genefox.app/cli/install.sh | bash`, labelled "coming soon" because that
+  URL is not served yet. Remove the label when the installer is published at that path.
