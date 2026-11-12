@@ -718,6 +718,8 @@ mkdir -p "$prefix/bin" "$prefix/share"
 rm -rf "$prefix/bin/genefox" "$prefix/bin/genefox.commit" "$prefix/bin/locus_genefox.bundle" \
        "$prefix/bin/locus_genefox.resources" "$prefix/bin/locus_GenefoxTools.bundle" \
        "$prefix/bin/locus_GenefoxTools.resources" "$prefix/share/genefox"
+# A `genefox update` whose undo failed leaves this marker; this full install clears it.
+rm -f "$prefix/.genefox-update-inconsistent"
 cp -R "$src/share/genefox" "$prefix/share/genefox"
 for item in "$src/bin/"*; do
     # The account helper is installed only as a service (--helper), never per user; on Linux

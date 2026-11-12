@@ -503,6 +503,9 @@ function Install-GeneFoxCli($release, [string]$work) {
     }
     $shareGenefox = Join-Path $share 'genefox'
     if (Test-Path -LiteralPath $shareGenefox) { Remove-Item -LiteralPath $shareGenefox -Recurse -Force }
+    # A `genefox update` whose undo failed leaves this marker; this full install clears it.
+    $updateMarker = Join-Path $Prefix '.genefox-update-inconsistent'
+    if (Test-Path -LiteralPath $updateMarker) { Remove-Item -LiteralPath $updateMarker -Force }
     Copy-Item -LiteralPath (Join-Path $src 'share\genefox') -Destination $shareGenefox -Recurse
     $shipped | ForEach-Object {
         Copy-Item -LiteralPath $_.FullName -Destination $bin -Recurse
