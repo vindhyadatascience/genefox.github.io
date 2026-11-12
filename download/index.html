@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Get GeneFox</title>
-<meta name="description" content="Download GeneFox for iPhone, iPad, Mac and Android, or install the GeneFox command-line tool (beta).">
+<meta name="description" content="Download GeneFox for iPhone, iPad, Mac and Android, the GeneFox command-line tool, and the R and Python packages.">
 <!-- Indexable, unlike /apple and /android: this is a real page with real content for
      anyone the script cannot place, and it is the link worth sharing when the sender
      does not know the recipient's device. -->
@@ -14,16 +14,17 @@
   :root{
     --navy:#1B2547; --line-strong:rgba(150,163,214,.26);
     --pink:#D57BBA; --text:#E7E9F5; --muted:#9AA2C4;
-    --beta-ink:#3F4D75;
     color-scheme: dark;
   }
   *{box-sizing:border-box}
   [hidden]{display:none !important}
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-    background:var(--navy);color:var(--text);padding:2rem;text-align:center;
+  body{margin:0;min-height:100vh;display:flex;justify-content:center;
+    background:var(--navy);color:var(--text);padding:3rem 1.25rem 2rem;
     font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  h1{font-size:1.4rem;margin:0 0 .4rem;letter-spacing:-.01em}
-  p{margin:0 0 1.6rem;color:var(--muted)}
+  main{width:100%;max-width:44rem}
+  header{text-align:center}
+  h1{font-size:1.5rem;margin:0 0 .3rem;letter-spacing:-.01em}
+  header p{margin:0 0 1.4rem;color:var(--muted)}
   .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
   .store-badge{display:inline-flex;align-items:center;gap:11px;padding:11px 18px 11px 16px;
     border-radius:13px;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);
@@ -35,97 +36,103 @@
   .store-badge .sb-l{font-size:10.5px;color:var(--muted);letter-spacing:.04em;line-height:1.1}
   .store-badge .sb-b{font-weight:600;font-size:16px;letter-spacing:-.01em;color:var(--text);
     line-height:1.15}
-  /* A desktop visitor is offered the Mac App Store and the command-line tool only.
-     Without scripting every badge shows, which is the fallback for a phone. */
-  .desktop [data-store="ios"], .desktop [data-store="play"]{display:none}
-  .home{margin-top:1.8rem;font-size:14px}
-  .home a{color:var(--pink)}
-  .cli{width:min(560px,calc(100vw - 4rem));margin-top:2.2rem;text-align:left}
-  .cli h2{font-size:1.1rem;margin:0 0 .2rem;letter-spacing:-.01em;line-height:1.3}
-  /* White pill, after Apple's Xcode beta icon badge: blue-grey uppercase text. The
-     page is dark-only, and the white pill reads the same against it. */
-  .beta{display:inline-block;vertical-align:middle;margin-left:.45em;padding:.3em .75em .26em;
-    border-radius:999px;background:#fff;color:var(--beta-ink);font-size:.62em;font-weight:700;
-    letter-spacing:.09em;line-height:1;text-transform:uppercase}
-  .cli h3{font-size:13px;font-weight:600;color:var(--text);margin:1.2rem 0 .45rem}
-  .cli .cap{margin:.45rem 0 0;font-size:13px;color:var(--muted)}
-  .cli .cli-foot{margin:1rem 0 0;font-size:13px;color:var(--muted)}
-  .cli details.cli-foot summary{cursor:pointer;color:var(--pink)}
-  .cli details.cli-foot .cmd{margin-top:.6rem}
-  .cli a{color:var(--pink)}
+  section{margin-top:2.4rem;padding-top:1.6rem;border-top:1px solid var(--line-strong)}
+  h2{font-size:1.1rem;margin:0 0 .2rem;letter-spacing:-.01em}
+  h3{font-size:13px;font-weight:600;margin:1.1rem 0 .4rem}
+  section > p, .note{margin:.2rem 0 .8rem;color:var(--muted);font-size:14px}
+  .soon{color:var(--muted);font-size:14px;margin:.4rem 0 0}
+  a{color:var(--pink)}
   code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
   .cmd{display:flex;align-items:flex-start;gap:10px;padding:10px 10px 10px 14px;
     border:1px solid var(--line-strong);border-radius:11px;background:rgba(0,0,0,.22)}
-  .cmd code{flex:1;min-width:0;font-size:13px;line-height:1.5;color:var(--text);
-    overflow-wrap:anywhere}
+  .cmd code{flex:1;min-width:0;font-size:13px;line-height:1.5;color:var(--text);overflow-wrap:anywhere}
   .copy{flex:none;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line-strong);
-    border-radius:8px;padding:7px 10px;cursor:pointer;
-    transition:border-color .25s,color .25s}
+    border-radius:8px;padding:7px 10px;cursor:pointer;transition:border-color .25s,color .25s}
   .copy:hover{color:var(--text);border-color:var(--pink)}
-  .copy:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
-  #cli-downloads{margin-top:1.2rem;border-top:1px solid var(--line-strong)}
-  #cli-downloads h3{margin-top:1rem;color:var(--muted);font-size:12px;letter-spacing:.06em;
-    text-transform:uppercase}
-  .cli-note{font-size:12px;color:var(--muted);margin:0 0 .4rem}
-  .cli-list{list-style:none;margin:0;padding:0;text-align:left}
-  .cli-list li{padding:11px 0;border-top:1px solid var(--line-strong);font-size:14px}
-  .cli-file{color:var(--muted);font-size:12px;word-break:break-all}
-  .cli-meta{margin-top:4px;color:var(--muted);font-size:12px;word-break:break-all}
-  .cli-hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .cli-pending{opacity:.75}
+  .copy:focus-visible,.btn:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+  .btn{display:inline-block;margin:.4rem 0 .3rem;padding:10px 18px;border-radius:11px;
+    background:var(--pink);color:var(--navy);font-weight:600;text-decoration:none}
+  .btn:hover{filter:brightness(1.08)}
+  .files{list-style:none;margin:.6rem 0 0;padding:0}
+  .files li{padding:10px 0;border-top:1px solid var(--line-strong);font-size:14px}
+  .files .label{font-weight:600}
+  .meta{margin-top:3px;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+  .hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  details{margin-top:.8rem;font-size:13px;color:var(--muted)}
+  details summary{cursor:pointer;color:var(--pink)}
+  details .cmd{margin-top:.5rem}
+  .home{margin-top:2.4rem;font-size:14px;text-align:center}
 </style>
 </head>
 <body>
   <main>
-    <h1>Get GeneFox</h1>
-    <p>iPhone &middot; iPad &middot; Mac &middot; Android</p>
-    <div class="row">
-      <a class="store-badge" href="https://apps.apple.com/app/genefox/id6778824242" data-store="ios" aria-label="Download GeneFox on the App Store">
+    <header>
+      <h1>Get GeneFox</h1>
+      <p>iPhone &middot; iPad &middot; Mac &middot; Android</p>
+      <div class="row">
+        <a class="store-badge" href="https://apps.apple.com/app/genefox/id6778824242" data-store="ios" aria-label="Download GeneFox on the App Store">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c.09 1.02-.32 2.02-.94 2.74-.66.77-1.74 1.36-2.79 1.28-.11-1 .38-2.03.97-2.68.66-.74 1.8-1.3 2.76-1.34zM20.6 17.2c-.53 1.22-.78 1.76-1.46 2.84-.95 1.5-2.29 3.36-3.95 3.37-1.47.02-1.85-.96-3.85-.95-2 .01-2.41.97-3.89.95-1.66-.02-2.93-1.7-3.88-3.19-2.65-4.18-2.93-9.08-1.3-11.69 1.17-1.86 3.01-2.95 4.74-2.95 1.76 0 2.87.97 4.33.97 1.42 0 2.28-.97 4.32-.97 1.54 0 3.17.84 4.33 2.29-3.8 2.08-3.19 7.5.46 9.28z"/></svg>
-      <span><span class="sb-l">Download on the</span><span class="sb-b">App Store</span></span>
-      </a>
-      <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.vds.GeneFox" data-store="play" aria-label="Get GeneFox on Google Play">
+        <span><span class="sb-l">Download on the</span><span class="sb-b">App Store</span></span>
+        </a>
+        <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.vds.GeneFox" data-store="play" aria-label="Get GeneFox on Google Play">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1 9.3-9.3v-.2L3.6 2.3zm12.5 6.2L13.3 11l2.8 2.8 3.4-1.9c1-.6 1-1.5 0-2.1l-3.4-1.9zM13.9 11.6l-9 9c.4.2.9.1 1.5-.2l7.9-4.4-.4-.4zm-9-9.2l9 9 .4-.4L6.4 2.6c-.6-.3-1.1-.4-1.5-.2z"/></svg>
-      <span><span class="sb-l">Get it on</span><span class="sb-b">Google Play</span></span>
-      </a>
-      <a class="store-badge" href="https://apps.apple.com/app/genefox/id6778824242" data-store="mac" aria-label="Download GeneFox on the App Store">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c.09 1.02-.32 2.02-.94 2.74-.66.77-1.74 1.36-2.79 1.28-.11-1 .38-2.03.97-2.68.66-.74 1.8-1.3 2.76-1.34zM20.6 17.2c-.53 1.22-.78 1.76-1.46 2.84-.95 1.5-2.29 3.36-3.95 3.37-1.47.02-1.85-.96-3.85-.95-2 .01-2.41.97-3.89.95-1.66-.02-2.93-1.7-3.88-3.19-2.65-4.18-2.93-9.08-1.3-11.69 1.17-1.86 3.01-2.95 4.74-2.95 1.76 0 2.87.97 4.33.97 1.42 0 2.28-.97 4.32-.97 1.54 0 3.17.84 4.33 2.29-3.8 2.08-3.19 7.5.46 9.28z"/></svg>
-      <span><span class="sb-l">Download on the</span><span class="sb-b">App Store</span></span>
-      </a>
-    </div>
+        <span><span class="sb-l">Get it on</span><span class="sb-b">Google Play</span></span>
+        </a>
+      </div>
+    </header>
+    <noscript><p class="note" style="text-align:center">Turn on JavaScript to see the direct downloads below.</p></noscript>
 
-    <section class="cli" id="cli" aria-labelledby="cli-h">
-      <!-- TODO confirm: genefox.app/cli/install.sh and install.ps1 are decided in
-           RNABrowser docs/CLIReleasePipeline.md but are not in this repo yet. Until they are
-           served from /cli/ on the site, these commands 404. -->
-      <h2 id="cli-h">Command-line tool <span class="beta">Beta</span></h2>
+    <section id="mac" aria-labelledby="mac-h">
+      <h2 id="mac-h">Mac, direct download</h2>
+      <p>For Macs without the App Store. Developer ID signed and notarized by Apple.</p>
+      <div data-body hidden></div>
+      <p class="soon" data-soon>Coming soon. Use the App Store meanwhile.</p>
+    </section>
 
-      <h3>macOS and Linux</h3>
-      <div class="cmd"><code>curl -fsSL https://genefox.app/cli/install.sh | bash</code><button type="button" class="copy">Copy</button></div>
-      <p class="cap">Installs to <code>~/.local</code></p>
+    <section id="cli" aria-labelledby="cli-h">
+      <h2 id="cli-h">Command-line tool</h2>
+      <p>GeneFox analyses and the MCP server for AI assistants, from a terminal.</p>
+      <div data-body hidden>
+        <h3>macOS and Linux</h3>
+        <div class="cmd"><code>curl -fsSL https://genefox.app/cli/install.sh | bash</code><button type="button" class="copy" data-copy-install="curl -fsSL https://genefox.app/cli/install.sh | bash">Copy</button></div>
+        <h3>Windows (PowerShell)</h3>
+        <div class="cmd"><code>irm https://genefox.app/cli/install.ps1 | iex</code><button type="button" class="copy" data-copy-install="irm https://genefox.app/cli/install.ps1 | iex">Copy</button></div>
+        <p class="note">The installers check the release signature and each file's SHA-256 before installing anything.</p>
+        <h3>Files</h3>
+        <ul class="files" data-files></ul>
+        <details>
+          <summary>Verify by hand</summary>
+          <p>Download <a data-sums href="#cli">SHA256SUMS</a> and <a data-sig href="#cli">SHA256SUMS.minisig</a> beside the file, then:</p>
+          <div class="cmd"><code>minisign -Vm SHA256SUMS -P RWTc+F0bd3qlNlApONI2qRpbBAcrDfUhxdVUrsoaVYGdkaHjUWAB75BL &amp;&amp; shasum -a 256 -c SHA256SUMS --ignore-missing</code><button type="button" class="copy">Copy</button></div>
+        </details>
+      </div>
+      <p class="soon" data-soon>Coming soon.</p>
+    </section>
 
-      <h3>Windows</h3>
-      <div class="cmd"><code>irm https://genefox.app/cli/install.ps1 | iex</code><button type="button" class="copy">Copy</button></div>
-      <p class="cap">Installs to <code>%LOCALAPPDATA%\Programs\GeneFox</code></p>
-
-      <p class="cli-foot">The installer checks the minisign signature and SHA-256.</p>
-      <!-- TODO confirm: the bucket vds-genefox-releases is pinned in Scripts/install-genefox-cli.sh,
-           but docs/CLIReleasePipeline.md says GENEFOX_CLI_BUCKET is still unset. -->
-      <details class="cli-foot">
-        <summary>Verify by hand</summary>
-        <div class="cmd"><code>minisign -V -P RWTc+F0bd3qlNlApONI2qRpbBAcrDfUhxdVUrsoaVYGdkaHjUWAB75BL -m SHA256SUMS -x SHA256SUMS.minisig</code><button type="button" class="copy">Copy</button></div>
-        <p class="cap">Get SHA256SUMS and SHA256SUMS.minisig from https://storage.googleapis.com/vds-genefox-releases/genefox-cli/&lt;version&gt;/</p>
-      </details>
-
-      <p class="cli-foot">AI assistants: <code>genefox mcp</code> runs the MCP server.</p>
-
-      <div id="cli-downloads" hidden>
-        <h3>Downloads</h3>
-        <p class="cli-note" id="cli-note"></p>
-        <ul class="cli-list" id="cli-list"></ul>
+    <section id="packages" aria-labelledby="pkg-h">
+      <h2 id="pkg-h">R and Python</h2>
+      <p>Use GeneFox from R or Python. Both need the command-line tool.</p>
+      <div id="python">
+        <h3>Python</h3>
+        <div data-body hidden>
+          <div class="cmd"><code data-cmd></code><button type="button" class="copy">Copy</button></div>
+          <p class="note"><a data-page href="#python">PyPI</a><span data-docs hidden> &middot; <a href="#python">Documentation</a></span></p>
+          <ul class="files" data-files></ul>
+        </div>
+        <p class="soon" data-soon>Coming soon.</p>
+      </div>
+      <div id="r">
+        <h3>R</h3>
+        <div data-body hidden>
+          <div class="cmd"><code data-cmd></code><button type="button" class="copy">Copy</button></div>
+          <p class="note"><a data-page href="#r">Release</a><span data-docs hidden> &middot; <a href="#r">Documentation</a></span></p>
+          <ul class="files" data-files></ul>
+        </div>
+        <p class="soon" data-soon>Coming soon.</p>
       </div>
     </section>
+
     <p class="home"><a href="/">genefox.app</a></p>
   </main>
   <script>
@@ -151,96 +158,150 @@
         window.GeneFoxAnalytics ? GeneFoxAnalytics.storeRedirect("apple", "https://apps.apple.com/app/genefox/id6778824242") : location.replace("https://apps.apple.com/app/genefox/id6778824242");
         return;
       }
-      // Mac (touch or not), iPad in desktop mode, Windows, Linux: stay here. The page offers the App Store and the
-      // command-line tool, and hides the phone store badges.
-      document.documentElement.classList.add("desktop");
+      // Mac, iPad in desktop mode, Windows, Linux: stay here for the direct downloads.
     })();
   </script>
   <script>
-    // Copy buttons for the command blocks. Hidden where the Clipboard API is absent.
+    // The direct downloads, from /download/releases.json: one manifest for the Mac app, the
+    // command-line tool and the R and Python packages. A product is "soon" (its section says
+    // coming soon) or "available". Every value is checked before it is shown, and text is
+    // set with textContent only. An artifact failing a check is dropped; a product left with
+    // none, or a missing or malformed file, shows the coming-soon state. Nothing links to a
+    // file the manifest does not name.
     (function () {
-      var buttons = document.querySelectorAll(".cmd .copy");
-      function flash(btn, label) {
-        btn.textContent = label;
-        setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+      var VT = "https://www.virustotal.com/gui/file/";
+      var BUCKET = "https://storage.googleapis.com/vds-genefox-releases/";
+      var ALLOWED = {
+        mac: BUCKET + "genefox-app/",
+        cli: BUCKET + "genefox-cli/",
+        r: "https://github.com/vindhyadatascience/genefox-r/releases/download/",
+        python: "https://files.pythonhosted.org/packages/"
+      };
+      var SHA = /^[0-9a-f]{64}$/, VER = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/;
+      var TEXT = /^[A-Za-z0-9 ().,+\/:-]{1,80}$/, FILE = /^[A-Za-z0-9._-]{1,120}$/;
+      function str(v, re) { return typeof v === "string" && re.test(v); }
+      function allowedUrl(product, url, file) {
+        if (typeof url !== "string" || /[\s?#\\]|\.\./.test(url)) return false;
+        if (url.slice(-(file.length + 1)) !== "/" + file) return false;
+        return url.indexOf(ALLOWED[product]) === 0;
       }
+      function artifact(product, version, a) {
+        if (!a || typeof a !== "object") return null;
+        if (!str(a.label, TEXT) || !str(a.filename, FILE) || !str(a.sha256, SHA)) return null;
+        if (a.filename.indexOf(version) < 0 || !allowedUrl(product, a.url, a.filename)) return null;
+        if (typeof a.sizeBytes !== "number" || a.sizeBytes % 1 !== 0 || a.sizeBytes <= 0) return null;
+        if (a.virustotal !== VT + a.sha256) return null;
+        if (!str(a.signing, TEXT) || !str(a.minOS, TEXT)) return null;
+        var contents = (Array.isArray(a.contents) ? a.contents : []).filter(function (c) {
+          return c && str(c.name, FILE) && str(c.sha256, SHA) && c.virustotal === VT + c.sha256;
+        });
+        return { label: a.label, filename: a.filename, url: a.url, size: a.sizeBytes, sha: a.sha256,
+                 vt: a.virustotal, signing: a.signing, minOS: a.minOS, contents: contents };
+      }
+      function product(doc, name) {
+        var p = doc && doc.products && doc.products[name];
+        if (!p || p.status !== "available" || !str(p.version, VER) || !Array.isArray(p.artifacts)) return null;
+        var list = p.artifacts.map(function (a) { return artifact(name, p.version, a); }).filter(Boolean);
+        if (!list.length) return null;
+        var docs = typeof p.docs === "string" && /^\/[a-z0-9-]+\/$/.test(p.docs) ? p.docs : null;
+        return { version: p.version, artifacts: list, docs: docs };
+      }
+      function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+      function size(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB"; }
+      function hashLine(parent, sha, vt, prefix) {
+        var line = el("div", "meta");
+        line.appendChild(document.createTextNode((prefix || "") + "SHA-256 "));
+        line.appendChild(el("span", "hash", sha));
+        line.appendChild(document.createTextNode(" · "));
+        var scan = el("a", null, "VirusTotal");
+        scan.href = vt; scan.rel = "noopener";
+        line.appendChild(scan);
+        parent.appendChild(line);
+      }
+      function fileItem(a, event) {
+        var li = el("li");
+        var link = el("a", "label", a.label);
+        link.href = a.url;
+        if (event) link.setAttribute("data-ga-event", event);
+        li.appendChild(link);
+        li.appendChild(el("div", "meta", a.filename + " · " + size(a.size) + " · " + a.minOS + " · " + a.signing));
+        hashLine(li, a.sha, a.vt);
+        a.contents.forEach(function (c) { hashLine(li, c.sha256, c.virustotal, c.name + " inside: "); });
+        return li;
+      }
+      function show(section, on) {
+        section.querySelector("[data-body]").hidden = !on;
+        section.querySelector("[data-soon]").hidden = on;
+      }
+      function renderMac(p) {
+        var s = document.getElementById("mac");
+        if (!p) return show(s, false);
+        var a = p.artifacts[0], body = s.querySelector("[data-body]");
+        var btn = el("a", "btn", "Download for Mac");
+        btn.href = a.url;
+        body.appendChild(btn);
+        body.appendChild(el("div", "meta", "Version " + p.version + " · " + size(a.size) + " · " + a.minOS));
+        hashLine(body, a.sha, a.vt);
+        show(s, true);
+      }
+      function renderCli(p) {
+        var s = document.getElementById("cli");
+        if (!p) return show(s, false);
+        var list = s.querySelector("[data-files]");
+        p.artifacts.forEach(function (a) { list.appendChild(fileItem(a, "cli_download")); });
+        var base = ALLOWED.cli + p.version + "/";
+        s.querySelector("[data-sums]").href = base + "SHA256SUMS";
+        s.querySelector("[data-sig]").href = base + "SHA256SUMS.minisig";
+        show(s, true);
+      }
+      function renderPackage(name, p) {
+        var s = document.getElementById(name);
+        if (!p) return show(s, false);
+        var cmd, page;
+        if (name === "python") {
+          cmd = "pip install genefox==" + p.version;
+          page = "https://pypi.org/project/genefox/" + p.version + "/";
+        } else {
+          cmd = "remotes::install_url(\"" + p.artifacts[0].url + "\")";
+          page = "https://github.com/vindhyadatascience/genefox-r/releases/tag/v" + p.version;
+        }
+        s.querySelector("[data-cmd]").textContent = cmd;
+        s.querySelector("[data-page]").href = page;
+        var docs = s.querySelector("[data-docs]");
+        if (p.docs) { docs.querySelector("a").href = p.docs; docs.hidden = false; }
+        var list = s.querySelector("[data-files]");
+        p.artifacts.forEach(function (a) { list.appendChild(fileItem(a)); });
+        show(s, true);
+      }
+      function render(doc) {
+        var ok = doc && doc.schema === 2;
+        renderMac(ok ? product(doc, "mac") : null);
+        renderCli(ok ? product(doc, "cli") : null);
+        renderPackage("python", ok ? product(doc, "python") : null);
+        renderPackage("r", ok ? product(doc, "r") : null);
+      }
+      // Copy buttons, hidden without a Clipboard API. The analytics script also counts a
+      // data-copy-install click (and copies the same text).
+      var buttons = document.querySelectorAll(".cmd .copy");
       for (var i = 0; i < buttons.length; i++) {
         (function (btn) {
           if (!navigator.clipboard || !navigator.clipboard.writeText) { btn.hidden = true; return; }
           btn.addEventListener("click", function () {
-            var text = btn.parentNode.querySelector("code").textContent;
-            navigator.clipboard.writeText(text).then(
-              function () { flash(btn, "Copied"); },
-              function () { flash(btn, "Copy failed"); });
+            function flash(t) { btn.textContent = t; setTimeout(function () { btn.textContent = "Copy"; }, 1600); }
+            navigator.clipboard.writeText(btn.parentNode.querySelector("code").textContent)
+              .then(function () { flash("Copied"); }, function () { flash("Copy failed"); });
           });
         })(buttons[i]);
       }
-    })();
-  </script>
-  <script>
-    // The command-line downloads, from download/releases.json (written by
-    // Scripts/cli-release/virustotal.py stage). Every value is checked before it is shown,
-    // and text is set with textContent, never innerHTML. A missing or malformed file leaves
-    // the downloads list hidden; the install commands above do not depend on it.
-    (function () {
-      var section = document.getElementById("cli-downloads");
-      if (!section) return;
-      var SHA = /^[0-9a-f]{64}$/;
-      var VT = "https://www.virustotal.com/gui/file/";
-      function el(tag, cls, text) {
-        var node = document.createElement(tag);
-        if (cls) node.className = cls;
-        if (text != null) node.textContent = text;
-        return node;
-      }
-      function https(value) { return typeof value === "string" && /^https:\/\//.test(value); }
       fetch("/download/releases.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-        .then(function (data) {
-          if (!data || !Array.isArray(data.artifacts)) return;
-          if (data.placeholder) {
-            document.getElementById("cli-note").textContent =
-              "Placeholder data: not a release. Hashes and scan links appear once the release is staged.";
-          }
-          var list = document.getElementById("cli-list");
-          data.artifacts.forEach(function (a) {
-            var label = typeof a.label === "string" ? a.label : String(a.name || "");
-            var item = el("li");
-            var name = typeof a.name === "string" ? a.name : "";
-            var title = el("div", "cli-title");
-            if (https(a.url)) {
-              var download = el("a", null, label);
-              download.href = a.url;
-              title.appendChild(download);
-            } else {
-              title.appendChild(el("span", null, label));
-            }
-            if (name) title.appendChild(el("div", "cli-file", name));
-            item.appendChild(title);
-
-            var meta = el("div", "cli-meta");
-            var sha = typeof a.sha256 === "string" ? a.sha256 : "";
-            if (SHA.test(sha)) {
-              meta.appendChild(document.createTextNode("SHA-256 "));
-              meta.appendChild(el("span", "cli-hash", sha));
-            } else {
-              meta.appendChild(el("span", "cli-pending", "SHA-256 pending"));
-            }
-            meta.appendChild(document.createTextNode("  ·  "));
-            if (SHA.test(sha) && a.permalink === VT + sha) {
-              var scan = el("a", null, "VirusTotal scan");
-              scan.href = a.permalink;
-              scan.rel = "noopener";
-              meta.appendChild(scan);
-            } else {
-              meta.appendChild(el("span", "cli-pending", "VirusTotal scan pending"));
-            }
-            item.appendChild(meta);
-            list.appendChild(item);
-          });
-          section.hidden = false;
-        })
-        .catch(function () { /* Leave the downloads list hidden. */ });
+        .then(render)
+        .catch(function () { render(null); });
     })();
   </script>
 </body>
