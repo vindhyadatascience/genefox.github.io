@@ -433,6 +433,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#genefox-update-check-version-xyz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox update [--check] [--version X.Y.Z]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#genefox-doctor-resources-dir-output-dir-dir" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -692,6 +703,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#genefox-update-check-version-xyz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox update [--check] [--version X.Y.Z]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#genefox-doctor-resources-dir-output-dir-dir" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -820,6 +842,10 @@ which code.</p>
 <td>The <code>genefox run dose_response</code> result: 0 on success; 1 when refused (no live Dose-Response grant, an unknown name, a package that fails its pins, a path outside the read root); 64 for a usage error. See the <a href="../mcp/#entitlements-genefox-pro">MCP server guide</a>.</td>
 </tr>
 <tr>
+<td><code>genefox update [--check] [--version X.Y.Z]</code></td>
+<td>0 when updated, already current, or (with <code>--check</code>) reported; 1 when it refuses or a check fails; 64 for a usage error.</td>
+</tr>
+<tr>
 <td><code>genefox tools</code></td>
 <td>0; 64 if any argument is given.</td>
 </tr>
@@ -927,6 +953,18 @@ budget refuse with no partial PDF written.</p>
 <p>Checks a curated dataset package (manifest, columns dictionary, expression matrices and tables). Nothing is fetched and nothing is written.</p>
 <h3 id="genefox-curated-dose-view-package-dir-flags"><code>genefox curated dose &lt;view&gt; &lt;package-dir&gt; [flags]</code><a class="headerlink" href="#genefox-curated-dose-view-package-dir-flags" title="Permanent link">&para;</a></h3>
 <p>GeneFox Pro's dose-response analyses on an assembled curated package (<code>resource.json</code>, <code>tables/&lt;id&gt;.tsv.gz</code>, <code>metadata.tsv</code>), the same calls the app's dose panes make. Views: <code>curve</code> (also <code>table</code>: one compound's IC50 and AUC per line, refit and published side by side, and a line's curve), <code>by_group</code>, <code>waterfall</code>, <code>volcano</code>, <code>mechanism</code>, <code>heatmap</code> (the <code>--top</code> most informative compounds, <code>--rank variation|strength</code>, x the lines for the measure: <code>--measure log10_ic50 --ic50 absolute|relative</code>, <code>auc</code> or <code>amax</code>; lines grouped by <code>--column</code>, and <code>--level &lt;value&gt;</code> (repeatable) draws the lines with any of those values, as one group, against all other lines; <code>--scale z_score</code> standardizes per compound; a hatched cell is not reached, gray is not tested; <code>--style dots</code> draws the same matrix as dots, colour log10 IC50 and size Amax in % effect, a hollow dot a fitted-asymptote Amax, an outlined dot not reached), <code>biomarkers</code> (one compound against every gene: <code>--test expression</code> Spearman or <code>--test mutation</code> Wilcoxon mutant vs wild-type, BH across the family, n per test, at least 6 lines or 3 per group; <code>--direction gene --gene G</code> for one gene against every compound; published values by default), <code>single_dose_ranked</code>, <code>single_dose_by_group</code>, <code>single_dose_volcano</code>, <code>single_dose_bridge</code>. Every grouping view groups by <code>--column</code>, or by a gene: <code>--group-by expression --gene G [--split median|tertiles]</code> or <code>--group-by mutation --gene G</code> (the package's variant table), or by <code>stratify_derived</code> (an annotation column or <code>expression:G</code>). The package's <code>matrix.gfxm</code> supplies expression. Flags: <code>--compound</code>, <code>--line</code>, <code>--column</code>, <code>--control</code>, <code>--group-1</code>, <code>--group-2</code>, <code>--measure auc|log10_ic50|amax</code>, <code>--source refit|published</code> (volcano, mechanism and heatmap default to published when the package has it), <code>--ic50 absolute|relative</code>, <code>--fdr</code>, <code>--plot strip|box</code>, <code>--scale z_score|median|value</code>, <code>--top</code>, <code>--rank</code>, <code>--style cells|dots</code>, <code>--level</code>, <code>--table</code>, <code>--limit</code>, <code>--figure true|false</code>, <code>--size</code>, <code>--format png|svg|tiff|pdf</code>, <code>--csv</code>, <code>--output-dir</code>. The result is JSON: the pane's table, the Methods sentence with each table's own credit, the dose method hints, and the figure and CSV paths. The package directory is also the read root for the call. Without a live Dose-Response grant the tool is not offered and the command exits 1 (this headless build links no account, so it fails closed everywhere today).</p>
+<h3 id="genefox-update-check-version-xyz"><code>genefox update [--check] [--version X.Y.Z]</code><a class="headerlink" href="#genefox-update-check-version-xyz" title="Permanent link">&para;</a></h3>
+<p><code>genefox update</code> updates an install made by the GeneFox installer in place: it makes the installer's checks (GeneFox's
+minisign signature, a trusted comment naming <code>genefox-cli</code> and the exact version, the
+archive's SHA-256), runs the new binary, then swaps it in. <code>genefox update --check</code> only
+reports; <code>genefox update --version X.Y.Z</code> installs that version, which is the only way to go
+back to an older one. It refuses a Homebrew or conda install, the copy inside GeneFox.app and a
+folder you cannot write, and prints the command to use instead. On Windows the running
+<code>genefox.exe</code> is renamed aside and removed by the next update.</p>
+<p>Once a day, in a terminal, genefox prints a one-line notice on stderr when a newer release
+exists. The check runs in the background with a 3-second limit and never delays or fails a
+command. It is never shown for <code>genefox mcp</code>, when stdout or stderr is not a terminal, in CI
+(<code>CI</code> set), or with <code>GENEFOX_NO_UPDATE_CHECK=1</code>.</p>
 <h3 id="genefox-doctor-resources-dir-output-dir-dir"><code>genefox doctor [--resources &lt;dir&gt;] [--output-dir &lt;dir&gt;]</code><a class="headerlink" href="#genefox-doctor-resources-dir-output-dir-dir" title="Permanent link">&para;</a></h3>
 <p>Runs offline startup checks and prints one line per check: the scientific resource inventory
 and Ensembl reference (found/missing and path), bundled report marks and fonts (found/missing
@@ -934,7 +972,8 @@ and path), the figure font's SHA-256 pin, an actual create-only write under the 
 the digest/inflate/transport seams and remaining required seams,
 an informational line of the should/pro/optional seams this host leaves uninstalled (never a
 failure), and the sorted MCP fetch allowlist. The write probe is removed afterwards. <code>genefox fetch</code> remains unrestricted.</p>
-<p>Use <code>--resources &lt;dir&gt;</code> (or <code>GENEFOX_RESOURCES</code>) for scientific resources that are not installed beside the binary. Explicit resources are authoritative for report assets too. <code>--output-dir</code> wins
+<p>For source builds, a binary under the checkout's <code>.build</code> folder finds the app's scientific resources directory itself; <code>--resources</code>
+(or <code>GENEFOX_RESOURCES</code>) still wins. Explicit resources are authoritative for report assets too. <code>--output-dir</code> wins
 over <code>GENEFOX_OUTPUT_DIR</code>, then defaults to <code>&lt;system temp&gt;/genefox-mcp</code>; a missing output
 directory is created under the usual output policy. A missing or corrupt resource, font-pin
 mismatch, failed write, or missing required seam exits <strong>1</strong>; all checks passing exits <strong>0</strong>.

@@ -60,7 +60,9 @@ variable; a leading `~` is expanded. The complete lookup order is:
 3. `<resolved executable directory>/../share/genefox/Resources` (install prefix).
 4. For `<X>.app/Contents/Helpers/genefox` or `Contents/MacOS/genefox`, the app's
    `Contents/Resources`.
-5. None.
+5. For a binary under a checkout's `.build` folder (`swift build`), the checkout's
+   the app's scientific resources directory.
+6. None.
 
 Executable symlinks are resolved before automatic lookup. Automatic candidates must contain
 an existing regular, non-symlink `ScientificResources.json`; a bare directory is ignored.
@@ -183,6 +185,8 @@ These are the environment variables the CLI reads:
 | `XDG_CACHE_HOME` | Linux cache default | Base directory for the default `GeneFoxCLI` download cache (read by Foundation). |
 | `GENEFOX_OUTPUT_DIR` | `mcp`, `report export`, `doctor` | Output directory, when no `--output-dir` flag is given. |
 | `GENEFOX_MCP_ALLOWED_ROOTS` | `mcp` | Extra local read roots for the legacy path tools, path-separated (`:` on POSIX, `;` on Windows); added to `--allow-root`. |
+| `GENEFOX_NO_UPDATE_CHECK` | every subcommand | `1` turns off the daily "newer release" notice. |
+| `CI` | every subcommand | Set (and not `0` or `false`): no update notice. |
 | `GENEFOX_TRANSPORT` | `mcp`, `doctor` | `record:<directory>` or `replay:<directory>`; unset uses live transport. Invalid settings fail startup. |
 
 The default output directory comes from Foundation's `FileManager.temporaryDirectory`, which

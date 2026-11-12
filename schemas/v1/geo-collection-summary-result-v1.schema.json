@@ -156,6 +156,33 @@
                         },
                         "untrusted_key": {
                           "type": "string"
+                        },
+                        "value_counts": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "additionalProperties": true,
+                                "properties": {
+                                  "sample_count": {
+                                    "minimum": 0,
+                                    "type": "integer"
+                                  },
+                                  "untrusted_value": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "untrusted_value",
+                                  "sample_count"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
                         }
                       },
                       "required": [
@@ -164,6 +191,7 @@
                         "samples_with_key",
                         "sample_fraction",
                         "untrusted_example_values",
+                        "value_counts",
                         "example_values_truncated"
                       ],
                       "type": "object"
@@ -181,6 +209,81 @@
                       {
                         "minimum": 0,
                         "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "source_name": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "distinct_value_count": {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          "example_values_truncated": {
+                            "type": "boolean"
+                          },
+                          "sample_fraction": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "samples_with_key": {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          "untrusted_example_values": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "untrusted_key": {
+                            "type": "string"
+                          },
+                          "value_counts": {
+                            "anyOf": [
+                              {
+                                "items": {
+                                  "additionalProperties": true,
+                                  "properties": {
+                                    "sample_count": {
+                                      "minimum": 0,
+                                      "type": "integer"
+                                    },
+                                    "untrusted_value": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "untrusted_value",
+                                    "sample_count"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "untrusted_key",
+                          "distinct_value_count",
+                          "samples_with_key",
+                          "sample_fraction",
+                          "untrusted_example_values",
+                          "value_counts",
+                          "example_values_truncated"
+                        ],
+                        "type": "object"
                       },
                       {
                         "type": "null"
@@ -217,7 +320,8 @@
                   "content_sha256",
                   "qualifies",
                   "untrusted_matched_keys",
-                  "fields"
+                  "fields",
+                  "source_name"
                 ],
                 "type": "object"
               },
@@ -837,6 +941,33 @@
                         },
                         "untrusted_title": {
                           "type": "string"
+                        },
+                        "unusable_subject_identifier_characteristics": {
+                          "items": {
+                            "additionalProperties": true,
+                            "properties": {
+                              "untrusted_field": {
+                                "type": "string"
+                              },
+                              "untrusted_key": {
+                                "type": "string"
+                              },
+                              "untrusted_raw": {
+                                "type": "string"
+                              },
+                              "untrusted_value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "untrusted_field",
+                              "untrusted_key",
+                              "untrusted_value",
+                              "untrusted_raw"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
                         }
                       },
                       "required": [
@@ -845,7 +976,8 @@
                         "untrusted_source",
                         "characteristics",
                         "treatment_protocols",
-                        "subject_identifier_characteristics"
+                        "subject_identifier_characteristics",
+                        "unusable_subject_identifier_characteristics"
                       ],
                       "type": "object"
                     },

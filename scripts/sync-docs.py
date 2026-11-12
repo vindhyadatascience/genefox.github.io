@@ -86,6 +86,7 @@ def public(text):
     text = text.replace('/src/Sources/Locus/Resources', '/path/to/Resources')
     text = text.replace('GENEFOX_RESOURCES=Sources/Locus/Resources', 'GENEFOX_RESOURCES=/path/to/Resources')
     text = text.replace('../Tools/genefox/README.md#mcp-transport-cassettes', 'install.md#mcp-transport-cassettes')
+    text = text.replace('../Tools/genefox/README.md#genefox-update---check---version-xyz', 'cli.md#genefox-update-check-version-xyz')
     text = text.replace("FoxCore's engine", "GeneFox's shared engine")
     text = text.replace('same FoxCore function', 'same shared function')
     text = text.replace('FoxCore reached a host', 'The server reached a host')

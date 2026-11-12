@@ -250,6 +250,31 @@
           "required": [],
           "type": "object"
         },
+        "platforms": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "gpl": {
+                "type": "string"
+              },
+              "untrusted_title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "gpl",
+              "untrusted_title"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "pubmed_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "raw_data": {
           "additionalProperties": true,
           "properties": {
@@ -270,6 +295,56 @@
             "availability"
           ],
           "type": "object"
+        },
+        "samples_page": {
+          "additionalProperties": true,
+          "properties": {
+            "next_sample_offset": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "offset": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "returned": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "offset",
+            "returned",
+            "total",
+            "next_sample_offset"
+          ],
+          "type": "object"
+        },
+        "series_context_available": {
+          "type": "boolean"
+        },
+        "sub_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "super_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "untrusted_data_type": {
           "type": "string"
@@ -386,7 +461,13 @@
         "usability",
         "raw_data",
         "untrusted_samples",
-        "links"
+        "links",
+        "samples_page",
+        "series_context_available",
+        "pubmed_ids",
+        "super_series",
+        "sub_series",
+        "platforms"
       ],
       "type": "object"
     },

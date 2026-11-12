@@ -855,6 +855,8 @@ variable; a leading <code>~</code> is expanded. The complete lookup order is:</p
 <li><code>&lt;resolved executable directory&gt;/../share/genefox/Resources</code> (install prefix).</li>
 <li>For <code>&lt;X&gt;.app/Contents/Helpers/genefox</code> or <code>Contents/MacOS/genefox</code>, the app's
    <code>Contents/Resources</code>.</li>
+<li>For a binary under a checkout's <code>.build</code> folder (<code>swift build</code>), the checkout's
+   the app's scientific resources directory.</li>
 <li>None.</li>
 </ol>
 <p>Executable symlinks are resolved before automatic lookup. Automatic candidates must contain
@@ -989,6 +991,16 @@ plain <code>Data.write</code>, and <strong>do overwrite</strong> an existing fil
 <td><code>GENEFOX_MCP_ALLOWED_ROOTS</code></td>
 <td><code>mcp</code></td>
 <td>Extra local read roots for the legacy path tools, path-separated (<code>:</code> on POSIX, <code>;</code> on Windows); added to <code>--allow-root</code>.</td>
+</tr>
+<tr>
+<td><code>GENEFOX_NO_UPDATE_CHECK</code></td>
+<td>every subcommand</td>
+<td><code>1</code> turns off the daily "newer release" notice.</td>
+</tr>
+<tr>
+<td><code>CI</code></td>
+<td>every subcommand</td>
+<td>Set (and not <code>0</code> or <code>false</code>): no update notice.</td>
 </tr>
 <tr>
 <td><code>GENEFOX_TRANSPORT</code></td>

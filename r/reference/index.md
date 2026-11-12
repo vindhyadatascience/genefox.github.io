@@ -52,7 +52,7 @@
   repeated characteristics and provenance
 - [`gf_geo_dataset_details()`](https://genefox.app/r/reference/gf_geo_dataset_details.md)
   : A GEO series' record as GeneFox's dataset detail screen shows it:
-  title, summary, organism, platform,...
+  title, summary, organism, platform...
 - [`gf_geo_finder_plan()`](https://genefox.app/r/reference/gf_geo_finder_plan.md)
   : Plan GEO searches without executing them or using a model
 - [`gf_geo_gene_correlation()`](https://genefox.app/r/reference/gf_geo_gene_correlation.md)

@@ -1,9 +1,9 @@
 # Plan GEO searches without executing them or using a model
 
 Plan GEO searches without executing them or using a model. Returns
-intent and one or two geo_search suggestions; organism/data type use
-defaults, and sample-size/comparison hints are advisory. No conversation
-or cloud consent path.
+intent and one or two geo_search suggestions: the key terms with smart
+search on, and the organism the question names; sample-size/comparison
+hints are advisory. No conversation or cloud consent path.
 
 ## Usage
 

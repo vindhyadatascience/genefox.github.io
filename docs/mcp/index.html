@@ -972,6 +972,8 @@ HTML document.</p>
 <h2 id="starting-the-server">Starting the server<a class="headerlink" href="#starting-the-server" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>genefox<span class="w"> </span>mcp<span class="w"> </span>--resources<span class="w"> </span>/path/to/Resources<span class="w"> </span>--output-dir<span class="w"> </span>~/genefox-out
 </code></pre></div>
+<p><code>genefox mcp</code> never prints the CLI's update notice and never checks for updates; update an
+installer install with <a href="../cli/#genefox-update-check-version-xyz"><code>genefox update</code></a> from a terminal.</p>
 <table>
 <thead>
 <tr>
@@ -982,7 +984,7 @@ HTML document.</p>
 <tbody>
 <tr>
 <td><code>--resources &lt;dir&gt;</code></td>
-<td>A copy of the app's scientific resources directory; or <code>GENEFOX_RESOURCES</code>, then <code>&lt;resolved executable directory&gt;/../share/genefox/Resources</code>, then <code>&lt;X&gt;.app/Contents/Resources</code> for a <code>Contents/Helpers/genefox</code> or <code>Contents/MacOS/genefox</code> executable. Automatic roots require <code>ScientificResources.json</code>; every source uses the same integrity checks. With no folder, a missing one, or one without <code>ScientificResources.json</code>, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer <code>resource_unavailable</code> naming the reason, and no figure is drawn.</td>
+<td>A copy of the app's scientific resources directory; or <code>GENEFOX_RESOURCES</code>, then <code>&lt;resolved executable directory&gt;/../share/genefox/Resources</code>, then <code>&lt;X&gt;.app/Contents/Resources</code> for a <code>Contents/Helpers/genefox</code> or <code>Contents/MacOS/genefox</code> executable, then a source checkout's the app's scientific resources directory for a binary under its <code>.build</code> folder. Automatic roots require <code>ScientificResources.json</code>; every source uses the same integrity checks. With no folder, a missing one, or one without <code>ScientificResources.json</code>, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer <code>resource_unavailable</code> naming the reason, and no figure is drawn.</td>
 </tr>
 <tr>
 <td><code>--cache-dir &lt;dir&gt;</code></td>

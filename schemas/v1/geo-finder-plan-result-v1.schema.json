@@ -65,7 +65,16 @@
                     "type": "string"
                   },
                   "organism": {
-                    "const": "any",
+                    "enum": [
+                      "human",
+                      "mouse",
+                      "rat",
+                      "fly",
+                      "zebrafish",
+                      "worm",
+                      "yeast",
+                      "any"
+                    ],
                     "type": "string"
                   },
                   "query": {

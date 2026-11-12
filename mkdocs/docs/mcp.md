@@ -15,9 +15,12 @@ See [Install & resources](install.md) and the [CLI reference](cli.md).
 genefox mcp --resources /path/to/Resources --output-dir ~/genefox-out
 ```
 
+`genefox mcp` never prints the CLI's update notice and never checks for updates; update an
+installer install with [`genefox update`](cli.md#genefox-update-check-version-xyz) from a terminal.
+
 | Option | Meaning |
 | --- | --- |
-| `--resources <dir>` | A copy of the app's scientific resources directory; or `GENEFOX_RESOURCES`, then `<resolved executable directory>/../share/genefox/Resources`, then `<X>.app/Contents/Resources` for a `Contents/Helpers/genefox` or `Contents/MacOS/genefox` executable. Automatic roots require `ScientificResources.json`; every source uses the same integrity checks. With no folder, a missing one, or one without `ScientificResources.json`, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer `resource_unavailable` naming the reason, and no figure is drawn. |
+| `--resources <dir>` | A copy of the app's scientific resources directory; or `GENEFOX_RESOURCES`, then `<resolved executable directory>/../share/genefox/Resources`, then `<X>.app/Contents/Resources` for a `Contents/Helpers/genefox` or `Contents/MacOS/genefox` executable, then a source checkout's the app's scientific resources directory for a binary under its `.build` folder. Automatic roots require `ScientificResources.json`; every source uses the same integrity checks. With no folder, a missing one, or one without `ScientificResources.json`, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer `resource_unavailable` naming the reason, and no figure is drawn. |
 | `--cache-dir <dir>` | Download cache; or `GENEFOX_CACHE_DIR`. Default `~/Library/Caches/GeneFoxCLI` on macOS, `$XDG_CACHE_HOME/GeneFoxCLI` (or `~/.cache/GeneFoxCLI`) on Linux. Mount a persistent volume in containers; on WSL prefer the Linux filesystem. |
 | `--output-dir <dir>` | Where figures, CSVs, recipes and HTML are written; or set `GENEFOX_OUTPUT_DIR`. Default `<system temp>/genefox-mcp`. Files are only ever created there, never overwritten. |
 | `--enable-legacy-tools` | Also list the five [legacy tools](#legacy-tools), which take local paths or URLs. |
