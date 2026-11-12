@@ -40,6 +40,46 @@ The canonical privacy page is `privacy/index.html`; keep it byte-identical to
 `docs/privacy-policy.html` in the app repository and run the app repository's
 `Scripts/validate-live-privacy-policy.sh` before release.
 
+## CLI and MCP documentation
+
+The public reference lives at `https://genefox.app/docs/`. Keep the existing
+static GitHub Pages publication from `main` / root: commit the MkDocs output in
+`docs/` alongside the landing page and short links. This adds no CI deployment
+step and changes neither `/apple`, `/android`, nor `/download`.
+
+Generate and strictly build it with one command:
+
+```sh
+scripts/build-docs.sh --app-repo /absolute/path/to/RNABrowser \
+  --genefox /absolute/path/to/matching/genefox
+```
+
+`scripts/sync-docs.py` reads the app's CLI README, MCP guide and plugin README.
+It extracts public reference sections, removes contributor evidence, rewrites
+links and copies the plugin's licence notices. `genefox tools` supplies the
+catalogue; generation fails if it differs from the canonical MCP guide. Use a
+binary built from the selected checkout. The small install introduction in
+`mkdocs/templates/` describes publication availability and layout rather than
+claiming an unpublished binary is available.
+
+Check drift without writing files:
+
+```sh
+python3 scripts/sync-docs.py --app-repo /absolute/path/to/RNABrowser \
+  --genefox /absolute/path/to/matching/genefox --check
+```
+
+Preview the repository with `python3 -m http.server 8000`, then open
+`http://localhost:8000/docs/`. The build pins Python dependencies in
+`mkdocs/requirements.txt` and treats documentation links, anchors and build
+warnings as errors. Review the rendered pages and generated diff before
+committing. Do not edit generated Markdown or HTML directly.
+
+**Publication is on hold by user instruction (2026-10-05).** Build and review
+locally; do not push the website branch, merge to `main`, change Pages settings,
+or deploy until the user releases that hold. Committing a local draft does not
+publish it.
+
 ## Brand
 
 - Ground navy `#1B2547` · magenta `#B53694` · pink `#D57BBA` · pale `#F4D7E7`

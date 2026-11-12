@@ -1,0 +1,1011 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the GeneFox command-line tool and Model Context Protocol (MCP) server.">
+      
+      
+      
+        <link rel="canonical" href="https://genefox.app/docs/cli/">
+      
+      
+        <link rel="prev" href="../install/">
+      
+      
+        <link rel="next" href="../mcp/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/genefox-icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>CLI reference - GeneFox CLI & MCP</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/genefox.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="GeneFox CLI &amp; MCP" class="md-header__button md-logo" aria-label="GeneFox CLI & MCP" data-md-component="logo">
+      
+  <img src="../assets/genefox-icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GeneFox CLI & MCP
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GeneFox CLI &amp; MCP" class="md-nav__button md-logo" aria-label="GeneFox CLI & MCP" data-md-component="logo">
+      
+  <img src="../assets/genefox-icon.png" alt="logo">
+
+    </a>
+    GeneFox CLI & MCP
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install & resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#subcommands-and-exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subcommands and exit codes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcommands and exit codes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#genefox-catalog-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox catalog [--json]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-validate-recipejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox validate &lt;recipe.json&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-render-recipejson-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox render &lt;recipe.json&gt; [options]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-fetch-url-o-file-z-m-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox fetch &lt;url&gt; [-o &lt;file&gt;] [-z] [-m &lt;bytes&gt;]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-report-export-file-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox report export &lt;file&gt; [options]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-doctor-resources-dir-output-dir-dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox doctor [--resources &lt;dir&gt;] [--output-dir &lt;dir&gt;]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-mcp-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox mcp [options]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="genefox mcp [options]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#showing-only-some-groups-keep_groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Showing only some groups: keep_groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP server guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tool catalogue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#subcommands-and-exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subcommands and exit codes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcommands and exit codes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#genefox-catalog-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox catalog [--json]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-validate-recipejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox validate &lt;recipe.json&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-render-recipejson-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox render &lt;recipe.json&gt; [options]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-fetch-url-o-file-z-m-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox fetch &lt;url&gt; [-o &lt;file&gt;] [-z] [-m &lt;bytes&gt;]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-report-export-file-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox report export &lt;file&gt; [options]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-doctor-resources-dir-output-dir-dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox doctor [--resources &lt;dir&gt;] [--output-dir &lt;dir&gt;]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genefox-mcp-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        genefox mcp [options]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="genefox mcp [options]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#showing-only-some-groups-keep_groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Showing only some groups: keep_groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- Generated by scripts/sync-docs.py; edit canonical app documentation. -->
+
+<h1 id="cli-reference">CLI reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
+<p>Resource, cache and output directories are described in <a href="../install/">Install &amp; resources</a>.</p>
+<h2 id="subcommands-and-exit-codes">Subcommands and exit codes<a class="headerlink" href="#subcommands-and-exit-codes" title="Permanent link">&para;</a></h2>
+<p>Exit codes are <code>0</code> for success, <code>1</code> for a failure the command reports as <code>error: &lt;sentence&gt;</code>
+on stderr, and <code>64</code> for a usage error. The table lists, per subcommand, which conditions give
+which code.</p>
+<table>
+<thead>
+<tr>
+<th>Invocation</th>
+<th>Exit codes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>genefox</code> (no arguments), <code>genefox help</code>, <code>--help</code>, <code>-h</code></td>
+<td>0: prints usage to stdout.</td>
+</tr>
+<tr>
+<td><code>genefox &lt;unknown&gt;</code></td>
+<td>64: <code>unknown command: &lt;name&gt;</code>, then usage, on stderr.</td>
+</tr>
+<tr>
+<td><code>genefox catalog [--json]</code></td>
+<td>0.</td>
+</tr>
+<tr>
+<td><code>genefox validate &lt;recipe.json&gt;</code></td>
+<td>0 on success; 64 for a missing or extra argument; 1 when the file is missing or invalid.</td>
+</tr>
+<tr>
+<td><code>genefox render …</code></td>
+<td>0 on success; 64 for a usage error; 1 for other failures.</td>
+</tr>
+<tr>
+<td><code>genefox fetch &lt;url&gt; …</code></td>
+<td>0 on success; 64 for a usage error or a bad <code>-m</code>; 1 for a transport or decompression error.</td>
+</tr>
+<tr>
+<td><code>genefox report export …</code></td>
+<td>0 on success; 1 for every failure, <strong>including argument errors</strong>.</td>
+</tr>
+<tr>
+<td><code>genefox doctor [--resources &lt;dir&gt;] [--output-dir &lt;dir&gt;]</code></td>
+<td>0 when healthy; 1 if a required check fails; 64 for a usage error. Diagnostics go to stdout.</td>
+</tr>
+<tr>
+<td><code>genefox tools</code></td>
+<td>0; 64 if any argument is given.</td>
+</tr>
+<tr>
+<td><code>genefox mcp [options]</code></td>
+<td>64 for an option error; 0 when stdin reaches EOF and every in-flight call has answered; 0 when writing to stdout fails because the client has gone.</td>
+</tr>
+</tbody>
+</table>
+<p><code>render</code> treats a missing recipe, a second positional argument, an unrecognised option, or
+<code>--r-script</code> without <code>--storage-dir</code> as usage errors (64). Its <code>--r-script</code> combined with
+<code>--size</code> exits 1.</p>
+<h3 id="genefox-catalog-json"><code>genefox catalog [--json]</code><a class="headerlink" href="#genefox-catalog-json" title="Permanent link">&para;</a></h3>
+<p>Prints the operation catalogue (the same list <code>list_operations</code> returns): id, display name,
+summary and data scope. <code>--json</code> prints the same records as sorted, pretty-printed JSON, in
+the same form the MCP <code>list_operations</code> tool returns.</p>
+<h3 id="genefox-validate-recipejson"><code>genefox validate &lt;recipe.json&gt;</code><a class="headerlink" href="#genefox-validate-recipejson" title="Permanent link">&para;</a></h3>
+<p>Decodes a recipe store file (the JSON file GeneFox writes when you save recipes),
+validates every recipe and resolves its operation. It prints one line per recipe:
+<code>validated: &lt;name&gt; — dataset &lt;catalog&gt;/&lt;id&gt;, operation &lt;id&gt;</code>. Entries this build cannot read
+are counted and reported, never silently dropped. The CLI does not enforce the store's
+envelope-level policy (format id, version, caps). The legacy MCP tool <code>validate_recipe</code> gives
+the same verdict.</p>
+<h3 id="genefox-render-recipejson-options"><code>genefox render &lt;recipe.json&gt; [options]</code><a class="headerlink" href="#genefox-render-recipejson-options" title="Permanent link">&para;</a></h3>
+<p>Replays the <strong>first</strong> recipe in the file and writes a PNG, or with <code>--r-script</code>, R source.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--storage-dir &lt;dir&gt;</code></td>
+<td>A local imported-dataset store. Required for imported recipes and for <code>--r-script</code>.</td>
+</tr>
+<tr>
+<td><code>--size &lt;preset&gt;</code></td>
+<td><code>single_column</code>, <code>one_and_a_half_column</code>, <code>double_column</code>, <code>slide</code> or <code>poster</code>. Without it, a public recipe uses its recorded figure size, or <code>double_column</code> if it has none, and an imported recipe uses <code>double_column</code>. Rejected with <code>--r-script</code>.</td>
+</tr>
+<tr>
+<td><code>--r-script</code></td>
+<td>Emit the exact-input R script for an imported heatmap or signature recipe, instead of a PNG.</td>
+</tr>
+<tr>
+<td><code>-o &lt;file&gt;</code></td>
+<td>Write to this file and print <code>wrote N bytes PNG</code> (or <code>… R source</code>). Without <code>-o</code>, the bytes go to stdout. Overwrites.</td>
+</tr>
+</tbody>
+</table>
+<p>Imported recipes replay from the verified local store. Public-dataset recipes replay through
+the MCP tools' shared runners (network access needed) into a private temporary directory,
+which is removed afterwards. They also need resources and a font that passes its pin. A
+destination with no verifiable PNG replay refuses. The size is capped at 8,192 px per side
+and 16,000,000 px in total.</p>
+<h3 id="genefox-fetch-url-o-file-z-m-bytes"><code>genefox fetch &lt;url&gt; [-o &lt;file&gt;] [-z] [-m &lt;bytes&gt;]</code><a class="headerlink" href="#genefox-fetch-url-o-file-z-m-bytes" title="Permanent link">&para;</a></h3>
+<p>Fetches a URL through the CLI's <strong>unrestricted</strong> transport (the MCP server's host allowlist
+does not apply here) and prints the body, or writes it with <code>-o</code> (overwrites). <code>-z</code>
+gunzips the response. <code>-m</code> is the maximum response size in bytes: default 50,000,000,
+allowed range 1 to 100,663,296. A value outside
+that range exits 64.</p>
+<h3 id="genefox-report-export-file-options"><code>genefox report export &lt;file&gt; [options]</code><a class="headerlink" href="#genefox-report-export-file-options" title="Permanent link">&para;</a></h3>
+<p>Reads a saved GeneFox v1/v2 report, renders it through the PDF assembly
+both app faces use, and writes it create-only to the output directory. It then prints
+<code>wrote N bytes PDF to &lt;path&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--format pdf</code></td>
+<td>The only format accepted.</td>
+</tr>
+<tr>
+<td><code>--output-dir &lt;dir&gt;</code></td>
+<td>Output directory (see <a href="../install/#output-files">Output files</a>); or <code>GENEFOX_OUTPUT_DIR</code>.</td>
+</tr>
+<tr>
+<td><code>--resources &lt;dir&gt;</code></td>
+<td>Authoritative report assets; or <code>GENEFOX_RESOURCES</code>, then install-prefix/app-bundle discovery. Uses bundled report assets when no scientific root is selected.</td>
+</tr>
+<tr>
+<td><code>--generated-at &lt;ISO8601&gt;</code></td>
+<td>Fixed document timestamp with a time zone (years 0001–9999), for reproducible bytes.</td>
+</tr>
+<tr>
+<td><code>--without-methods</code></td>
+<td>Omit the auto-generated Methods pages.</td>
+</tr>
+</tbody>
+</table>
+<p>The report path must be a regular file, not a symbolic link, and fit this process's
+memory-derived size limit. Unreadable figures, invalid figure sizes, or tables over the
+budget refuse with no partial PDF written.</p>
+<h3 id="genefox-doctor-resources-dir-output-dir-dir"><code>genefox doctor [--resources &lt;dir&gt;] [--output-dir &lt;dir&gt;]</code><a class="headerlink" href="#genefox-doctor-resources-dir-output-dir-dir" title="Permanent link">&para;</a></h3>
+<p>Runs offline startup checks and prints one line per check: the scientific resource inventory
+and Ensembl reference (found/missing and path), bundled report marks and fonts (found/missing
+and path), the figure font's SHA-256 pin, an actual create-only write under the output root,
+the digest/inflate/transport seams and remaining required seams,
+an informational line of the should/pro/optional seams this host leaves uninstalled (never a
+failure), and the sorted MCP fetch allowlist. The write probe is removed afterwards. <code>genefox fetch</code> remains unrestricted.</p>
+<p>Use <code>--resources &lt;dir&gt;</code> (or <code>GENEFOX_RESOURCES</code>) for scientific resources that are not installed beside the binary. Explicit resources are authoritative for report assets too. <code>--output-dir</code> wins
+over <code>GENEFOX_OUTPUT_DIR</code>, then defaults to <code>&lt;system temp&gt;/genefox-mcp</code>; a missing output
+directory is created under the usual output policy. A missing or corrupt resource, font-pin
+mismatch, failed write, or missing required seam exits <strong>1</strong>; all checks passing exits <strong>0</strong>.
+A malformed option exits <strong>64</strong>. Missing-resource diagnostics name the manifest, reference
+or report asset that failed.</p>
+<h3 id="genefox-tools"><code>genefox tools</code><a class="headerlink" href="#genefox-tools" title="Permanent link">&para;</a></h3>
+<p>Prints the MCP tool catalogue as a markdown table: every tool this build registers, its
+access class (free, Pro or legacy) and its deadline. The <a href="../tools/">tool catalogue</a> is generated from this output.</p>
+<h3 id="genefox-mcp-options"><code>genefox mcp [options]</code><a class="headerlink" href="#genefox-mcp-options" title="Permanent link">&para;</a></h3>
+<p>Serves MCP over stdio. Requests go in on stdin and responses come out on stdout; logs go to
+stderr. File descriptor 1 is pointed at stderr so that a stray <code>print</code> from FoxCore cannot
+corrupt the protocol stream.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--resources &lt;dir&gt;</code></td>
+<td>Scientific resources (see the <a href="../install/#scientific-resources-resources-dir-genefox_resources">install guide</a>); or <code>GENEFOX_RESOURCES</code>, then resolved install prefix, then app bundle.</td>
+</tr>
+<tr>
+<td><code>--cache-dir &lt;dir&gt;</code></td>
+<td>Download cache; or <code>GENEFOX_CACHE_DIR</code>. Default: the native caches directory plus <code>GeneFoxCLI</code> (<code>~/Library/Caches/GeneFoxCLI</code>, or <code>$XDG_CACHE_HOME/GeneFoxCLI</code> on Linux). Available on every subcommand.</td>
+</tr>
+<tr>
+<td><code>--output-dir &lt;dir&gt;</code></td>
+<td>Where figures, CSVs, recipes and HTML are written; or <code>GENEFOX_OUTPUT_DIR</code>. Default <code>&lt;system temp&gt;/genefox-mcp</code>.</td>
+</tr>
+<tr>
+<td><code>--enable-legacy-tools</code></td>
+<td>Also list <code>report_export_pdf</code>, <code>report_export_html</code>, <code>validate_recipe</code>, <code>fetch_url</code> and <code>render_recipe</code>. These take local paths or URLs.</td>
+</tr>
+<tr>
+<td><code>--imported-store &lt;dir&gt;</code></td>
+<td>The local imported-dataset store that the legacy <code>render_recipe</code> may read for imported recipes. Only this flag names it; no tool argument can.</td>
+</tr>
+<tr>
+<td><code>--allow-root &lt;dir&gt;</code></td>
+<td>An extra local read root for the legacy <code>validate_recipe</code>/<code>render_recipe</code> paths, repeatable; or <code>GENEFOX_MCP_ALLOWED_ROOTS</code> (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused.</td>
+</tr>
+<tr>
+<td><code>--warm &lt;list&gt;</code></td>
+<td>Comma-separated background prefetch: <code>toil</code>, <code>pancan</code>, or project ids the tools accept (for example <code>TCGA-BRCA</code>). Unknown tokens are logged and skipped. Skipped entirely without resources.</td>
+</tr>
+<tr>
+<td><code>--call-timeout &lt;seconds&gt;</code></td>
+<td>One deadline, from 1 to 3600 seconds, for every call, replacing each tool's own.</td>
+</tr>
+<tr>
+<td><code>--max-concurrent-calls &lt;n&gt;</code></td>
+<td>How many <code>tools/call</code>s run at once, from 1 to 64 (default: half the processors, at least 2 and at most 4). Up to 16 more queue; beyond that a call answers <code>rate_limited</code> (retryable).</td>
+</tr>
+</tbody>
+</table>
+<p>A flag that takes a value refuses a following argument that starts with <code>--</code>. Every option
+error exits 64 and prints the usage line on stderr.</p>
+<h4 id="showing-only-some-groups-keep_groups">Showing only some groups: <code>keep_groups</code><a class="headerlink" href="#showing-only-some-groups-keep_groups" title="Permanent link">&para;</a></h4>
+<p><code>geo_series_expression</code>, <code>geo_gene_correlation</code>, <code>tcga_expression</code>, <code>geo_sample_pca</code>,
+<code>tcga_sample_pca</code> and <code>reference_ccle_expression</code> take <code>keep_groups</code>: the levels of the figure's
+factor to show (the grouping, or a scatter's colour; <code>tcga_expression</code> takes
+<code>keep_color_groups</code> for its correlation scatter). Levels are matched exactly, as R's <code>%in%</code>
+matches them, and dropped levels are gone, as <code>droplevels</code> drops them: r, r², n, the group
+test and its degrees of freedom are recomputed on the retained samples (a PCA is re-solved on
+them). A level the data no longer has is refused, never ignored. The result's <code>data.subset</code>
+carries the engine's sentence ("Showing k of m <factor> groups: ...; statistics recomputed on
+the n retained samples."), which the recipe and HTML export also carry; GEO level names go
+under <code>untrusted_*</code>. No deep link is returned for a filtered figure, since a link cannot
+record the filter; the recipe does.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      GeneFox and its CLI are proprietary software of Vindhya Data Science; documentation &copy; Vindhya Data Science.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
