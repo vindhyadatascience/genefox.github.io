@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "product": "genefox-cli",
+  "placeholder": true,
+  "note": "PLACEHOLDER DATA. Not a release and not a hash. Replace this file with the output of Scripts/cli-release/virustotal.py stage (then submit at go-live). See docs/CLIReleasePipeline.md.",
+  "version": "PLACEHOLDER",
+  "artifacts": [
+    {
+      "name": "genefox-cli-PLACEHOLDER-macos-universal.zip",
+      "platform": "darwin-universal",
+      "label": "macOS (Universal)",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null
+    },
+    {
+      "name": "genefox-cli-PLACEHOLDER-linux-x86_64.tar.gz",
+      "platform": "linux-amd64",
+      "label": "Linux (x86-64)",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null
+    },
+    {
+      "name": "genefox-cli-PLACEHOLDER-linux-arm64.tar.gz",
+      "platform": "linux-arm64",
+      "label": "Linux (ARM64)",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null
+    },
+    {
+      "name": "genefox-cli-PLACEHOLDER-windows-x64.zip",
+      "platform": "windows-x64",
+      "label": "Windows (x86-64)",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null
+    },
+    {
+      "name": "genefox.exe",
+      "platform": "windows-x64",
+      "label": "Windows (x86-64): genefox.exe",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null,
+      "container": "genefox-cli-PLACEHOLDER-windows-x64.zip",
+      "member": "bin/genefox.exe"
+    },
+    {
+      "name": "genefox-cli-PLACEHOLDER-windows-arm64.zip",
+      "platform": "windows-arm64",
+      "label": "Windows (ARM64)",
+      "sha256": "PLACEHOLDER",
+      "size": 0,
+      "permalink": null,
+      "url": null
+    }
+  ]
+}
