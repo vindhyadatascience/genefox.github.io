@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>GEO • genefox</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genefox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,25 +35,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/arrayexpress.html">ArrayExpress</a></li>
-    <li><a class="dropdown-item" href="../articles/cbioportal.html">cBioPortal</a></li>
-    <li><a class="dropdown-item" href="../articles/de.html">Differential expression and enrichment</a></li>
-    <li><a class="dropdown-item" href="../articles/figures-recipes.html">Figures and local expression</a></li>
-    <li><a class="dropdown-item" href="../articles/geo.html">GEO</a></li>
-    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting started</a></li>
-    <li><a class="dropdown-item" href="../articles/pca.html">Sample PCA</a></li>
-    <li><a class="dropdown-item" href="../articles/survival.html">Survival</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga.html">TCGA and GDC</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://genefox.app" aria-label="GeneFox website">genefox.app</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/vindhyadatascience/genefox-r/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -62,8 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>GEO</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>GEO</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/vindhyadatascience/genefox-r/blob/HEAD/vignettes/geo.Rmd" class="external-link"><code>vignettes/geo.Rmd</code></a></small>
@@ -72,28 +64,46 @@
 
     
     
-<p>Find GEO series, inspect samples and plot expression; this is not
-per-device usability advice. Search takes 2–10 s, details 1–5 s, and
-expression 10 s–3 min cold.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies
-above may be longer.</p>
-<p>These examples use the session from Getting started and require the
-runtime.</p>
-<p>Figure-producing calls return engine PNGs at the requested dpi and
-size when requested and available.</p>
+<p>Search GEO, read a series’ samples, and plot one gene across
+them.</p>
+<p>On a microarray series a gene can match several probes. GeneFox then
+refuses the call and lists the candidates; pass one as
+<code>probe</code>, as below for MYCN.</p>
+<p>Cold-start time: <code>geo_search</code> 2–10 s,
+<code>geo_dataset_details</code> 1–5 s,
+<code>geo_series_expression</code> 10 s–3 min; cached repeats are
+faster.</p>
+<p>The examples use the session <code>s</code> from Getting started and
+need the GeneFox runtime.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_geo_search.html">gf_geo_search</a></span><span class="op">(</span><span class="va">s</span>, query <span class="op">=</span> <span class="st">"neuroblastoma"</span><span class="op">)</span></span>
-<span><span class="va">details</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_geo_dataset_details.html">gf_geo_dataset_details</a></span><span class="op">(</span><span class="va">s</span>, accession <span class="op">=</span> <span class="st">"GSE49711"</span><span class="op">)</span></span>
-<span><span class="va">expression</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_geo_series_expression.html">gf_geo_series_expression</a></span><span class="op">(</span><span class="va">s</span>, accession <span class="op">=</span> <span class="st">"GSE49711"</span>, gene <span class="op">=</span> <span class="st">"MYCN"</span>, figure <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">details</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_geo_dataset_details.html">gf_geo_dataset_details</a></span><span class="op">(</span><span class="va">s</span>, accession <span class="op">=</span> <span class="st">"GSE16476"</span><span class="op">)</span></span>
+<span><span class="va">expression</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_geo_series_expression.html">gf_geo_series_expression</a></span><span class="op">(</span></span>
+<span>    <span class="va">s</span>,</span>
+<span>    accession <span class="op">=</span> <span class="st">"GSE16476"</span>,</span>
+<span>    probe <span class="op">=</span> <span class="st">"209757_s_at"</span>,</span>
+<span>    width_in <span class="op">=</span> <span class="fl">6.5</span>,</span>
+<span>    height_in <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    dpi <span class="op">=</span> <span class="fl">300</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="figures/geo-series-expression.png" alt="MYCN (probe 209757_s_at) expression across the samples of GSE16476 (geo_series_expression, 300 dpi)"><div class="figcaption">MYCN (probe 209757_s_at) expression across the
+samples of GSE16476 (<code>geo_series_expression</code>, 300 dpi)</div>
+</div>
 <div class="section level2">
-<h2 id="result-fields">Result fields<a class="anchor" aria-label="anchor" href="#result-fields"></a>
+<h2 id="result-contracts">Result contracts<a class="anchor" aria-label="anchor" href="#result-contracts"></a>
 </h2>
-<p><code>geo-search</code>: <code>data</code> (object),
-<code>display</code> (object), <code>caveats</code> (array).</p>
-<p><code>geo-dataset-details</code>: <code>data</code> (object),
-<code>display</code> (object), <code>caveats</code> (array).</p>
-<p><code>geo-series-expression</code>: <code>data</code> (object),
-<code>display</code> (object), <code>caveats</code> (array).</p>
+<ul>
+<li>
+<code>geo_search</code>: <a href="https://genefox.app/schemas/v1/geo-search-result-v1.schema.json" class="external-link uri">https://genefox.app/schemas/v1/geo-search-result-v1.schema.json</a>
+</li>
+<li>
+<code>geo_dataset_details</code>: <a href="https://genefox.app/schemas/v1/geo-dataset-details-result-v1.schema.json" class="external-link uri">https://genefox.app/schemas/v1/geo-dataset-details-result-v1.schema.json</a>
+</li>
+<li>
+<code>geo_series_expression</code>: <a href="https://genefox.app/schemas/v1/geo-series-expression-result-v1.schema.json" class="external-link uri">https://genefox.app/schemas/v1/geo-series-expression-result-v1.schema.json</a>
+</li>
+</ul>
 </div>
   </main>
 </div>

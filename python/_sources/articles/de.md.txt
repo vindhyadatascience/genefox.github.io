@@ -1,23 +1,39 @@
 # Differential expression and enrichment
 
-TCGA panel DE compares groups; imported enrichment analyzes a complete precomputed DE table and does not recompute DE. TCGA DE takes 10–60 s cold; imported enrichment is free local computation, with no latency stated. Imported enrichment requires the complete tested universe including nonsignificant genes, at least 500 distinct symbols, and raw p-values.
+Compare a gene panel between TCGA tumor and normal samples, or analyze a complete DE table you computed.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Panel DE tests only the genes you list; it is not a genome-wide analysis.
 
-These examples use the session from Getting started and require the runtime.
+Enrichment needs the complete tested table, including nonsignificant genes: at least 500 distinct symbols with raw p-values. It does not recompute DE.
 
-TCGA DE can return an engine PNG at the requested dpi and size; imported enrichment produces optional reports rather than a figure.
+Cold-start time: `tcga_differential_expression` 10–60 s; cached repeats are faster.
+
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
-de = api.tcga_differential_expression(s, project="TCGA-BRCA", genes=["ESR1", "GATA3"])
-# Supply a complete, precomputed table, not the panel result above.
+de = api.tcga_differential_expression(
+    s,
+    project="TCGA-BRCA",
+    mode="tumor_vs_normal",
+    genes=["ESR1", "GATA3", "FOXA1", "XBP1", "TFF1", "KRT5", "KRT14", "EGFR", "ERBB2", "MKI67", "TOP2A", "FOXM1"],
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 from pathlib import Path
 text = Path("complete-de.tsv").read_text()
-enrichment = api.imported_de_enrichment(s, table=text, source="precomputed DE", comparison="treated versus control", complete_universe=True)
+enrichment = api.imported_de_enrichment(
+    s,
+    table=text,
+    source="precomputed DE",
+    comparison="treated versus control",
+    complete_universe=True
+)
 ```
 
-## Result fields
+![Volcano plot of a 12-gene panel, TCGA-BRCA tumor versus normal (`tcga_differential_expression`, 300 dpi)](figures/tcga-differential-expression.png)
 
-`tcga-differential-expression`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
 
-`imported-de-enrichment`: `data` (object), `display` (object), `caveats` (array).
+- `tcga_differential_expression`: <https://genefox.app/schemas/v1/tcga-differential-expression-result-v1.schema.json>
+- `imported_de_enrichment`: <https://genefox.app/schemas/v1/imported-de-enrichment-result-v1.schema.json>

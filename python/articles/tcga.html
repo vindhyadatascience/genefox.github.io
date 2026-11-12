@@ -5,8 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="GEO" href="geo.html"><link rel="prev" title="Getting started" href="getting-started.html">
         <link rel="canonical" href="https://genefox.app/python/articles/tcga.html">
+        <link rel="prefetch" href="../_static/genefox-icon.png" as="image">
 
-    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/genefox-icon.png"><!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>TCGA and GDC - GeneFox for Python</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -19,18 +20,24 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #8e2a73;
+  --color-brand-content: #8e2a73;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
       }
     }
@@ -182,6 +189,9 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/genefox-icon.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">GeneFox for Python</span>
   
@@ -245,23 +255,30 @@
         <article role="main" id="furo-main-content">
           <section id="tcga-and-gdc">
 <h1>TCGA and GDC<a class="headerlink" href="#tcga-and-gdc" title="Link to this heading">¶</a></h1>
-<p>Explore listed GDC projects, one gene’s expression and panel differential expression; this is not a genome-wide DE analysis. Project listing takes 1–3 s once, expression 5–40 s cold, and DE 10–60 s cold.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.</p>
-<p>These examples use the session from Getting started and require the runtime.</p>
-<p>Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.</p>
+<p>Find GDC projects and plot one gene’s expression by sample type.</p>
+<p>Cold-start time: <code class="docutils literal notranslate"><span class="pre">tcga_projects</span></code> 1–3 s, <code class="docutils literal notranslate"><span class="pre">tcga_expression</span></code> 5–40 s; cached repeats are faster.</p>
+<p>The examples use the session <code class="docutils literal notranslate"><span class="pre">s</span></code> from Getting started and need the GeneFox runtime.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">projects</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_projects</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"BRCA"</span><span class="p">)</span>
-<span class="n">expression</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_expression</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span> <span class="n">gene</span><span class="o">=</span><span class="s2">"ESR1"</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">de</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_differential_expression</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span> <span class="n">genes</span><span class="o">=</span><span class="p">[</span><span class="s2">"ESR1"</span><span class="p">,</span> <span class="s2">"GATA3"</span><span class="p">])</span>
+<span class="n">expression</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_expression</span><span class="p">(</span>
+    <span class="n">s</span><span class="p">,</span>
+    <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span>
+    <span class="n">gene</span><span class="o">=</span><span class="s2">"ESR1"</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="s2">"sample_type"</span><span class="p">,</span>
+    <span class="n">width_in</span><span class="o">=</span><span class="mf">6.5</span><span class="p">,</span>
+    <span class="n">height_in</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
+<span class="p">)</span>
 <span class="n">table</span> <span class="o">=</span> <span class="n">expression</span><span class="o">.</span><span class="n">table</span><span class="p">()</span>
-<span class="n">pandas_frame</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
-<span class="n">polars_frame</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_polars</span><span class="p">()</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
 </pre></div>
 </div>
-<section id="result-fields">
-<h2>Result fields<a class="headerlink" href="#result-fields" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-projects</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-expression</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-differential-expression</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
+<p><img alt="ESR1 expression in TCGA-BRCA by sample type, as box plots (, 300 dpi)" src="../_images/tcga-expression.png" /></p>
+<section id="result-contracts">
+<h2>Result contracts<a class="headerlink" href="#result-contracts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tcga_projects</span></code>: <a class="reference external" href="https://genefox.app/schemas/v1/tcga-projects-result-v1.schema.json">https://genefox.app/schemas/v1/tcga-projects-result-v1.schema.json</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tcga_expression</span></code>: <a class="reference external" href="https://genefox.app/schemas/v1/tcga-expression-result-v1.schema.json">https://genefox.app/schemas/v1/tcga-expression-result-v1.schema.json</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -294,7 +311,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 
+                Copyright &#169; 2026 Vindhya Data Science
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -302,7 +319,10 @@
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              <a class="muted-link " href="https://genefox.app" aria-label="GeneFox">genefox.app</a>
+              
+            </div>
           </div>
         </div>
         
@@ -321,7 +341,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">TCGA and GDC</a><ul>
-<li><a class="reference internal" href="#result-fields">Result fields</a></li>
+<li><a class="reference internal" href="#result-contracts">Result contracts</a></li>
 </ul>
 </li>
 </ul>

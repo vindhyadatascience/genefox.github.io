@@ -5,15 +5,21 @@ tidyverse-compatible tables and SummarizedExperiment adapters. The
 wrapper is MIT licensed; the GeneFox engine and native runtime remain
 proprietary and are obtained separately.
 
-This is version 0.1.0 of the package. It requires the GeneFox 1.1.0
+This is version 1.1.0 of the package. It requires the GeneFox 1.1.0
 runtime (ABI 1, SDK contract 1), which is distributed with the GeneFox
 1.1.0 CLI; the GeneFox documentation describes how to install it.
 
-Install the development package from the public repository:
+Install the release’s source package from GitHub:
 
 ``` r
-remotes::install_github("vindhyadatascience/genefox-r")
+remotes::install_url(
+  "https://github.com/vindhyadatascience/genefox-r/releases/download/v1.1.0/genefox_1.1.0.tar.gz")
 ```
+
+`pak::pak("url::https://github.com/vindhyadatascience/genefox-r/releases/download/v1.1.0/genefox_1.1.0.tar.gz")`
+works too. Without remotes or pak, install `jsonlite` and `digest`
+first, then
+`install.packages("<that URL>", repos = NULL, type = "source")`.
 
 Or build a local checkout with `R CMD build .` and install its source
 tarball with `R CMD INSTALL`. A C compiler and the dependencies in
@@ -193,8 +199,6 @@ not grant access to a tool; consult the selected session’s tool listing.
 
 ## TCGA
 
-TCGA tools.
-
 - [`gf_tcga_case_detail()`](https://genefox.app/r/reference/gf_tcga_case_detail.md)
   : One GDC case, as GeneFox's case detail screen shows it:
   demographics, each diagnosis with its stage and...
@@ -237,8 +241,6 @@ TCGA tools.
 
 ## GEO
 
-GEO tools.
-
 - [`gf_geo_chat_schema()`](https://genefox.app/r/reference/gf_geo_chat_schema.md)
   : Read GEO host capabilities, bounded untrusted local suggestions and
   tool schemas for a matrix
@@ -267,8 +269,6 @@ GEO tools.
   genome-wide, as GeneFox's GEO Top...
 
 ## cBioPortal
-
-cBioPortal tools.
 
 - [`gf_cbioportal_alterations()`](https://genefox.app/r/reference/gf_cbioportal_alterations.md)
   : How often one gene is altered in a curated cBioPortal study, as
@@ -300,8 +300,6 @@ cBioPortal tools.
 
 ## ArrayExpress
 
-ArrayExpress tools.
-
 - [`gf_arrayexpress_details()`](https://genefox.app/r/reference/gf_arrayexpress_details.md)
   : An ArrayExpress study's record as GeneFox's source reads it: title,
   organism, platform, sample count,...
@@ -313,8 +311,6 @@ ArrayExpress tools.
   GeneFox's ArrayExpress source does,...
 
 ## GTEx/HPA reference
-
-GTEx/HPA reference tools.
 
 - [`gf_gtex_tissue_expression()`](https://genefox.app/r/reference/gf_gtex_tissue_expression.md)
   : Where a gene is expressed across GTEx normal tissues (UCSC TOIL
@@ -337,8 +333,6 @@ GTEx/HPA reference tools.
 
 ## Survival
 
-Survival tools.
-
 - [`gf_geo_survival()`](https://genefox.app/r/reference/gf_geo_survival.md)
   : Kaplan-Meier survival from a GEO series' own sample metadata, as
   GeneFox's GEO Survival section computes...
@@ -351,8 +345,6 @@ Survival tools.
 
 ## Differential expression
 
-Differential expression tools.
-
 - [`gf_imported_de_enrichment()`](https://genefox.app/r/reference/gf_imported_de_enrichment.md)
   : Analyze a complete precomputed gene-level DE CSV/TSV against
   validated bundled gene sets, free and locally
@@ -362,8 +354,6 @@ Differential expression tools.
 
 ## PCA/dimensionality
 
-PCA/dimensionality tools.
-
 - [`gf_geo_sample_pca()`](https://genefox.app/r/reference/gf_geo_sample_pca.md)
   : Project a GEO series' samples onto PC1 x PC2, as GeneFox's sample
   PCA screen does (top 2,000 most variable...
@@ -372,8 +362,6 @@ PCA/dimensionality tools.
   2,000 most variable genes of the whole...
 
 ## Figures and recipes
-
-Figures and recipes tools.
 
 - [`gf_geo_heatmap()`](https://genefox.app/r/reference/gf_geo_heatmap.md)
   : Draw a free public GEO heatmap from a whole series matrix
@@ -385,8 +373,6 @@ Figures and recipes tools.
   cohort, as GeneFox's Heatmap screen...
 
 ## Gene and utilities
-
-Gene and utilities tools.
 
 - [`gf_gene_info()`](https://genefox.app/r/reference/gf_gene_info.md) :
   NCBI Gene metadata for one gene, as GeneFox's gene-info card shows it:
@@ -411,8 +397,6 @@ Gene and utilities tools.
   human and rat, DrugMatrix rat, EMEXP2458...
 
 ## Account and tools
-
-Account and tools tools.
 
 - [`gf_account_status()`](https://genefox.app/r/reference/gf_account_status.md)
   : Report what this GeneFox server can do for your account: whether it
@@ -441,16 +425,16 @@ Account and tools tools.
 
 # Articles
 
-### All vignettes
+### Articles
 
-- [ArrayExpress](https://genefox.app/r/articles/arrayexpress.md):
+- [Getting started](https://genefox.app/r/articles/getting-started.md):
+- [TCGA and GDC](https://genefox.app/r/articles/tcga.md):
+- [GEO](https://genefox.app/r/articles/geo.md):
 - [cBioPortal](https://genefox.app/r/articles/cbioportal.md):
+- [ArrayExpress](https://genefox.app/r/articles/arrayexpress.md):
+- [Survival](https://genefox.app/r/articles/survival.md):
+- [Sample PCA](https://genefox.app/r/articles/pca.md):
 - [Differential expression and
   enrichment](https://genefox.app/r/articles/de.md):
 - [Figures and local
   expression](https://genefox.app/r/articles/figures-recipes.md):
-- [GEO](https://genefox.app/r/articles/geo.md):
-- [Getting started](https://genefox.app/r/articles/getting-started.md):
-- [Sample PCA](https://genefox.app/r/articles/pca.md):
-- [Survival](https://genefox.app/r/articles/survival.md):
-- [TCGA and GDC](https://genefox.app/r/articles/tcga.md):

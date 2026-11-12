@@ -285,7 +285,13 @@ Generated GeneFox tool functions.
 
 # Getting started
 
-Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package. Then install the package with `pip install genefox`.
+Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package.
+
+Then install the package:
+
+```sh
+pip install genefox
+```
 
 ```python
 import genefox
@@ -294,16 +300,20 @@ s = genefox.Session(runtime="path/to/runtime", output="output")
 status = api.account_status(s)
 ```
 
+## Result contracts
+
+- `account_status`: <https://genefox.app/schemas/v1/account-status-result-v1.schema.json>
+
 
 # ArrayExpress
 
-Search studies, inspect their records and load processed expression; raw-only studies are not loadable. Search takes 1–5 s, details 2–10 s and expression 5–30 s. These calls are free.
+Search ArrayExpress studies, read a study record, and load its processed expression.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Studies that publish only raw data cannot be loaded.
 
-These examples use the session from Getting started and require the runtime.
+Cold-start time: `arrayexpress_search` 1–5 s, `arrayexpress_details` 2–10 s, `arrayexpress_expression` 5–30 s; cached repeats are faster.
 
-Expression with a gene and group can produce an engine PNG at the requested dpi and size; this summary call does not request one.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
 hits = api.arrayexpress_search(s, query="spinal and bulbar muscular atrophy")
@@ -311,187 +321,215 @@ details = api.arrayexpress_details(s, accession="E-MTAB-6986")
 expression = api.arrayexpress_expression(s, accession="E-MTAB-6986")
 ```
 
-## Result fields
+## Result contracts
 
-`arrayexpress-search`: `hits` (array), `total_hits` (integer), `source` (string).
-
-`arrayexpress-details`: `source` (string), `accession` (string), `sample_count` (integer).
-
-`arrayexpress-expression`: `source` (string), `accession` (string), `sample_count` (integer).
+- `arrayexpress_search`: <https://genefox.app/schemas/v1/arrayexpress-search-result-v1.schema.json>
+- `arrayexpress_details`: <https://genefox.app/schemas/v1/arrayexpress-details-result-v1.schema.json>
+- `arrayexpress_expression`: <https://genefox.app/schemas/v1/arrayexpress-expression-result-v1.schema.json>
 
 
 # cBioPortal
 
-List curated studies, inspect composition and gene alterations. Alterations are study-wide, not restricted to an expression subset. Listing takes 1–10 s; composition and alterations take 5–60 s.
+List curated studies, read a study's composition, and count one gene's alterations.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Alteration counts cover the whole study, not an expression subset.
 
-These examples use the session from Getting started and require the runtime.
+Cold-start time: `cbioportal_studies` 1–10 s, `cbioportal_composition` 5–60 s, `cbioportal_alterations` 5–60 s; cached repeats are faster.
 
-These calls return rows, not figures.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
 studies = api.cbioportal_studies(s)
 composition = api.cbioportal_composition(s, study_id="openpedcan_v15")
-alterations = api.cbioportal_alterations(s, study_id="openpedcan_v15", gene="TP53")
+alterations = api.cbioportal_alterations(
+    s,
+    study_id="openpedcan_v15",
+    gene="TP53"
+)
 ```
 
-## Result fields
+## Result contracts
 
-`cbioportal-studies`: `data` (object), `display` (object), `caveats` (array).
-
-`cbioportal-composition`: `data` (object), `display` (object), `caveats` (array).
-
-`cbioportal-alterations`: `data` (object), `display` (object), `caveats` (array).
+- `cbioportal_studies`: <https://genefox.app/schemas/v1/cbioportal-studies-result-v1.schema.json>
+- `cbioportal_composition`: <https://genefox.app/schemas/v1/cbioportal-composition-result-v1.schema.json>
+- `cbioportal_alterations`: <https://genefox.app/schemas/v1/cbioportal-alterations-result-v1.schema.json>
 
 
 # Differential expression and enrichment
 
-TCGA panel DE compares groups; imported enrichment analyzes a complete precomputed DE table and does not recompute DE. TCGA DE takes 10–60 s cold; imported enrichment is free local computation, with no latency stated. Imported enrichment requires the complete tested universe including nonsignificant genes, at least 500 distinct symbols, and raw p-values.
+Compare a gene panel between TCGA tumor and normal samples, or analyze a complete DE table you computed.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Panel DE tests only the genes you list; it is not a genome-wide analysis.
 
-These examples use the session from Getting started and require the runtime.
+Enrichment needs the complete tested table, including nonsignificant genes: at least 500 distinct symbols with raw p-values. It does not recompute DE.
 
-TCGA DE can return an engine PNG at the requested dpi and size; imported enrichment produces optional reports rather than a figure.
+Cold-start time: `tcga_differential_expression` 10–60 s; cached repeats are faster.
+
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
-de = api.tcga_differential_expression(s, project="TCGA-BRCA", genes=["ESR1", "GATA3"])
-# Supply a complete, precomputed table, not the panel result above.
+de = api.tcga_differential_expression(
+    s,
+    project="TCGA-BRCA",
+    mode="tumor_vs_normal",
+    genes=["ESR1", "GATA3", "FOXA1", "XBP1", "TFF1", "KRT5", "KRT14", "EGFR", "ERBB2", "MKI67", "TOP2A", "FOXM1"],
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 from pathlib import Path
 text = Path("complete-de.tsv").read_text()
-enrichment = api.imported_de_enrichment(s, table=text, source="precomputed DE", comparison="treated versus control", complete_universe=True)
+enrichment = api.imported_de_enrichment(
+    s,
+    table=text,
+    source="precomputed DE",
+    comparison="treated versus control",
+    complete_universe=True
+)
 ```
 
-## Result fields
+![Volcano plot of a 12-gene panel, TCGA-BRCA tumor versus normal (`tcga_differential_expression`, 300 dpi)](https://genefox.app/python/_images/tcga-differential-expression.png)
 
-`tcga-differential-expression`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
 
-`imported-de-enrichment`: `data` (object), `display` (object), `caveats` (array).
+- `tcga_differential_expression`: <https://genefox.app/schemas/v1/tcga-differential-expression-result-v1.schema.json>
+- `imported_de_enrichment`: <https://genefox.app/schemas/v1/imported-de-enrichment-result-v1.schema.json>
 
 
 # Figures and local expression
 
-Figure-producing tools accept format, dpi, width_in, height_in and size when listed in their signatures. The local expression interchange preserves inputs; it does not perform analysis or render a figure. The fixture conversion is local; analysis latency and free access depend on the tool.
+Figure tools take `format` (`png`, `svg` or `tiff`), `dpi`, and either a `size` preset or `width_in` with `height_in`. Tools that support it also return a recipe with `recipe = TRUE`.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
-
-The fixture comprises `matrix.tsv`, `samples.tsv` and `experiment.json`. Request `format = "png"` for engine PNGs at the requested `dpi` and size; `svg` and `tiff` are also supported. Specify `width_in` and `height_in` together in inches instead of the `size` preset. For tools that support it, `recipe=True` requests a recipe for reopening the analysis. Saving does not convert formats. The fixture alone does not render a figure.
+Local expression data converts to and from GeneFox's import format without analysis.
 
 ```python
-# Run from the repository root; experiment.json describes these files.
 from pathlib import Path
 import pandas as pd
 import genefox
-base = Path("SDK/contracts/fixtures/local-expression/python")
+base = Path("path/to/local-expression")  # matrix.tsv, samples.tsv, experiment.json
 matrix = pd.read_csv(base / "matrix.tsv", sep="\t", index_col=0)
 samples = pd.read_csv(base / "samples.tsv", sep="\t", index_col=0)
 x = genefox.ExpressionDataset.from_pandas(matrix, assay="logcounts", units="log2_cpm", sample_metadata=samples)
-polars_frame = x.to_polars("logcounts")
 adata = x.to_anndata("logcounts")
 manifest = x.write_import("new-import-directory", assay="logcounts", scale="log2")
-```
 
-```python
-# Given a figure-producing result named result:
+# Save the figure of any figure-producing result:
 result.figure.save("figure.png")
 ```
-
-## Result fields
-
-`tcga-expression`: `data` (object), `display` (object), `caveats` (array).
 
 
 # GEO
 
-Find GEO series, inspect samples and plot expression; this is not per-device usability advice. Search takes 2–10 s, details 1–5 s, and expression 10 s–3 min cold.
+Search GEO, read a series' samples, and plot one gene across them.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+On a microarray series a gene can match several probes. GeneFox then refuses the call and lists the candidates; pass one as `probe`, as below for MYCN.
 
-These examples use the session from Getting started and require the runtime.
+Cold-start time: `geo_search` 2–10 s, `geo_dataset_details` 1–5 s, `geo_series_expression` 10 s–3 min; cached repeats are faster.
 
-Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
 hits = api.geo_search(s, query="neuroblastoma")
-details = api.geo_dataset_details(s, accession="GSE49711")
-expression = api.geo_series_expression(s, accession="GSE49711", gene="MYCN", figure=True)
+details = api.geo_dataset_details(s, accession="GSE16476")
+expression = api.geo_series_expression(
+    s,
+    accession="GSE16476",
+    probe="209757_s_at",
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 ```
 
-## Result fields
+![MYCN (probe 209757_s_at) expression across the samples of GSE16476 (`geo_series_expression`, 300 dpi)](https://genefox.app/python/_images/geo-series-expression.png)
 
-`geo-search`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
 
-`geo-dataset-details`: `data` (object), `display` (object), `caveats` (array).
-
-`geo-series-expression`: `data` (object), `display` (object), `caveats` (array).
+- `geo_search`: <https://genefox.app/schemas/v1/geo-search-result-v1.schema.json>
+- `geo_dataset_details`: <https://genefox.app/schemas/v1/geo-dataset-details-result-v1.schema.json>
+- `geo_series_expression`: <https://genefox.app/schemas/v1/geo-series-expression-result-v1.schema.json>
 
 
 # Sample PCA
 
-Project TCGA/GDC and GEO samples onto principal components; this is not a differential-expression test. TCGA PCA takes 30 s–5 min cold, then seconds; GEO requires a cold matrix download, then seconds.
+Project a cohort's samples onto principal components. PCA describes structure; it is not a test.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Cold-start time: `tcga_sample_pca` 30 s–5 min; cached repeats are faster.
 
-These examples use the session from Getting started and require the runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
-tcga = api.tcga_sample_pca(s, project="TCGA-BRCA", figure=True)
-geo = api.geo_sample_pca(s, accession="GSE49711", figure=True)
+pca = api.tcga_sample_pca(
+    s,
+    project="TCGA-BRCA",
+    color_by="sample_type",
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 ```
 
-## Result fields
+![TCGA-BRCA samples on the first two principal components, colored by sample type (`tcga_sample_pca`, 300 dpi)](https://genefox.app/python/_images/tcga-sample-pca.png)
 
-`tcga-sample-pca`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
 
-`geo-sample-pca`: `data` (object), `display` (object), `caveats` (array).
+- `tcga_sample_pca`: <https://genefox.app/schemas/v1/tcga-sample-pca-result-v1.schema.json>
 
 
 # Survival
 
-Estimate TCGA/GDC patient survival by a clinical group; this is not a whole-cohort curve. Cold latency is 5–30 s.
+Compare TCGA overall survival between patients split at the median expression of one gene.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Cold-start time: `tcga_survival` 5–30 s; cached repeats are faster.
 
-These examples use the session from Getting started and require the runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
-survival = api.tcga_survival(s, project="TCGA-BRCA", stratify="sex_at_birth", figure=True)
+survival = api.tcga_survival(
+    s,
+    project="TCGA-BRCA",
+    gene="ESR1",
+    stratify="expression",
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 ```
 
-## Result fields
+![Kaplan-Meier curves for TCGA-BRCA split at median ESR1 expression (`tcga_survival`, 300 dpi)](https://genefox.app/python/_images/tcga-survival.png)
 
-`tcga-survival`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
+
+- `tcga_survival`: <https://genefox.app/schemas/v1/tcga-survival-result-v1.schema.json>
 
 
 # TCGA and GDC
 
-Explore listed GDC projects, one gene’s expression and panel differential expression; this is not a genome-wide DE analysis. Project listing takes 1–3 s once, expression 5–40 s cold, and DE 10–60 s cold.
+Find GDC projects and plot one gene's expression by sample type.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Cold-start time: `tcga_projects` 1–3 s, `tcga_expression` 5–40 s; cached repeats are faster.
 
-These examples use the session from Getting started and require the runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
 projects = api.tcga_projects(s, search="BRCA")
-expression = api.tcga_expression(s, project="TCGA-BRCA", gene="ESR1", figure=True)
-de = api.tcga_differential_expression(s, project="TCGA-BRCA", genes=["ESR1", "GATA3"])
+expression = api.tcga_expression(
+    s,
+    project="TCGA-BRCA",
+    gene="ESR1",
+    stratify="sample_type",
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 table = expression.table()
-pandas_frame = table.to_pandas()
-polars_frame = table.to_polars()
+frame = table.to_pandas()
 ```
 
-## Result fields
+![ESR1 expression in TCGA-BRCA by sample type, as box plots (`tcga_expression`, 300 dpi)](https://genefox.app/python/_images/tcga-expression.png)
 
-`tcga-projects`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
 
-`tcga-expression`: `data` (object), `display` (object), `caveats` (array).
-
-`tcga-differential-expression`: `data` (object), `display` (object), `caveats` (array).
+- `tcga_projects`: <https://genefox.app/schemas/v1/tcga-projects-result-v1.schema.json>
+- `tcga_expression`: <https://genefox.app/schemas/v1/tcga-expression-result-v1.schema.json>
 

@@ -1,30 +1,20 @@
 # Figures and local expression
 
-Figure-producing tools accept format, dpi, width_in, height_in and size when listed in their signatures. The local expression interchange preserves inputs; it does not perform analysis or render a figure. The fixture conversion is local; analysis latency and free access depend on the tool.
+Figure tools take `format` (`png`, `svg` or `tiff`), `dpi`, and either a `size` preset or `width_in` with `height_in`. Tools that support it also return a recipe with `recipe = TRUE`.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
-
-The fixture comprises `matrix.tsv`, `samples.tsv` and `experiment.json`. Request `format = "png"` for engine PNGs at the requested `dpi` and size; `svg` and `tiff` are also supported. Specify `width_in` and `height_in` together in inches instead of the `size` preset. For tools that support it, `recipe=True` requests a recipe for reopening the analysis. Saving does not convert formats. The fixture alone does not render a figure.
+Local expression data converts to and from GeneFox's import format without analysis.
 
 ```python
-# Run from the repository root; experiment.json describes these files.
 from pathlib import Path
 import pandas as pd
 import genefox
-base = Path("SDK/contracts/fixtures/local-expression/python")
+base = Path("path/to/local-expression")  # matrix.tsv, samples.tsv, experiment.json
 matrix = pd.read_csv(base / "matrix.tsv", sep="\t", index_col=0)
 samples = pd.read_csv(base / "samples.tsv", sep="\t", index_col=0)
 x = genefox.ExpressionDataset.from_pandas(matrix, assay="logcounts", units="log2_cpm", sample_metadata=samples)
-polars_frame = x.to_polars("logcounts")
 adata = x.to_anndata("logcounts")
 manifest = x.write_import("new-import-directory", assay="logcounts", scale="log2")
-```
 
-```python
-# Given a figure-producing result named result:
+# Save the figure of any figure-producing result:
 result.figure.save("figure.png")
 ```
-
-## Result fields
-
-`tcga-expression`: `data` (object), `display` (object), `caveats` (array).

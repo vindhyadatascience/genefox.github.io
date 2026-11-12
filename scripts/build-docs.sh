@@ -63,6 +63,13 @@ fi
 rm -rf python "$TOOLS/py-doctrees"
 "$TOOLS/sphinx-venv/bin/python" -m sphinx -W --keep-going -E -q -b html -d "$TOOLS/py-doctrees" "$APP/SDK/python/docs" python
 rm -f python/.buildinfo
+# llms-full.txt concatenates article sources; point their figure paths at the built images.
+"$PY" - python/llms-full.txt <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+p.write_text(p.read_text().replace('](figures/', '](https://genefox.app/python/_images/'))
+PY
 test -f python/objects.inv && test -f python/llms.txt && test -f python/llms-full.txt
 
 # --- Result schemas (/schemas/v1) and the root llms.txt ---

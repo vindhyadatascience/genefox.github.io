@@ -1,17 +1,15 @@
 # ArrayExpress
 
-Search studies, inspect their records and load processed expression;
-raw-only studies are not loadable. Search takes 1–5 s, details 2–10 s
-and expression 5–30 s. These calls are free.
+Search ArrayExpress studies, read a study record, and load its processed
+expression.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above
-may be longer.
+Studies that publish only raw data cannot be loaded.
 
-These examples use the session from Getting started and require the
-runtime.
+Cold-start time: `arrayexpress_search` 1–5 s, `arrayexpress_details`
+2–10 s, `arrayexpress_expression` 5–30 s; cached repeats are faster.
 
-Expression with a gene and group can produce an engine PNG at the
-requested dpi and size; this summary call does not request one.
+The examples use the session `s` from Getting started and need the
+GeneFox runtime.
 
 ``` r
 hits <- gf_arrayexpress_search(s, query = "spinal and bulbar muscular atrophy")
@@ -19,13 +17,11 @@ details <- gf_arrayexpress_details(s, accession = "E-MTAB-6986")
 expression <- gf_arrayexpress_expression(s, accession = "E-MTAB-6986")
 ```
 
-## Result fields
+## Result contracts
 
-`arrayexpress-search`: `hits` (array), `total_hits` (integer), `source`
-(string).
-
-`arrayexpress-details`: `source` (string), `accession` (string),
-`sample_count` (integer).
-
-`arrayexpress-expression`: `source` (string), `accession` (string),
-`sample_count` (integer).
+- `arrayexpress_search`:
+  <https://genefox.app/schemas/v1/arrayexpress-search-result-v1.schema.json>
+- `arrayexpress_details`:
+  <https://genefox.app/schemas/v1/arrayexpress-details-result-v1.schema.json>
+- `arrayexpress_expression`:
+  <https://genefox.app/schemas/v1/arrayexpress-expression-result-v1.schema.json>

@@ -1,30 +1,41 @@
 # GEO
 
-Find GEO series, inspect samples and plot expression; this is not
-per-device usability advice. Search takes 2–10 s, details 1–5 s, and
-expression 10 s–3 min cold.
+Search GEO, read a series’ samples, and plot one gene across them.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above
-may be longer.
+On a microarray series a gene can match several probes. GeneFox then
+refuses the call and lists the candidates; pass one as `probe`, as below
+for MYCN.
 
-These examples use the session from Getting started and require the
-runtime.
+Cold-start time: `geo_search` 2–10 s, `geo_dataset_details` 1–5 s,
+`geo_series_expression` 10 s–3 min; cached repeats are faster.
 
-Figure-producing calls return engine PNGs at the requested dpi and size
-when requested and available.
+The examples use the session `s` from Getting started and need the
+GeneFox runtime.
 
 ``` r
 hits <- gf_geo_search(s, query = "neuroblastoma")
-details <- gf_geo_dataset_details(s, accession = "GSE49711")
-expression <- gf_geo_series_expression(s, accession = "GSE49711", gene = "MYCN", figure = TRUE)
+details <- gf_geo_dataset_details(s, accession = "GSE16476")
+expression <- gf_geo_series_expression(
+    s,
+    accession = "GSE16476",
+    probe = "209757_s_at",
+    width_in = 6.5,
+    height_in = 4,
+    dpi = 300
+)
 ```
 
-## Result fields
+![MYCN (probe 209757_s_at) expression across the samples of GSE16476
+(geo_series_expression, 300 dpi)](figures/geo-series-expression.png)
 
-`geo-search`: `data` (object), `display` (object), `caveats` (array).
+MYCN (probe 209757_s_at) expression across the samples of GSE16476
+(`geo_series_expression`, 300 dpi)
 
-`geo-dataset-details`: `data` (object), `display` (object), `caveats`
-(array).
+## Result contracts
 
-`geo-series-expression`: `data` (object), `display` (object), `caveats`
-(array).
+- `geo_search`:
+  <https://genefox.app/schemas/v1/geo-search-result-v1.schema.json>
+- `geo_dataset_details`:
+  <https://genefox.app/schemas/v1/geo-dataset-details-result-v1.schema.json>
+- `geo_series_expression`:
+  <https://genefox.app/schemas/v1/geo-series-expression-result-v1.schema.json>

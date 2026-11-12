@@ -5,8 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="prev" title="Differential expression and enrichment" href="de.html">
         <link rel="canonical" href="https://genefox.app/python/articles/figures-recipes.html">
+        <link rel="prefetch" href="../_static/genefox-icon.png" as="image">
 
-    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/genefox-icon.png"><!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Figures and local expression - GeneFox for Python</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -19,18 +20,24 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #8e2a73;
+  --color-brand-content: #8e2a73;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
       }
     }
@@ -173,7 +180,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -182,6 +189,9 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/genefox-icon.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">GeneFox for Python</span>
   
@@ -238,37 +248,29 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="figures-and-local-expression">
 <h1>Figures and local expression<a class="headerlink" href="#figures-and-local-expression" title="Link to this heading">¶</a></h1>
-<p>Figure-producing tools accept format, dpi, width_in, height_in and size when listed in their signatures. The local expression interchange preserves inputs; it does not perform analysis or render a figure. The fixture conversion is local; analysis latency and free access depend on the tool.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.</p>
-<p>The fixture comprises <code class="docutils literal notranslate"><span class="pre">matrix.tsv</span></code>, <code class="docutils literal notranslate"><span class="pre">samples.tsv</span></code> and <code class="docutils literal notranslate"><span class="pre">experiment.json</span></code>. Request <code class="docutils literal notranslate"><span class="pre">format</span> <span class="pre">=</span> <span class="pre">&quot;png&quot;</span></code> for engine PNGs at the requested <code class="docutils literal notranslate"><span class="pre">dpi</span></code> and size; <code class="docutils literal notranslate"><span class="pre">svg</span></code> and <code class="docutils literal notranslate"><span class="pre">tiff</span></code> are also supported. Specify <code class="docutils literal notranslate"><span class="pre">width_in</span></code> and <code class="docutils literal notranslate"><span class="pre">height_in</span></code> together in inches instead of the <code class="docutils literal notranslate"><span class="pre">size</span></code> preset. For tools that support it, <code class="docutils literal notranslate"><span class="pre">recipe=True</span></code> requests a recipe for reopening the analysis. Saving does not convert formats. The fixture alone does not render a figure.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run from the repository root; experiment.json describes these files.</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<p>Figure tools take <code class="docutils literal notranslate"><span class="pre">format</span></code> (<code class="docutils literal notranslate"><span class="pre">png</span></code>, <code class="docutils literal notranslate"><span class="pre">svg</span></code> or <code class="docutils literal notranslate"><span class="pre">tiff</span></code>), <code class="docutils literal notranslate"><span class="pre">dpi</span></code>, and either a <code class="docutils literal notranslate"><span class="pre">size</span></code> preset or <code class="docutils literal notranslate"><span class="pre">width_in</span></code> with <code class="docutils literal notranslate"><span class="pre">height_in</span></code>. Tools that support it also return a recipe with <code class="docutils literal notranslate"><span class="pre">recipe</span> <span class="pre">=</span> <span class="pre">TRUE</span></code>.</p>
+<p>Local expression data converts to and from GeneFox’s import format without analysis.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">genefox</span>
-<span class="n">base</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"SDK/contracts/fixtures/local-expression/python"</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"path/to/local-expression"</span><span class="p">)</span>  <span class="c1"># matrix.tsv, samples.tsv, experiment.json</span>
 <span class="n">matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">base</span> <span class="o">/</span> <span class="s2">"matrix.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">base</span> <span class="o">/</span> <span class="s2">"samples.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">genefox</span><span class="o">.</span><span class="n">ExpressionDataset</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">assay</span><span class="o">=</span><span class="s2">"logcounts"</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">"log2_cpm"</span><span class="p">,</span> <span class="n">sample_metadata</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
-<span class="n">polars_frame</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to_polars</span><span class="p">(</span><span class="s2">"logcounts"</span><span class="p">)</span>
 <span class="n">adata</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to_anndata</span><span class="p">(</span><span class="s2">"logcounts"</span><span class="p">)</span>
 <span class="n">manifest</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">write_import</span><span class="p">(</span><span class="s2">"new-import-directory"</span><span class="p">,</span> <span class="n">assay</span><span class="o">=</span><span class="s2">"logcounts"</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">"log2"</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Given a figure-producing result named result:</span>
+
+<span class="c1"># Save the figure of any figure-producing result:</span>
 <span class="n">result</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"figure.png"</span><span class="p">)</span>
 </pre></div>
 </div>
-<section id="result-fields">
-<h2>Result fields<a class="headerlink" href="#result-fields" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-expression</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
-</section>
 </section>
 
         </article>
@@ -292,7 +294,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 
+                Copyright &#169; 2026 Vindhya Data Science
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -300,33 +302,17 @@
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              <a class="muted-link " href="https://genefox.app" aria-label="GeneFox">genefox.app</a>
+              
+            </div>
           </div>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Figures and local expression</a><ul>
-<li><a class="reference internal" href="#result-fields">Result fields</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

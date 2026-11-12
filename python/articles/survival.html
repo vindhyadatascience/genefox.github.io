@@ -5,8 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Sample PCA" href="pca.html"><link rel="prev" title="ArrayExpress" href="arrayexpress.html">
         <link rel="canonical" href="https://genefox.app/python/articles/survival.html">
+        <link rel="prefetch" href="../_static/genefox-icon.png" as="image">
 
-    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/genefox-icon.png"><!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Survival - GeneFox for Python</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -19,18 +20,24 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #8e2a73;
+  --color-brand-content: #8e2a73;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
       }
     }
@@ -182,6 +189,9 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/genefox-icon.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">GeneFox for Python</span>
   
@@ -245,16 +255,26 @@
         <article role="main" id="furo-main-content">
           <section id="survival">
 <h1>Survival<a class="headerlink" href="#survival" title="Link to this heading">¶</a></h1>
-<p>Estimate TCGA/GDC patient survival by a clinical group; this is not a whole-cohort curve. Cold latency is 5–30 s.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.</p>
-<p>These examples use the session from Getting started and require the runtime.</p>
-<p>Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">survival</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_survival</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="s2">"sex_at_birth"</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>Compare TCGA overall survival between patients split at the median expression of one gene.</p>
+<p>Cold-start time: <code class="docutils literal notranslate"><span class="pre">tcga_survival</span></code> 5–30 s; cached repeats are faster.</p>
+<p>The examples use the session <code class="docutils literal notranslate"><span class="pre">s</span></code> from Getting started and need the GeneFox runtime.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">survival</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_survival</span><span class="p">(</span>
+    <span class="n">s</span><span class="p">,</span>
+    <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span>
+    <span class="n">gene</span><span class="o">=</span><span class="s2">"ESR1"</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="s2">"expression"</span><span class="p">,</span>
+    <span class="n">width_in</span><span class="o">=</span><span class="mf">6.5</span><span class="p">,</span>
+    <span class="n">height_in</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<section id="result-fields">
-<h2>Result fields<a class="headerlink" href="#result-fields" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-survival</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
+<p><img alt="Kaplan-Meier curves for TCGA-BRCA split at median ESR1 expression (, 300 dpi)" src="../_images/tcga-survival.png" /></p>
+<section id="result-contracts">
+<h2>Result contracts<a class="headerlink" href="#result-contracts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tcga_survival</span></code>: <a class="reference external" href="https://genefox.app/schemas/v1/tcga-survival-result-v1.schema.json">https://genefox.app/schemas/v1/tcga-survival-result-v1.schema.json</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -287,7 +307,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 
+                Copyright &#169; 2026 Vindhya Data Science
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -295,7 +315,10 @@
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              <a class="muted-link " href="https://genefox.app" aria-label="GeneFox">genefox.app</a>
+              
+            </div>
           </div>
         </div>
         
@@ -314,7 +337,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Survival</a><ul>
-<li><a class="reference internal" href="#result-fields">Result fields</a></li>
+<li><a class="reference internal" href="#result-contracts">Result contracts</a></li>
 </ul>
 </li>
 </ul>

@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Figures and local expression • genefox</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genefox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,25 +35,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/arrayexpress.html">ArrayExpress</a></li>
-    <li><a class="dropdown-item" href="../articles/cbioportal.html">cBioPortal</a></li>
-    <li><a class="dropdown-item" href="../articles/de.html">Differential expression and enrichment</a></li>
-    <li><a class="dropdown-item" href="../articles/figures-recipes.html">Figures and local expression</a></li>
-    <li><a class="dropdown-item" href="../articles/geo.html">GEO</a></li>
-    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting started</a></li>
-    <li><a class="dropdown-item" href="../articles/pca.html">Sample PCA</a></li>
-    <li><a class="dropdown-item" href="../articles/survival.html">Survival</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga.html">TCGA and GDC</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://genefox.app" aria-label="GeneFox website">genefox.app</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/vindhyadatascience/genefox-r/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -62,8 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Figures and local expression</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Figures and local expression</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/vindhyadatascience/genefox-r/blob/HEAD/vignettes/figures-recipes.Rmd" class="external-link"><code>vignettes/figures-recipes.Rmd</code></a></small>
@@ -72,39 +64,23 @@
 
     
     
-<p>Figure-producing tools accept format, dpi, width_in, height_in and
-size when listed in their signatures. The local expression interchange
-preserves inputs; it does not perform analysis or render a figure. The
-fixture conversion is local; analysis latency and free access depend on
-the tool.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies
-above may be longer.</p>
-<p>The fixture comprises <code>matrix.tsv</code>,
-<code>samples.tsv</code> and <code>experiment.json</code>. Request
-<code>format = "png"</code> for engine PNGs at the requested
-<code>dpi</code> and size; <code>svg</code> and <code>tiff</code> are
-also supported. Specify <code>width_in</code> and <code>height_in</code>
-together in inches instead of the <code>size</code> preset. For tools
-that support it, <code>recipe = TRUE</code> requests a recipe for
-reopening the analysis. Saving does not convert formats. The fixture
-alone does not render a figure.</p>
+<p>Figure tools take <code>format</code> (<code>png</code>,
+<code>svg</code> or <code>tiff</code>), <code>dpi</code>, and either a
+<code>size</code> preset or <code>width_in</code> with
+<code>height_in</code>. Tools that support it also return a recipe with
+<code>recipe = TRUE</code>.</p>
+<p>Local expression data converts to and from GeneFox’s import format
+without analysis.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Run from the repository root; experiment.json describes these files.</span></span>
-<span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"SDK/contracts/fixtures/local-expression/r"</span></span>
+<code class="sourceCode R"><span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"path/to/local-expression"</span>  <span class="co"># matrix.tsv, samples.tsv, experiment.json</span></span>
 <span><span class="va">matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"matrix.tsv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="fl">1</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"samples.tsv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="fl">1</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_experiment.html">gf_experiment</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">matrix</span><span class="op">)</span>, units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>logcounts <span class="op">=</span> <span class="st">"log2_cpm"</span><span class="op">)</span>, sample_metadata <span class="op">=</span> <span class="va">samples</span><span class="op">)</span></span>
-<span><span class="va">se</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_client.html">gf_to_se</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># requires SummarizedExperiment</span></span>
-<span><span class="va">manifest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_write_import.html">gf_write_import</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"genefox-import-"</span><span class="op">)</span>, assay <span class="op">=</span> <span class="st">"logcounts"</span>, scale <span class="op">=</span> <span class="st">"log2"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Given a figure-producing result named result:</span></span>
+<span><span class="va">se</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_client.html">gf_to_se</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>  <span class="co"># needs SummarizedExperiment</span></span>
+<span><span class="va">manifest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_write_import.html">gf_write_import</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"genefox-import-"</span><span class="op">)</span>, assay <span class="op">=</span> <span class="st">"logcounts"</span>, scale <span class="op">=</span> <span class="st">"log2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the figure of any figure-producing result:</span></span>
 <span><span class="fu"><a href="../reference/gf_client.html">gf_save_figure</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">figures</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">"figure.png"</span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="result-fields">Result fields<a class="anchor" aria-label="anchor" href="#result-fields"></a>
-</h2>
-<p><code>tcga-expression</code>: <code>data</code> (object),
-<code>display</code> (object), <code>caveats</code> (array).</p>
-</div>
   </main>
 </div>
 

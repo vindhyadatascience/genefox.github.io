@@ -5,8 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="TCGA and GDC" href="tcga.html"><link rel="prev" title="Reference" href="../reference.html">
         <link rel="canonical" href="https://genefox.app/python/articles/getting-started.html">
+        <link rel="prefetch" href="../_static/genefox-icon.png" as="image">
 
-    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/genefox-icon.png"><!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Getting started - GeneFox for Python</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -19,18 +20,24 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #8e2a73;
+  --color-brand-content: #8e2a73;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
       }
     }
@@ -173,7 +180,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -182,6 +189,9 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/genefox-icon.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">GeneFox for Python</span>
   
@@ -238,20 +248,30 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="getting-started">
 <h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h1>
-<p>Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package. Then install the package with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">genefox</span></code>.</p>
+<p>Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package.</p>
+<p>Then install the package:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>genefox
+</pre></div>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">genefox</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">genefox</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">genefox</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">runtime</span><span class="o">=</span><span class="s2">"path/to/runtime"</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">"output"</span><span class="p">)</span>
 <span class="n">status</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">account_status</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
+<section id="result-contracts">
+<h2>Result contracts<a class="headerlink" href="#result-contracts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">account_status</span></code>: <a class="reference external" href="https://genefox.app/schemas/v1/account-status-result-v1.schema.json">https://genefox.app/schemas/v1/account-status-result-v1.schema.json</a></p></li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -283,7 +303,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 
+                Copyright &#169; 2026 Vindhya Data Science
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -291,14 +311,36 @@
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              <a class="muted-link " href="https://genefox.app" aria-label="GeneFox">genefox.app</a>
+              
+            </div>
           </div>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Getting started</a><ul>
+<li><a class="reference internal" href="#result-contracts">Result contracts</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

@@ -2,8 +2,6 @@
 
 ## TCGA
 
-TCGA tools.
-
 - [`gf_tcga_case_detail()`](https://genefox.app/r/reference/gf_tcga_case_detail.md)
   : One GDC case, as GeneFox's case detail screen shows it:
   demographics, each diagnosis with its stage and...
@@ -46,8 +44,6 @@ TCGA tools.
 
 ## GEO
 
-GEO tools.
-
 - [`gf_geo_chat_schema()`](https://genefox.app/r/reference/gf_geo_chat_schema.md)
   : Read GEO host capabilities, bounded untrusted local suggestions and
   tool schemas for a matrix
@@ -76,8 +72,6 @@ GEO tools.
   genome-wide, as GeneFox's GEO Top...
 
 ## cBioPortal
-
-cBioPortal tools.
 
 - [`gf_cbioportal_alterations()`](https://genefox.app/r/reference/gf_cbioportal_alterations.md)
   : How often one gene is altered in a curated cBioPortal study, as
@@ -109,8 +103,6 @@ cBioPortal tools.
 
 ## ArrayExpress
 
-ArrayExpress tools.
-
 - [`gf_arrayexpress_details()`](https://genefox.app/r/reference/gf_arrayexpress_details.md)
   : An ArrayExpress study's record as GeneFox's source reads it: title,
   organism, platform, sample count,...
@@ -122,8 +114,6 @@ ArrayExpress tools.
   GeneFox's ArrayExpress source does,...
 
 ## GTEx/HPA reference
-
-GTEx/HPA reference tools.
 
 - [`gf_gtex_tissue_expression()`](https://genefox.app/r/reference/gf_gtex_tissue_expression.md)
   : Where a gene is expressed across GTEx normal tissues (UCSC TOIL
@@ -146,8 +136,6 @@ GTEx/HPA reference tools.
 
 ## Survival
 
-Survival tools.
-
 - [`gf_geo_survival()`](https://genefox.app/r/reference/gf_geo_survival.md)
   : Kaplan-Meier survival from a GEO series' own sample metadata, as
   GeneFox's GEO Survival section computes...
@@ -160,8 +148,6 @@ Survival tools.
 
 ## Differential expression
 
-Differential expression tools.
-
 - [`gf_imported_de_enrichment()`](https://genefox.app/r/reference/gf_imported_de_enrichment.md)
   : Analyze a complete precomputed gene-level DE CSV/TSV against
   validated bundled gene sets, free and locally
@@ -171,8 +157,6 @@ Differential expression tools.
 
 ## PCA/dimensionality
 
-PCA/dimensionality tools.
-
 - [`gf_geo_sample_pca()`](https://genefox.app/r/reference/gf_geo_sample_pca.md)
   : Project a GEO series' samples onto PC1 x PC2, as GeneFox's sample
   PCA screen does (top 2,000 most variable...
@@ -181,8 +165,6 @@ PCA/dimensionality tools.
   2,000 most variable genes of the whole...
 
 ## Figures and recipes
-
-Figures and recipes tools.
 
 - [`gf_geo_heatmap()`](https://genefox.app/r/reference/gf_geo_heatmap.md)
   : Draw a free public GEO heatmap from a whole series matrix
@@ -194,8 +176,6 @@ Figures and recipes tools.
   cohort, as GeneFox's Heatmap screen...
 
 ## Gene and utilities
-
-Gene and utilities tools.
 
 - [`gf_gene_info()`](https://genefox.app/r/reference/gf_gene_info.md) :
   NCBI Gene metadata for one gene, as GeneFox's gene-info card shows it:
@@ -220,8 +200,6 @@ Gene and utilities tools.
   human and rat, DrugMatrix rat, EMEXP2458...
 
 ## Account and tools
-
-Account and tools tools.
 
 - [`gf_account_status()`](https://genefox.app/r/reference/gf_account_status.md)
   : Report what this GeneFox server can do for your account: whether it

@@ -1,33 +1,37 @@
 # TCGA and GDC
 
-Explore listed GDC projects, one gene’s expression and panel
-differential expression; this is not a genome-wide DE analysis. Project
-listing takes 1–3 s once, expression 5–40 s cold, and DE 10–60 s cold.
+Find GDC projects and plot one gene’s expression by sample type.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above
-may be longer.
+Cold-start time: `tcga_projects` 1–3 s, `tcga_expression` 5–40 s; cached
+repeats are faster.
 
-These examples use the session from Getting started and require the
-runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size
-when requested and available.
+The examples use the session `s` from Getting started and need the
+GeneFox runtime.
 
 ``` r
 projects <- gf_tcga_projects(s, search = "BRCA")
-expression <- gf_tcga_expression(s, project = "TCGA-BRCA", gene = "ESR1", figure = TRUE)
-de <- gf_tcga_differential_expression(s, project = "TCGA-BRCA", genes = c("ESR1", "GATA3"))
+expression <- gf_tcga_expression(
+    s,
+    project = "TCGA-BRCA",
+    gene = "ESR1",
+    stratify = "sample_type",
+    width_in = 6.5,
+    height_in = 4,
+    dpi = 300
+)
 table <- gf_table(expression)
 tibble <- gf_to_tibble(table)
-data_table <- gf_to_data_table(table)
 ```
 
-## Result fields
+![ESR1 expression in TCGA-BRCA by sample type, as box plots
+(tcga_expression, 300 dpi)](figures/tcga-expression.png)
 
-`tcga-projects`: `data` (object), `display` (object), `caveats` (array).
+ESR1 expression in TCGA-BRCA by sample type, as box plots
+(`tcga_expression`, 300 dpi)
 
-`tcga-expression`: `data` (object), `display` (object), `caveats`
-(array).
+## Result contracts
 
-`tcga-differential-expression`: `data` (object), `display` (object),
-`caveats` (array).
+- `tcga_projects`:
+  <https://genefox.app/schemas/v1/tcga-projects-result-v1.schema.json>
+- `tcga_expression`:
+  <https://genefox.app/schemas/v1/tcga-expression-result-v1.schema.json>

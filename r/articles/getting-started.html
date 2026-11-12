@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting started • genefox</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genefox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,25 +35,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/arrayexpress.html">ArrayExpress</a></li>
-    <li><a class="dropdown-item" href="../articles/cbioportal.html">cBioPortal</a></li>
-    <li><a class="dropdown-item" href="../articles/de.html">Differential expression and enrichment</a></li>
-    <li><a class="dropdown-item" href="../articles/figures-recipes.html">Figures and local expression</a></li>
-    <li><a class="dropdown-item" href="../articles/geo.html">GEO</a></li>
-    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting started</a></li>
-    <li><a class="dropdown-item" href="../articles/pca.html">Sample PCA</a></li>
-    <li><a class="dropdown-item" href="../articles/survival.html">Survival</a></li>
-    <li><a class="dropdown-item" href="../articles/tcga.html">TCGA and GDC</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://genefox.app" aria-label="GeneFox website">genefox.app</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/vindhyadatascience/genefox-r/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -62,8 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Getting started</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Getting started</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/vindhyadatascience/genefox-r/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
@@ -73,13 +65,23 @@
     
     
 <p>Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox
-runtime, which is proprietary and not bundled with this package. Then
-install the package from the source tarball on its GitHub release:
-<code>install.packages("genefox_1.1.0.tar.gz", repos = NULL, type = "source")</code>.</p>
+runtime, which is proprietary and not bundled with this package.</p>
+<p>Then install the package from its GitHub release:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_url</span><span class="op">(</span><span class="st">"https://github.com/vindhyadatascience/genefox-r/releases/download/v1.1.0/genefox_1.1.0.tar.gz"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genefox.app/r">genefox</a></span><span class="op">)</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_client.html">gf_session</a></span><span class="op">(</span>runtime <span class="op">=</span> <span class="st">"path/to/runtime"</span>, output <span class="op">=</span> <span class="st">"output"</span><span class="op">)</span></span>
 <span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gf_account_status.html">gf_account_status</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="result-contracts">Result contracts<a class="anchor" aria-label="anchor" href="#result-contracts"></a>
+</h2>
+<ul>
+<li>
+<code>account_status</code>: <a href="https://genefox.app/schemas/v1/account-status-result-v1.schema.json" class="external-link uri">https://genefox.app/schemas/v1/account-status-result-v1.schema.json</a>
+</li>
+</ul>
+</div>
   </main>
 </div>
 

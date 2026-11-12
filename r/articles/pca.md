@@ -1,27 +1,32 @@
 # Sample PCA
 
-Project TCGA/GDC and GEO samples onto principal components; this is not
-a differential-expression test. TCGA PCA takes 30 s–5 min cold, then
-seconds; GEO requires a cold matrix download, then seconds.
+Project a cohort’s samples onto principal components. PCA describes
+structure; it is not a test.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above
-may be longer.
+Cold-start time: `tcga_sample_pca` 30 s–5 min; cached repeats are
+faster.
 
-These examples use the session from Getting started and require the
-runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size
-when requested and available.
+The examples use the session `s` from Getting started and need the
+GeneFox runtime.
 
 ``` r
-tcga <- gf_tcga_sample_pca(s, project = "TCGA-BRCA", figure = TRUE)
-geo <- gf_geo_sample_pca(s, accession = "GSE49711", figure = TRUE)
+pca <- gf_tcga_sample_pca(
+    s,
+    project = "TCGA-BRCA",
+    color_by = "sample_type",
+    width_in = 6.5,
+    height_in = 4,
+    dpi = 300
+)
 ```
 
-## Result fields
+![TCGA-BRCA samples on the first two principal components, colored by
+sample type (tcga_sample_pca, 300 dpi)](figures/tcga-sample-pca.png)
 
-`tcga-sample-pca`: `data` (object), `display` (object), `caveats`
-(array).
+TCGA-BRCA samples on the first two principal components, colored by
+sample type (`tcga_sample_pca`, 300 dpi)
 
-`geo-sample-pca`: `data` (object), `display` (object), `caveats`
-(array).
+## Result contracts
+
+- `tcga_sample_pca`:
+  <https://genefox.app/schemas/v1/tcga-sample-pca-result-v1.schema.json>

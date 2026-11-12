@@ -5,8 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Differential expression and enrichment" href="de.html"><link rel="prev" title="Survival" href="survival.html">
         <link rel="canonical" href="https://genefox.app/python/articles/pca.html">
+        <link rel="prefetch" href="../_static/genefox-icon.png" as="image">
 
-    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/genefox-icon.png"><!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Sample PCA - GeneFox for Python</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -19,18 +20,24 @@
   body {
     --color-code-background: #f2f2f2;
   --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #8e2a73;
+  --color-brand-content: #8e2a73;
   
   }
   @media not print {
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #e24fb6;
+  --color-brand-content: #e24fb6;
   
       }
     }
@@ -182,6 +189,9 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/genefox-icon.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">GeneFox for Python</span>
   
@@ -245,18 +255,25 @@
         <article role="main" id="furo-main-content">
           <section id="sample-pca">
 <h1>Sample PCA<a class="headerlink" href="#sample-pca" title="Link to this heading">¶</a></h1>
-<p>Project TCGA/GDC and GEO samples onto principal components; this is not a differential-expression test. TCGA PCA takes 30 s–5 min cold, then seconds; GEO requires a cold matrix download, then seconds.</p>
-<p>Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.</p>
-<p>These examples use the session from Getting started and require the runtime.</p>
-<p>Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tcga</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_sample_pca</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">geo</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">geo_sample_pca</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">accession</span><span class="o">=</span><span class="s2">"GSE49711"</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>Project a cohort’s samples onto principal components. PCA describes structure; it is not a test.</p>
+<p>Cold-start time: <code class="docutils literal notranslate"><span class="pre">tcga_sample_pca</span></code> 30 s–5 min; cached repeats are faster.</p>
+<p>The examples use the session <code class="docutils literal notranslate"><span class="pre">s</span></code> from Getting started and need the GeneFox runtime.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">tcga_sample_pca</span><span class="p">(</span>
+    <span class="n">s</span><span class="p">,</span>
+    <span class="n">project</span><span class="o">=</span><span class="s2">"TCGA-BRCA"</span><span class="p">,</span>
+    <span class="n">color_by</span><span class="o">=</span><span class="s2">"sample_type"</span><span class="p">,</span>
+    <span class="n">width_in</span><span class="o">=</span><span class="mf">6.5</span><span class="p">,</span>
+    <span class="n">height_in</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<section id="result-fields">
-<h2>Result fields<a class="headerlink" href="#result-fields" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">tcga-sample-pca</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
-<p><code class="docutils literal notranslate"><span class="pre">geo-sample-pca</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code> (object), <code class="docutils literal notranslate"><span class="pre">display</span></code> (object), <code class="docutils literal notranslate"><span class="pre">caveats</span></code> (array).</p>
+<p><img alt="TCGA-BRCA samples on the first two principal components, colored by sample type (, 300 dpi)" src="../_images/tcga-sample-pca.png" /></p>
+<section id="result-contracts">
+<h2>Result contracts<a class="headerlink" href="#result-contracts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tcga_sample_pca</span></code>: <a class="reference external" href="https://genefox.app/schemas/v1/tcga-sample-pca-result-v1.schema.json">https://genefox.app/schemas/v1/tcga-sample-pca-result-v1.schema.json</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -289,7 +306,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 
+                Copyright &#169; 2026 Vindhya Data Science
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -297,7 +314,10 @@
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              <a class="muted-link " href="https://genefox.app" aria-label="GeneFox">genefox.app</a>
+              
+            </div>
           </div>
         </div>
         
@@ -316,7 +336,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Sample PCA</a><ul>
-<li><a class="reference internal" href="#result-fields">Result fields</a></li>
+<li><a class="reference internal" href="#result-contracts">Result contracts</a></li>
 </ul>
 </li>
 </ul>

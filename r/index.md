@@ -5,15 +5,21 @@ tidyverse-compatible tables and SummarizedExperiment adapters. The
 wrapper is MIT licensed; the GeneFox engine and native runtime remain
 proprietary and are obtained separately.
 
-This is version 0.1.0 of the package. It requires the GeneFox 1.1.0
+This is version 1.1.0 of the package. It requires the GeneFox 1.1.0
 runtime (ABI 1, SDK contract 1), which is distributed with the GeneFox
 1.1.0 CLI; the GeneFox documentation describes how to install it.
 
-Install the development package from the public repository:
+Install the release’s source package from GitHub:
 
 ``` r
-remotes::install_github("vindhyadatascience/genefox-r")
+remotes::install_url(
+  "https://github.com/vindhyadatascience/genefox-r/releases/download/v1.1.0/genefox_1.1.0.tar.gz")
 ```
+
+`pak::pak("url::https://github.com/vindhyadatascience/genefox-r/releases/download/v1.1.0/genefox_1.1.0.tar.gz")`
+works too. Without remotes or pak, install `jsonlite` and `digest`
+first, then
+`install.packages("<that URL>", repos = NULL, type = "source")`.
 
 Or build a local checkout with `R CMD build .` and install its source
 tarball with `R CMD INSTALL`. A C compiler and the dependencies in

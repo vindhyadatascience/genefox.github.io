@@ -1,17 +1,25 @@
 # Survival
 
-Estimate TCGA/GDC patient survival by a clinical group; this is not a whole-cohort curve. Cold latency is 5–30 s.
+Compare TCGA overall survival between patients split at the median expression of one gene.
 
-Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+Cold-start time: `tcga_survival` 5–30 s; cached repeats are faster.
 
-These examples use the session from Getting started and require the runtime.
-
-Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+The examples use the session `s` from Getting started and need the GeneFox runtime.
 
 ```python
-survival = api.tcga_survival(s, project="TCGA-BRCA", stratify="sex_at_birth", figure=True)
+survival = api.tcga_survival(
+    s,
+    project="TCGA-BRCA",
+    gene="ESR1",
+    stratify="expression",
+    width_in=6.5,
+    height_in=4,
+    dpi=300
+)
 ```
 
-## Result fields
+![Kaplan-Meier curves for TCGA-BRCA split at median ESR1 expression (`tcga_survival`, 300 dpi)](figures/tcga-survival.png)
 
-`tcga-survival`: `data` (object), `display` (object), `caveats` (array).
+## Result contracts
+
+- `tcga_survival`: <https://genefox.app/schemas/v1/tcga-survival-result-v1.schema.json>
