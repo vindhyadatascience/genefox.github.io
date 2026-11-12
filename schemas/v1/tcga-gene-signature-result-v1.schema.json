@@ -1,0 +1,1045 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_gene_signature. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "axis_label": {
+          "type": "string"
+        },
+        "distribution": {
+          "additionalProperties": true,
+          "properties": {
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "mean": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "median": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "n": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "q1": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "q3": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "n",
+            "median",
+            "q1",
+            "q3",
+            "mean",
+            "min",
+            "max"
+          ],
+          "type": "object"
+        },
+        "estimator_eligibility": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "gene_resolution": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "canonical_symbol": {
+                "type": "string"
+              },
+              "dataset": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "mapping_source": {
+                "anyOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "dataset": {
+                        "type": "string"
+                      },
+                      "dataset_metadata_sha256": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "release": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "sha256": {
+                        "type": "string"
+                      },
+                      "untrusted_dataset_version": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "url": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "sha256",
+                      "dataset",
+                      "release",
+                      "url",
+                      "untrusted_dataset_version",
+                      "dataset_metadata_sha256"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "resolved_field": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "symbol_reference_status": {
+                "type": "string"
+              },
+              "symbol_references": {
+                "items": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "release": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "sha256": {
+                      "type": "string"
+                    },
+                    "urls": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "resource_id",
+                    "sha256",
+                    "name",
+                    "release",
+                    "urls"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "typed_token": {
+                "type": "string"
+              },
+              "unresolved_reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "typed_token",
+              "canonical_symbol",
+              "symbol_reference_status",
+              "dataset",
+              "resolved_field",
+              "unresolved_reason",
+              "symbol_references",
+              "mapping_source"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "genes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "mean": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "median": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "q1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "q3": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "n",
+              "median",
+              "q1",
+              "q3",
+              "label",
+              "mean"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "method": {
+          "enum": [
+            "mean_raw",
+            "mean_z_score",
+            "standardized_z_sum",
+            "mean_expression_rank",
+            "within_sample_transcriptome_rank"
+          ],
+          "type": "string"
+        },
+        "method_hints": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "advisory_only": {
+                "const": true,
+                "type": "boolean"
+              },
+              "code": {
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "advisory_only",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "method_name": {
+          "type": "string"
+        },
+        "mutation": {
+          "additionalProperties": true,
+          "properties": {
+            "gene": {
+              "type": "string"
+            },
+            "mutant_cases": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "gene",
+            "mutant_cases"
+          ],
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        },
+        "offered_stratifications": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "preset": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "sample_coverage": {
+          "additionalProperties": true,
+          "properties": {
+            "baseline_tumor_samples_before_gene_missingness": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "eligible_patient_material_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_by_sample_type": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_types": {
+              "additionalProperties": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            "expression_sample_columns": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "loaded_gdc_case_records": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "snapshot_dates_verified": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "expression_sample_columns",
+            "eligible_patient_material_samples",
+            "baseline_tumor_samples_before_gene_missingness",
+            "excluded_by_sample_type",
+            "excluded_types",
+            "snapshot_dates_verified"
+          ],
+          "type": "object"
+        },
+        "samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "scored_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "stratify": {
+          "type": "string"
+        },
+        "survival": {
+          "$ref": "survival-result-v1.schema.json"
+        },
+        "survival_empty_reason": {
+          "type": "string"
+        },
+        "survival_failure": {
+          "additionalProperties": true,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "type": "object"
+        },
+        "survival_gdc_eligibility_coverage": {
+          "additionalProperties": true,
+          "properties": {
+            "baseline_tumor_samples_before_gene_missingness": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "eligible_patient_material_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_by_sample_type": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_types": {
+              "additionalProperties": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            "expression_sample_columns": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "loaded_gdc_case_records": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "snapshot_dates_verified": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "expression_sample_columns",
+            "eligible_patient_material_samples",
+            "baseline_tumor_samples_before_gene_missingness",
+            "excluded_by_sample_type",
+            "excluded_types",
+            "snapshot_dates_verified"
+          ],
+          "type": "object"
+        },
+        "survival_outcome": {
+          "type": "string"
+        },
+        "survival_split": {
+          "additionalProperties": false,
+          "properties": {
+            "comparison": {
+              "description": "A quantile split's comparison (extremes: top vs bottom group; all: every group); null otherwise.",
+              "enum": [
+                "extremes",
+                "all",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "cut_points": {
+              "description": "The cut values, ascending: one for a median split, two or three for a quantile split; empty when no value was cut (or a saved batch run did not record it).",
+              "items": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "type": "array"
+            },
+            "disclosure": {
+              "description": "The split's disclosure sentence; null when no value was split.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "excluded": {
+              "description": "The middle an Extremes comparison left out (0 for All); null unless kind is quantile.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "group_order": {
+              "description": "The compared tiers in draw order (highest first); null unless kind is quantile.",
+              "items": {
+                "type": "string"
+              },
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "kind": {
+              "description": "How the groups were formed; `none` is a single whole-cohort or all-samples curve.",
+              "enum": [
+                "none",
+                "median",
+                "quantile",
+                "categorical",
+                "mutation"
+              ],
+              "type": "string"
+            },
+            "measured": {
+              "description": "Everyone the quantile split cut; null unless kind is quantile.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "refusal": {
+              "description": "Why a quantile split drew no curves; null otherwise.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "scheme": {
+              "description": "The value split's scheme; null unless kind is median or quantile.",
+              "enum": [
+                "median",
+                "tertiles",
+                "quartiles",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "tiers": {
+              "description": "Every quantile tier, lowest first, with its size and whether it was compared; null unless kind is quantile.",
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "compared": {
+                    "description": "Whether it was drawn and tested.",
+                    "type": "boolean"
+                  },
+                  "n": {
+                    "description": "Its size, counted in `unit`.",
+                    "type": "integer"
+                  },
+                  "tier": {
+                    "description": "The tier (T1..T3, Q1..Q4).",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tier",
+                  "n",
+                  "compared"
+                ],
+                "type": "object"
+              },
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "variable": {
+              "description": "What was split: expression, methylation, cnv, signature_score, a clinical field or mutation; null for a single curve.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "scheme",
+            "comparison",
+            "variable",
+            "cut_points",
+            "tiers",
+            "measured",
+            "excluded",
+            "group_order",
+            "disclosure",
+            "refusal"
+          ],
+          "type": "object"
+        },
+        "title": {
+          "type": "string"
+        },
+        "value_units": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "project",
+        "name",
+        "title",
+        "method_name",
+        "value_units",
+        "axis_label",
+        "stratify",
+        "survival_outcome",
+        "samples",
+        "scored_samples",
+        "genes",
+        "offered_stratifications",
+        "method",
+        "gene_resolution",
+        "distribution"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "coverage": {
+          "type": "string"
+        },
+        "distribution_stats": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "distribution_table": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "estimator_eligibility": {
+          "type": "string"
+        },
+        "grouped_note": {
+          "type": "string"
+        },
+        "grouped_table": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "grouped_title": {
+          "type": "string"
+        },
+        "mutation_note": {
+          "type": "string"
+        },
+        "report_subtitle": {
+          "type": "string"
+        },
+        "report_title": {
+          "type": "string"
+        },
+        "survival_policy": {
+          "type": "string"
+        },
+        "survival_report_title": {
+          "type": "string"
+        },
+        "survival_split_disclosure": {
+          "type": "string"
+        },
+        "survival_subtitle": {
+          "type": "string"
+        },
+        "survival_table": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "survival_title": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "coverage",
+        "report_title",
+        "report_subtitle",
+        "survival_title",
+        "survival_policy",
+        "distribution_stats"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "gene_resolution_csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "method": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "tcga_gene_signature",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_gene_signature result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_gene_signature"
+}

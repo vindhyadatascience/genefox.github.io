@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_cross_study_mutations. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "items": {
+        "additionalProperties": true,
+        "anyOf": [
+          {
+            "additionalProperties": true,
+            "properties": {
+              "gene_assayed_samples": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "mutated_samples": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "profile_available": {
+                "const": true,
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "profile_available",
+              "gene_assayed_samples",
+              "mutated_samples"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": true,
+            "properties": {
+              "gene_assayed_samples": {
+                "type": "null"
+              },
+              "mutated_samples": {
+                "type": "null"
+              },
+              "mutation_frequency": {
+                "type": "null"
+              },
+              "profile_available": {
+                "const": false,
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "profile_available",
+              "gene_assayed_samples",
+              "mutated_samples",
+              "mutation_frequency"
+            ],
+            "type": "object"
+          }
+        ],
+        "properties": {
+          "gene_assayed_samples": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mutated_samples": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mutation_frequency": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "profile_available": {
+            "type": "boolean"
+          },
+          "protein_altering_records": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unassayed_samples": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "untrusted_mutation_profile_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "untrusted_sample_list_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "untrusted_study_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "untrusted_study_id",
+          "untrusted_mutation_profile_id",
+          "untrusted_sample_list_id",
+          "gene_assayed_samples",
+          "mutated_samples",
+          "protein_altering_records",
+          "unassayed_samples",
+          "profile_available",
+          "mutation_frequency"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "entrez_gene_id": {
+      "type": "integer"
+    },
+    "files": {
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "html": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "pdf": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "methods": {
+      "type": "string"
+    },
+    "portal": {
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "group_name": {
+            "type": "string"
+          },
+          "native_project": {
+            "type": "string"
+          },
+          "open_link": {
+            "type": "string"
+          },
+          "open_link_title": {
+            "type": "string"
+          },
+          "sample_count": {
+            "type": "integer"
+          },
+          "served_as": {
+            "type": "string"
+          },
+          "study_id": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "untrusted_attribution": {
+            "type": "string"
+          },
+          "untrusted_title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "study_id",
+          "untrusted_title",
+          "group",
+          "group_name",
+          "subtitle",
+          "sample_count"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "tool": {
+      "const": "cbioportal_cross_study_mutations",
+      "type": "string"
+    },
+    "untrusted_gene": {
+      "type": "string"
+    },
+    "untrusted_mutation_types": {
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "type": "array"
+    },
+    "untrusted_source": {
+      "type": "string"
+    },
+    "untrusted_table": {
+      "$ref": "report-table-v1.schema.json"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "sources",
+    "caveats",
+    "files",
+    "portal",
+    "untrusted_source",
+    "methods",
+    "deep_link_note",
+    "entrez_gene_id",
+    "untrusted_table",
+    "untrusted_mutation_types",
+    "untrusted_gene"
+  ],
+  "title": "GeneFox cbioportal_cross_study_mutations result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_cross_study_mutations"
+}

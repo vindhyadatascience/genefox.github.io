@@ -1,0 +1,546 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for open_destination. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "call": {
+      "additionalProperties": true,
+      "properties": {
+        "tool": {
+          "type": "string"
+        },
+        "untrusted_arguments": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "untrusted_arguments"
+      ],
+      "type": "object"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "judged_against_cohort_cases": {
+          "const": true,
+          "type": "boolean"
+        },
+        "opens_plan": {
+          "additionalProperties": true,
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "analysis": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "openable": {
+              "type": "boolean"
+            },
+            "opens_expression": {
+              "type": "boolean"
+            },
+            "project_id": {
+              "type": "string"
+            },
+            "reference_screen": {
+              "type": "string"
+            },
+            "self_applying": {
+              "type": "boolean"
+            },
+            "shell_tab": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "untrusted_accession": {
+              "type": "string"
+            },
+            "untrusted_project_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "openable",
+            "self_applying",
+            "shell_tab"
+          ],
+          "type": "object"
+        },
+        "plan": {
+          "additionalProperties": true,
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "analysis": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "openable": {
+              "type": "boolean"
+            },
+            "opens_expression": {
+              "type": "boolean"
+            },
+            "project_id": {
+              "type": "string"
+            },
+            "reference_screen": {
+              "type": "string"
+            },
+            "self_applying": {
+              "type": "boolean"
+            },
+            "shell_tab": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "untrusted_accession": {
+              "type": "string"
+            },
+            "untrusted_project_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "openable",
+            "self_applying",
+            "shell_tab"
+          ],
+          "type": "object"
+        },
+        "restore": {
+          "additionalProperties": true,
+          "properties": {
+            "analysis": {
+              "type": "string"
+            },
+            "color_by": {
+              "type": "string"
+            },
+            "differential": {
+              "additionalProperties": true,
+              "properties": {
+                "arms_inverted": {
+                  "type": "boolean"
+                },
+                "grouping": {
+                  "type": "string"
+                },
+                "log2fc_cutoff": {
+                  "type": "number"
+                },
+                "q_cutoff": {
+                  "type": "number"
+                },
+                "untrusted_arm1": {
+                  "type": "string"
+                },
+                "untrusted_arm2": {
+                  "type": "string"
+                },
+                "untrusted_gtex_tissue": {
+                  "type": "string"
+                },
+                "untrusted_message": {
+                  "type": "string"
+                },
+                "untrusted_panel": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "untrusted_split_gene": {
+                  "type": "string"
+                },
+                "verdict": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "verdict",
+                "arms_inverted"
+              ],
+              "type": "object"
+            },
+            "geneless_survival": {
+              "type": "boolean"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "secondary_stratification": {
+              "type": "string"
+            },
+            "stratification": {
+              "type": "string"
+            },
+            "track": {
+              "type": "string"
+            },
+            "untrusted_gene": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "verdict",
+            "geneless_survival"
+          ],
+          "type": "object"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "untrusted_destination": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "untrusted_opens": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "waits_for_cohort_data": {
+          "const": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "untrusted_destination",
+        "supported",
+        "plan"
+      ],
+      "type": "object"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "untrusted_message": {
+          "type": "string"
+        },
+        "untrusted_notice": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "not_runnable": {
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "run_error": {
+      "additionalProperties": true,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "untrusted_details": {},
+        "untrusted_message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "retryable"
+      ],
+      "type": "object"
+    },
+    "run_unavailable": {
+      "type": "string"
+    },
+    "suggested_call": {
+      "additionalProperties": true,
+      "properties": {
+        "tool": {
+          "type": "string"
+        },
+        "untrusted_arguments": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "untrusted_arguments"
+      ],
+      "type": "object"
+    },
+    "tool": {
+      "const": "open_destination",
+      "type": "string"
+    },
+    "unsupported_here": {
+      "additionalProperties": true,
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "screen": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "screen",
+        "reason",
+        "message"
+      ],
+      "type": "object"
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    },
+    "untrusted_result": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "list-operations-result-v1.schema.json"
+        },
+        {
+          "$ref": "list-signature-presets-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-projects-result-v1.schema.json"
+        },
+        {
+          "$ref": "gtex-tissue-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "reference-ccle-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "reference-treehouse-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "reference-expression-atlas-result-v1.schema.json"
+        },
+        {
+          "$ref": "reference-expression-atlas-catalog-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-studies-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-composition-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-alterations-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-cross-study-mutations-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-significantly-mutated-genes-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-mutation-burden-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-structural-variants-result-v1.schema.json"
+        },
+        {
+          "$ref": "cbioportal-treatment-counts-result-v1.schema.json"
+        },
+        {
+          "$ref": "gene-info-result-v1.schema.json"
+        },
+        {
+          "$ref": "list-coverage-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-cases-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-case-detail-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-cohort-summary-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-search-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-dataset-details-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-supplementary-layout-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-case-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-compare-cohorts-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-differential-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-gene-isoforms-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-gene-signature-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-heatmap-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-pan-cancer-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-pan-cancer-survival-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-sample-pca-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-survival-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-top-correlates-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-tumor-normal-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-collection-summary-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-finder-plan-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-gene-correlation-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-heatmap-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-sample-pca-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-series-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-survival-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-top-correlates-result-v1.schema.json"
+        },
+        {
+          "$ref": "account-status-result-v1.schema.json"
+        },
+        {
+          "$ref": "tcga-chat-schema-result-v1.schema.json"
+        },
+        {
+          "$ref": "geo-chat-schema-result-v1.schema.json"
+        },
+        {
+          "$ref": "imported-de-enrichment-result-v1.schema.json"
+        },
+        {
+          "$ref": "arrayexpress-search-result-v1.schema.json"
+        },
+        {
+          "$ref": "arrayexpress-details-result-v1.schema.json"
+        },
+        {
+          "$ref": "arrayexpress-expression-result-v1.schema.json"
+        },
+        {
+          "$ref": "toxicodb-search-result-v1.schema.json"
+        },
+        {
+          "$ref": "toxicodb-experiments-result-v1.schema.json"
+        },
+        {
+          "$ref": "toxicodb-analysis-result-v1.schema.json"
+        },
+        {
+          "$ref": "hpa-gene-result-v1.schema.json"
+        },
+        {
+          "$ref": "lab-collaboration-status-result-v1.schema.json"
+        }
+      ]
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance"
+  ],
+  "title": "GeneFox open_destination result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "open_destination"
+}

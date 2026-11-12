@@ -320,6 +320,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#r-and-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R and Python
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -522,6 +533,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#r-and-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R and Python
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -543,13 +565,13 @@
 <p><code>genefox</code> is the headless GeneFox: a command-line tool and a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> (MCP) server. It shares the analysis code that the GeneFox iOS, macOS and Android apps run, so its numbers, figures, CSVs, recipes and reports come from the same code the app screens call.</p>
 <p>There are two ways to use it:</p>
 <ul>
-<li><strong>CLI subcommands</strong> (<code>catalog</code>, <code>validate</code>, <code>render</code>, <code>fetch</code>, <code>report export</code>, <code>tools</code>, <code>doctor</code>). Each one runs once and exits. See the <a href="cli/">CLI reference</a>.</li>
+<li><strong>CLI subcommands</strong> (<code>catalog</code>, <code>validate</code>, <code>render</code>, <code>fetch</code>, <code>report export</code>, <code>curated</code>, <code>doctor</code>, <code>tools</code>). Each one runs once and exits. See the <a href="cli/">CLI reference</a>.</li>
 <li><strong><code>genefox mcp</code></strong>, an MCP server over stdio (newline-delimited JSON-RPC 2.0). It lets an MCP client such as Claude Code, Claude Desktop, Codex or OpenCode run GeneFox analyses. See the <a href="mcp/">MCP server guide</a>.</li>
 </ul>
 <h2 id="relationship-to-the-genefox-app">Relationship to the GeneFox app<a class="headerlink" href="#relationship-to-the-genefox-app" title="Permanent link">&para;</a></h2>
 <p>Each MCP tool runs the same code a GeneFox app screen runs, and returns that screen's numbers as JSON. Most tools also write a PNG figure and can write the screen's CSV, a GeneFox recipe, or a single-figure HTML document. The <a href="tools/">tool catalogue</a> lists every tool and the screen it corresponds to.</p>
 <h2 id="free-tools-and-pro">Free tools and Pro<a class="headerlink" href="#free-tools-and-pro" title="Permanent link">&para;</a></h2>
-<p>The tools in this build are free tools (plus optional legacy tools that take local paths or URLs). The server <strong>fails closed</strong> for GeneFox Pro: it starts with no granted capabilities, nothing a client sends can change that, and a Pro tool that is not granted is neither listed nor callable. This build registers no Pro tools. See <a href="mcp/#entitlements-genefox-pro">Entitlements</a>.</p>
+<p>Most tools are free (plus optional legacy tools that take local paths or URLs). The server <strong>fails closed</strong> for GeneFox Pro: a Pro tool is listed and callable only with a live grant, and nothing a client sends can grant one. See <a href="mcp/#entitlements-genefox-pro">Entitlements</a>.</p>
 <h2 id="where-to-go-next">Where to go next<a class="headerlink" href="#where-to-go-next" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -577,14 +599,13 @@
 </tr>
 <tr>
 <td><a href="plugins/">Agent plugins</a></td>
-<td>Planned one-step setup for Claude Code, Codex and OpenCode (coming soon).</td>
+<td>Setup for Claude Code, Codex and OpenCode.</td>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title">Binary downloads</p>
-<p>Binary downloads are not published yet. They are coming soon.</p>
-</div>
+<h2 id="r-and-python">R and Python<a class="headerlink" href="#r-and-python" title="Permanent link">&para;</a></h2>
+<p>The <a href="https://genefox.app/r/">R package</a> and <a href="https://genefox.app/python/">Python package</a> call the same tools from code. Result contracts are published as <a href="https://genefox.app/schemas/v1/">JSON Schemas</a>.</p>
+<p>Get the CLI from the <a href="https://genefox.app/download/">GeneFox download page</a>.</p>
 
 
 

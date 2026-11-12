@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for arrayexpress_details. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "accession": {
+      "type": "string"
+    },
+    "attribution": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data_availability": {
+      "enum": [
+        "processed_matrix",
+        "raw_only"
+      ],
+      "type": "string"
+    },
+    "load_refusal": {
+      "type": "string"
+    },
+    "method_hints": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "advisory_only": {
+            "const": true,
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "evidence": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "rule",
+          "message",
+          "advisory_only",
+          "evidence"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "processed_matrix_candidates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "sample_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "source": {
+      "type": "string"
+    },
+    "truncated_fields": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_description": {
+      "type": "string"
+    },
+    "untrusted_design": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "untrusted_factors": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "untrusted_organism": {
+      "type": "string"
+    },
+    "untrusted_platform": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "untrusted_samples": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "assay_name": {
+            "type": "string"
+          },
+          "untrusted_characteristics": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "assay_name",
+          "untrusted_characteristics"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "untrusted_title": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source",
+    "accession",
+    "untrusted_title",
+    "untrusted_organism",
+    "untrusted_description",
+    "untrusted_platform",
+    "untrusted_design",
+    "untrusted_factors",
+    "processed_matrix_candidates",
+    "attribution",
+    "sample_count",
+    "data_availability",
+    "untrusted_samples"
+  ],
+  "title": "GeneFox arrayexpress_details result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "arrayexpress_details"
+}

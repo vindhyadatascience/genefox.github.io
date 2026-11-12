@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "The sources, runtime, transport and fetch time of an analysis.",
+  "properties": {
+    "fetched_at": {
+      "type": "string"
+    },
+    "genefox_cli": {
+      "type": "string"
+    },
+    "parity_screen": {
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "transport": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "sources",
+    "genefox_cli",
+    "transport",
+    "fetched_at"
+  ],
+  "title": "GeneFox tool provenance",
+  "type": "object",
+  "x-genefox-schema-version": 1
+}

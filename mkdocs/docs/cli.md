@@ -20,8 +20,11 @@ which code.
 | `genefox fetch <url> …` | 0 on success; 64 for a usage error or a bad `-m`; 1 for a transport or decompression error. |
 | `genefox report export …` | 0 on success; 1 for every failure, **including argument errors**. |
 | `genefox doctor [--resources <dir>] [--output-dir <dir>]` | 0 when healthy; 1 if a required check fails; 64 for a usage error. Diagnostics go to stdout. |
+| `genefox curated validate <dir> [--json]` | 0 when the dataset package is valid; 1 when it has issues (printed as `file:line:column: message [code]`, or as the JSON report with `--json`); 1 for a usage error. |
+| `genefox curated dose <view> <package-dir> [flags]` | The `genefox run dose_response` result: 0 on success; 1 when refused (no live Dose-Response grant, an unknown name, a package that fails its pins, a path outside the read root); 64 for a usage error. See the [MCP server guide](mcp.md#entitlements-genefox-pro). |
 | `genefox tools` | 0; 64 if any argument is given. |
 | `genefox mcp [options]` | 64 for an option error; 0 when stdin reaches EOF and every in-flight call has answered; 0 when writing to stdout fails because the client has gone. |
+| `genefox helper <command>` | The account helper's own exit codes: 2 for its usage. On macOS the command forwards to the signed helper binary, so its exit codes are the helper's; 1 when the helper is missing or its signature does not verify. |
 
 `render` treats a missing recipe, a second positional argument, an unrecognised option, or
 `--r-script` without `--storage-dir` as usage errors (64). Its `--r-script` combined with
@@ -50,7 +53,7 @@ Replays the **first** recipe in the file and writes a PNG, or with `--r-script`,
 | --- | --- |
 | `--storage-dir <dir>` | A local imported-dataset store. Required for imported recipes and for `--r-script`. |
 | `--size <preset>` | `single_column`, `one_and_a_half_column`, `double_column`, `slide` or `poster`. Without it, a public recipe uses its recorded figure size, or `double_column` if it has none, and an imported recipe uses `double_column`. Rejected with `--r-script`. |
-| `--r-script` | Emit the exact-input R script for an imported heatmap or signature recipe, instead of a PNG. |
+| `--r-script` | Emit the exact-input R script for an imported heatmap, signature or differential-expression recipe, instead of a PNG. |
 | `-o <file>` | Write to this file and print `wrote N bytes PNG` (or `… R source`). Without `-o`, the bytes go to stdout. Overwrites. |
 
 Imported recipes replay from the verified local store. Public-dataset recipes replay through
@@ -70,7 +73,7 @@ that range exits 64.
 ### `genefox report export <file> [options]`
 
 Reads a saved GeneFox v1/v2 report, renders it through the PDF assembly
-both app faces use, and writes it create-only to the output directory. It then prints
+the apps use, and writes it create-only to the output directory. It then prints
 `wrote N bytes PDF to <path>`.
 
 | Option | Meaning |
@@ -84,6 +87,14 @@ both app faces use, and writes it create-only to the output directory. It then p
 The report path must be a regular file, not a symbolic link, and fit this process's
 memory-derived size limit. Unreadable figures, invalid figure sizes, or tables over the
 budget refuse with no partial PDF written.
+
+### `genefox curated validate <dir> [--json]`
+
+Checks a curated dataset package (manifest, columns dictionary, expression matrices and tables). Nothing is fetched and nothing is written.
+
+### `genefox curated dose <view> <package-dir> [flags]`
+
+GeneFox Pro's dose-response analyses on an assembled curated package (`resource.json`, `tables/<id>.tsv.gz`, `metadata.tsv`), the same calls the app's dose panes make. Views: `curve` (also `table`: one compound's IC50 and AUC per line, refit and published side by side, and a line's curve), `by_group`, `waterfall`, `volcano`, `mechanism`, `heatmap` (the `--top` most informative compounds, `--rank variation|strength`, x the lines for the measure: `--measure log10_ic50 --ic50 absolute|relative`, `auc` or `amax`; lines grouped by `--column`, histone type by default, `--h3k27m true` for H3K27M versus others; `--scale z_score` standardizes per compound; a hatched cell is not reached, gray is not tested; `--style dots` draws the same matrix as dots, colour log10 IC50 and size Amax in % effect, a hollow dot a fitted-asymptote Amax, an outlined dot not reached), `biomarkers` (one compound against every gene: `--test expression` Spearman or `--test mutation` Wilcoxon mutant vs wild-type, BH across the family, n per test, at least 6 lines or 3 per group; `--direction gene --gene G` for one gene against every compound; published values by default), `single_dose_ranked`, `single_dose_by_group`, `single_dose_volcano`, `single_dose_bridge`. Every grouping view groups by `--column`, or by a gene: `--group-by expression --gene G [--split median|tertiles]` or `--group-by mutation --gene G` (the package's variant table), or by `stratify_derived` (an annotation column or `expression:G`). The package's `matrix.gfxm` supplies expression. Flags: `--compound`, `--line`, `--column`, `--control`, `--group-1`, `--group-2`, `--measure auc|log10_ic50|amax`, `--source refit|published` (volcano, mechanism and heatmap default to published when the package has it), `--ic50 absolute|relative`, `--fdr`, `--plot strip|box`, `--scale z_score|median|value`, `--top`, `--rank`, `--style cells|dots`, `--h3k27m`, `--table`, `--limit`, `--figure true|false`, `--size`, `--format png|svg|tiff|pdf`, `--csv`, `--output-dir`. The result is JSON: the pane's table, the Methods sentence with each table's own credit, the dose method hints (rule M29), and the figure and CSV paths. The package directory is also the read root for the call. Without a live Dose-Response grant the tool is not offered and the command exits 1 (this headless build links no account, so it fails closed everywhere today).
 
 ### `genefox doctor [--resources <dir>] [--output-dir <dir>]`
 
@@ -109,7 +120,7 @@ access class (free, Pro or legacy) and its deadline. The [tool catalogue](tools.
 ### `genefox mcp [options]`
 
 Serves MCP over stdio. Requests go in on stdin and responses come out on stdout; logs go to
-stderr. File descriptor 1 is pointed at stderr so that a stray `print` from FoxCore cannot
+stderr. File descriptor 1 is pointed at stderr so that a stray `print` cannot
 corrupt the protocol stream.
 
 | Option | Meaning |

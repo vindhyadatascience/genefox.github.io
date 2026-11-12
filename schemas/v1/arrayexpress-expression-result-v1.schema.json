@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for arrayexpress_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "accession": {
+      "type": "string"
+    },
+    "attribution": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "grouping_keys": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "matrix_file": {
+      "type": "string"
+    },
+    "plot": {
+      "additionalProperties": true,
+      "properties": {
+        "branch": {
+          "enum": [
+            "continuousScatter",
+            "groupedBox",
+            "histogram"
+          ],
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "untrusted_axis_label": {
+          "type": "string"
+        },
+        "untrusted_grouping_key": {
+          "type": "string"
+        },
+        "untrusted_grouping_message": {
+          "type": "string"
+        },
+        "untrusted_header": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted_header",
+        "untrusted_axis_label",
+        "summary",
+        "untrusted_grouping_key",
+        "branch"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "type": "string"
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "row_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sample_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "source": {
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source",
+    "accession",
+    "matrix_file",
+    "provenance",
+    "row_count",
+    "sample_count",
+    "grouping_keys",
+    "attribution"
+  ],
+  "title": "GeneFox arrayexpress_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "arrayexpress_expression"
+}

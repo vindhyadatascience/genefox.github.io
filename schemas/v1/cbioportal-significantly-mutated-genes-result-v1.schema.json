@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_significantly_mutated_genes. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "algorithm_version": {
+          "type": "null"
+        },
+        "bases_covered": {
+          "type": "null"
+        },
+        "method": {
+          "const": "MutSig (generic portal endpoint)",
+          "type": "string"
+        },
+        "original_bound_notation": {
+          "type": "null"
+        },
+        "published_records": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "published_records",
+        "method",
+        "algorithm_version",
+        "original_bound_notation",
+        "bases_covered"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "files": {
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "html": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "pdf": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "methods": {
+      "type": "string"
+    },
+    "portal": {
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "group_name": {
+            "type": "string"
+          },
+          "native_project": {
+            "type": "string"
+          },
+          "open_link": {
+            "type": "string"
+          },
+          "open_link_title": {
+            "type": "string"
+          },
+          "sample_count": {
+            "type": "integer"
+          },
+          "served_as": {
+            "type": "string"
+          },
+          "study_id": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "untrusted_attribution": {
+            "type": "string"
+          },
+          "untrusted_title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "study_id",
+          "untrusted_title",
+          "group",
+          "group_name",
+          "subtitle",
+          "sample_count"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "tool": {
+      "const": "cbioportal_significantly_mutated_genes",
+      "type": "string"
+    },
+    "untrusted_records": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "entrez_gene_id": {
+            "type": "integer"
+          },
+          "p_value_exact_source": {
+            "type": "string"
+          },
+          "provider_mutations": {
+            "type": "integer"
+          },
+          "provider_rank": {
+            "type": "integer"
+          },
+          "q_value_exact_source": {
+            "type": "string"
+          },
+          "untrusted_gene": {
+            "type": "string"
+          },
+          "untrusted_source_json": {
+            "type": "string"
+          },
+          "untrusted_study_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "untrusted_study_id",
+          "untrusted_gene",
+          "p_value_exact_source",
+          "q_value_exact_source",
+          "untrusted_source_json",
+          "entrez_gene_id",
+          "provider_rank",
+          "provider_mutations"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "untrusted_result_table": {
+      "$ref": "report-table-v1.schema.json"
+    },
+    "untrusted_source": {
+      "type": "string"
+    },
+    "untrusted_source_table": {
+      "$ref": "report-table-v1.schema.json"
+    },
+    "untrusted_study_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "sources",
+    "caveats",
+    "files",
+    "portal",
+    "untrusted_source",
+    "methods",
+    "deep_link_note",
+    "untrusted_study_id",
+    "untrusted_records",
+    "untrusted_result_table",
+    "untrusted_source_table"
+  ],
+  "title": "GeneFox cbioportal_significantly_mutated_genes result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_significantly_mutated_genes"
+}

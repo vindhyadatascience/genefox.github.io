@@ -1,0 +1,20 @@
+# GeneFox developer documentation
+
+> GeneFox is a genomics analysis runtime with a command-line tool, an MCP server, and R and Python clients.
+
+## Command line and MCP
+
+- [CLI and MCP server](https://genefox.app/docs/)
+- [Tool catalogue](https://genefox.app/docs/tools/)
+
+## SDK documentation
+
+- [R](https://genefox.app/r/)
+- [R index for language models](https://genefox.app/r/llms.txt)
+- [Python](https://genefox.app/python/)
+- [Python index for language models](https://genefox.app/python/llms.txt)
+- [Python full text](https://genefox.app/python/llms-full.txt)
+
+## Contracts
+
+- [Version 1 result schemas](https://genefox.app/schemas/v1/)

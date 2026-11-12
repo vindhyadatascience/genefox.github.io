@@ -1,0 +1,1493 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_sample_pca. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "colored_by": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "bins": {
+                  "type": "boolean"
+                },
+                "gene": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gene",
+                "bins"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "variable": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "variable",
+                "label"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "continuous_color": {
+          "type": "boolean"
+        },
+        "correlated_genes": {
+          "additionalProperties": true,
+          "properties": {
+            "pc1": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "gene": {
+                    "type": "string"
+                  },
+                  "r": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "gene",
+                  "r"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "pc2": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "gene": {
+                    "type": "string"
+                  },
+                  "r": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "gene",
+                  "r"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "pc1",
+            "pc2"
+          ],
+          "type": "object"
+        },
+        "excluded_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "genes_used": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "label",
+              "n"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "loadings": {
+          "additionalProperties": true,
+          "properties": {
+            "pc1": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "gene": {
+                    "type": "string"
+                  },
+                  "loading": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "gene",
+                  "loading"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "pc2": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "gene": {
+                    "type": "string"
+                  },
+                  "loading": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "gene",
+                  "loading"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "pc1",
+            "pc2"
+          ],
+          "type": "object"
+        },
+        "log_transform": {
+          "type": "boolean"
+        },
+        "offered_color_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "points": {
+          "items": {
+            "additionalProperties": true,
+            "oneOf": [
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "group": {
+                    "type": "string"
+                  },
+                  "sample": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sample",
+                  "group"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": true,
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "accession"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_accession"
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "properties": {
+                  "accession": {
+                    "type": "string"
+                  },
+                  "untrusted_accession": {
+                    "type": "string"
+                  },
+                  "untrusted_group": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_group"
+                ],
+                "type": "object"
+              }
+            ],
+            "properties": {
+              "x": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "y": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "project": {
+          "type": "string"
+        },
+        "sample_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "scale_genes": {
+          "type": "boolean"
+        },
+        "scree": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "component": {
+                "type": "string"
+              },
+              "cumulative_percent_variance": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "percent_variance": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "component",
+              "percent_variance",
+              "cumulative_percent_variance"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "source_coverage_disclosure": {
+          "type": "string"
+        },
+        "source_title": {
+          "type": "string"
+        },
+        "subset": {
+          "additionalProperties": true,
+          "properties": {
+            "disclosure": {
+              "type": "string"
+            },
+            "factor": {
+              "type": "string"
+            },
+            "groups_shown": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "groups_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "levels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "n_retained": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "groups_shown",
+            "groups_total",
+            "n_retained",
+            "factor",
+            "disclosure",
+            "levels"
+          ],
+          "type": "object"
+        },
+        "variance_explained": {
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "project",
+        "source_title",
+        "sample_count",
+        "excluded_samples",
+        "genes_used",
+        "log_transform",
+        "scale_genes",
+        "continuous_color",
+        "offered_color_by",
+        "colored_by",
+        "variance_explained",
+        "points",
+        "groups"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "axis_labels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "biplot_caption": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "color_key_note": {
+          "type": "string"
+        },
+        "correlated_genes_caption": {
+          "type": "string"
+        },
+        "correlated_genes_unavailable": {
+          "type": "string"
+        },
+        "exclusion_note": {
+          "type": "string"
+        },
+        "loadings_caption": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "scree_caption": {
+          "type": "string"
+        },
+        "scree_unavailable": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "variance_table": {
+          "$ref": "report-table-v1.schema.json"
+        }
+      },
+      "required": [
+        "title",
+        "subtitle",
+        "caption",
+        "method",
+        "scope",
+        "variance_table",
+        "axis_labels"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "method": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "section_exports": {
+      "additionalProperties": true,
+      "properties": {
+        "correlated_genes": {
+          "additionalProperties": true,
+          "properties": {
+            "csv": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "columns": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "headers": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "headers_truncated": {
+                  "type": "boolean"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "rows": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "rows",
+                "columns",
+                "headers"
+              ],
+              "type": "object"
+            },
+            "csv_headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "csv_rows": {
+              "items": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "csv_unavailable": {
+              "type": "string"
+            },
+            "deep_link": {
+              "type": "string"
+            },
+            "deep_link_note": {
+              "type": "string"
+            },
+            "deep_link_unavailable": {
+              "type": "string"
+            },
+            "figure": {
+              "$ref": "tool-figure-v1.schema.json"
+            },
+            "figure_refused": {
+              "type": "string"
+            },
+            "figure_token": {
+              "type": "string"
+            },
+            "figure_unavailable": {
+              "type": "string"
+            },
+            "html": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "parity": {
+                  "type": "string"
+                },
+                "parity_note": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "parity",
+                "parity_note"
+              ],
+              "type": "object"
+            },
+            "html_unavailable": {
+              "type": "string"
+            },
+            "lists": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "caption": {
+                    "type": "string"
+                  },
+                  "csv": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "columns": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "file_name": {
+                        "type": "string"
+                      },
+                      "headers": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "headers_truncated": {
+                        "type": "boolean"
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "rows": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "sha256": {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "file_name",
+                      "bytes",
+                      "sha256",
+                      "rows",
+                      "columns",
+                      "headers"
+                    ],
+                    "type": "object"
+                  },
+                  "csv_unavailable": {
+                    "type": "string"
+                  },
+                  "deep_link": {
+                    "type": "string"
+                  },
+                  "deep_link_note": {
+                    "type": "string"
+                  },
+                  "deep_link_unavailable": {
+                    "type": "string"
+                  },
+                  "figure": {
+                    "$ref": "tool-figure-v1.schema.json"
+                  },
+                  "figure_refused": {
+                    "type": "string"
+                  },
+                  "figure_token": {
+                    "type": "string"
+                  },
+                  "figure_unavailable": {
+                    "type": "string"
+                  },
+                  "genes_ranked": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "html": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "file_name": {
+                        "type": "string"
+                      },
+                      "parity": {
+                        "type": "string"
+                      },
+                      "parity_note": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "sha256": {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "file_name",
+                      "bytes",
+                      "sha256",
+                      "parity",
+                      "parity_note"
+                    ],
+                    "type": "object"
+                  },
+                  "html_unavailable": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "list": {
+                    "type": "string"
+                  },
+                  "recipe": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "deep_link": {
+                        "type": "string"
+                      },
+                      "destination_kind": {
+                        "type": "string"
+                      },
+                      "file_name": {
+                        "type": "string"
+                      },
+                      "format": {
+                        "type": "string"
+                      },
+                      "operation_id": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "recipe_id": {
+                        "type": "string"
+                      },
+                      "recipe_token": {
+                        "type": "string"
+                      },
+                      "rerunnable": {
+                        "type": "boolean"
+                      },
+                      "sha256": {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      },
+                      "untrusted_deep_link": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "file_name",
+                      "bytes",
+                      "sha256",
+                      "recipe_id",
+                      "destination_kind",
+                      "format",
+                      "rerunnable"
+                    ],
+                    "type": "object"
+                  },
+                  "recipe_unavailable": {
+                    "type": "string"
+                  },
+                  "report_subtitle": {
+                    "type": "string"
+                  },
+                  "report_title": {
+                    "type": "string"
+                  },
+                  "table": {
+                    "$ref": "report-table-v1.schema.json"
+                  },
+                  "truncated": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "kept": {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          "total": {
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "field",
+                          "kept",
+                          "total"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "items": {
+                          "additionalProperties": true,
+                          "properties": {
+                            "field": {
+                              "type": "string"
+                            },
+                            "kept": {
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            "total": {
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "field",
+                            "kept",
+                            "total"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    ]
+                  },
+                  "untrusted_deep_link": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "list",
+                  "label",
+                  "report_title",
+                  "report_subtitle",
+                  "caption",
+                  "genes_ranked",
+                  "table"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "recipe": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "deep_link": {
+                  "type": "string"
+                },
+                "destination_kind": {
+                  "type": "string"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "operation_id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "recipe_id": {
+                  "type": "string"
+                },
+                "recipe_token": {
+                  "type": "string"
+                },
+                "rerunnable": {
+                  "type": "boolean"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "untrusted_deep_link": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "recipe_id",
+                "destination_kind",
+                "format",
+                "rerunnable"
+              ],
+              "type": "object"
+            },
+            "recipe_unavailable": {
+              "type": "string"
+            },
+            "report_subtitle": {
+              "type": "string"
+            },
+            "report_title": {
+              "type": "string"
+            },
+            "truncated": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "kept": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "total": {
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "kept",
+                    "total"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "field": {
+                        "type": "string"
+                      },
+                      "kept": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "total": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "kept",
+                      "total"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              ]
+            },
+            "untrusted_deep_link": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "report_title",
+            "report_subtitle",
+            "csv_headers",
+            "csv_rows",
+            "lists"
+          ],
+          "type": "object"
+        },
+        "scree": {
+          "additionalProperties": true,
+          "properties": {
+            "caption": {
+              "type": "string"
+            },
+            "csv": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "columns": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "headers": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "headers_truncated": {
+                  "type": "boolean"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "rows": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "rows",
+                "columns",
+                "headers"
+              ],
+              "type": "object"
+            },
+            "csv_headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "csv_rows": {
+              "items": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "csv_unavailable": {
+              "type": "string"
+            },
+            "deep_link": {
+              "type": "string"
+            },
+            "deep_link_note": {
+              "type": "string"
+            },
+            "deep_link_unavailable": {
+              "type": "string"
+            },
+            "figure": {
+              "$ref": "tool-figure-v1.schema.json"
+            },
+            "figure_refused": {
+              "type": "string"
+            },
+            "figure_token": {
+              "type": "string"
+            },
+            "figure_unavailable": {
+              "type": "string"
+            },
+            "html": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "parity": {
+                  "type": "string"
+                },
+                "parity_note": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "parity",
+                "parity_note"
+              ],
+              "type": "object"
+            },
+            "html_unavailable": {
+              "type": "string"
+            },
+            "recipe": {
+              "additionalProperties": true,
+              "properties": {
+                "bytes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "deep_link": {
+                  "type": "string"
+                },
+                "destination_kind": {
+                  "type": "string"
+                },
+                "file_name": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "operation_id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "recipe_id": {
+                  "type": "string"
+                },
+                "recipe_token": {
+                  "type": "string"
+                },
+                "rerunnable": {
+                  "type": "boolean"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "untrusted_deep_link": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "file_name",
+                "bytes",
+                "sha256",
+                "recipe_id",
+                "destination_kind",
+                "format",
+                "rerunnable"
+              ],
+              "type": "object"
+            },
+            "recipe_unavailable": {
+              "type": "string"
+            },
+            "report_subtitle": {
+              "type": "string"
+            },
+            "report_title": {
+              "type": "string"
+            },
+            "table": {
+              "$ref": "report-table-v1.schema.json"
+            },
+            "truncated": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "kept": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "total": {
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "kept",
+                    "total"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "field": {
+                        "type": "string"
+                      },
+                      "kept": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "total": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "kept",
+                      "total"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              ]
+            },
+            "untrusted_deep_link": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "caption",
+            "report_title",
+            "report_subtitle",
+            "table",
+            "csv_headers",
+            "csv_rows"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "tool": {
+      "const": "tcga_sample_pca",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_sample_pca result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_sample_pca"
+}

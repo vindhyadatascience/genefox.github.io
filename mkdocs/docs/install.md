@@ -2,8 +2,8 @@
 
 # Install & resources
 
-!!! info "Binary downloads: coming soon"
-    Binary downloads are not published yet. This page describes the requirements and layout the CLI uses, so you can plan your setup.
+!!! info "Download"
+    Get the CLI from the [GeneFox download page](https://genefox.app/download/).
 
 ## Supported platforms
 
@@ -87,7 +87,7 @@ At startup, `genefox mcp` logs one line to stderr with
 
 ```
 genefox mcp: pid=111 resources=none inventory=loaderUnavailable reference=unavailable font=missing pin=mismatch cache=/home/user/.cache/GeneFoxCLI out=/tmp/gfout allowlist=on legacy=off deadline=per-tool calls=4 queue=16 entitlement=free(not-linked) flavor=release version=1.1.0+unknown
-genefox mcp: resources not ready; start the server with --resources <dir> (a copy of Sources/Locus/Resources)
+genefox mcp: resources not ready; start the server with --resources <dir>
 ```
 
 If the named directory does not exist, the server logs that too. It never fails to start.
@@ -103,9 +103,9 @@ Without resources:
 
 ## Bundled report resources
 
-The binary ships with a resource bundle. It holds the report
+The `locus_GenefoxTools` resource bundle holds the report
 brand marks (`GeneFoxReportMark256.png`, `GeneFoxReportMark2400.png`,
-`VDSLogoFullColor.png`, `VDSLogoSymbol.png`), the PDF faces (`SourceSans3-Regular`,
+`VDSLogoFullColor.png`, `VDSLogoSymbol.png`), the PDF fonts (`SourceSans3-Regular`,
 `-Semibold`, `-Bold`, `LiberationSans-Regular`, `-Bold`, `-Italic`) and their licence files.
 `report export` and the legacy `report_export_pdf` tool use these by default.
 
@@ -121,8 +121,7 @@ cache is the native host's default: Foundation's caches directory plus `GeneFoxC
 `~/Library/Caches/GeneFoxCLI` on macOS and `$XDG_CACHE_HOME/GeneFoxCLI` (or
 `~/.cache/GeneFoxCLI`) on Linux.
 
-The override is installed through `FoxStorageLocationRegistry.cacheRoot`, which download
-and curated payload caches use to resolve storage paths. Private store locations remain under `GeneFoxCLI`'s
+Download and curated payload caches use the override to resolve storage paths. Private store locations remain under `GeneFoxCLI`'s
 native application-support root. The MCP startup line reports `cache=/path`, and `doctor`
 reports `cache root: path=/path`. This names the configured root; it does not probe cache
 write permissions. For containers, mount a persistent cache volume and pass its directory.
@@ -140,10 +139,12 @@ written under **one output directory** that is fixed at launch:
    be a symbolic link. Otherwise the MCP server reports `out=unusable` and file outputs come
    back as `*_unavailable`, while `report export` exits 1.
 
-Every write goes through `MCPOutputFiles.writeCreateOnly`:
+Every write follows these rules:
 
-- **No paths from arguments.** File names come from the app's own export name for that output
-  (`ExportFileName`). No tool argument becomes a path.
+- **No paths from arguments.** CSV and HTML names come from the app's own export name for that
+  output; figure names come from the tool, the session's figure number and the
+  title's slug, with an optional `output_name` stem. No tool argument
+  becomes a path.
 - **Name rules.** A name that is not a plain file name falls back to a slug of letters,
   digits, `.`, `_` and `-`. A plain name has no control or format characters, none of
   `/ \ : * ? " < > |`, no leading `.`, `-` or space, no trailing `.` or space, and at most
@@ -153,7 +154,7 @@ Every write goes through `MCPOutputFiles.writeCreateOnly`:
   `.withoutOverwriting`, so a concurrent call that picked the same name moves on to the next
   suffix.
 - **Containment.** Every candidate must sit inside the output directory, compared component
-  by component with this host's path convention (`FoxFilePath.isDescendantPath`), never as a
+  by component with this host's path convention, never as a
   string prefix. On Windows that comparison covers drive roots, UNC shares, both separators
   and case.
 - **Windows device names.** On every host, a name that is a Windows reserved device name
@@ -223,3 +224,115 @@ credential-looking query/form/JSON fields (including NCBI `api_key`) are refused
 Request headers, URLs and bodies are never persisted; auth and cookie response headers are
 excluded. Cassettes retain the upstream response body verbatim, so use public-data tools
 and review response content before sharing recordings.
+
+## Free enrichment of a precomputed DE table
+
+`genefox enrich complete.tsv --source "DE analysis export" --comparison "treated versus control" --complete-universe --output-dir ./reports`
+uses the same `imported_de_enrichment` endpoint as the app's free Home entry and MCP. Input must be UTF-8 CSV/TSV with `gene`, `log2FoldChange`, and raw `pValue` columns, at least 500 distinct exact gene symbols, every tested gene including nonsignificant genes, at most 50,000 rows and 2 MiB. Source and comparison labels are limited to 200 UTF-8 bytes with no control characters. Symbols use exact ASCII spelling and column duplicate checks use exact UTF-8 identity. The declaration is the user's; GeneFox cannot verify completeness and does not recompute DE or infer sample sizes. Duplicate symbols, malformed rows, nonfinite effects and raw p outside (0,1] are refused without dropping genes.
+
+The foreground contains up to 200 nonneutral genes per direction, adjustable with `--foreground-size 1..200`. Results retain each validated gene set, its overlap and expected overlap, conditional odds ratio and one-sided lower 95% bound, upper-tail p, BH q within direction, overlapping genes and unavailable reasons. `Inf` is an unbounded estimate/boundary. Every table records the declared background and source hash and carries the shared methods and membership provenance.
+
+By default one multipart PDF, matching branded HTML and complete CSV are written create-only; JSON results and actual file descriptors go to stdout. Use `--format pdf`, `html`, `csv`, or `none` for explicit choices, and `--generated-at <ISO8601>` for a fixed shared timestamp. `GENEFOX_RESOURCES` selects an authoritative resource directory as for other commands. This full-table analysis is separate from the selected-gene matrix DE screen and its 80-gene limit.
+
+## Run a tool directly
+
+`genefox run --list` returns the same live tool list as MCP `tools/list`, including
+its current release, entitlement, legacy and model-tool filters. Any listed tool
+can be invoked through `genefox run <tool> --json '<arguments>'`. This calls the
+same request handler, deadlines, validation, access gates and output writer as
+`genefox mcp`; it has no separately maintained analysis dispatch table.
+
+For example, `genefox run list_operations` lists operations, and
+`genefox run tcga_expression --project TCGA-BRCA --gene TP53 --figure false`
+uses schema-named flags. String arguments retain their exact spelling, including
+numeric identifiers; arrays and objects use JSON literals. Use `--json` for a
+complete argument object, and do not mix it with individual tool flags. Repeated
+tool arguments are refused. Host options such as `--resources`, `--output-dir`,
+`--cache-dir` and `--enable-legacy-tools` work before or after the tool name.
+
+Stdout is one MCP result object, including content and optional error status, or
+the RPC error object for an unavailable tool. Diagnostics and notifications go to
+stderr. Exit codes are 0 for success, 1 for a tool/RPC failure, 64 for invalid CLI
+usage, and 78 for an unusable resource folder. Each invocation owns a fresh
+session: conversations or other handles spanning calls use `genefox mcp`.
+
+
+## Measured method hints
+
+GEO expression and sample PCA may add `data.method_hints`. These are deterministic
+advice derived from already available full-source library sizes and low-depth
+flags. Each item has a stable `code`, `advisory_only: true`, a message, measured
+`evidence`, and suggested `recommended_arguments` when applicable. The existing
+normalization, values, exclusions and captions remain the authoritative result;
+hints never rerun analysis, change methods, exclude samples or call a model.
+
+A figure whose value axis went to scientific notation over values that are all zero
+or more adds `figure.method_hints` with code `axis_log_scale`: its axis, range and
+tick labels as `evidence`, and `recommended_arguments` (for example `value_scale:
+log10`) only where this tool lists that scale and Publication Studio is granted. The
+figure is drawn as asked.
+
+`count_depth_normalization` suggests reviewing `log_cpm` for unprocessed integer
+read/probe counts when source depths differ more than10-fold or low-depth samples
+are flagged. Its `normalization_applied: false` refers to the recommendation;
+it does not erase any transform explicitly requested for the result.
+`low_depth_samples` suggests reviewing the disclosed threshold and explicit
+`exclude_low_depth` when flagged samples remain included. `pca_library_size_qc`
+asks for a PC1/log-library-size check and explicitly states that this association
+has not been calculated by the hint. Zero source depth yields a null fold range,
+with `zero_library_count` retained, never infinity or a fabricated finite ratio.
+Integer-count eligibility does not identify the biological assay; source-published
+processing, including nCounter assay controls, must be respected. Guidance and
+evaluation cases live in the agent plugin's shared method-choice reference.
+
+## Public GEO heatmaps
+
+`geo_heatmap` exposes the app's public GEO heatmap through MCP and the generated Python/R clients.
+For a one-shot CLI call, use the shared `genefox run` dispatcher:
+
+```bash
+genefox run geo_heatmap --json '{"accession":"GSE119933","probes":["1368934_at","1370269_at"],"annotations":["compound"],"group_by":"compound","keep_groups":["Wy","Ibup"],"z_normalize":true,"cluster_columns":false,"csv":true}' --output-dir ./figures
+```
+
+The compatibility spelling `genefox geo-heatmap --arguments <JSON>` retains its plain JSON result and delegates execution to the shared native SDK session.
+
+Genes resolve through the platform annotation; ambiguous symbols require exact probes.
+Missing requested probes and cells are disclosed. Sample filters recompute normalization
+and clustering on the retained samples; count normalization retains full-source library
+sums across all rows. Exact identifiers are never case-folded or silently deduplicated.
+The app's shared heatmap analysis, annotation colors, trees and figure exporter draw the
+result. Single-strip raw/log2/TPM exports are byte-identical to the app's export for the
+same matrix and controls. Multiple strips and count-normalized input use that same engine,
+with the interface difference disclosed. GEO heatmap recipes remain unavailable, matching
+the app's in-memory series pane. The CSV uses the app's bounded displayed-cell projection
+and reports its unavailability above the portable export limit.
+
+## Rich shell arguments and schema help
+
+`genefox run <tool> --help` shows the arguments from that tool's live schema,
+including required fields, defaults, types and descriptions. Hidden tools receive
+exactly the same refusal as unknown names. Help does not need scientific resources.
+
+Flags accept `--second-gene TP53` or `--second_gene=TP53`. A bare boolean flag means
+true; `--figure=false` supplies false. Repeat array flags or use comma-separated
+items (`--genes TP53,ESR1 --genes BRCA1`); a JSON array preserves commas inside an
+individual value. String identifiers retain leading zeros and their original spelling.
+The shared tool validator still decides whether values are valid.
+
+Use one `--args-file /path/arguments.json` instead of individual flags or `--json`
+for a bounded UTF-8 JSON object read through the native regular-file reader.
+Directories, non-regular files, oversized inputs, excessive nesting and malformed
+JSON are refused before host startup. A bare `--json` is also accepted as an alias
+for the default MCP output, including with `--list`.
+
+The default stdout remains the complete MCP result/error object and the standard
+exit contract remains 0 (success), 1 (tool/RPC failure), 64 (usage), 78 (resources).
+Python/R integrations need no changes. `--result-format text` explicitly selects
+text content or a readable tool list. When text omits inline non-text content,
+stderr identifies the omission; `--result-format mcp` retains every item.
+
+Opt in to `--exit-codes classified` for 2 (invalid arguments), 3 (gate/policy refusal
+or unavailable tool), 4 (upstream/network/timeout failure), and 1 (other tool failures).
+Unlisted/new tool error codes keep exit 1. Command-line usage and resource startup
+errors remain 64 and 78. This recovers the
+historical rich CLI capabilities while preserving the current SDK transport defaults.

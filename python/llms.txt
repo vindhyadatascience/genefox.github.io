@@ -1,0 +1,17 @@
+# genefox
+
+> GeneFox provides Python clients for the shared GeneFox scientific runtime. Install the package with pip install genefox.
+
+## Docs
+
+- [GeneFox Python client](https://genefox.app/python/_sources/index.md.txt)
+- [Reference](https://genefox.app/python/_sources/reference.md.txt)
+- [Getting started](https://genefox.app/python/_sources/articles/getting-started.md.txt)
+- [ArrayExpress](https://genefox.app/python/_sources/articles/arrayexpress.md.txt)
+- [cBioPortal](https://genefox.app/python/_sources/articles/cbioportal.md.txt)
+- [Differential expression and enrichment](https://genefox.app/python/_sources/articles/de.md.txt)
+- [Figures and local expression](https://genefox.app/python/_sources/articles/figures-recipes.md.txt)
+- [GEO](https://genefox.app/python/_sources/articles/geo.md.txt)
+- [Sample PCA](https://genefox.app/python/_sources/articles/pca.md.txt)
+- [Survival](https://genefox.app/python/_sources/articles/survival.md.txt)
+- [TCGA and GDC](https://genefox.app/python/_sources/articles/tcga.md.txt)

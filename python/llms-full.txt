@@ -1,0 +1,497 @@
+# GeneFox Python client
+
+GeneFox provides Python clients for the shared GeneFox scientific runtime. Install the package with `pip install genefox`.
+
+```{toctree}
+:maxdepth: 2
+
+reference
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Articles
+
+articles/getting-started
+articles/tcga
+articles/geo
+articles/cbioportal
+articles/arrayexpress
+articles/survival
+articles/pca
+articles/de
+articles/figures-recipes
+```
+
+
+# Reference
+
+Generated GeneFox tool functions.
+
+## TCGA
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_case_detail
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_case_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_cases
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_chat_schema
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_cohort_summary
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_compare_cohorts
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_gene_isoforms
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_gene_signature
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_pan_cancer_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_projects
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_top_correlates
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_tumor_normal
+```
+
+## GEO
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_chat_schema
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_collection_summary
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_dataset_details
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_finder_plan
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_gene_correlation
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_search
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_series_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_supplementary_layout
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_top_correlates
+```
+
+## cBioPortal
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_alterations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_composition
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_cross_study_mutations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_mutation_burden
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_significantly_mutated_genes
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_structural_variants
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_studies
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_treatment_counts
+```
+
+## ArrayExpress
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_details
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_search
+```
+
+## GTEx/HPA reference
+
+```{eval-rst}
+.. autofunction:: genefox.api.gtex_tissue_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.hpa_gene
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_ccle_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_expression_atlas
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_expression_atlas_catalog
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_treehouse_expression
+```
+
+## Survival
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_survival
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_pan_cancer_survival
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_survival
+```
+
+## Differential expression
+
+```{eval-rst}
+.. autofunction:: genefox.api.imported_de_enrichment
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_differential_expression
+```
+
+## PCA/dimensionality
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_sample_pca
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_sample_pca
+```
+
+## Figures and recipes
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_heatmap
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.open_destination
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_heatmap
+```
+
+## Gene and utilities
+
+```{eval-rst}
+.. autofunction:: genefox.api.gene_info
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_coverage
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_operations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_signature_presets
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_analysis
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_experiments
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_search
+```
+
+## Account and tools
+
+```{eval-rst}
+.. autofunction:: genefox.api.account_status
+```
+
+
+# Getting started
+
+Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package. Then install the package with `pip install genefox`.
+
+```python
+import genefox
+from genefox import api
+s = genefox.Session(runtime="path/to/runtime", output="output")
+status = api.account_status(s)
+```
+
+
+# ArrayExpress
+
+Search studies, inspect their records and load processed expression; raw-only studies are not loadable. Search takes 1–5 s, details 2–10 s and expression 5–30 s. These calls are free.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Expression with a gene and group can produce an engine PNG at the requested dpi and size; this summary call does not request one.
+
+```python
+hits = api.arrayexpress_search(s, query="spinal and bulbar muscular atrophy")
+details = api.arrayexpress_details(s, accession="E-MTAB-6986")
+expression = api.arrayexpress_expression(s, accession="E-MTAB-6986")
+```
+
+## Result fields
+
+`arrayexpress-search`: `hits` (array), `total_hits` (integer), `source` (string).
+
+`arrayexpress-details`: `source` (string), `accession` (string), `sample_count` (integer).
+
+`arrayexpress-expression`: `source` (string), `accession` (string), `sample_count` (integer).
+
+
+# cBioPortal
+
+List curated studies, inspect composition and gene alterations. Alterations are study-wide, not restricted to an expression subset. Listing takes 1–10 s; composition and alterations take 5–60 s.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+These calls return rows, not figures.
+
+```python
+studies = api.cbioportal_studies(s)
+composition = api.cbioportal_composition(s, study_id="openpedcan_v15")
+alterations = api.cbioportal_alterations(s, study_id="openpedcan_v15", gene="TP53")
+```
+
+## Result fields
+
+`cbioportal-studies`: `data` (object), `display` (object), `caveats` (array).
+
+`cbioportal-composition`: `data` (object), `display` (object), `caveats` (array).
+
+`cbioportal-alterations`: `data` (object), `display` (object), `caveats` (array).
+
+
+# Differential expression and enrichment
+
+TCGA panel DE compares groups; imported enrichment analyzes a complete precomputed DE table and does not recompute DE. TCGA DE takes 10–60 s cold; imported enrichment is free local computation, with no latency stated. Imported enrichment requires the complete tested universe including nonsignificant genes, at least 500 distinct symbols, and raw p-values.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+TCGA DE can return an engine PNG at the requested dpi and size; imported enrichment produces optional reports rather than a figure.
+
+```python
+de = api.tcga_differential_expression(s, project="TCGA-BRCA", genes=["ESR1", "GATA3"])
+# Supply a complete, precomputed table, not the panel result above.
+from pathlib import Path
+text = Path("complete-de.tsv").read_text()
+enrichment = api.imported_de_enrichment(s, table=text, source="precomputed DE", comparison="treated versus control", complete_universe=True)
+```
+
+## Result fields
+
+`tcga-differential-expression`: `data` (object), `display` (object), `caveats` (array).
+
+`imported-de-enrichment`: `data` (object), `display` (object), `caveats` (array).
+
+
+# Figures and local expression
+
+Figure-producing tools accept format, dpi, width_in, height_in and size when listed in their signatures. The local expression interchange preserves inputs; it does not perform analysis or render a figure. The fixture conversion is local; analysis latency and free access depend on the tool.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+The fixture comprises `matrix.tsv`, `samples.tsv` and `experiment.json`. Request `format = "png"` for engine PNGs at the requested `dpi` and size; `svg` and `tiff` are also supported. Specify `width_in` and `height_in` together in inches instead of the `size` preset. For tools that support it, `recipe=True` requests a recipe for reopening the analysis. Saving does not convert formats. The fixture alone does not render a figure.
+
+```python
+# Run from the repository root; experiment.json describes these files.
+from pathlib import Path
+import pandas as pd
+import genefox
+base = Path("SDK/contracts/fixtures/local-expression/python")
+matrix = pd.read_csv(base / "matrix.tsv", sep="\t", index_col=0)
+samples = pd.read_csv(base / "samples.tsv", sep="\t", index_col=0)
+x = genefox.ExpressionDataset.from_pandas(matrix, assay="logcounts", units="log2_cpm", sample_metadata=samples)
+polars_frame = x.to_polars("logcounts")
+adata = x.to_anndata("logcounts")
+manifest = x.write_import("new-import-directory", assay="logcounts", scale="log2")
+```
+
+```python
+# Given a figure-producing result named result:
+result.figure.save("figure.png")
+```
+
+## Result fields
+
+`tcga-expression`: `data` (object), `display` (object), `caveats` (array).
+
+
+# GEO
+
+Find GEO series, inspect samples and plot expression; this is not per-device usability advice. Search takes 2–10 s, details 1–5 s, and expression 10 s–3 min cold.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+
+```python
+hits = api.geo_search(s, query="neuroblastoma")
+details = api.geo_dataset_details(s, accession="GSE49711")
+expression = api.geo_series_expression(s, accession="GSE49711", gene="MYCN", figure=True)
+```
+
+## Result fields
+
+`geo-search`: `data` (object), `display` (object), `caveats` (array).
+
+`geo-dataset-details`: `data` (object), `display` (object), `caveats` (array).
+
+`geo-series-expression`: `data` (object), `display` (object), `caveats` (array).
+
+
+# Sample PCA
+
+Project TCGA/GDC and GEO samples onto principal components; this is not a differential-expression test. TCGA PCA takes 30 s–5 min cold, then seconds; GEO requires a cold matrix download, then seconds.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+
+```python
+tcga = api.tcga_sample_pca(s, project="TCGA-BRCA", figure=True)
+geo = api.geo_sample_pca(s, accession="GSE49711", figure=True)
+```
+
+## Result fields
+
+`tcga-sample-pca`: `data` (object), `display` (object), `caveats` (array).
+
+`geo-sample-pca`: `data` (object), `display` (object), `caveats` (array).
+
+
+# Survival
+
+Estimate TCGA/GDC patient survival by a clinical group; this is not a whole-cohort curve. Cold latency is 5–30 s.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+
+```python
+survival = api.tcga_survival(s, project="TCGA-BRCA", stratify="sex_at_birth", figure=True)
+```
+
+## Result fields
+
+`tcga-survival`: `data` (object), `display` (object), `caveats` (array).
+
+
+# TCGA and GDC
+
+Explore listed GDC projects, one gene’s expression and panel differential expression; this is not a genome-wide DE analysis. Project listing takes 1–3 s once, expression 5–40 s cold, and DE 10–60 s cold.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+
+```python
+projects = api.tcga_projects(s, search="BRCA")
+expression = api.tcga_expression(s, project="TCGA-BRCA", gene="ESR1", figure=True)
+de = api.tcga_differential_expression(s, project="TCGA-BRCA", genes=["ESR1", "GATA3"])
+table = expression.table()
+pandas_frame = table.to_pandas()
+polars_frame = table.to_polars()
+```
+
+## Result fields
+
+`tcga-projects`: `data` (object), `display` (object), `caveats` (array).
+
+`tcga-expression`: `data` (object), `display` (object), `caveats` (array).
+
+`tcga-differential-expression`: `data` (object), `display` (object), `caveats` (array).
+

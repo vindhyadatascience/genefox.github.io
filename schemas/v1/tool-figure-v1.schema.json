@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "anyOf": [
+    {
+      "additionalProperties": true,
+      "properties": {
+        "format": {
+          "const": "png",
+          "type": "string"
+        },
+        "mime_type": {
+          "const": "image/png",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "mime_type"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": true,
+      "properties": {
+        "format": {
+          "const": "svg",
+          "type": "string"
+        },
+        "mime_type": {
+          "const": "image/svg+xml",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "mime_type"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": true,
+      "properties": {
+        "format": {
+          "const": "tiff",
+          "type": "string"
+        },
+        "mime_type": {
+          "const": "image/tiff",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "mime_type"
+      ],
+      "type": "object"
+    }
+  ],
+  "description": "An engine-owned figure artifact. A path and file name from third-party text retain their untrusted_ prefix. Chart models and customization metadata are preserved as extensions.",
+  "oneOf": [
+    {
+      "additionalProperties": true,
+      "properties": {
+        "file_name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": true,
+      "properties": {
+        "untrusted_file_name": {
+          "type": "string"
+        },
+        "untrusted_path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted_path",
+        "untrusted_file_name"
+      ],
+      "type": "object"
+    }
+  ],
+  "properties": {
+    "alt_text": {
+      "type": "string"
+    },
+    "bytes": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "data_table": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "data_table_note": {
+      "type": "string"
+    },
+    "data_table_rows": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "data_table_truncated": {
+      "type": "boolean"
+    },
+    "data_table_unavailable": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "geometry": {
+      "type": "string"
+    },
+    "height_px": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "mime_type": {
+      "type": "string"
+    },
+    "parity": {
+      "type": "string"
+    },
+    "parity_note": {
+      "type": "string"
+    },
+    "parity_screen": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "untrusted_alt_text": {
+      "type": "string"
+    },
+    "untrusted_data_table": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "untrusted_description": {
+      "type": "string"
+    },
+    "untrusted_file_name": {
+      "type": "string"
+    },
+    "untrusted_path": {
+      "type": "string"
+    },
+    "width_px": {
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "format",
+    "mime_type",
+    "width_px",
+    "height_px",
+    "bytes",
+    "sha256",
+    "geometry",
+    "size",
+    "parity",
+    "parity_screen"
+  ],
+  "title": "GeneFox exported figure",
+  "type": "object",
+  "x-genefox-schema-version": 1
+}

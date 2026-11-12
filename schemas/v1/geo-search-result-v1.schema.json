@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_search. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "has_more": {
+              "const": true,
+              "type": "boolean"
+            },
+            "next_cursor": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "has_more",
+            "next_cursor"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "has_more": {
+              "const": false,
+              "type": "boolean"
+            },
+            "next_cursor": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "has_more",
+            "next_cursor"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "accession_lookup": {
+          "type": "boolean"
+        },
+        "datasets": {
+          "items": {
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "additionalProperties": true,
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "accession"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_accession"
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "properties": {
+                  "accession": {
+                    "type": "string"
+                  },
+                  "untrusted_accession": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              {
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "samples": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "samples_status": {
+                        "const": "reported",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "samples",
+                      "samples_status"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "samples": {
+                        "type": "null"
+                      },
+                      "samples_note": {
+                        "type": "string"
+                      },
+                      "samples_status": {
+                        "const": "unknown",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "samples",
+                      "samples_status",
+                      "samples_note"
+                    ],
+                    "type": "object"
+                  }
+                ]
+              }
+            ],
+            "properties": {
+              "untrusted_data_type": {
+                "type": "string"
+              },
+              "untrusted_organism": {
+                "type": "string"
+              },
+              "untrusted_publication_date": {
+                "type": "string"
+              },
+              "untrusted_summary": {
+                "type": "string"
+              },
+              "untrusted_title": {
+                "type": "string"
+              },
+              "usability": {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_reason": {
+                    "type": "string"
+                  },
+                  "verdict": {
+                    "enum": [
+                      "likely",
+                      "maybe",
+                      "unsupported",
+                      "unknown"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_reason",
+                  "verdict"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "untrusted_title",
+              "untrusted_summary",
+              "untrusted_organism",
+              "untrusted_data_type",
+              "untrusted_publication_date",
+              "usability"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "next_cursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_server_offset": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "query": {
+          "type": "string"
+        },
+        "returned": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "total": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "query",
+        "total",
+        "returned",
+        "next_server_offset",
+        "accession_lookup",
+        "has_more",
+        "next_cursor",
+        "datasets"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "expansion": {
+          "additionalProperties": true,
+          "properties": {
+            "canonical": {
+              "type": "string"
+            },
+            "exclude_terms": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "source": {
+              "type": "string"
+            },
+            "synonyms": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "canonical",
+            "source",
+            "synonyms",
+            "exclude_terms"
+          ],
+          "type": "object"
+        },
+        "search_disclosure": {
+          "additionalProperties": true,
+          "properties": {
+            "action_title": {
+              "type": "string"
+            },
+            "is_smart_search": {
+              "type": "boolean"
+            },
+            "source_line": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "untrusted_excluding": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_searching_for": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "untrusted_searching_for",
+            "source_line",
+            "action_title",
+            "untrusted_excluding",
+            "is_smart_search"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "geo_search",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance"
+  ],
+  "title": "GeneFox geo_search result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_search"
+}

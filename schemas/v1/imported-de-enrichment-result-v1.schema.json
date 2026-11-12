@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for imported_de_enrichment. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "background_genes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "numeric_representation": {
+          "type": "string"
+        },
+        "preset_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "rows": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "headers",
+        "rows",
+        "background_genes",
+        "preset_count",
+        "numeric_representation"
+      ],
+      "type": "object",
+      "x-genefox-row-width": "headers"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "untrusted_summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted_summary"
+      ],
+      "type": "object"
+    },
+    "files": {
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "html": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "pdf": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "methods": {
+      "type": "string"
+    },
+    "provenance": {
+      "additionalProperties": true,
+      "properties": {
+        "complete_background_as_declared": {
+          "const": true,
+          "type": "boolean"
+        },
+        "input_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "preset_sources": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "citation": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "source_release": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "source",
+              "source_release",
+              "license",
+              "citation"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "sample_sizes": {
+          "type": "null"
+        },
+        "untrusted_comparison": {
+          "type": "string"
+        },
+        "untrusted_source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted_source",
+        "untrusted_comparison",
+        "input_sha256",
+        "complete_background_as_declared",
+        "sample_sizes",
+        "preset_sources"
+      ],
+      "type": "object"
+    },
+    "tool": {
+      "const": "imported_de_enrichment",
+      "type": "string"
+    },
+    "untrusted_input_limitations": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "files",
+    "methods",
+    "untrusted_input_limitations",
+    "caveats"
+  ],
+  "title": "GeneFox imported_de_enrichment result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "imported_de_enrichment"
+}

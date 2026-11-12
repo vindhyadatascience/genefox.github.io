@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_structural_variants. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "profile_available": {
+              "const": true,
+              "type": "boolean"
+            },
+            "returned_records": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "profile_available",
+            "returned_records"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "gene_assayed_samples": {
+              "type": "null"
+            },
+            "profile_available": {
+              "const": false,
+              "type": "boolean"
+            },
+            "returned_records": {
+              "type": "null"
+            },
+            "source_fusion_class_samples": {
+              "type": "null"
+            },
+            "sv_affected_samples": {
+              "type": "null"
+            },
+            "sv_frequency": {
+              "type": "null"
+            },
+            "unassayed_samples": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "profile_available",
+            "gene_assayed_samples",
+            "sv_affected_samples",
+            "sv_frequency",
+            "returned_records",
+            "source_fusion_class_samples",
+            "unassayed_samples"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "gene_assayed_samples": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profile_available": {
+          "type": "boolean"
+        },
+        "returned_records": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_fusion_class_samples": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sv_affected_samples": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sv_frequency": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unassayed_samples": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "profile_available",
+        "sv_frequency",
+        "gene_assayed_samples",
+        "sv_affected_samples",
+        "returned_records",
+        "source_fusion_class_samples",
+        "unassayed_samples"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "entrez_gene_id": {
+      "type": "integer"
+    },
+    "files": {
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "html": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "pdf": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "methods": {
+      "type": "string"
+    },
+    "portal": {
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "group_name": {
+            "type": "string"
+          },
+          "native_project": {
+            "type": "string"
+          },
+          "open_link": {
+            "type": "string"
+          },
+          "open_link_title": {
+            "type": "string"
+          },
+          "sample_count": {
+            "type": "integer"
+          },
+          "served_as": {
+            "type": "string"
+          },
+          "study_id": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "untrusted_attribution": {
+            "type": "string"
+          },
+          "untrusted_title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "study_id",
+          "untrusted_title",
+          "group",
+          "group_name",
+          "subtitle",
+          "sample_count"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "tool": {
+      "const": "cbioportal_structural_variants",
+      "type": "string"
+    },
+    "untrusted_gene": {
+      "type": "string"
+    },
+    "untrusted_molecular_profile_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "untrusted_record_table": {
+      "$ref": "report-table-v1.schema.json"
+    },
+    "untrusted_records": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "has_source_fusion_class": {
+            "type": "boolean"
+          },
+          "untrusted_molecular_profile_id": {
+            "type": "string"
+          },
+          "untrusted_patient_id": {
+            "type": "string"
+          },
+          "untrusted_sample_id": {
+            "type": "string"
+          },
+          "untrusted_source_json": {
+            "type": "string"
+          },
+          "untrusted_study_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "untrusted_study_id",
+          "untrusted_molecular_profile_id",
+          "untrusted_sample_id",
+          "untrusted_patient_id",
+          "untrusted_source_json",
+          "has_source_fusion_class"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "untrusted_sample_list_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "untrusted_source": {
+      "type": "string"
+    },
+    "untrusted_study_id": {
+      "type": "string"
+    },
+    "untrusted_summary_table": {
+      "$ref": "report-table-v1.schema.json"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "sources",
+    "caveats",
+    "files",
+    "portal",
+    "untrusted_source",
+    "methods",
+    "deep_link_note",
+    "untrusted_gene",
+    "untrusted_study_id",
+    "untrusted_molecular_profile_id",
+    "untrusted_sample_list_id",
+    "entrez_gene_id",
+    "untrusted_records",
+    "untrusted_summary_table",
+    "untrusted_record_table"
+  ],
+  "title": "GeneFox cbioportal_structural_variants result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_structural_variants"
+}

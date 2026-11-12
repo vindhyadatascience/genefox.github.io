@@ -1,0 +1,420 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_case_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "file": {
+          "additionalProperties": true,
+          "properties": {
+            "file_name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "file_name"
+          ],
+          "type": "object"
+        },
+        "genes": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "counts": {
+                "type": "integer"
+              },
+              "fpkm": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "gene_id": {
+                "type": "string"
+              },
+              "gene_name": {
+                "type": "string"
+              },
+              "gene_type": {
+                "type": "string"
+              },
+              "tpm": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "gene_id",
+              "gene_name",
+              "gene_type",
+              "tpm",
+              "fpkm",
+              "counts"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "genes_total": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "matched": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "submitter_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "top_protein_coding": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "gene_id": {
+                "type": "string"
+              },
+              "gene_name": {
+                "type": "string"
+              },
+              "rank": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "gene_id",
+              "gene_name",
+              "rank",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "project",
+        "case_id",
+        "metric",
+        "genes_total",
+        "matched",
+        "submitter_id",
+        "file",
+        "genes",
+        "top_protein_coding"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "subtitle": {
+          "type": "string"
+        },
+        "table": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "table_heading": {
+          "type": "string"
+        },
+        "table_note": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "top_genes_table": {
+          "$ref": "report-table-v1.schema.json"
+        }
+      },
+      "required": [
+        "title",
+        "subtitle",
+        "table_heading",
+        "table"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "method": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "tcga_case_expression",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_case_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_case_expression"
+}

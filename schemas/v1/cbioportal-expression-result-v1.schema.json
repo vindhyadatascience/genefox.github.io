@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "axis_label": {
+          "type": "string"
+        },
+        "cohort_total": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "dropped_values": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "cohort_value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "median": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "population": {
+                "type": "string"
+              },
+              "q1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "q3": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "n",
+              "median",
+              "q1",
+              "q3",
+              "label",
+              "population"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "measured_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "plan": {
+          "additionalProperties": true,
+          "allOf": [
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "profile_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "profile_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_profile_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_profile_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "profile_id": {
+                  "type": "string"
+                },
+                "untrusted_profile_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "sample_list_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "sample_list_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_sample_list_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_sample_list_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "sample_list_id": {
+                  "type": "string"
+                },
+                "untrusted_sample_list_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            }
+          ],
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "hugo_symbol": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "hugo_symbol"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_hugo_symbol": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_hugo_symbol"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "entrez_gene_id": {
+              "type": "integer"
+            },
+            "hugo_symbol": {
+              "type": "string"
+            },
+            "is_tpm": {
+              "type": "boolean"
+            },
+            "untrusted_hugo_symbol": {
+              "type": "string"
+            },
+            "untrusted_profile_name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "entrez_gene_id",
+            "is_tpm",
+            "untrusted_profile_name"
+          ],
+          "type": "object"
+        },
+        "portal": {
+          "type": "string"
+        },
+        "study": {
+          "additionalProperties": true,
+          "properties": {
+            "group": {
+              "type": "string"
+            },
+            "group_name": {
+              "type": "string"
+            },
+            "native_project": {
+              "type": "string"
+            },
+            "open_link": {
+              "type": "string"
+            },
+            "open_link_title": {
+              "type": "string"
+            },
+            "sample_count": {
+              "type": "integer"
+            },
+            "served_as": {
+              "type": "string"
+            },
+            "study_id": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "untrusted_attribution": {
+              "type": "string"
+            },
+            "untrusted_title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "study_id",
+            "untrusted_title",
+            "group",
+            "group_name",
+            "subtitle",
+            "sample_count"
+          ],
+          "type": "object"
+        },
+        "subset_attribute_id": {
+          "type": "string"
+        },
+        "unmatched_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "untrusted_subset_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "portal",
+        "axis_label",
+        "measured_samples",
+        "dropped_values",
+        "unmatched_samples",
+        "cohort_total",
+        "study",
+        "plan",
+        "groups"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "headline": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "headline"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_headline": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_headline"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "group_rows": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "count_text": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "median_text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "count_text",
+              "median_text"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "untrusted_disclosure": {
+          "type": "string"
+        },
+        "untrusted_headline": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted_disclosure",
+        "group_rows"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "attribute": {
+              "type": "string"
+            },
+            "catalogue_generated": {
+              "type": "string"
+            },
+            "credential": {
+              "type": "string"
+            },
+            "portal": {
+              "type": "string"
+            },
+            "portal_api": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "portal",
+            "portal_api",
+            "catalogue_generated",
+            "credential",
+            "attribute"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "tool": {
+      "const": "cbioportal_expression",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats",
+    "deep_link_note"
+  ],
+  "title": "GeneFox cbioportal_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_expression"
+}

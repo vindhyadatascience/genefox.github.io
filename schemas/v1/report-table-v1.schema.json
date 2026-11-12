@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Display-ready strings, with every row the same width as headers. Numeric analysis values remain in the scientific data block.",
+  "properties": {
+    "caption": {
+      "type": "string"
+    },
+    "headers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "rows": {
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "headers",
+    "rows"
+  ],
+  "title": "GeneFox report table",
+  "type": "object",
+  "x-genefox-row-width": "headers",
+  "x-genefox-schema-version": 1
+}

@@ -1,0 +1,10 @@
+# Getting started
+
+Install the GeneFox CLI 1.1.0 or later; it carries the GeneFox runtime, which is proprietary and not bundled with this package. Then install the package with `pip install genefox`.
+
+```python
+import genefox
+from genefox import api
+s = genefox.Session(runtime="path/to/runtime", output="output")
+status = api.account_status(s)
+```

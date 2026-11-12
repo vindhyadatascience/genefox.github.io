@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_composition. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "composition": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "contains_models": {
+                  "type": "boolean"
+                },
+                "dominant_population": {
+                  "type": "string"
+                },
+                "is_single_population": {
+                  "type": "boolean"
+                },
+                "population_label": {
+                  "type": "string"
+                },
+                "population_shares": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "percent_text": {
+                        "type": "string"
+                      },
+                      "population": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "population",
+                      "name",
+                      "percent_text",
+                      "count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "programmes": {
+                  "items": {
+                    "additionalProperties": true,
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "cohort_value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "cohort_value"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "untrusted_cohort_value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_cohort_value"
+                        ],
+                        "type": "object"
+                      }
+                    ],
+                    "properties": {
+                      "cohort_value": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "population": {
+                        "type": "string"
+                      },
+                      "untrusted_cohort_value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "population",
+                      "count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "total": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "total",
+                "population_label",
+                "dominant_population",
+                "population_shares",
+                "programmes",
+                "is_single_population",
+                "contains_models"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expression_available": {
+          "type": "boolean"
+        },
+        "portal": {
+          "type": "string"
+        },
+        "study": {
+          "additionalProperties": true,
+          "properties": {
+            "group": {
+              "type": "string"
+            },
+            "group_name": {
+              "type": "string"
+            },
+            "native_project": {
+              "type": "string"
+            },
+            "open_link": {
+              "type": "string"
+            },
+            "open_link_title": {
+              "type": "string"
+            },
+            "sample_count": {
+              "type": "integer"
+            },
+            "served_as": {
+              "type": "string"
+            },
+            "study_id": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "untrusted_attribution": {
+              "type": "string"
+            },
+            "untrusted_title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "study_id",
+            "untrusted_title",
+            "group",
+            "group_name",
+            "subtitle",
+            "sample_count"
+          ],
+          "type": "object"
+        },
+        "subset": {
+          "additionalProperties": true,
+          "properties": {
+            "all_label": {
+              "type": "string"
+            },
+            "attribute_id": {
+              "type": "string"
+            },
+            "options": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "samples": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "untrusted_value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_value",
+                  "samples"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "options_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "picker_title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "attribute_id",
+            "picker_title",
+            "all_label",
+            "options_total",
+            "options"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "portal",
+        "study",
+        "composition",
+        "expression_available"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "composition_note": {
+          "type": "string"
+        },
+        "expression_unavailable_reason": {
+          "type": "string"
+        },
+        "mixture_disclosure": {
+          "type": "string"
+        },
+        "population_label": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subtitle"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "attribute": {
+              "type": "string"
+            },
+            "catalogue_generated": {
+              "type": "string"
+            },
+            "credential": {
+              "type": "string"
+            },
+            "portal": {
+              "type": "string"
+            },
+            "portal_api": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "portal",
+            "portal_api",
+            "catalogue_generated",
+            "credential",
+            "attribute"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "tool": {
+      "const": "cbioportal_composition",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats",
+    "deep_link_note"
+  ],
+  "title": "GeneFox cbioportal_composition result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_composition"
+}

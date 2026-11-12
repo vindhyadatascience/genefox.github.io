@@ -1,0 +1,807 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for reference_ccle_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "axis_label": {
+          "type": "string"
+        },
+        "cell_lines_in_index": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "distribution": {
+          "additionalProperties": true,
+          "properties": {
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "mean": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "median": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "n": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "q1": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "q3": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "n",
+            "median",
+            "q1",
+            "q3",
+            "mean",
+            "min",
+            "max"
+          ],
+          "type": "object"
+        },
+        "gene": {
+          "type": "string"
+        },
+        "group_test": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "n1": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "n2": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "p_value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "p_value_method": {
+                  "enum": [
+                    "exact",
+                    "asymptotic_continuity_corrected"
+                  ],
+                  "type": "string"
+                },
+                "rank_biserial": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "test": {
+                  "const": "mann_whitney",
+                  "type": "string"
+                },
+                "untrusted_first_group": {
+                  "type": "string"
+                },
+                "w": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "test",
+                "untrusted_first_group",
+                "w",
+                "p_value",
+                "rank_biserial",
+                "n1",
+                "n2",
+                "p_value_method"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "degrees_of_freedom": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "dunn": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "adjustment": {
+                      "const": "BH",
+                      "type": "string"
+                    },
+                    "pairs": {
+                      "items": {
+                        "additionalProperties": true,
+                        "properties": {
+                          "bh_q_value": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "group1": {
+                            "type": "string"
+                          },
+                          "group2": {
+                            "type": "string"
+                          },
+                          "mean_rank_difference": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "p_value": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "z": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "group1",
+                          "group2",
+                          "mean_rank_difference",
+                          "z",
+                          "p_value",
+                          "bh_q_value"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "summary": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "adjustment",
+                    "pairs",
+                    "summary"
+                  ],
+                  "type": "object"
+                },
+                "eta_squared_h": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "h": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "k": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "n": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "p_value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "test": {
+                  "const": "kruskal_wallis",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "test",
+                "h",
+                "p_value",
+                "eta_squared_h",
+                "degrees_of_freedom",
+                "n",
+                "k"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "mean": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "median": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "q1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "q3": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "untrusted_label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "n",
+              "median",
+              "q1",
+              "q3",
+              "mean",
+              "untrusted_label"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "method_hints": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "advisory_only": {
+                "const": true,
+                "type": "boolean"
+              },
+              "code": {
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "rule",
+              "message",
+              "advisory_only",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "minimum_group_size": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "n": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "stratify": {
+          "enum": [
+            "none",
+            "tcga",
+            "tissue",
+            "disease",
+            "histology",
+            "subtype"
+          ],
+          "type": "string"
+        },
+        "stratify_label": {
+          "type": "string"
+        },
+        "subset": {
+          "additionalProperties": true,
+          "properties": {
+            "groups_shown": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "groups_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "n_retained": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "untrusted_disclosure": {
+              "type": "string"
+            },
+            "untrusted_factor": {
+              "type": "string"
+            },
+            "untrusted_levels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "groups_shown",
+            "groups_total",
+            "n_retained",
+            "untrusted_factor",
+            "untrusted_disclosure",
+            "untrusted_levels"
+          ],
+          "type": "object"
+        },
+        "top_cell_lines": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "untrusted_cell_line": {
+                "type": "string"
+              },
+              "untrusted_histology": {
+                "type": "string"
+              },
+              "untrusted_sample_id": {
+                "type": "string"
+              },
+              "untrusted_tcga_acronym": {
+                "type": "string"
+              },
+              "untrusted_tissue": {
+                "type": "string"
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "untrusted_sample_id",
+              "untrusted_cell_line",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "gene",
+        "axis_label",
+        "stratify_label",
+        "cell_lines_in_index",
+        "n",
+        "stratify",
+        "distribution",
+        "top_cell_lines"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "banner": {
+          "type": "string"
+        },
+        "banner_note": {
+          "type": "string"
+        },
+        "distribution_table": {
+          "$ref": "report-table-v1.schema.json"
+        },
+        "grouped_note": {
+          "type": "string"
+        },
+        "grouped_title": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        },
+        "report_subtitle": {
+          "type": "string"
+        },
+        "report_title": {
+          "type": "string"
+        },
+        "source_line": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "summary": {
+          "additionalProperties": true,
+          "properties": {
+            "Max": {
+              "type": "string"
+            },
+            "Mean": {
+              "type": "string"
+            },
+            "Median": {
+              "type": "string"
+            },
+            "Min": {
+              "type": "string"
+            },
+            "Q1": {
+              "type": "string"
+            },
+            "Q3": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "Mean",
+            "Median",
+            "Q1",
+            "Q3",
+            "Min",
+            "Max"
+          ],
+          "type": "object"
+        },
+        "table_caption": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "untrusted_table": {
+          "$ref": "report-table-v1.schema.json"
+        }
+      },
+      "required": [
+        "header",
+        "source_line",
+        "title",
+        "subtitle",
+        "report_title",
+        "report_subtitle",
+        "summary"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "datasets": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "official_release": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "official_release",
+            "datasets"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "reference_ccle_expression",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox reference_ccle_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "reference_ccle_expression"
+}

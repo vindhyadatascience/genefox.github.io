@@ -1,0 +1,920 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_heatmap. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "available_annotations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "cluster_leaf_limit": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "color_high": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "x-genefox-output-role": "computed_extent"
+        },
+        "color_low": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "x-genefox-output-role": "computed_extent"
+        },
+        "column_order": {
+          "type": "string"
+        },
+        "column_unit": {
+          "type": "string"
+        },
+        "controls": {
+          "additionalProperties": true,
+          "properties": {
+            "cluster_columns": {
+              "type": "boolean"
+            },
+            "cluster_rows": {
+              "type": "boolean"
+            },
+            "z_normalize": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "z_normalize",
+            "cluster_rows",
+            "cluster_columns"
+          ],
+          "type": "object"
+        },
+        "from_differential_expression": {
+          "additionalProperties": true,
+          "properties": {
+            "candidates": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "columns_are_compared_samples": {
+              "type": "boolean"
+            },
+            "down_available": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "down_genes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "duplicate_symbols": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group1": {
+              "type": "string"
+            },
+            "group1_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "group2": {
+              "type": "string"
+            },
+            "group2_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "missing_adjusted_p": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "no_direction": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "notices": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "q_cutoff": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ranking": {
+              "type": "string"
+            },
+            "selected_above_q_cutoff": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "top_n": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "underpowered": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "up_available": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "up_genes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "top_n",
+            "group1_samples",
+            "group2_samples",
+            "candidates",
+            "missing_adjusted_p",
+            "no_direction",
+            "underpowered",
+            "up_available",
+            "down_available",
+            "selected_above_q_cutoff",
+            "q_cutoff",
+            "ranking",
+            "group1",
+            "group2",
+            "up_genes",
+            "down_genes",
+            "duplicate_symbols",
+            "notices",
+            "columns_are_compared_samples"
+          ],
+          "type": "object"
+        },
+        "gene_resolution": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "canonical_symbol": {
+                "type": "string"
+              },
+              "dataset": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "mapping_source": {
+                "anyOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "dataset": {
+                        "type": "string"
+                      },
+                      "dataset_metadata_sha256": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "release": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "sha256": {
+                        "type": "string"
+                      },
+                      "untrusted_dataset_version": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "url": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "sha256",
+                      "dataset",
+                      "release",
+                      "url",
+                      "untrusted_dataset_version",
+                      "dataset_metadata_sha256"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "resolved_field": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "symbol_reference_status": {
+                "type": "string"
+              },
+              "symbol_references": {
+                "items": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "release": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "sha256": {
+                      "type": "string"
+                    },
+                    "urls": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "resource_id",
+                    "sha256",
+                    "name",
+                    "release",
+                    "urls"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "typed_token": {
+                "type": "string"
+              },
+              "unresolved_reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "typed_token",
+              "canonical_symbol",
+              "symbol_reference_status",
+              "dataset",
+              "resolved_field",
+              "unresolved_reason",
+              "symbol_references",
+              "mapping_source"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "genes_requested": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "limits": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes_per_retained_cell": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maximum_cluster_leaves": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maximum_genes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maximum_supplemental_tracks": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "process_memory_limit_bytes": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "maximum_genes",
+            "maximum_cluster_leaves",
+            "maximum_supplemental_tracks",
+            "bytes_per_retained_cell",
+            "process_memory_limit_bytes"
+          ],
+          "type": "object"
+        },
+        "method_hints": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "advisory_only": {
+                "const": true,
+                "type": "boolean"
+              },
+              "code": {
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "advisory_only",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "mutation_strips": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "gene": {
+                "type": "string"
+              },
+              "mutant_patients": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "gene",
+              "mutant_patients"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "normal_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "panel_rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pinned_rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "preset": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "row_order": {
+          "type": "string"
+        },
+        "rows": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sample_coverage": {
+          "additionalProperties": true,
+          "properties": {
+            "baseline_tumor_samples_before_gene_missingness": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "eligible_patient_material_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_by_sample_type": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "excluded_types": {
+              "additionalProperties": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            "expression_sample_columns": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "loaded_gdc_case_records": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "snapshot_dates_verified": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "expression_sample_columns",
+            "eligible_patient_material_samples",
+            "baseline_tumor_samples_before_gene_missingness",
+            "excluded_by_sample_type",
+            "excluded_types",
+            "snapshot_dates_verified"
+          ],
+          "type": "object"
+        },
+        "samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "strips": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "annotated": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "legend": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "name": {
+                "type": "string"
+              },
+              "variable": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "variable",
+              "annotated",
+              "legend"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "tumor_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unavailable_annotations": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "variable": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "variable",
+              "reason"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "value_units": {
+          "type": "string"
+        },
+        "z_normalized": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "project",
+        "value_units",
+        "row_order",
+        "column_order",
+        "column_unit",
+        "panel_rows",
+        "pinned_rows",
+        "samples",
+        "tumor_samples",
+        "normal_samples",
+        "cluster_leaf_limit",
+        "genes_requested",
+        "rows",
+        "available_annotations",
+        "gene_resolution",
+        "z_normalized",
+        "color_low",
+        "color_high",
+        "controls",
+        "limits",
+        "strips",
+        "unavailable_annotations",
+        "mutation_strips"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "notices": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "report_title": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "report_title",
+        "caption",
+        "notices"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "gene_resolution_csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "method": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "tcga_heatmap",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_heatmap result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_heatmap"
+}

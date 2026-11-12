@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_pan_cancer_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "analyzed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "axis_label": {
+          "type": "string"
+        },
+        "base_ensembl_id": {
+          "type": "string"
+        },
+        "cohorts": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "gdc_eligibility_coverage": {
+                "additionalProperties": true,
+                "properties": {
+                  "baseline_tumor_samples_before_gene_missingness": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "eligible_patient_material_samples": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "excluded_by_sample_type": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "excluded_types": {
+                    "additionalProperties": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "type": "object"
+                  },
+                  "expression_sample_columns": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "loaded_gdc_case_records": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "snapshot_dates_verified": {
+                    "const": false,
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "expression_sample_columns",
+                  "eligible_patient_material_samples",
+                  "baseline_tumor_samples_before_gene_missingness",
+                  "excluded_by_sample_type",
+                  "excluded_types",
+                  "snapshot_dates_verified"
+                ],
+                "type": "object"
+              },
+              "median": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "project": {
+                "type": "string"
+              },
+              "q1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "q3": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "source_coverage": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "n",
+              "median",
+              "q1",
+              "q3",
+              "project"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "excluded_project_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "gene": {
+          "type": "string"
+        },
+        "method_hints": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "advisory_only": {
+                "const": true,
+                "type": "boolean"
+              },
+              "code": {
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "advisory_only",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "observations": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "requested": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sort": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gene",
+        "base_ensembl_id",
+        "axis_label",
+        "sort",
+        "requested",
+        "analyzed",
+        "observations",
+        "cohorts",
+        "excluded_project_ids"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "exclusion_disclosure": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "report_subtitle": {
+          "type": "string"
+        },
+        "report_title": {
+          "type": "string"
+        },
+        "rows": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "source_coverage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "report_title",
+        "report_subtitle"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "method": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "tcga_pan_cancer_expression",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_pan_cancer_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_pan_cancer_expression"
+}

@@ -982,7 +982,7 @@ HTML document.</p>
 <tbody>
 <tr>
 <td><code>--resources &lt;dir&gt;</code></td>
-<td>A copy of the app's scientific resources directory; or <code>GENEFOX_RESOURCES</code>, then <code>&lt;resolved executable directory&gt;/../share/genefox/Resources</code>, then <code>&lt;X&gt;.app/Contents/Resources</code> for a <code>Contents/Helpers/genefox</code> or <code>Contents/MacOS/genefox</code> executable. Automatic roots require <code>ScientificResources.json</code>; every source uses the same integrity checks. Without usable resources, gene tools answer <code>resource_unavailable</code> and no figure is drawn.</td>
+<td>A copy of the app's scientific resources directory; or <code>GENEFOX_RESOURCES</code>, then <code>&lt;resolved executable directory&gt;/../share/genefox/Resources</code>, then <code>&lt;X&gt;.app/Contents/Resources</code> for a <code>Contents/Helpers/genefox</code> or <code>Contents/MacOS/genefox</code> executable. Automatic roots require <code>ScientificResources.json</code>; every source uses the same integrity checks. With no folder, a missing one, or one without <code>ScientificResources.json</code>, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer <code>resource_unavailable</code> naming the reason, and no figure is drawn.</td>
 </tr>
 <tr>
 <td><code>--cache-dir &lt;dir&gt;</code></td>
@@ -1013,12 +1013,17 @@ HTML document.</p>
 <td>One deadline (1–3600 s) for every call, replacing each tool's own.</td>
 </tr>
 <tr>
+<td><code>--help</code>, <code>-h</code></td>
+<td>Print the usage and exit 0.</td>
+</tr>
+<tr>
 <td><code>--max-concurrent-calls &lt;n&gt;</code></td>
 <td>How many <code>tools/call</code>s run at once (1–64; default half the processors, 2 to 4). Up to 16 more queue; beyond that a call answers <code>rate_limited</code>. See <a href="#limits-deadlines-and-cancellation">Limits</a>.</td>
 </tr>
 </tbody>
 </table>
-<p>An option error exits with status 64 before the server reads any input. Otherwise the server
+<p>An option error exits with status 64, and a missing resources folder with status 78, before the
+server reads any input. Otherwise the server
 prints one self-check line to stderr and then serves until stdin closes, for example:</p>
 <div class="highlight"><pre><span></span><code>genefox mcp: pid=152 resources=/path/to/Resources (flag) inventory=available reference=available font=ok pin=ok cache=/home/user/.cache/GeneFoxCLI out=/tmp/gfout allowlist=on legacy=off deadline=per-tool calls=4 queue=16 entitlement=free(not-linked) flavor=release version=1.1.0+unknown
 </code></pre></div>
@@ -1029,6 +1034,11 @@ prints one self-check line to stderr and then serves until stdin closes, for exa
   deliberately absent.</li>
 <li><strong><code>entitlement=free(not-linked)</code></strong>: see <a href="#entitlements-genefox-pro">Entitlements</a>.</li>
 </ul>
+<p><strong>Progress.</strong> A <code>tools/call</code> whose request carries <code>params._meta.progressToken</code> gets a
+<code>notifications/progress</code> every 10 seconds until it answers, with the seconds elapsed as
+<code>progress</code> (no <code>total</code>: a call cannot know its own length), so a client that resets its timeout
+on progress keeps waiting through a slow first call. Without a token nothing is sent; each slow
+tool's description gives its expected time.</p>
 <p>Stdout carries only protocol messages. Logs, including one
 <code>genefox mcp: host_not_allowed …</code> line per refused request, go to stderr.</p>
 <h2 id="connecting-a-client">Connecting a client<a class="headerlink" href="#connecting-a-client" title="Permanent link">&para;</a></h2>
@@ -1156,6 +1166,25 @@ is one line on stdout. The server handles these messages:</p>
 <h2 id="tool-catalogue">Tool catalogue<a class="headerlink" href="#tool-catalogue" title="Permanent link">&para;</a></h2>
 <p>See the generated <a href="../tools/">tool catalogue</a>.</p>
 <h2 id="argument-conventions">Argument conventions<a class="headerlink" href="#argument-conventions" title="Permanent link">&para;</a></h2>
+<p>TCGA/GDC human gene inputs use GeneFox's existing approved-symbol and curated-alias
+reference: for example, <code>Her2</code> resolves to <code>ERBB2</code> and <code>PD-L1</code> to <code>CD274</code>. An approved
+symbol takes precedence over an alias. Imported feature IDs and GEO probes retain
+their literal spelling and organism-specific meaning.</p>
+<p>Cohort expression, gene signatures, heatmaps and differential panels return
+<code>data.gene_resolution</code>: the original token, canonical symbol, exact dataset field,
+dataset version, mapping release and source checksums. GDC STAR expression uses
+the verified annotation declared by the dataset sidecar. A custom loader's unknown
+mapping source is represented as <code>null</code>. Provider-supplied dataset versions use the
+bounded <code>untrusted_dataset_version</code> key; reports and CSV retain the complete version.
+With <code>csv: true</code>, these tools also write
+<code>gene_resolution_csv</code>; the primary data CSV keeps its existing columns. Captured
+reports retain the mapping provenance, and saved views retain the requested tokens.</p>
+<p><code>gene_info</code> accepts a symbol or a quoted Entrez ID and supports human genes only.
+A numeric ID must match the final human record exactly; a different or redirected
+record is refused as <code>gene_identity_mismatch</code>. A genuine missing record is
+<code>gene_not_found</code>; malformed or incomplete upstream metadata is <code>upstream_malformed</code>.
+The returned symbol is NCBI's official name, while summary and aliases remain
+under <code>untrusted_*</code> keys.</p>
 <p>Every tool reads its <code>arguments</code> under these rules:</p>
 <ul>
 <li><strong>Closed schemas.</strong> Every input schema has <code>additionalProperties: false</code>. An unknown key is
@@ -1182,6 +1211,56 @@ is one line on stdout. The server handles these messages:</p>
   <code>show_caption_color_keys</code>, <code>show_figure_legends</code>). A custom size must stay within the
   app's side limits, 8,192 px per side and 16 megapixels in total. <code>dpi</code> is accepted only
   together with <code>width_in</code> and <code>height_in</code>.</li>
+<li><strong>Figure file name.</strong> A tool with a <code>size</code> argument also accepts <code>output_name</code>, a stem for
+  the figure's file name in place of the tool name and the title's slug. It takes letters,
+  digits, <code>.</code>, <code>_</code> and <code>-</code>, starts with a letter or digit, and is at most 64 characters. A
+  name with a separator (<code>/</code>, <code>\</code>, <code>:</code>), a <code>..</code>, or any other character is refused before the
+  tool runs. Only the figure's descriptive part changes; see <a href="#figures">Figures</a>.</li>
+<li><strong>A heatmap opened from a differential-expression result</strong> (<code>from_differential_expression</code>) records its comparison and <code>top_n</code> in its <code>deep_link</code> and recipe (<code>de:</code> and
+  <code>de_top:</code> flags). <code>open_destination</code> and a recipe replay reopen it as one: the comparison is
+  rerun and its top genes taken again over its samples under the DE group strip, as the apps reopen it; a recipe flag this build cannot read runs nothing. A comparison by molecular
+  subtype does not draw the default Subtype strip beside the DE group strip that already shows it.</li>
+<li><strong>Figure axes (GeneFox Pro).</strong> The tools whose figures have continuous axes also accept
+  <code>x_min</code>, <code>x_max</code>, <code>x_scale</code>, <code>y_min</code>, <code>y_max</code>, <code>y_scale</code>, <code>value_min</code>, <code>value_max</code> and
+  <code>value_scale</code>, each tool only for the axes its
+  figures have: <code>x</code> and <code>y</code> for a scatter or volcano (<code>geo_gene_correlation</code>,
+  <code>tcga_top_correlates</code>, <code>geo_top_correlates</code>, <code>tcga_differential_expression</code>, and the PC1 x PC2
+  scatter of <code>tcga_sample_pca</code> and <code>geo_sample_pca</code>, which refuse a customization with
+  <code>biplot</code>, <code>scree</code> or <code>correlated_genes</code>, whose figures have no customizable axis), <code>value</code> for
+  a box, violin or strip (<code>tcga_tumor_normal</code>, <code>tcga_pan_cancer_expression</code>,
+  <code>tcga_compare_cohorts</code>, <code>reference_treehouse_expression</code>, <code>gtex_tissue_expression</code>,
+  <code>cbioportal_expression</code>), and the axes of whichever figure <code>figure_kind</code> or the grouping draws
+  (<code>tcga_expression</code>: all three; <code>tcga_gene_signature</code>: <code>x</code> for the histogram, <code>value</code> for the
+  grouped box; <code>geo_series_expression</code>: <code>x</code> for the ungrouped histogram, <code>value</code> for a one-factor
+  box, violin or strip (<code>tcga_expression</code>'s <code>ecdf</code> has no customizable axes), <code>x</code> and <code>y</code> for a continuous characteristic's scatter, none for a two-factor
+  view; without <code>geometry</code> a <code>value</code> key means the box and an <code>x</code> or <code>y</code> key the scatter, and a
+  characteristic the matrix shows to be the other kind is refused once it is read). A bound is a finite number in data units on either scale; a scale is <code>linear</code>
+  (the default) or <code>log10</code>. A histogram's x bounds restrict its binning range. Values outside a
+  bound, and values at or below zero on a log axis, are not drawn; the figure says how many in
+  its caption and its description. A reversed range, a non-positive bound on a log axis, an
+  axis the figure does not have, or a figure kind with no customizable axis (a survival curve,
+  a two-factor box, an ECDF) is refused with <code>invalid_argument</code>. Every one of these keys
+  is Pro (<code>publicationStudio</code>) and refused with <code>entitlement_required</code> unless the server's
+  context grants that capability (see Entitlements). A customization is saved with what the
+  call writes: a recipe records it as one <code>axes:</code> flag on its destination
+  (the same keys, <code>axes:value_min=7;value_max=12;value_scale=linear</code>) and in its presentation
+  metadata, whose Methods line names the axes; <code>open_destination</code> and <code>genefox render</code> pass a
+  recorded flag back to the tool, so a replay draws the same axes and stays Pro-gated, and a
+  flag this build cannot read runs nothing. A CSV is the data, unchanged (<code>csv.customization</code>
+  and <code>csv.customization_note</code> say so); an HTML document embeds the customized engine figure
+  (<code>html.parity: app_document_engine_figure</code>); <code>figure: false</code> returns the data and echoes
+  <code>customization</code> with a <code>customization_note</code>. Significance brackets on a customized value axis test the values it
+  shows, on its scale, as ggplot2 does. A caption that cannot fit, or would squeeze the plot, is
+  refused with the size that would work; it is never cropped. A drawn customized figure reports
+  <code>figure.customization</code> (the value's stable JSON) and <code>parity: engine_only</code>. <code>genefox render</code>
+  takes the same values as <code>--x-min</code>, <code>--x-scale</code> and so on, for an imported plot or signature
+  replay and for a signature's <code>--r-script</code> (<code>x</code> for the score histogram, <code>value</code> for the
+  one-factor box plot). The script draws them as GeneFox does: values outside a bound, and
+  values at or below zero on a log axis, are removed before anything is binned or summarized,
+  which is ggplot2's scale-limits behaviour (<code>scale_x_continuous(limits = )</code>,
+  <code>scale_x_log10()</code>), not <code>coord_cartesian()</code>'s zoom; the already-filtered geometry is drawn
+  with <code>oob = scales::oob_keep</code> and the figure's caption. A public recipe replays the axes it
+  recorded, and refuses the flags.</li>
 </ul>
 <p>Every refusal is a tool error whose <code>code</code> is <code>invalid_argument</code> and whose <code>field</code> names the
 argument. It happens before any network request.
@@ -1207,8 +1286,23 @@ supplementary refusal diagnostics allow 512 characters for a file name and 1,200
 reason. When a file name is derived from GEO text, the written path is returned as
 <code>untrusted_path</code> / <code>untrusted_file_name</code>.</p>
 <h2 id="figures">Figures<a class="headerlink" href="#figures" title="Permanent link">&para;</a></h2>
-<p>A figure tool draws through GeneFox's shared engine and writes a PNG create-only under the output
-directory, named as the app names the same export. It then returns <code>figure</code> with these keys:</p>
+<p>TCGA and GEO expression offer a cumulative distribution (<code>geometry=ecdf</code>) over the
+retained observations, including constant-valued samples. GEO distribution exports
+retain grouping controls and apply any <code>keep_groups</code> subset before pooling values. It uses the same
+GeneFox engine as the cards on the apps. Its export recipe preserves the ECDF
+selection. ECDF axes are fixed; custom bounds or scales refuse before loading data.</p>
+<p>Expression distributions offer box, strip and violin plots, with histogram or ECDF where
+that screen's schema offers them. The expression bar option is retired. For one release,
+MCP accepts the older <code>bar</code> and <code>median_bar</code> spellings as box-plot aliases and returns a
+migration caveat. Saved views, links and recipes that recorded a bar also open as a box
+plot with a notice; <code>genefox render</code> writes the notice to stderr. Keep the returned caveat
+with the figure. Genuine count, proportion and ranked bar charts retain their own geometry.</p>
+<p>A figure tool draws through GeneFox's shared engine and writes its figure create-only under the output
+directory. The optional <code>format</code> argument picks the file: <code>png</code> (the default, a raster), <code>svg</code>
+(vector, with editable text) or <code>tiff</code> (raster, the extension <code>.tif</code>). Every figure is written in
+all three formats from the same drawing, and <code>format</code> follows the file's extension and media type
+(<code>format</code> and <code>mime_type</code> in the result). SVG keeps the figure's labels as editable text. It then
+returns <code>figure</code> with these keys:</p>
 <table>
 <thead>
 <tr>
@@ -1219,7 +1313,11 @@ directory, named as the app names the same export. It then returns <code>figure<
 <tbody>
 <tr>
 <td><code>path</code>, <code>file_name</code>, <code>bytes</code>, <code>sha256</code>, <code>width_px</code>, <code>height_px</code></td>
-<td>The file written. The pixel size is read from the PNG itself.</td>
+<td>The file written. For a PNG the pixel size is read from the file itself.</td>
+</tr>
+<tr>
+<td><code>format</code>, <code>mime_type</code></td>
+<td>The file's format (<code>png</code>, <code>svg</code> or <code>tiff</code>) and its media type.</td>
 </tr>
 <tr>
 <td><code>geometry</code>, <code>size</code></td>
@@ -1251,6 +1349,21 @@ directory, named as the app names the same export. It then returns <code>figure<
 </tr>
 </tbody>
 </table>
+<p><strong>File names.</strong> A figure's file name is</p>
+<div class="highlight"><pre><span></span><code>&lt;NN&gt;_&lt;tool&gt;_&lt;slug&gt;_&lt;W&gt;x&lt;H&gt;in[_&lt;dpi&gt;dpi].&lt;ext&gt;
+</code></pre></div>
+<ul>
+<li><code>NN</code> is the figure's number in this server session, counted from 01 and never reused, so two
+  figures from one session never share a name, even when they come from the same tool.</li>
+<li><code>tool</code> is the tool that drew the figure, and <code>slug</code> is the title's slug. <code>output_name</code>, when
+  given, replaces <code>tool_slug</code> and nothing else.</li>
+<li><code>W</code> and <code>H</code> are the size in inches, to one decimal; <code>dpi</code> is the resolution. A vector file
+  (<code>svg</code>) has no resolution, so its name has no <code>_&lt;dpi&gt;dpi</code>.</li>
+<li><code>ext</code> is the one extension the format takes: <code>png</code>, <code>svg</code> or <code>tif</code>.</li>
+</ul>
+<p>Example: <code>01_tcga_pan_cancer_expression_box-plot_7.2x6.0in_300dpi.png</code>.</p>
+<p>A name that is already taken is never replaced. The file takes <code>-2</code>, <code>-3</code> and so on before its
+extension, so <code>01_..._300dpi-2.png</code> is the second file with that name.</p>
 <p>The data table is capped at <strong>200 rows</strong>. Only
 scatter and volcano figures, which have one row per point, reach that cap. Rows past it are
 not lost: they are still in the tool's <code>data</code> and CSV, which are never capped by this.</p>
@@ -1300,7 +1413,7 @@ exports:</p>
 <tr>
 <td><code>engine_only</code></td>
 <td><code>figure.parity</code></td>
-<td>Drawn by the shared engine, but the screen has no PNG export to match; for example, the screen snapshots the view.</td>
+<td>Drawn by the shared engine, but the screen has no PNG export to match; for example, the screen snapshots the view, or the figure was drawn with customized axes, which no screen draws yet.</td>
 </tr>
 <tr>
 <td><code>font_mismatch</code></td>
@@ -1330,10 +1443,16 @@ exports:</p>
 </ul>
 <h2 id="entitlements-genefox-pro">Entitlements (GeneFox Pro)<a class="headerlink" href="#entitlements-genefox-pro" title="Permanent link">&para;</a></h2>
 <p>The server <strong>fails closed</strong>. Pro tools are listed and callable only when the server grants the required capability. Hidden tools answer <code>-32602 Unknown tool</code>. No argument, flag, environment variable or file grants Pro access.</p>
-<p>This build registers <strong>no Pro tools</strong> (the catalogue shows <code>0 Pro</code>). <code>account_status</code>
+<p>Pro tools: <code>batch_explorer_run</code>, <code>publication_studio_export</code>, <code>dataset_radar_check</code> and
+<code>dose_response</code>. Without a live grant a Pro tool is not listed, and a direct call is refused
+with <code>entitlement_required</code> before any file is opened. <code>genefox curated dose &lt;view&gt; &lt;package-dir&gt;</code>
+runs <code>dose_response</code> from a terminal.</p>
+<p><code>account_status</code>
 reports <code>linked: false</code>, <code>entitlement: "not_linked"</code>, <code>granted_capabilities: []</code> and
-<code>cloud_assist: "off"</code>, with the caveat "Linking a GeneFox account to this server is not
+<code>cloud_ai: "off"</code>, with the caveat "Linking a GeneFox account to this server is not
 available in this version."</p>
+<p><code>lab_collaboration_status</code>, <code>cloud_sync_status</code>, <code>cloud_sync_now</code> and <code>cloud_sync_store</code> are
+free. They need a linked account, so in this version they report that none is linked.</p>
 <h2 id="account-and-cloud-authority">Account and cloud authority<a class="headerlink" href="#account-and-cloud-authority" title="Permanent link">&para;</a></h2>
 <p>Account linking, cloud retry and the dataset finder are <strong>not available</strong> in this build:</p>
 <ul>
@@ -1455,6 +1574,10 @@ tree are:</p>
 <td>An argument was refused (<code>field</code> names it), or an input file or report was unreadable.</td>
 </tr>
 <tr>
+<td><code>entitlement_required</code></td>
+<td>A GeneFox Pro argument (<code>field</code>) the context does not grant (<code>details.capability</code>); nothing was run.</td>
+</tr>
+<tr>
 <td><code>resource_unavailable</code></td>
 <td>The scientific resources, gene reference, or a report asset is missing.</td>
 </tr>
@@ -1538,7 +1661,8 @@ operation: <code>row</code>, <code>operation</code>, <code>app_screen</code>, <c
 <code>status</code> is one of <code>available</code>, <code>partial</code>, <code>planned</code> or <code>not_available_headless</code>. The result
 also has counts per status. On this build, <code>list_coverage</code> reported 54 available, 17
 partial, 12 planned and 6 not available headlessly. A final row summarises Pro operations
-without naming any. Call <code>list_coverage</code> for the current state rather than relying on these
+without naming any; a context granted a Pro tool's capability also gets that tool's row after
+it. Call <code>list_coverage</code> for the current state rather than relying on these
 numbers.</p>
 <p>Legacy local recipe paths are limited to the output directory, <code>--imported-store</code>, and
 repeatable <code>--allow-root</code> directories (also <code>GENEFOX_MCP_ALLOWED_ROOTS</code>, separated by <code>:</code> on

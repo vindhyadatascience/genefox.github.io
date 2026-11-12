@@ -459,7 +459,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>tcga_tumor_normal</code></td>
 <td>free</td>
 <td>300</td>
-<td>Compare one gene's expression in a TCGA project's baseline tumours with its adjacent normal tissue and the GTEx normal reference, exactly as GeneFox's Tumor vs Normal screen does (numbers, p-values in display.table, figure, per-participant CSV).</td>
+<td>Compare one gene's expression in a TCGA project's baseline tumors with its adjacent normal tissue and the GTEx normal reference, exactly as GeneFox's Tumor vs Normal screen does (numbers, p-values in display.table, figure, per-participant CSV).</td>
 </tr>
 <tr>
 <td><code>geo_series_expression</code></td>
@@ -471,7 +471,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>tcga_pan_cancer_expression</code></td>
 <td>free</td>
 <td>300</td>
-<td>One gene's baseline-tumour expression across GeneFox's pan-cancer cohorts (65 GDC projects), per-cohort n/median/quartiles as the Pan-Cancer screen reports them, with its box-plot figure, its report table and caption (every excluded cohort named with its reason) and its per-patient CSV.</td>
+<td>One gene's baseline-tumor expression across GeneFox's pan-cancer cohorts (65 GDC projects), per-cohort n/median/quartiles as the Pan-Cancer screen reports them, with its box-plot figure, its report table and caption (every excluded cohort named with its reason) and its per-patient CSV.</td>
 </tr>
 <tr>
 <td><code>gtex_tissue_expression</code></td>
@@ -495,7 +495,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>geo_finder_plan</code></td>
 <td>free</td>
 <td>300</td>
-<td>Plan GEO dataset searches from a natural-language question using the app's regex interpreter and bundled synonym dictionary only.</td>
+<td>Plan GEO searches without executing them or using a model.</td>
 </tr>
 <tr>
 <td><code>list_operations</code></td>
@@ -513,7 +513,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>local_model_status</code></td>
 <td>free</td>
 <td>300</td>
-<td>Check current runtime readiness of the host's local single-query and conversation providers separately.</td>
+<td>Check local single-query and conversation provider readiness separately.</td>
 </tr>
 <tr>
 <td><code>tcga_expression</code></td>
@@ -525,7 +525,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>tcga_pan_cancer_survival</code></td>
 <td>free</td>
 <td>300</td>
-<td>Is one gene's expression associated with overall survival in each TCGA cancer? GeneFox's Pan-Cancer Survival screen: per cohort, a median split of baseline-tumour patients, Kaplan-Meier log-rank p, Cox HR, and BH q-values across the 33 PanCanAtlas cohorts, with the forest plot (or one cohort's Kaplan-Meier with cohort=).</td>
+<td>Is one gene's expression associated with overall survival in each TCGA cancer? GeneFox's Pan-Cancer Survival screen: per cohort, a median split of baseline-tumor patients, Kaplan-Meier log-rank p, Cox HR, and BH q-values across the 33 PanCanAtlas cohorts, with the forest plot (or one cohort's Kaplan-Meier with cohort=).</td>
 </tr>
 <tr>
 <td><code>tcga_cohort_summary</code></td>
@@ -537,7 +537,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>tcga_top_correlates</code></td>
 <td>free</td>
 <td>300</td>
-<td>Which genes' expression correlates with one gene across a TCGA or other GDC cohort's baseline tumours, genome-wide, as GeneFox's Top correlates sheet computes it: Pearson r per gene over patient means, BH q across the whole gene family, the ranked table and the correlation volcano.</td>
+<td>Which genes' expression correlates with one gene across a TCGA or other GDC cohort's baseline tumors, genome-wide, as GeneFox's Top correlates sheet computes it: Pearson r per gene over patient means, BH q across the whole gene family, the ranked table and the correlation volcano.</td>
 </tr>
 <tr>
 <td><code>geo_dataset_details</code></td>
@@ -561,7 +561,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>geo_gene_correlation</code></td>
 <td>free</td>
 <td>900</td>
-<td>Correlate two genes (or probes) across a GEO series' samples, as GeneFox's GEO Expression Gene Correlation section does: r (or Spearman rho), r², n, the least-squares fit, optionally coloured by a sample characteristic, with a scatter figure.</td>
+<td>Correlate two genes (or probes) across a GEO series' samples, as GeneFox's GEO Expression Gene Correlation section does: r (or Spearman rho), r², n, the least-squares fit, optionally colored by a sample characteristic, with a scatter figure.</td>
 </tr>
 <tr>
 <td><code>geo_top_correlates</code></td>
@@ -573,7 +573,31 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>geo_sample_pca</code></td>
 <td>free</td>
 <td>900</td>
-<td>Project a GEO series' samples onto PC1 x PC2, as GeneFox's sample PCA screen does (top 2,000 most variable rows, optional log2(x+1), gene scaling), optionally coloured by a sample characteristic or by one gene's expression, with sample exclusions; optionally the scree series, the genes most correlated with each PC and their loadings, and the biplot.</td>
+<td>Project a GEO series' samples onto PC1 x PC2, as GeneFox's sample PCA screen does (top 2,000 most variable rows by default, or top_genes; optional log2(x+1), gene scaling), optionally colored by a sample characteristic or by one gene's expression, with sample exclusions; optionally the scree series, the genes most correlated with each PC and their loadings, and the biplot.</td>
+</tr>
+<tr>
+<td><code>geo_heatmap</code></td>
+<td>free</td>
+<td>900</td>
+<td>Draw a free public GEO heatmap from a whole series matrix.</td>
+</tr>
+<tr>
+<td><code>arrayexpress_search</code></td>
+<td>free</td>
+<td>300</td>
+<td>Search EMBL-EBI ArrayExpress (BioStudies) for expression studies, as GeneFox's ArrayExpress source does, returning accession, title and release date for each.</td>
+</tr>
+<tr>
+<td><code>arrayexpress_details</code></td>
+<td>free</td>
+<td>300</td>
+<td>An ArrayExpress study's record as GeneFox's source reads it: title, organism, platform, sample count, experimental design, SDRF factors, and whether a processed expression matrix exists.</td>
+</tr>
+<tr>
+<td><code>arrayexpress_expression</code></td>
+<td>free</td>
+<td>300</td>
+<td>Load an ArrayExpress study's processed expression matrix (text TSV/TSV-like file the study publishes) through GeneFox's shared bounded reader, and report its sample metadata (SDRF characteristics and factors), row/sample counts and attribution.</td>
 </tr>
 <tr>
 <td><code>list_coverage</code></td>
@@ -609,7 +633,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>tcga_sample_pca</code></td>
 <td>free</td>
 <td>900</td>
-<td>Project every sample of a TCGA/GDC cohort onto PC1 x PC2 over the 2,000 most variable genes of the whole transcriptome, as GeneFox's cohort Sample PCA does, optionally coloured by a clinical variable or one gene, with sample exclusions; optionally the scree series, the genes most correlated with each PC and their loadings, and the biplot.</td>
+<td>Project every sample of a TCGA/GDC cohort onto PC1 x PC2 over the 2,000 most variable genes of the whole transcriptome, as GeneFox's cohort Sample PCA does, optionally colored by a clinical variable or one gene, with sample exclusions; optionally the scree series, the genes most correlated with each PC and their loadings, and the biplot.</td>
 </tr>
 <tr>
 <td><code>geo_survival</code></td>
@@ -627,13 +651,13 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>reference_ccle_expression</code></td>
 <td>free</td>
 <td>300</td>
-<td>One gene's expression across the CCLE cancer cell lines (Treehouse Cell Line Compendium v1, log2(TPM+1)), as GeneFox's Reference › Cell Lines screen shows it: the distribution and its 7-statistic table, and the cell lines grouped by TCGA acronym, tissue, disease, histology or subtype with the screen's Mann-Whitney/Kruskal-Wallis banner and post-hoc summary, the top cell lines, and the grouped figure (box, violin, bar or strip) or the histogram.</td>
+<td>One gene's expression across the CCLE cancer cell lines (Treehouse Cell Line Compendium v1, log2(TPM+1)), as GeneFox's Reference › Cell Lines screen shows it: the distribution and its 7-statistic table, and the cell lines grouped by TCGA acronym, tissue, disease, histology or subtype with the screen's Mann-Whitney/Kruskal-Wallis banner and post-hoc summary, the top cell lines, and the grouped figure (box, violin or strip) or the histogram.</td>
 </tr>
 <tr>
 <td><code>reference_treehouse_expression</code></td>
 <td>free</td>
 <td>300</td>
-<td>One gene's expression in the independent-source pediatric and rare tumours of the UCSC Treehouse Tumor Compendium 25.01 PolyA (log2(TPM+1)), as GeneFox's Reference › Pediatric &amp; Rare Tumors screen shows it: every admitted cohort or one disease, grouped by disease, pediatric/AYA status, sex or source study (highest median first), with the descriptive group table, a box, bar, strip or violin figure, csv and recipe.</td>
+<td>One gene's expression in the independent-source pediatric and rare tumors of the UCSC Treehouse Tumor Compendium 25.01 PolyA (log2(TPM+1)), as GeneFox's Reference › Pediatric &amp; Rare Tumors screen shows it: every admitted cohort or one disease, grouped by disease, pediatric/AYA status, sex or source study (highest median first), with the descriptive group table, a box, strip or violin figure, csv and recipe.</td>
 </tr>
 <tr>
 <td><code>reference_expression_atlas</code></td>
@@ -645,7 +669,25 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>reference_expression_atlas_catalog</code></td>
 <td>free</td>
 <td>300</td>
-<td>The Expression Atlas experiments GeneFox's Reference › Expression Atlas picker offers: its three curated baseline experiments, then every human baseline experiment in the live Atlas catalogue, sorted by description (when the catalogue cannot be reached, only the three curated ones, as on the screen, with the failure in catalogue_failure).</td>
+<td>The Expression Atlas experiments GeneFox's Reference › Expression Atlas picker offers: its three curated baseline experiments, then every human baseline experiment in the live Atlas catalog, sorted by description (when the catalog cannot be reached, only the three curated ones, as on the screen, with the failure in catalogue_failure).</td>
+</tr>
+<tr>
+<td><code>toxicodb_search</code></td>
+<td>free</td>
+<td>300</td>
+<td>Find genes or compounds in ToxicoDB (toxicodb.ca: Open TG-GATEs human and rat, DrugMatrix rat, EMEXP2458 hepatocyte toxicogenomics).</td>
+</tr>
+<tr>
+<td><code>toxicodb_experiments</code></td>
+<td>free</td>
+<td>900</td>
+<td>One gene's ToxicoDB expression under one compound: every sample by dose (Control, Low, Middle, High: categorical labels, not concentrations) and time (h), for one dataset x cell panel at a time (panels are never pooled).</td>
+</tr>
+<tr>
+<td><code>toxicodb_analysis</code></td>
+<td>free</td>
+<td>900</td>
+<td>ToxicoDB's own precomputed differential-expression results (limma; fold change, p-value and FDR exactly as ToxicoDB returns them, never recomputed).</td>
 </tr>
 <tr>
 <td><code>cbioportal_studies</code></td>
@@ -657,25 +699,55 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>cbioportal_composition</code></td>
 <td>free</td>
 <td>900</td>
-<td>What one curated cBioPortal study's cohort is made of, measured from its own COHORT attribute as GeneFox's cBioPortal screen shows it: pediatric tumours, patient-derived models, adult tumours and normal tissue, with counts, shares and the screen's mixture sentence (a 'pediatric' study can be mostly adult or normal), plus the cancer-type subsets expression can be restricted to.</td>
+<td>What one curated cBioPortal study's cohort is made of, measured from its own COHORT attribute as GeneFox's cBioPortal screen shows it: pediatric tumors, patient-derived models, adult tumors and normal tissue, with counts, shares and the screen's mixture sentence (a 'pediatric' study can be mostly adult or normal), plus the cancer-type subsets expression can be restricted to.</td>
 </tr>
 <tr>
 <td><code>cbioportal_expression</code></td>
 <td>free</td>
 <td>900</td>
-<td>One gene's mRNA expression in a curated cBioPortal study, one box per contributing programme (the study's COHORT attribute: PBTA, TARGET, GTEx, TCGA, …), never pooled, as GeneFox's cBioPortal screen shows it, optionally restricted to one cancer-type subset (subset, from cbioportal_composition).</td>
+<td>One gene's mRNA expression in a curated cBioPortal study, one box per contributing program (the study's COHORT attribute: PBTA, TARGET, GTEx, TCGA, …), never pooled, as GeneFox's cBioPortal screen shows it, optionally restricted to one cancer-type subset (subset, from cbioportal_composition).</td>
 </tr>
 <tr>
 <td><code>cbioportal_alterations</code></td>
 <td>free</td>
 <td>300</td>
-<td>How often one gene is altered in a curated cBioPortal study, as GeneFox's cBioPortal screen reports it: mutated, amplified, deep-deleted and unaltered among the samples the portal lists as PROFILED for the gene (the denominator), with mutation classes and the screen's coverage caveat.</td>
+<td>How often one gene is altered in a curated cBioPortal study, as GeneFox's cBioPortal screen reports it: mutated, amplified, deep-deleted and unaltered among the samples the portal lists as PROFILED for the gene (the denominator), with mutation classes and the screen's coverage caveat and independently resolved gene-panel membership.</td>
+</tr>
+<tr>
+<td><code>cbioportal_cross_study_mutations</code></td>
+<td>free</td>
+<td>900</td>
+<td>Compare protein-altering mutations in one gene across 1–32 curated cBioPortal studies in one portal.</td>
+</tr>
+<tr>
+<td><code>cbioportal_structural_variants</code></td>
+<td>free</td>
+<td>900</td>
+<td>Analyze structural variants involving either partner of one gene in a curated cBioPortal study.</td>
+</tr>
+<tr>
+<td><code>cbioportal_significantly_mutated_genes</code></td>
+<td>free</td>
+<td>900</td>
+<td>Retrieve published MutSig significantly mutated genes for a curated study, distinct from GISTIC copy-number results.</td>
+</tr>
+<tr>
+<td><code>cbioportal_treatment_counts</code></td>
+<td>free</td>
+<td>900</td>
+<td>Retrieve separate patient and sample Agent treatment count reports for one curated cBioPortal study.</td>
+</tr>
+<tr>
+<td><code>cbioportal_mutation_burden</code></td>
+<td>free</td>
+<td>900</td>
+<td>Retrieve a study’s declared sample-level TMB_NONSYNONYMOUS or MUTATION_COUNT clinical attribute without conversion.</td>
 </tr>
 <tr>
 <td><code>tcga_compare_cohorts</code></td>
 <td>free</td>
 <td>900</td>
-<td>One gene's participant-level expression across several GDC cohorts on one common scale, as GeneFox's Compare Cohorts screen draws it: each cohort's baseline-tumour arm, optionally its tissue-normal arm and the matched GTEx normal tissue (identical GTEx references drawn once), with the screen's report table (Group/n/Mean/Median/Q1/Q3 and the significance line, pairing-aware) and every disclosure (arms a cohort could not supply, exact vs proxy GTEx sites).</td>
+<td>One gene's participant-level expression across several GDC cohorts on one common scale, as GeneFox's Compare Cohorts screen draws it: each cohort's baseline-tumor arm, optionally its tissue-normal arm and the matched GTEx normal tissue (identical GTEx references drawn once), with the screen's report table (Group/n/Mean/Median/Q1/Q3 and the significance line, pairing-aware) and every disclosure (arms a cohort could not supply, exact vs proxy GTEx sites).</td>
 </tr>
 <tr>
 <td><code>tcga_gene_signature</code></td>
@@ -690,10 +762,16 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td>List GeneFox's bundled signature presets in app order, with exact names, gene counts, descriptions, recommended scoring methods and source/license provenance.</td>
 </tr>
 <tr>
+<td><code>imported_de_enrichment</code></td>
+<td>free</td>
+<td>300</td>
+<td>Analyze a complete precomputed gene-level DE CSV/TSV against validated bundled gene sets, free and locally.</td>
+</tr>
+<tr>
 <td><code>tcga_heatmap</code></td>
 <td>free</td>
 <td>900</td>
-<td>An expression heatmap of a gene panel across one TCGA or other GDC cohort, as GeneFox's Heatmap screen draws it: every sample (tumour then normal), each gene z-scored or raw log2(TPM+1), genes and samples clustered (UPGMA) within this host's measured leaf limit or ordered by principal component above it (the notice says which and why), pinned expression rows on top, annotation strips (sample type, subtype, stage, … and one Mutant/WT strip per mutation gene), and every gene it could not draw named.</td>
+<td>An expression heatmap of a gene panel across one TCGA or other GDC cohort, as GeneFox's Heatmap screen draws it: every sample (tumor then normal), each gene z-scored or raw log2(TPM+1), genes and samples clustered (UPGMA) within this host's measured leaf limit or ordered by principal component above it (the notice says which and why), pinned expression rows on top, annotation strips (sample type, subtype, stage, … and one Mutant/WT strip per mutation gene), and every gene it could not draw named.</td>
 </tr>
 <tr>
 <td><code>tcga_differential_expression</code></td>
@@ -708,34 +786,46 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td>One gene's transcript isoforms across a TCGA cohort, as GeneFox's Expression › Isoforms drill-in shows them: the top 12 transcripts by median log2(TPM+1) (UCSC Xena TOIL RSEM isoform TPM, GENCODE v23), each with n/median/quartiles/mean and the fraction of samples above TPM 0, chrY pseudoautosomal (ENSTR) copies flagged, and the gene view's own GDC STAR value beside them.</td>
 </tr>
 <tr>
+<td><code>gene_info</code></td>
+<td>free</td>
+<td>300</td>
+<td>NCBI Gene metadata for one gene, as GeneFox's gene-info card shows it: official symbol, Entrez ID, full name, aliases, cytogenetic location and the RefSeq summary, plus the NCBI Gene page URL.</td>
+</tr>
+<tr>
+<td><code>hpa_gene</code></td>
+<td>free</td>
+<td>300</td>
+<td>Human Protein Atlas expression for one human gene: consensus tissue RNA nTPM across 51 tissues, single-cell type RNA nCPM across 154 cell types, protein tissue summaries with IHC reliability, subcellular location, and HPA-reported cancer prognostics.</td>
+</tr>
+<tr>
 <td><code>tcga_chat_schema</code></td>
 <td>free</td>
 <td>300</td>
-<td>Read the shared TCGA host's capabilities and local suggestion examples, judged against the loaded cohort and narrowed to this server's explicit analysis tools.</td>
+<td>Read TCGA host capabilities, cohort-checked local suggestions and analysis tool schemas.</td>
 </tr>
 <tr>
 <td><code>tcga_ask_plan</code></td>
 <td>free</td>
 <td>300</td>
-<td>Plan a single TCGA analysis command using GeneFox's shared deterministic parser, nonclinical policy and cohort capability checks.</td>
+<td>Plan a TCGA analysis with deterministic parsing, nonclinical policy and cohort checks; returns a call/schema without execution.</td>
 </tr>
 <tr>
 <td><code>tcga_validate_query</code></td>
 <td>free</td>
 <td>300</td>
-<td>Validate a client-supplied structured query against its self-contained question and loaded TCGA host capabilities.</td>
+<td>Validate a structured query against its question and TCGA capabilities; returns a call/schema without execution.</td>
 </tr>
 <tr>
 <td><code>geo_chat_schema</code></td>
 <td>free</td>
 <td>300</td>
-<td>Read the shared GEO host's canonical capabilities and bounded untrusted local suggestion examples for a matrix, with actual explicit tool input schemas.</td>
+<td>Read GEO host capabilities, bounded untrusted local suggestions and tool schemas for a matrix.</td>
 </tr>
 <tr>
 <td><code>geo_ask_plan</code></td>
 <td>free</td>
 <td>900</td>
-<td>Plan one GEO analysis command using GeneFox's deterministic parser and matrix capabilities.</td>
+<td>Plan a GEO command without executing it or calling a model.</td>
 </tr>
 <tr>
 <td><code>tcga_ask_open</code></td>
@@ -747,7 +837,7 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>geo_ask_open</code></td>
 <td>free</td>
 <td>300</td>
-<td>Open a bounded local model conversation over an immutable GEO planning snapshot.</td>
+<td>Open a bounded local model conversation over a GEO planning snapshot.</td>
 </tr>
 <tr>
 <td><code>ask_turn</code></td>
@@ -759,25 +849,25 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>ask_close</code></td>
 <td>free</td>
 <td>300</td>
-<td>Close a conversation immediately, cancelling its active turn and detaching its provider.</td>
+<td>Close a conversation, canceling its active turn and detaching its provider.</td>
 </tr>
 <tr>
 <td><code>report_export_pdf</code></td>
 <td>legacy</td>
 <td>300</td>
-<td>Export a saved GeneFox v1/v2 report file as a branded PDF, with its figures, tables and optional Methods.</td>
+<td>Export a saved GeneFox v1/v2 report as branded PDF with figures, tables and optional Methods.</td>
 </tr>
 <tr>
 <td><code>report_export_html</code></td>
 <td>legacy</td>
 <td>300</td>
-<td>Export a saved GeneFox v1/v2 report file as one self-contained branded HTML document (cover, figures, tables and Methods).</td>
+<td>Export a saved GeneFox v1/v2 report as self-contained branded HTML (cover, figures, tables and Methods).</td>
 </tr>
 <tr>
 <td><code>validate_recipe</code></td>
 <td>legacy</td>
 <td>300</td>
-<td>Validate a recipe file (the serialisable, versioned JSON AnalysisRecipeStore writes) and report each recipe's name, dataset and operation.</td>
+<td>Validate a recipe file (the serializable, versioned JSON AnalysisRecipeStore writes) and report each recipe's name, dataset and operation.</td>
 </tr>
 <tr>
 <td><code>fetch_url</code></td>
@@ -789,11 +879,11 @@ returns; <code>tools/list</code> also returns each tool's full description and i
 <td><code>render_recipe</code></td>
 <td>legacy</td>
 <td>300</td>
-<td>Replay the first public analysis recipe through shared runners, or an imported plot, heatmap or signature from the verified local store the server was started with (--imported-store).</td>
+<td>Replay the first public analysis recipe through shared runners, or an imported plot, heatmap, signature or differential expression from the verified local store the server was started with (--imported-store).</td>
 </tr>
 </tbody>
 </table>
-<p>56 tools: 51 free, 0 Pro, 5 legacy.</p>
+<p>71 tools: 66 free, 5 legacy.</p>
 <!-- END TOOL CATALOGUE -->
 
 <p>See the <a href="../mcp/">MCP guide</a> for arguments, results, limits and errors.</p>

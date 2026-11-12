@@ -4,7 +4,7 @@
 
 There are two ways to use it:
 
-- **CLI subcommands** (`catalog`, `validate`, `render`, `fetch`, `report export`, `tools`, `doctor`). Each one runs once and exits. See the [CLI reference](cli.md).
+- **CLI subcommands** (`catalog`, `validate`, `render`, `fetch`, `report export`, `curated`, `doctor`, `tools`). Each one runs once and exits. See the [CLI reference](cli.md).
 - **`genefox mcp`**, an MCP server over stdio (newline-delimited JSON-RPC 2.0). It lets an MCP client such as Claude Code, Claude Desktop, Codex or OpenCode run GeneFox analyses. See the [MCP server guide](mcp.md).
 
 ## Relationship to the GeneFox app
@@ -13,7 +13,7 @@ Each MCP tool runs the same code a GeneFox app screen runs, and returns that scr
 
 ## Free tools and Pro
 
-The tools in this build are free tools (plus optional legacy tools that take local paths or URLs). The server **fails closed** for GeneFox Pro: it starts with no granted capabilities, nothing a client sends can change that, and a Pro tool that is not granted is neither listed nor callable. This build registers no Pro tools. See [Entitlements](mcp.md#entitlements-genefox-pro).
+Most tools are free (plus optional legacy tools that take local paths or URLs). The server **fails closed** for GeneFox Pro: a Pro tool is listed and callable only with a live grant, and nothing a client sends can grant one. See [Entitlements](mcp.md#entitlements-genefox-pro).
 
 ## Where to go next
 
@@ -23,7 +23,10 @@ The tools in this build are free tools (plus optional legacy tools that take loc
 | [CLI reference](cli.md) | Subcommands, options and exit codes. |
 | [MCP server guide](mcp.md) | Starting the server, connecting a client, the protocol surface, results and trust model, limits and error codes. |
 | [Tool catalogue](tools.md) | Every MCP tool, generated from the server's registry. |
-| [Agent plugins](plugins.md) | Planned one-step setup for Claude Code, Codex and OpenCode (coming soon). |
+| [Agent plugins](plugins.md) | Setup for Claude Code, Codex and OpenCode. |
 
-!!! note "Binary downloads"
-    Binary downloads are not published yet. They are coming soon.
+## R and Python
+
+The [R package](https://genefox.app/r/) and [Python package](https://genefox.app/python/) call the same tools from code. Result contracts are published as [JSON Schemas](https://genefox.app/schemas/v1/).
+
+Get the CLI from the [GeneFox download page](https://genefox.app/download/).

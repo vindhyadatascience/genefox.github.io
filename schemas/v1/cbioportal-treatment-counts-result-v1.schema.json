@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_treatment_counts. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "patient_available": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "patient_report": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "count_unit": {
+                      "const": "patients (provider distinct-patient treatment count)",
+                      "type": "string"
+                    },
+                    "provider_total_samples": {
+                      "type": "integer"
+                    },
+                    "total_patients": {
+                      "type": "integer"
+                    },
+                    "untrusted_treatments": {
+                      "items": {
+                        "additionalProperties": true,
+                        "properties": {
+                          "count": {
+                            "type": "integer"
+                          },
+                          "untrusted_treatment": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_treatment",
+                          "count"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "total_patients",
+                    "provider_total_samples",
+                    "count_unit",
+                    "untrusted_treatments"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "patient_available",
+                "patient_report"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "patient_available": {
+                  "const": false,
+                  "type": "boolean"
+                },
+                "patient_report": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "patient_available",
+                "patient_report"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "sample_available": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "sample_report": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "count_unit": {
+                      "const": "samples (provider acquisition count)",
+                      "type": "string"
+                    },
+                    "total_samples": {
+                      "type": "integer"
+                    },
+                    "untrusted_treatments": {
+                      "items": {
+                        "additionalProperties": true,
+                        "properties": {
+                          "count": {
+                            "type": "integer"
+                          },
+                          "untrusted_time": {
+                            "type": "string"
+                          },
+                          "untrusted_treatment": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_treatment",
+                          "untrusted_time",
+                          "count"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "total_samples",
+                    "count_unit",
+                    "untrusted_treatments"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "sample_available",
+                "sample_report"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "sample_available": {
+                  "const": false,
+                  "type": "boolean"
+                },
+                "sample_report": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "sample_available",
+                "sample_report"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "patient_available": {
+          "type": "boolean"
+        },
+        "patient_report": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "count_unit": {
+                  "const": "patients (provider distinct-patient treatment count)",
+                  "type": "string"
+                },
+                "provider_total_samples": {
+                  "type": "integer"
+                },
+                "total_patients": {
+                  "type": "integer"
+                },
+                "untrusted_treatments": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "count": {
+                        "type": "integer"
+                      },
+                      "untrusted_treatment": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_treatment",
+                      "count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "total_patients",
+                "provider_total_samples",
+                "count_unit",
+                "untrusted_treatments"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_available": {
+          "type": "boolean"
+        },
+        "sample_report": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "count_unit": {
+                  "const": "samples (provider acquisition count)",
+                  "type": "string"
+                },
+                "total_samples": {
+                  "type": "integer"
+                },
+                "untrusted_treatments": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "count": {
+                        "type": "integer"
+                      },
+                      "untrusted_time": {
+                        "type": "string"
+                      },
+                      "untrusted_treatment": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_treatment",
+                      "untrusted_time",
+                      "count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "total_samples",
+                "count_unit",
+                "untrusted_treatments"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "treatment_response": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "patient_report",
+        "sample_report",
+        "patient_available",
+        "sample_available",
+        "treatment_response"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "files": {
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "html": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "pdf": {
+          "additionalProperties": true,
+          "properties": {
+            "bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "untrusted_file_name": {
+              "type": "string"
+            },
+            "untrusted_path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_path",
+            "untrusted_file_name",
+            "bytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "methods": {
+      "type": "string"
+    },
+    "portal": {
+      "type": "string"
+    },
+    "sample_projection": {
+      "const": "SUMMARY",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "group_name": {
+            "type": "string"
+          },
+          "native_project": {
+            "type": "string"
+          },
+          "open_link": {
+            "type": "string"
+          },
+          "open_link_title": {
+            "type": "string"
+          },
+          "sample_count": {
+            "type": "integer"
+          },
+          "served_as": {
+            "type": "string"
+          },
+          "study_id": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "untrusted_attribution": {
+            "type": "string"
+          },
+          "untrusted_title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "study_id",
+          "untrusted_title",
+          "group",
+          "group_name",
+          "subtitle",
+          "sample_count"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "tier": {
+      "const": "Agent",
+      "type": "string"
+    },
+    "tool": {
+      "const": "cbioportal_treatment_counts",
+      "type": "string"
+    },
+    "untrusted_filter_json": {
+      "type": "string"
+    },
+    "untrusted_result_table": {
+      "$ref": "report-table-v1.schema.json"
+    },
+    "untrusted_source": {
+      "type": "string"
+    },
+    "untrusted_source_table": {
+      "$ref": "report-table-v1.schema.json"
+    },
+    "untrusted_study_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "sources",
+    "caveats",
+    "files",
+    "portal",
+    "untrusted_source",
+    "methods",
+    "deep_link_note",
+    "untrusted_study_id",
+    "untrusted_filter_json",
+    "tier",
+    "sample_projection",
+    "untrusted_result_table",
+    "untrusted_source_table"
+  ],
+  "title": "GeneFox cbioportal_treatment_counts result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_treatment_counts"
+}

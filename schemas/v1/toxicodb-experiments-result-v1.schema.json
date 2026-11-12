@@ -1,0 +1,530 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for toxicodb_experiments. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "center": {
+          "enum": [
+            "median",
+            "mean"
+          ],
+          "type": "string"
+        },
+        "compound": {
+          "additionalProperties": true,
+          "properties": {
+            "carcinogenicity": {
+              "type": "string"
+            },
+            "class_in_vitro": {
+              "type": "string"
+            },
+            "class_in_vivo": {
+              "type": "string"
+            },
+            "dili_status": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "pubchem_cid": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "toxicodb_id": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name",
+            "carcinogenicity",
+            "class_in_vitro",
+            "class_in_vivo",
+            "dili_status",
+            "toxicodb_id",
+            "pubchem_cid"
+          ],
+          "type": "object"
+        },
+        "dose_levels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "figure_kind": {
+          "enum": [
+            "time_course",
+            "dose_box"
+          ],
+          "type": "string"
+        },
+        "gene": {
+          "additionalProperties": true,
+          "properties": {
+            "ensembl_gene": {
+              "type": "string"
+            },
+            "entrez": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "full_name": {
+              "type": "string"
+            },
+            "species": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "toxicodb_id": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "symbol",
+            "ensembl_gene",
+            "full_name",
+            "toxicodb_id",
+            "entrez",
+            "species"
+          ],
+          "type": "object"
+        },
+        "method_hints": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "advisory_only": {
+                "const": true,
+                "type": "boolean"
+              },
+              "code": {
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "rule",
+              "message",
+              "advisory_only",
+              "evidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "panel": {
+          "additionalProperties": true,
+          "properties": {
+            "cell": {
+              "type": "string"
+            },
+            "dataset": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "dataset",
+            "cell"
+          ],
+          "type": "object"
+        },
+        "panels": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "cell": {
+                "type": "string"
+              },
+              "dataset": {
+                "type": "string"
+              },
+              "samples": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "dataset",
+              "cell",
+              "samples"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "summaries": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "center": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "dose": {
+                "type": "string"
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "time_h": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "dose",
+              "time_h",
+              "n",
+              "center"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "time_levels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "value_units": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gene",
+        "compound",
+        "panel",
+        "panels",
+        "samples",
+        "dose_levels",
+        "time_levels",
+        "summaries",
+        "center",
+        "figure_kind",
+        "value_units",
+        "method_hints"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "caption"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "toxicodb_experiments",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox toxicodb_experiments result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "toxicodb_experiments"
+}

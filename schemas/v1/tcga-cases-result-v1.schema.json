@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_cases. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "cases": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "caption": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "case_id": {
+                "type": "string"
+              },
+              "primary_diagnosis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "primary_site": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sex_at_birth": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "stage": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "submitter_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "case_id",
+              "title",
+              "caption",
+              "submitter_id",
+              "primary_diagnosis",
+              "primary_site",
+              "sex_at_birth",
+              "stage"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "from": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "next_from": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "project": {
+          "type": "string"
+        },
+        "total": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "project",
+        "from",
+        "count",
+        "total",
+        "cases"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "tcga_cases",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance",
+    "deep_link"
+  ],
+  "title": "GeneFox tcga_cases result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_cases"
+}

@@ -1,0 +1,17 @@
+# Survival
+
+Estimate TCGA/GDC patient survival by a clinical group; this is not a whole-cohort curve. Cold latency is 5–30 s.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+Figure-producing calls return engine PNGs at the requested dpi and size when requested and available.
+
+```python
+survival = api.tcga_survival(s, project="TCGA-BRCA", stratify="sex_at_birth", figure=True)
+```
+
+## Result fields
+
+`tcga-survival`: `data` (object), `display` (object), `caveats` (array).

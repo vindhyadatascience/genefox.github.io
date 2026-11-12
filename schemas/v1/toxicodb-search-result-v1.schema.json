@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for toxicodb_search. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "matches": {
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "ensembl_gene": {
+                    "type": "string"
+                  },
+                  "entrez": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "full_name": {
+                    "type": "string"
+                  },
+                  "species": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "symbol": {
+                    "type": "string"
+                  },
+                  "toxicodb_id": {
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "symbol",
+                  "ensembl_gene",
+                  "full_name",
+                  "toxicodb_id",
+                  "entrez",
+                  "species"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "carcinogenicity": {
+                    "type": "string"
+                  },
+                  "class_in_vitro": {
+                    "type": "string"
+                  },
+                  "class_in_vivo": {
+                    "type": "string"
+                  },
+                  "dili_status": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "pubchem_cid": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "toxicodb_id": {
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "carcinogenicity",
+                  "class_in_vitro",
+                  "class_in_vivo",
+                  "dili_status",
+                  "toxicodb_id",
+                  "pubchem_cid"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "untrusted_query": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "untrusted_query",
+        "matches"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "headline": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "headline"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "toxicodb_search",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance"
+  ],
+  "title": "GeneFox toxicodb_search result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "toxicodb_search"
+}

@@ -1,0 +1,1508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_collection_summary. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "headers"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "untrusted_headers"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "datasets": {
+              "items": {
+                "additionalProperties": true,
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "accession"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_accession"
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "properties": {
+                  "accession": {
+                    "type": "string"
+                  },
+                  "content_sha256": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "fields": {
+                    "items": {
+                      "additionalProperties": true,
+                      "properties": {
+                        "distinct_value_count": {
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "example_values_truncated": {
+                          "type": "boolean"
+                        },
+                        "sample_fraction": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "samples_with_key": {
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "untrusted_example_values": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "untrusted_key": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "untrusted_key",
+                        "distinct_value_count",
+                        "samples_with_key",
+                        "sample_fraction",
+                        "untrusted_example_values",
+                        "example_values_truncated"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "qualifies": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "sample_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "source_url": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "untrusted_accession": {
+                    "type": "string"
+                  },
+                  "untrusted_matched_keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_reason": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "untrusted_reason",
+                  "sample_count",
+                  "status",
+                  "source_url",
+                  "content_sha256",
+                  "qualifies",
+                  "untrusted_matched_keys",
+                  "fields"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "detail": {
+              "const": "fields",
+              "type": "string"
+            },
+            "key_match_mode": {
+              "type": "string"
+            },
+            "partial": {
+              "type": "boolean"
+            },
+            "retry_accessions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "treatment_summary": {
+              "additionalProperties": true,
+              "properties": {
+                "dataset_local_matched_subject_total": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "datasets": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      },
+                      "matched_combination_subject_count": {
+                        "anyOf": [
+                          {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "matched_sample_count": {
+                        "anyOf": [
+                          {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "matched_subject_count": {
+                        "anyOf": [
+                          {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "protocol_mention_sample_count": {
+                        "anyOf": [
+                          {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "accession",
+                      "matched_subject_count",
+                      "matched_sample_count",
+                      "protocol_mention_sample_count",
+                      "matched_combination_subject_count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "sample_linked_matched_subject_total": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "untrusted_treatment_aliases": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "untrusted_treatment_term": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_treatment_term",
+                "untrusted_treatment_aliases",
+                "datasets",
+                "dataset_local_matched_subject_total",
+                "sample_linked_matched_subject_total"
+              ],
+              "type": "object"
+            },
+            "untrusted_characteristic_key": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "detail",
+            "datasets",
+            "untrusted_characteristic_key",
+            "partial",
+            "retry_accessions",
+            "key_match_mode"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "aggregation": {
+              "additionalProperties": true,
+              "properties": {
+                "contributing_accessions": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "cross_dataset_merge_rule": {
+                  "type": "string"
+                },
+                "dataset_local_matched_combination_subject_total": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "dataset_local_matched_subject_total": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "identity_scope": {
+                  "type": "string"
+                },
+                "match_mode": {
+                  "type": "string"
+                },
+                "sample_linked_matched_subject_total": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "dataset_local_matched_subject_total",
+                "sample_linked_matched_subject_total",
+                "dataset_local_matched_combination_subject_total",
+                "contributing_accessions",
+                "identity_scope",
+                "cross_dataset_merge_rule",
+                "match_mode"
+              ],
+              "type": "object"
+            },
+            "datasets": {
+              "items": {
+                "additionalProperties": true,
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "accession"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_accession"
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "properties": {
+                  "accession": {
+                    "type": "string"
+                  },
+                  "evidence": {
+                    "items": {
+                      "additionalProperties": true,
+                      "oneOf": [
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "accession"
+                          ],
+                          "type": "object"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "untrusted_accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "untrusted_accession"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "properties": {
+                        "accession": {
+                          "type": "string"
+                        },
+                        "combination_mention": {
+                          "type": "boolean"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "matched_field": {
+                          "additionalProperties": true,
+                          "properties": {
+                            "untrusted_field": {
+                              "type": "string"
+                            },
+                            "untrusted_key": {
+                              "type": "string"
+                            },
+                            "untrusted_raw": {
+                              "type": "string"
+                            },
+                            "untrusted_value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "untrusted_field",
+                            "untrusted_key",
+                            "untrusted_value",
+                            "untrusted_raw"
+                          ],
+                          "type": "object"
+                        },
+                        "untrusted_accession": {
+                          "type": "string"
+                        },
+                        "untrusted_matched_terms": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "matched_field",
+                        "untrusted_matched_terms",
+                        "combination_mention"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "excluded": {
+                    "items": {
+                      "additionalProperties": true,
+                      "oneOf": [
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "accession"
+                          ],
+                          "type": "object"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "untrusted_accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "untrusted_accession"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "properties": {
+                        "accession": {
+                          "type": "string"
+                        },
+                        "reason": {
+                          "type": "string"
+                        },
+                        "untrusted_accession": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "reason"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "identified_subject_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_combination_sample_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_combination_subject_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_sample_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_samples_subject_identity_unavailable": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_subject_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "matched_subjects": {
+                    "items": {
+                      "additionalProperties": true,
+                      "properties": {
+                        "namespace": {
+                          "type": "string"
+                        },
+                        "untrusted_identifier": {
+                          "type": "string"
+                        },
+                        "untrusted_sample_accessions": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "namespace",
+                        "untrusted_identifier",
+                        "untrusted_sample_accessions"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "protocol_mention_sample_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "qualifies": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "sample_count": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "samples": {
+                    "items": {
+                      "additionalProperties": true,
+                      "oneOf": [
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "accession"
+                          ],
+                          "type": "object"
+                        },
+                        {
+                          "additionalProperties": true,
+                          "properties": {
+                            "untrusted_accession": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "untrusted_accession"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "properties": {
+                        "accession": {
+                          "type": "string"
+                        },
+                        "characteristics": {
+                          "items": {
+                            "additionalProperties": true,
+                            "properties": {
+                              "untrusted_field": {
+                                "type": "string"
+                              },
+                              "untrusted_key": {
+                                "type": "string"
+                              },
+                              "untrusted_raw": {
+                                "type": "string"
+                              },
+                              "untrusted_value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "untrusted_field",
+                              "untrusted_key",
+                              "untrusted_value",
+                              "untrusted_raw"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "subject_identifier_characteristics": {
+                          "items": {
+                            "additionalProperties": true,
+                            "properties": {
+                              "untrusted_field": {
+                                "type": "string"
+                              },
+                              "untrusted_key": {
+                                "type": "string"
+                              },
+                              "untrusted_raw": {
+                                "type": "string"
+                              },
+                              "untrusted_value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "untrusted_field",
+                              "untrusted_key",
+                              "untrusted_value",
+                              "untrusted_raw"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "treatment_protocols": {
+                          "items": {
+                            "additionalProperties": true,
+                            "properties": {
+                              "untrusted_field": {
+                                "type": "string"
+                              },
+                              "untrusted_key": {
+                                "type": "string"
+                              },
+                              "untrusted_raw": {
+                                "type": "string"
+                              },
+                              "untrusted_value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "untrusted_field",
+                              "untrusted_key",
+                              "untrusted_value",
+                              "untrusted_raw"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "untrusted_accession": {
+                          "type": "string"
+                        },
+                        "untrusted_dataset_accession": {
+                          "type": "string"
+                        },
+                        "untrusted_source": {
+                          "type": "string"
+                        },
+                        "untrusted_title": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "untrusted_dataset_accession",
+                        "untrusted_title",
+                        "untrusted_source",
+                        "characteristics",
+                        "treatment_protocols",
+                        "subject_identifier_characteristics"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "samples_subject_identity_unavailable": {
+                    "anyOf": [
+                      {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "untrusted_accession": {
+                    "type": "string"
+                  },
+                  "untrusted_matched_keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_reason": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "untrusted_reason",
+                  "sample_count",
+                  "status",
+                  "identified_subject_count",
+                  "samples_subject_identity_unavailable",
+                  "matched_subject_count",
+                  "matched_sample_count",
+                  "matched_samples_subject_identity_unavailable",
+                  "protocol_mention_sample_count",
+                  "matched_combination_sample_count",
+                  "matched_combination_subject_count",
+                  "samples",
+                  "matched_subjects",
+                  "evidence",
+                  "excluded"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "overlap": {
+              "additionalProperties": true,
+              "properties": {
+                "identifier_collisions": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "dataset_accessions": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "merged": {
+                        "const": false,
+                        "type": "boolean"
+                      },
+                      "namespace": {
+                        "type": "string"
+                      },
+                      "untrusted_identifier": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "untrusted_identifier",
+                      "dataset_accessions",
+                      "merged"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "linked_subject_groups": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "conflicting": {
+                        "type": "boolean"
+                      },
+                      "contains_matched_subject": {
+                        "type": "boolean"
+                      },
+                      "members": {
+                        "items": {
+                          "additionalProperties": true,
+                          "oneOf": [
+                            {
+                              "additionalProperties": true,
+                              "properties": {
+                                "accession": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "accession"
+                              ],
+                              "type": "object"
+                            },
+                            {
+                              "additionalProperties": true,
+                              "properties": {
+                                "untrusted_accession": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "untrusted_accession"
+                              ],
+                              "type": "object"
+                            }
+                          ],
+                          "properties": {
+                            "accession": {
+                              "type": "string"
+                            },
+                            "namespace": {
+                              "type": "string"
+                            },
+                            "untrusted_accession": {
+                              "type": "string"
+                            },
+                            "untrusted_identifier": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "namespace",
+                            "untrusted_identifier"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "shared_sample_accessions": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "members",
+                      "shared_sample_accessions",
+                      "contains_matched_subject",
+                      "conflicting"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "shared_samples": {
+                  "items": {
+                    "additionalProperties": true,
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "accession"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "untrusted_accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_accession"
+                        ],
+                        "type": "object"
+                      }
+                    ],
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      },
+                      "dataset_accessions": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "dataset_accessions"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "shared_samples",
+                "linked_subject_groups",
+                "identifier_collisions"
+              ],
+              "type": "object"
+            },
+            "partial": {
+              "type": "boolean"
+            },
+            "retry_accessions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "snapshot": {
+              "additionalProperties": true,
+              "properties": {
+                "accessions": {
+                  "items": {
+                    "additionalProperties": true,
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "accession"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "untrusted_accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_accession"
+                        ],
+                        "type": "object"
+                      }
+                    ],
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      },
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "datasets": {
+                  "items": {
+                    "additionalProperties": true,
+                    "oneOf": [
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "accession"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": true,
+                        "properties": {
+                          "untrusted_accession": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "untrusted_accession"
+                        ],
+                        "type": "object"
+                      }
+                    ],
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      },
+                      "content_sha256": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "sample_count": {
+                        "anyOf": [
+                          {
+                            "minimum": 0,
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "source_url": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "source_url",
+                      "content_sha256",
+                      "sample_count"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "snapshot_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "snapshot_id",
+                "format",
+                "accessions",
+                "datasets"
+              ],
+              "type": "object"
+            },
+            "untrusted_treatment_aliases": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "untrusted_treatment_term": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "untrusted_treatment_term",
+            "untrusted_treatment_aliases",
+            "snapshot",
+            "datasets",
+            "aggregation",
+            "overlap"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "derived": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "matrix_row_scope": {
+      "additionalProperties": true,
+      "properties": {
+        "note": {
+          "type": "string"
+        },
+        "queries": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "retained_rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_rows": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_rows",
+        "retained_rows",
+        "queries",
+        "note"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "oneOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "fetched_at": {
+              "type": "string"
+            },
+            "genefox_cli": {
+              "type": "string"
+            },
+            "parity_screen": {
+              "type": "string"
+            },
+            "transport": {
+              "type": "string"
+            },
+            "untrusted_sources": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "genefox_cli",
+            "transport",
+            "fetched_at",
+            "untrusted_sources"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "recording_withheld": {
+      "type": "boolean"
+    },
+    "tool": {
+      "const": "geo_collection_summary",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox geo_collection_summary result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_collection_summary"
+}

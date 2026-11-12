@@ -1,1 +1,13 @@
-GeneFox agent plugin. Copyright 2026 Vindhya Data Science. Licensed under Apache-2.0. The GeneFox application and the genefox command-line tool are proprietary software of Vindhya Data Science and are not covered by this license; the GeneFox name and logo are not licensed.
+GeneFox agent plugin. Copyright 2026 Vindhya Data Science. Licensed under Apache-2.0.
+
+The GeneFox application, the genefox command-line tool and the GeneFox runtime are
+proprietary software of Vindhya Data Science and are not covered by this license.
+
+The GeneFox name and logo are not licensed under this license. As a limited exception,
+you may reproduce the unmodified GeneFox logo, together with the credit
+"made with GeneFox", in reports, figures and documents produced with GeneFox. You may not
+modify the logo, use it for any other purpose, or use the GeneFox name or logo to suggest
+endorsement by Vindhya Data Science.
+
+GeneFox is for research use only and must not be used for clinical decisions. Data that
+GeneFox retrieves from public providers remains subject to each provider's terms.

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for account_status. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "account_changed": {
+          "type": "boolean"
+        },
+        "account_email_unusual_characters": {
+          "const": true,
+          "type": "boolean"
+        },
+        "account_history_unreadable": {
+          "const": true,
+          "type": "boolean"
+        },
+        "account_previous_email_unusual_characters": {
+          "const": true,
+          "type": "boolean"
+        },
+        "build_flavor": {
+          "type": "string"
+        },
+        "cloud_ai": {
+          "const": "off",
+          "type": "string"
+        },
+        "curated_data": {
+          "const": "not_available_headless",
+          "type": "string"
+        },
+        "entitlement": {
+          "enum": [
+            "not_linked",
+            "relink_needed"
+          ],
+          "type": "string"
+        },
+        "granted_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "helper_custody": {
+          "type": "string"
+        },
+        "linked": {
+          "type": "boolean"
+        },
+        "relink_needed": {
+          "const": true,
+          "type": "boolean"
+        },
+        "server_link_may_remain": {
+          "const": true,
+          "type": "boolean"
+        },
+        "server_link_untraced": {
+          "const": true,
+          "type": "boolean"
+        },
+        "sync_leftovers_remain": {
+          "const": true,
+          "type": "boolean"
+        },
+        "untrusted_email": {
+          "type": "string"
+        },
+        "untrusted_previous_email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "build_flavor",
+        "linked",
+        "account_changed",
+        "entitlement",
+        "granted_capabilities",
+        "curated_data",
+        "cloud_ai"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "account_warning": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "account_status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox account_status result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "account_status"
+}

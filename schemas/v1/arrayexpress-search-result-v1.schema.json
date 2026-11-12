@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for arrayexpress_search. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "hits": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "accession": {
+            "type": "string"
+          },
+          "license_notice": {
+            "type": "string"
+          },
+          "untrusted_author": {
+            "type": "string"
+          },
+          "untrusted_title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accession",
+          "untrusted_title",
+          "untrusted_author"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "source": {
+      "type": "string"
+    },
+    "total_hits": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "source",
+    "total_hits",
+    "hits"
+  ],
+  "title": "GeneFox arrayexpress_search result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "arrayexpress_search"
+}

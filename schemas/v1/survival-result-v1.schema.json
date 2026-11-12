@@ -1,0 +1,718 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "The canonical survival comparison block in GeneFox analysis results. Absence is null with a reason, never a missing key.",
+  "properties": {
+    "cox": {
+      "additionalProperties": false,
+      "description": "The Cox model, every field present.",
+      "properties": {
+        "ci95_high": {
+          "description": "The hazard ratio's 95% Wald CI upper limit; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ci95_low": {
+          "description": "The hazard ratio's 95% Wald CI lower limit; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "comparison": {
+          "description": "The arms the hazard ratio compares, first vs second (High vs Low, Q4 vs Q1); null when not requested.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "events": {
+          "description": "Events in the fit; null without a fit.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "hazard_ratio": {
+          "description": "exp(\u03b2); null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "likelihood_ratio_chi_square": {
+          "description": "The likelihood-ratio test of \u03b2 = 0; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "likelihood_ratio_p_value": {
+          "description": "Its p; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "log_hazard_ratio": {
+          "description": "\u03b2; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "n": {
+          "description": "Records in the fit; null without a fit.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "nonestimable_reason": {
+          "description": "Why no hazard ratio is reported; null exactly when a finite estimate and CI are.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ph_chi_square": {
+          "description": "The rank-time proportional-hazards test statistic; null when unavailable.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ph_interpretation": {
+          "description": "The PH diagnostic in words; always present (method rule M20 reports it beside any hazard ratio).",
+          "type": "string"
+        },
+        "ph_p_value": {
+          "description": "Its p; null when unavailable.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ph_warning": {
+          "description": "Whether the PH diagnostic warns (violated or unavailable for an estimate); null only for a saved run that recorded neither.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "requested": {
+          "description": "Whether a Cox model was asked for (two-arm splits).",
+          "type": "boolean"
+        },
+        "score_chi_square": {
+          "description": "The score test of \u03b2 = 0; null without information at \u03b2 = 0.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "score_p_value": {
+          "description": "Its p; null with it.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "standard_error": {
+          "description": "SE(\u03b2); null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "status": {
+          "description": "The fit's status, spelled as the CSV's cox_fit_status; not_fitted only for a saved batch run whose Cox model was not recorded or was written by a newer GeneFox.",
+          "enum": [
+            "estimated",
+            "separated",
+            "not_converged",
+            "degenerate",
+            "no_risk_table",
+            "not_computed",
+            "not_fitted"
+          ],
+          "type": "string"
+        },
+        "ties": {
+          "description": "The tie method (breslow); null without a fit.",
+          "enum": [
+            "breslow",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "wald_p_value": {
+          "description": "The Wald p; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "wald_z": {
+          "description": "\u03b2 / SE; null without an estimate.",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "requested",
+        "status",
+        "comparison",
+        "ties",
+        "log_hazard_ratio",
+        "standard_error",
+        "hazard_ratio",
+        "ci95_low",
+        "ci95_high",
+        "wald_z",
+        "wald_p_value",
+        "likelihood_ratio_chi_square",
+        "likelihood_ratio_p_value",
+        "score_chi_square",
+        "score_p_value",
+        "n",
+        "events",
+        "ph_chi_square",
+        "ph_p_value",
+        "ph_warning",
+        "ph_interpretation",
+        "nonestimable_reason"
+      ],
+      "type": "object"
+    },
+    "groups": {
+      "description": "The drawn curves, in figure order.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "events": {
+            "description": "Observed events.",
+            "type": "integer"
+          },
+          "label": {
+            "description": "The curve's label.",
+            "type": "string"
+          },
+          "median_ci95_high_years": {
+            "description": "The median's 95% CI upper limit; null when not reached.",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "median_ci95_low_years": {
+            "description": "The median's 95% CI lower limit; null when not reached.",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "median_years": {
+            "description": "Kaplan-Meier median survival; null when not reached.",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "n": {
+            "description": "Its size, counted in `unit`.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "label",
+          "n",
+          "events",
+          "median_years",
+          "median_ci95_low_years",
+          "median_ci95_high_years"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "log_rank": {
+      "additionalProperties": false,
+      "description": "The log-rank test, or why none was reported.",
+      "properties": {
+        "chi_square": {
+          "description": "The test statistic; null when no test was reported.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "degrees_of_freedom": {
+          "description": "1 for two groups, k \u2212 1 for k; null when no test was reported.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "excluded_groups": {
+          "description": "Drawn levels with no recorded value, left out of the test.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "description": "The group.",
+                "type": "string"
+              },
+              "n": {
+                "description": "Its size, counted in `unit`.",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "label",
+              "n"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "exclusion_disclosure": {
+          "description": "What the test covered beyond the curves and what it left out; null when nothing.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected": {
+          "description": "Expected events per tested group; null when no test was reported or it was not recorded.",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "groups": {
+          "description": "The tested groups in test order; null when no test was reported.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ineligible_groups": {
+          "description": "Levels below the per-group floor, never tested.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "description": "The group.",
+                "type": "string"
+              },
+              "n": {
+                "description": "Its size, counted in `unit`.",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "label",
+              "n"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "method": {
+          "description": "The p's calibration; null when no test was reported or a saved run did not record it.",
+          "enum": [
+            "exact_label_permutation",
+            "asymptotic_chi_square",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "method_label": {
+          "description": "The calibration as reports name it; null with method.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not_reported_reason": {
+          "description": "Why no test was reported; non-null exactly when test is null.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "observed": {
+          "description": "Observed events per tested group; null when no test was reported or it was not recorded.",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "observed_minus_expected": {
+          "description": "O \u2212 E for statistic_group; null unless two_group.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p_value": {
+          "description": "The log-rank p; null when no test was reported.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "statistic_group": {
+          "description": "The group z_statistic and observed_minus_expected describe; null unless two_group.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "test": {
+          "description": "two_group or k_group; null exactly when no test was reported (see not_reported_reason).",
+          "enum": [
+            "two_group",
+            "k_group",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tested_groups": {
+          "description": "The levels a categorical test ran over (may be empty).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "trend": {
+          "additionalProperties": false,
+          "description": "The log-rank test for trend over ordered quantile tiers; null otherwise.",
+          "properties": {
+            "chi_square": {
+              "description": "The trend chi-square.",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "degrees_of_freedom": {
+              "description": "Always 1.",
+              "type": "integer"
+            },
+            "observed_minus_expected": {
+              "description": "\u03a3 score (O \u2212 E).",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "p_value": {
+              "description": "The trend p.",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scores": {
+              "description": "The trend scores, lowest tier first.",
+              "items": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "type": "array"
+            },
+            "variance": {
+              "description": "Its variance.",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "z_statistic": {
+              "description": "Signed trend z: positive when events rise with the score.",
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "scores",
+            "chi_square",
+            "degrees_of_freedom",
+            "p_value",
+            "observed_minus_expected",
+            "variance",
+            "z_statistic"
+          ],
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "undrawn_tested_groups": {
+          "description": "Tested levels the curve cap left undrawn.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "description": "The group.",
+                "type": "string"
+              },
+              "n": {
+                "description": "Its size, counted in `unit`.",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "label",
+              "n"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "variance_row_major": {
+          "description": "The k \u00d7 k covariance of O \u2212 E, row-major; null unless k_group.",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "z_statistic": {
+          "description": "Signed log-rank z for statistic_group; null unless two_group.",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "test",
+        "method",
+        "method_label",
+        "p_value",
+        "chi_square",
+        "degrees_of_freedom",
+        "statistic_group",
+        "z_statistic",
+        "observed_minus_expected",
+        "groups",
+        "observed",
+        "expected",
+        "variance_row_major",
+        "trend",
+        "tested_groups",
+        "excluded_groups",
+        "ineligible_groups",
+        "undrawn_tested_groups",
+        "exclusion_disclosure",
+        "not_reported_reason"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": 1,
+      "description": "The schema's version (1).",
+      "type": "integer"
+    },
+    "split": {
+      "additionalProperties": false,
+      "description": "How the groups were formed.",
+      "properties": {
+        "comparison": {
+          "description": "A quantile split's comparison (extremes: top vs bottom group; all: every group); null otherwise.",
+          "enum": [
+            "extremes",
+            "all",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cut_points": {
+          "description": "The cut values, ascending: one for a median split, two or three for a quantile split; empty when no value was cut (or a saved batch run did not record it).",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "type": "array"
+        },
+        "disclosure": {
+          "description": "The split's disclosure sentence; null when no value was split.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "excluded": {
+          "description": "The middle an Extremes comparison left out (0 for All); null unless kind is quantile.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "group_order": {
+          "description": "The compared tiers in draw order (highest first); null unless kind is quantile.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "kind": {
+          "description": "How the groups were formed; `none` is a single whole-cohort or all-samples curve.",
+          "enum": [
+            "none",
+            "median",
+            "quantile",
+            "categorical",
+            "mutation"
+          ],
+          "type": "string"
+        },
+        "measured": {
+          "description": "Everyone the quantile split cut; null unless kind is quantile.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "refusal": {
+          "description": "Why a quantile split drew no curves; null otherwise.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scheme": {
+          "description": "The value split's scheme; null unless kind is median or quantile.",
+          "enum": [
+            "median",
+            "tertiles",
+            "quartiles",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tiers": {
+          "description": "Every quantile tier, lowest first, with its size and whether it was compared; null unless kind is quantile.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "compared": {
+                "description": "Whether it was drawn and tested.",
+                "type": "boolean"
+              },
+              "n": {
+                "description": "Its size, counted in `unit`.",
+                "type": "integer"
+              },
+              "tier": {
+                "description": "The tier (T1..T3, Q1..Q4).",
+                "type": "string"
+              }
+            },
+            "required": [
+              "tier",
+              "n",
+              "compared"
+            ],
+            "type": "object"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "variable": {
+          "description": "What was split: expression, methylation, cnv, signature_score, a clinical field or mutation; null for a single curve.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "scheme",
+        "comparison",
+        "variable",
+        "cut_points",
+        "tiers",
+        "measured",
+        "excluded",
+        "group_order",
+        "disclosure",
+        "refusal"
+      ],
+      "type": "object"
+    },
+    "unit": {
+      "description": "What every n counts.",
+      "enum": [
+        "patients",
+        "samples"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "unit",
+    "split",
+    "groups",
+    "log_rank",
+    "cox"
+  ],
+  "title": "GeneFox survival result",
+  "type": "object",
+  "x-genefox-schema-version": 1
+}

@@ -1,0 +1,931 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_survival. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "headers"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_headers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "untrusted_headers"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "mode": {
+              "const": "discover",
+              "type": "string"
+            },
+            "preselected": {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_event_key": {
+                  "type": "string"
+                },
+                "untrusted_time_key": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_time_key",
+                "untrusted_event_key"
+              ],
+              "type": "object"
+            },
+            "status_keys": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_display": {
+                    "type": "string"
+                  },
+                  "untrusted_key": {
+                    "type": "string"
+                  },
+                  "untrusted_suggested_event_values": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_values": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "untrusted_key",
+                  "untrusted_display",
+                  "untrusted_values",
+                  "untrusted_suggested_event_values"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "time_keys": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_display": {
+                    "type": "string"
+                  },
+                  "untrusted_key": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_key",
+                  "untrusted_display"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "mode",
+            "time_keys",
+            "status_keys"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "excluded_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "exclusions": {
+              "additionalProperties": true,
+              "properties": {
+                "ambiguous_time": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "missing_status": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "missing_time": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "negative_time": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "unparsable_time": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "missing_time",
+                "unparsable_time",
+                "ambiguous_time",
+                "negative_time",
+                "missing_status"
+              ],
+              "type": "object"
+            },
+            "method_hints": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "advisory_only": {
+                    "const": true,
+                    "type": "boolean"
+                  },
+                  "code": {
+                    "type": "string"
+                  },
+                  "evidence": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "rule": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "advisory_only",
+                  "evidence"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "mode": {
+              "enum": [
+                "all_samples",
+                "median_split",
+                "quantile_split"
+              ],
+              "type": "string"
+            },
+            "scrub": {
+              "additionalProperties": true,
+              "properties": {
+                "convention": {
+                  "type": "string"
+                },
+                "readings": {
+                  "items": {
+                    "additionalProperties": true,
+                    "properties": {
+                      "arms": {
+                        "items": {
+                          "additionalProperties": true,
+                          "properties": {
+                            "at_risk": {
+                              "anyOf": [
+                                {
+                                  "minimum": 0,
+                                  "type": "integer"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "curve_index": {
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            "group": {
+                              "type": "string"
+                            },
+                            "survival": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "group",
+                            "curve_index",
+                            "survival",
+                            "at_risk"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "card_detail": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "card_title": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "requested_years": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "snapped_years": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "requested_years",
+                      "snapped_years",
+                      "card_title",
+                      "card_detail",
+                      "arms"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "convention",
+                "readings"
+              ],
+              "type": "object"
+            },
+            "survival": {
+              "allOf": [
+                {
+                  "$ref": "survival-result-v1.schema.json"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "unit": {
+                      "const": "samples",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unit"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "time_unit": {
+              "enum": [
+                "days",
+                "weeks",
+                "months",
+                "years"
+              ],
+              "type": "string"
+            },
+            "untrusted_event_key": {
+              "type": "string"
+            },
+            "untrusted_event_values": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "untrusted_time_key": {
+              "type": "string"
+            },
+            "usable_samples": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "mode",
+            "time_unit",
+            "untrusted_event_values",
+            "survival",
+            "exclusions",
+            "untrusted_time_key",
+            "untrusted_event_key",
+            "usable_samples",
+            "excluded_samples"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "accession": {
+          "type": "string"
+        },
+        "matrix": {
+          "additionalProperties": true,
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "detected_data_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "rnaseq_counts",
+                    "microarray_intensity",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "entrez_keyed": {
+              "type": "boolean"
+            },
+            "identifier_chosen": {
+              "type": "boolean"
+            },
+            "identifier_field": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "normalized_keys": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_display": {
+                    "type": "string"
+                  },
+                  "untrusted_key": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_key",
+                  "untrusted_display"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "normalized_keys_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "normalized_keys_truncated": {
+              "type": "boolean"
+            },
+            "organism_lookup_available": {
+              "type": "boolean"
+            },
+            "probes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "provenance": {
+              "type": "string"
+            },
+            "samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "selected_supplementary_file_truncated": {
+              "type": "boolean"
+            },
+            "untrusted_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_identifier_summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_organism_names": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "untrusted_organism_source": {
+              "type": "string"
+            },
+            "untrusted_requested_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_requested_supplementary_file": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_selected_supplementary_file": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "accession",
+            "provenance",
+            "untrusted_organism_source",
+            "samples",
+            "probes",
+            "normalized_keys_total",
+            "selected_supplementary_file_truncated",
+            "entrez_keyed",
+            "normalized_keys_truncated",
+            "organism_lookup_available",
+            "identifier_chosen",
+            "untrusted_requested_supplementary_file",
+            "untrusted_selected_supplementary_file",
+            "untrusted_identifier_summary",
+            "untrusted_requested_identifier_column",
+            "untrusted_identifier_column",
+            "identifier_field",
+            "detected_data_type",
+            "normalized_keys",
+            "untrusted_organism_names"
+          ],
+          "type": "object"
+        },
+        "normalization": {
+          "type": "string"
+        },
+        "probe": {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_id"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "untrusted_display": {
+              "type": "string"
+            },
+            "untrusted_id": {
+              "type": "string"
+            },
+            "untrusted_symbol": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_display"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "accession",
+        "matrix"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "derived": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "annotation_lines": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "exclusion_note": {
+          "type": "string"
+        },
+        "ineligibility_note": {
+          "type": "string"
+        },
+        "missing": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "split_note": {
+          "type": "string"
+        },
+        "unavailable": {
+          "type": "string"
+        },
+        "untrusted_metadata_normalization_note": {
+          "type": "string"
+        },
+        "untrusted_methods": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "matrix_row_scope": {
+      "additionalProperties": true,
+      "properties": {
+        "note": {
+          "type": "string"
+        },
+        "queries": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "retained_rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_rows": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_rows",
+        "retained_rows",
+        "queries",
+        "note"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "oneOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "fetched_at": {
+              "type": "string"
+            },
+            "genefox_cli": {
+              "type": "string"
+            },
+            "parity_screen": {
+              "type": "string"
+            },
+            "transport": {
+              "type": "string"
+            },
+            "untrusted_sources": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "genefox_cli",
+            "transport",
+            "fetched_at",
+            "untrusted_sources"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "recording_withheld": {
+      "type": "boolean"
+    },
+    "tool": {
+      "const": "geo_survival",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox geo_survival result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_survival"
+}

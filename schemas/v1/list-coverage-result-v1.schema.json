@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for list_coverage. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "counts": {
+          "additionalProperties": true,
+          "properties": {
+            "available": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "not_available_headless": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "partial": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "planned": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "available",
+            "partial",
+            "planned",
+            "not_available_headless"
+          ],
+          "type": "object"
+        },
+        "rows": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "app_screen": {
+                "type": "string"
+              },
+              "mcp_tool": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "note": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "row": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "available",
+                  "partial",
+                  "planned",
+                  "not_available_headless"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "row",
+              "operation",
+              "app_screen",
+              "note",
+              "mcp_tool",
+              "status"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "rows",
+        "counts"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "list_coverage",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance"
+  ],
+  "title": "GeneFox list_coverage result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "list_coverage"
+}

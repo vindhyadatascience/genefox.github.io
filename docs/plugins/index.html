@@ -423,15 +423,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#cli-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        CLI setup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisites">
+    <nav class="md-nav" aria-label="CLI setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -552,6 +552,50 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-sources-and-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data sources and terms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-use-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research use only
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maintaining-this-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintaining this plugin
+      
+    </span>
+  </a>
   
 </li>
       
@@ -590,15 +634,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#cli-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        CLI setup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisites">
+    <nav class="md-nav" aria-label="CLI setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -722,6 +766,50 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#data-sources-and-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data sources and terms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-use-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research use only
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maintaining-this-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintaining this plugin
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -744,8 +832,35 @@
 <h1 id="genefox-agent-plugin">GeneFox agent plugin<a class="headerlink" href="#genefox-agent-plugin" title="Permanent link">&para;</a></h1>
 <p>This package connects Claude Code, Codex and OpenCode to the <code>genefox mcp</code> server. The server runs public cancer-genomics analyses (TCGA/GDC, GEO, GTEx, CCLE, Treehouse, Expression Atlas, cBioPortal) and writes figures and exports. The package holds the manifests, a launcher, a setup check, and seven shared skills that teach the agent how to use the tools and report their results.</p>
 <p>The plugin is Apache-2.0 (see <a href="../assets/plugin-LICENSE.txt">LICENSE</a> and <a href="../assets/plugin-NOTICE.txt">NOTICE</a>). The GeneFox app and the <code>genefox</code> command-line tool are proprietary Vindhya Data Science software and are outside this license. The GeneFox name and logo are not licensed. The plugin bundles no binary and no credentials.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<p>You need an installed <code>genefox</code> CLI binary with its resources; see <a href="../install/">Install &amp; resources</a>. The commands below run from the plugin package directory.</p>
+<h2 id="cli-setup">CLI setup<a class="headerlink" href="#cli-setup" title="Permanent link">&para;</a></h2>
+<p>This is version 0.1.0 of the plugin. It needs the GeneFox 1.1.0 CLI (or newer) with its
+resources; the GeneFox documentation describes how to obtain it. You can
+install the plugin first: when the CLI is missing, the setup skill offers a visible
+command for your approval:</p>
+<div class="highlight"><pre><span></span><code><span class="s2">"&lt;installed-plugin-root&gt;/bin/genefox-install"</span>
+</code></pre></div>
+<p>On native Windows use <code>"&lt;installed-plugin-root&gt;\bin\genefox-install.cmd"</code>. It runs the
+installer with PowerShell's <code>RemoteSigned</code> execution policy for that process only; your
+machine's policy is unchanged (a Group Policy setting still takes precedence). If you
+installed the plugin from a downloaded archive, Windows marks its scripts as coming from
+the internet and <code>RemoteSigned</code> refuses them: the command stops and prints the exact
+<code>Unblock-File -LiteralPath ...</code> line for the plugin's two installer scripts
+(<code>libexec\genefox-plugin-install.ps1</code> and <code>libexec\install-genefox-cli.ps1</code>). Check that
+the plugin came from GeneFox, run that line in PowerShell, then run the command again. Claude Code
+can use <code>${CLAUDE_PLUGIN_ROOT}</code>; Codex and OpenCode use the resolved installed path.
+The launcher and SessionStart hook never download or install anything. Only the
+explicit installer command downloads the release, verifies GeneFox's pinned minisign
+signature and SHA-256, installs the CLI, and shows its third-party notice. The default
+prefix is <code>~/.local</code>; Windows uses <code>%LOCALAPPDATA%\Programs\GeneFox</code> and the release
+installer adds its bin directory to the user PATH. Pass <code>--prefix DIR</code> on POSIX or
+<code>-Prefix DIR -NoModifyPath</code> on Windows to use another destination. The plugin installer
+always uses the pinned release location and signing key: it refuses <code>--base</code> and
+<code>--pubkey-file</code> (<code>-Base</code>, <code>-PubkeyFile</code> or <code>GENEFOX_CLI_BASE</code> on Windows) and every
+account-helper option; run the release installer yourself for those. The <code>libexec/</code>
+release verifiers are source-identical to the repository release installers.
+After a successful install, restart or reconnect the GeneFox MCP server in your client
+and run <code>bin/genefox-check</code>. A signed public release must be available; this package
+contains no CLI binary. You can also supply an existing CLI through <code>GENEFOX_BIN</code>.</p>
 <p><code>bin/genefox-locate.sh</code> finds the binary. It takes the first match in this order:</p>
 <ol>
 <li>The file named by <code>GENEFOX_BIN</code>, if it is a regular, executable file.</li>
@@ -756,15 +871,15 @@
 <li><code>~/Applications/GeneFox.app/Contents/Helpers/genefox</code>.</li>
 </ol>
 <p>The macOS app's copy, including the Mac App Store version's, runs in its own App Sandbox. It reads its resources from the app, so it needs no other setup, but it cannot read your working directory, and it writes only to its own container and the GeneFox group container. For that copy the launcher drops a <code>GENEFOX_OUTPUT_DIR</code> outside the group container, and figures and exports go to <code>~/Library/Group Containers/6NXG8V2R8W.com.vds.GeneFox/Agent Output/</code> (the app's Settings shows it in Finder). The standalone CLI has none of these limits. The app finds its resources only when it is installed in <code>/Applications</code>.</p>
-<p>If none matches, the launcher prints <code>genefox not found: install it from https://genefox.app/docs/install/ or set GENEFOX_BIN</code> and exits 127.</p>
+<p>If none matches, the launcher offers the bundled explicit installer or <code>GENEFOX_BIN</code> and exits 127.</p>
 <h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
 <p>The launcher and check are POSIX shell scripts, and <code>bin/genefox-launch.cmd</code> is the launcher's Windows twin, with the same search order (<code>GENEFOX_BIN</code>, <code>genefox.exe</code> on <code>PATH</code>, then <code>%LOCALAPPDATA%\Programs\GeneFox\bin\genefox.exe</code>) and the same message and exit status 127. No manifest names it. On Windows, Claude Code runs the MCP command <code>${CLAUDE_PLUGIN_ROOT}/bin/genefox-launch</code> without a shell, and the bare name resolves to the <code>.cmd</code> beside the script (verified with Claude Code 2.1.268). The SessionStart hook stays the POSIX <code>genefox-check</code>, because Claude Code runs hook commands through Git Bash on Windows. Keep <code>bin/*.cmd</code> in CRLF; <code>.gitattributes</code> enforces it.</p>
 <h2 id="install-in-claude-code">Install in Claude Code<a class="headerlink" href="#install-in-claude-code" title="Permanent link">&para;</a></h2>
-<p>From the plugin package directory, add it as a marketplace and install the plugin:</p>
-<div class="highlight"><pre><span></span><code>claude<span class="w"> </span>plugin<span class="w"> </span>marketplace<span class="w"> </span>add<span class="w"> </span>.
+<p>Add the public marketplace and install the plugin:</p>
+<div class="highlight"><pre><span></span><code>claude<span class="w"> </span>plugin<span class="w"> </span>marketplace<span class="w"> </span>add<span class="w"> </span>https://github.com/vindhyadatascience/genefox-plugins
 claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>genefox@genefox
 </code></pre></div>
-<p>Inside Claude Code, the equivalent commands are <code>/plugin marketplace add .</code> and <code>/plugin install genefox@genefox</code>. A git repository URL also works as the marketplace source if the marketplace files are at the root of that repository. The marketplace and plugin are both named <code>genefox</code>.</p>
+<p>Inside Claude Code, the equivalent commands are <code>/plugin marketplace add https://github.com/vindhyadatascience/genefox-plugins</code> and <code>/plugin install genefox@genefox</code>. For a local checkout of this public repository, use its root directory as the marketplace source. The marketplace and plugin are both named <code>genefox</code>.</p>
 <p>To verify, run <code>claude mcp list</code> and look for the plugin's <code>genefox</code> server, then run <code>/plugin</code> in a session to see the plugin and its skills.</p>
 <p>Remove any user-scope <code>genefox</code> MCP entry first, or the agent sees two servers with the same tools:</p>
 <div class="highlight"><pre><span></span><code>claude<span class="w"> </span>mcp<span class="w"> </span>remove<span class="w"> </span>genefox
@@ -798,17 +913,17 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 <tr>
 <td><code>genefox-differential</code></td>
 <td>Multi-gene work: differential expression, heatmaps, top correlates, gene signatures.</td>
-<td><code>tcga_differential_expression</code>, <code>tcga_heatmap</code>, <code>tcga_top_correlates</code>, <code>tcga_gene_signature</code>, <code>list_signature_presets</code></td>
+<td><code>tcga_differential_expression</code>, <code>tcga_heatmap</code>, <code>tcga_top_correlates</code>, <code>tcga_gene_signature</code>, <code>list_signature_presets</code>, <code>imported_de_enrichment</code></td>
 </tr>
 <tr>
 <td><code>genefox-geo</code></td>
 <td>Finds and analyzes GEO series.</td>
-<td><code>geo_search</code>, <code>geo_dataset_details</code>, <code>geo_supplementary_layout</code>, <code>geo_series_expression</code>, <code>geo_gene_correlation</code>, <code>geo_top_correlates</code>, <code>geo_sample_pca</code>, <code>geo_collection_summary</code></td>
+<td><code>geo_search</code>, <code>geo_finder_plan</code>, <code>geo_dataset_details</code>, <code>geo_supplementary_layout</code>, <code>geo_series_expression</code>, <code>geo_gene_correlation</code>, <code>geo_top_correlates</code>, <code>geo_heatmap</code>, <code>geo_sample_pca</code>, <code>geo_collection_summary</code></td>
 </tr>
 <tr>
 <td><code>genefox-reference</code></td>
-<td>Reference data: GTEx, CCLE, Treehouse, Expression Atlas, cBioPortal.</td>
-<td><code>gtex_tissue_expression</code>, <code>reference_ccle_expression</code>, <code>reference_treehouse_expression</code>, <code>reference_expression_atlas</code>, <code>reference_expression_atlas_catalog</code>, <code>cbioportal_studies</code>, <code>cbioportal_composition</code>, <code>cbioportal_expression</code>, <code>cbioportal_alterations</code></td>
+<td>Reference data: GTEx, Human Protein Atlas, CCLE, Treehouse, Expression Atlas, ArrayExpress, ToxicoDB, cBioPortal.</td>
+<td><code>gene_info</code>, <code>gtex_tissue_expression</code>, <code>hpa_gene</code>, <code>reference_ccle_expression</code>, <code>reference_treehouse_expression</code>, <code>reference_expression_atlas</code>, <code>reference_expression_atlas_catalog</code>, <code>toxicodb_search</code>, <code>toxicodb_experiments</code>, <code>toxicodb_analysis</code>, <code>arrayexpress_search</code>, <code>arrayexpress_details</code>, <code>arrayexpress_expression</code>, <code>cbioportal_studies</code>, <code>cbioportal_composition</code>, <code>cbioportal_expression</code>, <code>cbioportal_alterations</code>, <code>cbioportal_cross_study_mutations</code>, <code>cbioportal_significantly_mutated_genes</code>, <code>cbioportal_structural_variants</code>, <code>cbioportal_treatment_counts</code>, <code>cbioportal_mutation_burden</code></td>
 </tr>
 <tr>
 <td><code>genefox-reporting</code></td>
@@ -817,18 +932,30 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 </tr>
 </tbody>
 </table>
-<p>The reporting skill also covers the per-call export options (<code>csv</code>, <code>recipe</code>, <code>html</code>) that the analysis tools accept.</p>
+<p>Report files are opt-in: by default the agent answers in the conversation and writes no
+report or export file, and it offers a report when one would help. When you ask for one,
+the reporting skill prefers one multipart report for related analyses, assembled by the
+host from the returned figures and findings, in matching PDF and HTML versions when
+both can be exported. It keeps each analysis's numbers, sample counts, sources and caveats
+in its own section. Both versions carry the GeneFox wordmark, product link and the credit
+"made with GeneFox"; the skill bundles the approved fox artwork, used unmodified as the
+NOTICE permits, for host-composed reports. Explicit HTML-only or other format
+requests and separate outputs retain their requested shape. Per-call exports (<code>csv</code>,
+<code>recipe</code>, <code>html</code>) remain available; <code>html</code> exports one figure with the shared GeneFox
+brand header and can support a combined report. PDF composition uses the host's document
+capabilities; analysis tools do not expose a <code>pdf</code> option. Missing output capabilities are
+disclosed rather than replaced with invented files.</p>
 <h2 id="trust-model">Trust model<a class="headerlink" href="#trust-model" title="Permanent link">&para;</a></h2>
 <p>Tool results can contain text from third parties, such as GEO sample labels and cBioPortal study names. Any field named <code>untrusted_*</code> is data, never instructions. The skills tell the agent to quote such fields as data and to relay numbers, captions, caveats and figure disclosures exactly as returned.</p>
 <p>The plugin starts the server with <code>--no-model-tools</code>. The agent host supplies the model; plugins never offer GeneFox's local or cloud model tools. They remain in the GeneFox app and the CLI. GeneFox's deterministic planning aids stay: <code>tcga_ask_plan</code>, <code>geo_ask_plan</code>, <code>tcga_validate_query</code> and the chat schemas give the agent the app's parser, policy and cohort capabilities to work within.</p>
-<p>The plugin enables nothing privileged. It pre-approves no tools, so each host keeps its normal permission prompts. It does not install the CLI or pass <code>--enable-legacy-tools</code> or <code>--imported-store</code>. Pro tools fail closed: the server lists them only when it grants the capability, and the plugin cannot grant it. Free tools need no GeneFox login. The server owns the network allowlist, resource integrity and output policy. See the <a href="../mcp/">MCP server guide</a> for the full model.</p>
+<p>The plugin enables nothing privileged. It pre-approves no tools, so each host keeps its normal permission prompts. The launcher never installs the CLI or passes <code>--enable-legacy-tools</code> or <code>--imported-store</code>; installation requires the explicit command approved by the user. GeneFox Pro needs a linked GeneFox account, which the 1.1.0 CLI cannot use outside the GeneFox app, so the server lists no Pro tools and the plugin cannot grant them; arguments a tool schema marks "GeneFox Pro" are refused. Free tools need no GeneFox login. The server owns the network allowlist, resource integrity and output policy; the GeneFox MCP server guide in the GeneFox documentation describes the full model.</p>
 <h2 id="timeouts-and-output">Timeouts and output<a class="headerlink" href="#timeouts-and-output" title="Permanent link">&para;</a></h2>
-<p><code>.mcp.json</code> sets Claude Code's <code>timeout</code> to 960000 ms, and <code>.codex-mcp.json</code> sets Codex's per-tool <code>tool_timeout_sec</code> to 960 seconds (16 minutes). Codex's separate <code>startup_timeout_sec</code> is 30 seconds. OpenCode's <code>opencode/opencode.json</code> sets its per-server <code>timeout</code> to 960000 ms, which bounds every tool call. The server's longest per-call deadline is 900 seconds, leaving 60 seconds of transport margin. Cold calls download and parse large public datasets and can take minutes. A shorter host timeout cuts them off with a request-timed-out error. Claude Code's separate startup limit is <code>MCP_TIMEOUT</code>, for example <code>MCP_TIMEOUT=30000 claude</code>. See the <a href="../mcp/#connecting-a-client">client guide</a> and <a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli">Codex MCP settings</a>.</p>
+<p><code>.mcp.json</code> sets Claude Code's <code>timeout</code> to 960000 ms, and <code>.codex-mcp.json</code> sets Codex's per-tool <code>tool_timeout_sec</code> to 960 seconds (16 minutes). Codex's separate <code>startup_timeout_sec</code> is 30 seconds. OpenCode's <code>opencode/opencode.json</code> sets its per-server <code>timeout</code> to 960000 ms, which bounds every tool call. The server's longest per-call deadline is 900 seconds, leaving 60 seconds of transport margin. Cold calls download and parse large public datasets and can take minutes. A shorter host timeout cuts them off with a request-timed-out error. Claude Code's separate startup limit is <code>MCP_TIMEOUT</code>, for example <code>MCP_TIMEOUT=30000 claude</code>. See the client guide in the GeneFox documentation and <a href="https://developers.openai.com/codex/mcp">Codex MCP settings</a>.</p>
 <p>Claude Code writes figures and exports to <code>${CLAUDE_PLUGIN_DATA}/output</code> through <code>GENEFOX_OUTPUT_DIR</code>. Codex forwards an explicit <code>GENEFOX_OUTPUT_DIR</code> and otherwise the shared launcher uses <code>~/GeneFox/agent-output</code>; its MCP configuration uses a relative launcher and <code>cwd</code>, because Codex does not expand Claude plugin variables there. GeneFox never overwrites existing files. The macOS app's sandboxed copy writes to its group container instead (see the lookup order above).</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<p>Run <code>bin/genefox-check</code>. It prints the binary path and version, runs <code>genefox doctor</code>, and ends with <code>doctor: healthy</code> or <code>doctor: unhealthy</code>. It exits 0 only when the binary is found and doctor passes. A SessionStart hook runs <code>genefox-check --quiet</code>: it is silent on success and prints one fix line to stderr on failure. Neither mode installs anything.</p>
+<p>Run <code>bin/genefox-check</code> from the plugin directory. It prints the binary path and version, runs <code>genefox doctor</code>, and ends with <code>doctor: healthy</code> or <code>doctor: unhealthy</code>. It exits 0 only when the binary is found and doctor passes. A SessionStart hook runs <code>genefox-check --quiet</code>: it is silent when the CLI is current and healthy, offers one install line when missing, and warns when the CLI is older than 1.1.0 or its version cannot be read. Neither mode installs anything.</p>
 <ul>
-<li>Binary not found: install the CLI or set <code>GENEFOX_BIN</code> to an executable file.</li>
+<li>Binary missing or too old: approve the explicit bundled installer command, or set <code>GENEFOX_BIN</code> to an existing current executable.</li>
 <li>Resource or font failures: use a complete install, or point <code>GENEFOX_RESOURCES</code> at a complete scientific resources directory.</li>
 <li>Output failures: set <code>GENEFOX_OUTPUT_DIR</code> to a writable directory that is not a symlink.</li>
 <li>Tools missing or timing out: check for a duplicate user-scope entry, then the timeout settings above.</li>
@@ -844,18 +971,19 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 </ol>
 <h2 id="other-hosts">Other hosts<a class="headerlink" href="#other-hosts" title="Permanent link">&para;</a></h2>
 <h3 id="install-in-codex">Install in Codex<a class="headerlink" href="#install-in-codex" title="Permanent link">&para;</a></h3>
-<p>From the plugin package directory, register its marketplace, install the plugin, and list it:</p>
-<div class="highlight"><pre><span></span><code>codex<span class="w"> </span>plugin<span class="w"> </span>marketplace<span class="w"> </span>add<span class="w"> </span>.
+<p>Register the public marketplace, install the plugin, and list it:</p>
+<div class="highlight"><pre><span></span><code>codex<span class="w"> </span>plugin<span class="w"> </span>marketplace<span class="w"> </span>add<span class="w"> </span>https://github.com/vindhyadatascience/genefox-plugins
 codex<span class="w"> </span>plugin<span class="w"> </span>add<span class="w"> </span>genefox@genefox
 codex<span class="w"> </span>plugin<span class="w"> </span>list<span class="w"> </span>--marketplace<span class="w"> </span>genefox<span class="w"> </span>--json
 </code></pre></div>
 <p>For a mirror repository containing this package at its root, use that repository's URL or local checkout as the marketplace source. These commands use the installed CLI's <code>plugin marketplace add</code>, <code>plugin add</code>, and <code>plugin list</code> subcommands. Start a new Codex session after installation.</p>
 <p>With no plugin data folder, figures and exports go to <code>~/GeneFox/agent-output</code> unless <code>GENEFOX_OUTPUT_DIR</code> is set.</p>
 <p>If you previously configured a direct <code>[mcp_servers.genefox]</code> entry, remove that entry from your Codex configuration before installing: it shadows the plugin's server. The plugin needs no separate MCP registration. Codex may discover the shared SessionStart check, but skips plugin hooks until the user reviews and trusts them; run <code>bin/genefox-check</code> through the setup skill when needed.</p>
-<p>After installation or a host upgrade, check skill discovery, run <code>bin/genefox-check</code>, then try an analysis and cancellation in a fresh session.</p>
+<p>Codex uses manifest skill discovery, with no <code>.agents/skills</code> symlink, and a Codex-specific MCP file beside the shared Claude one, with no manual MCP fallback. See <a href="https://developers.openai.com/plugins/build/plugins">OpenAI's plugin packaging conventions</a> for the packaging contract. The installed-package smoke checks skill discovery, launcher resolution, environment forwarding, server connection, analysis calls and cancellation. Repeat it after changing the plugin or upgrading Codex.</p>
 <h3 id="install-in-opencode">Install in OpenCode<a class="headerlink" href="#install-in-opencode" title="Permanent link">&para;</a></h3>
 <p>OpenCode has no plugin marketplace for MCP servers and skills, so this package ships one config file, <code>opencode/opencode.json</code>, that points OpenCode at the same <code>bin/genefox-launch</code> and the same seven <code>skills/</code> directories. Nothing is copied. Point two environment variables at the package, for example in your shell profile:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">GENEFOX_PLUGIN_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/src/locus/Integrations/agent-plugins"</span><span class="w">   </span><span class="c1"># this directory, absolute</span>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vindhyadatascience/genefox-plugins.git<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/src/genefox-plugins"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GENEFOX_PLUGIN_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/src/genefox-plugins"</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">OPENCODE_CONFIG</span><span class="o">=</span><span class="s2">"</span><span class="nv">$GENEFOX_PLUGIN_ROOT</span><span class="s2">/opencode/opencode.json"</span>
 </code></pre></div>
 <p>Then check it without logging in:</p>
@@ -898,13 +1026,36 @@ opencode<span class="w"> </span>debug<span class="w"> </span>skill<span class="w
 <ul>
 <li><strong><code>GENEFOX_PLUGIN_ROOT</code> must be set and absolute.</strong> If it is unset, OpenCode substitutes an empty string, <code>opencode mcp list</code> shows <code>ENOENT ... posix_spawn '/bin/genefox-launch'</code>, and no genefox skills are listed.</li>
 <li><strong><code>OPENCODE_CONFIG</code> names one file.</strong> OpenCode merges it over your global <code>~/.config/opencode/opencode.json</code> and under a project <code>opencode.json</code>. If you already use <code>OPENCODE_CONFIG</code> for something else, copy the <code>mcp.genefox</code> and <code>skills</code> blocks into your own config instead, with <code>GENEFOX_PLUGIN_ROOT</code> still exported (or replace <code>{env:GENEFOX_PLUGIN_ROOT}</code> with the absolute path).</li>
-<li><strong>Remove any hand-written <code>mcp.genefox</code> entry</strong> (from the <a href="../mcp/#opencode">MCP server guide</a>) from your global or project config. Configs merge key by key, so a project <code>opencode.json</code> wins over <code>OPENCODE_CONFIG</code>, and leftover keys such as an old <code>environment</code> can merge into the plugin's entry.</li>
+<li><strong>Remove any hand-written <code>mcp.genefox</code> entry</strong> (from the GeneFox MCP server guide) from your global or project config. Configs merge key by key, so a project <code>opencode.json</code> wins over <code>OPENCODE_CONFIG</code>, and leftover keys such as an old <code>environment</code> can merge into the plugin's entry.</li>
 <li><strong>A missing binary shows as <code>MCP error -32000: Connection closed</code>.</strong> OpenCode does not display the launcher's stderr. Run <code>$GENEFOX_PLUGIN_ROOT/bin/genefox-check</code> to see the fix line.</li>
 <li><strong>No SessionStart check.</strong> OpenCode does not run the Claude Code hook; the <code>genefox-setup</code> skill runs <code>bin/genefox-check</code> when a call fails.</li>
 <li><strong>Large results are truncated for the model.</strong> OpenCode shortens long tool results and saves the full text under <code>~/.local/share/opencode/tool-output/</code>. Figures and exports are on disk in the output directory either way.</li>
 <li>Tools are not pre-approved; OpenCode's normal permission settings apply.</li>
 <li><strong><code>opencode run</code> labels tool calls <code>Unknown</code>.</strong> In non-interactive <code>run</code> mode the tool line reads like <code>⚙ genefox_tcga_projects Unknown</code>. That is OpenCode's status label, not an error; the result follows in full.</li>
 </ul>
+<h2 id="data-sources-and-terms">Data sources and terms<a class="headerlink" href="#data-sources-and-terms" title="Permanent link">&para;</a></h2>
+<p>GeneFox analyzes public data that it retrieves from its providers when a tool runs:
+TCGA and other projects through the NCI Genomic Data Commons, GEO, GTEx, the UCSC Xena
+and Toil recompute, CCLE, Treehouse, Expression Atlas and cBioPortal. That data remains
+subject to each provider's terms, data-use policies and citation requirements, which you
+are responsible for following. Results carry their source and provenance so you can cite
+them.</p>
+<h2 id="research-use-only">Research use only<a class="headerlink" href="#research-use-only" title="Permanent link">&para;</a></h2>
+<p>GeneFox is for research use only. It is not a medical device and must not be used to
+diagnose, treat or make clinical decisions about any person. The reporting skill tells the
+agent to say so in reports.</p>
+<h2 id="notices">Notices<a class="headerlink" href="#notices" title="Permanent link">&para;</a></h2>
+<p>See <a href="../assets/plugin-LICENSE.txt">LICENSE</a> and <a href="../assets/plugin-NOTICE.txt">NOTICE</a>. The GeneFox name and logo are not licensed,
+except that the unmodified logo may accompany the credit "made with GeneFox" in reports
+produced with GeneFox, as NOTICE describes.</p>
+<h2 id="maintaining-this-plugin">Maintaining this plugin<a class="headerlink" href="#maintaining-this-plugin" title="Permanent link">&para;</a></h2>
+<p>Public issues and pull requests belong in <a href="https://github.com/vindhyadatascience/genefox-plugins">genefox-plugins</a>.
+The exported <code>genefox-source.json</code> identifies the corresponding development source and file hashes.
+Maintainers apply reviewed changes to the canonical development package and export a verified snapshot.
+The native engine and scientific resource bundles are released separately.
+The installers in <code>libexec/</code> are generated copies of the canonical release installers;
+change them through an issue or pull request here, and maintainers carry the change to
+the canonical copies.</p>
 
 
 

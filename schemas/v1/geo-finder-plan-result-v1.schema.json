@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_finder_plan. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "executed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "model_used": {
+          "const": false,
+          "type": "boolean"
+        },
+        "source": {
+          "const": "regex",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "executed",
+        "model_used"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "expansion_source": {
+          "type": "string"
+        },
+        "hints_notice": {
+          "type": "string"
+        },
+        "suggested_calls": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "tool": {
+                "const": "geo_search",
+                "type": "string"
+              },
+              "untrusted_arguments": {
+                "additionalProperties": true,
+                "properties": {
+                  "data_type": {
+                    "const": "any",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "min_samples": {
+                    "const": "any",
+                    "type": "string"
+                  },
+                  "organism": {
+                    "const": "any",
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  },
+                  "smart_search": {
+                    "type": "boolean"
+                  },
+                  "sort": {
+                    "const": "relevance",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query",
+                  "organism",
+                  "min_samples",
+                  "data_type",
+                  "sort",
+                  "limit",
+                  "smart_search"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "tool",
+              "untrusted_arguments"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "untrusted_intent": {
+          "additionalProperties": true,
+          "properties": {
+            "canonical": {
+              "type": "string"
+            },
+            "comparison_hint": {
+              "type": "string"
+            },
+            "data_type": {
+              "type": "string"
+            },
+            "exclude_terms": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "organism": {
+              "type": "string"
+            },
+            "stated_minimum_group_size": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "synonyms": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "topic": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "topic",
+            "canonical",
+            "organism",
+            "data_type",
+            "comparison_hint",
+            "synonyms",
+            "exclude_terms",
+            "stated_minimum_group_size"
+          ],
+          "type": "object"
+        },
+        "untrusted_question": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary",
+        "untrusted_question",
+        "expansion_source",
+        "hints_notice",
+        "untrusted_intent",
+        "suggested_calls"
+      ],
+      "type": "object"
+    },
+    "tool": {
+      "const": "geo_finder_plan",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats"
+  ],
+  "title": "GeneFox geo_finder_plan result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_finder_plan"
+}

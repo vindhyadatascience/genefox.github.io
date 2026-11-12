@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for reference_expression_atlas. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "gene_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "gene_id"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_gene_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_gene_id"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "accession": {
+          "type": "string"
+        },
+        "axis_label": {
+          "type": "string"
+        },
+        "excluded_ambiguous_symbols": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "excluded_invalid_rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "gene": {
+          "type": "string"
+        },
+        "gene_id": {
+          "type": "string"
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "oneOf": [
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_id"
+                ],
+                "type": "object"
+              }
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "median_tpm": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "shown": {
+                "type": "boolean"
+              },
+              "untrusted_id": {
+                "type": "string"
+              },
+              "untrusted_label": {
+                "type": "string"
+              },
+              "untrusted_source_label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_label",
+              "untrusted_source_label",
+              "median_tpm",
+              "shown"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "groups_shown": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "groups_total": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "matrix_symbols": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "maximum_displayed_groups": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "untrusted_gene_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accession",
+        "gene",
+        "axis_label",
+        "groups_total",
+        "groups_shown",
+        "maximum_displayed_groups",
+        "matrix_symbols",
+        "excluded_ambiguous_symbols",
+        "excluded_invalid_rows",
+        "groups"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "report_subtitle": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "report_subtitle"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_report_subtitle": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_report_subtitle"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "report_subtitle": {
+              "type": "string"
+            },
+            "untrusted_report_subtitle": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      ],
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "header": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "header"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_header": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_header"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "exclusion_note": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        },
+        "shown_note": {
+          "type": "string"
+        },
+        "table_caption": {
+          "type": "string"
+        },
+        "untrusted_header": {
+          "type": "string"
+        },
+        "untrusted_table": {
+          "$ref": "report-table-v1.schema.json"
+        }
+      },
+      "required": [
+        "intro",
+        "exclusion_note"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "matrix_cap": {
+              "type": "string"
+            },
+            "maximum_matrix_bytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "maximum_matrix_bytes",
+            "matrix_cap"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "reference_expression_atlas",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox reference_expression_atlas result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "reference_expression_atlas"
+}

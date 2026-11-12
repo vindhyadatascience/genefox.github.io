@@ -1,0 +1,658 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_supplementary_layout. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "data": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "allOf": [
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "untrusted_inspected_file"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "samples"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "probes"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": {
+            "status": {
+              "const": "listed",
+              "type": "string"
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "entrez_keyed": {
+              "type": "boolean"
+            },
+            "identifier_candidates": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "distinct_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "empty_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "field": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "kind": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "ensembl_gene_human_versioned",
+                          "ensembl_gene_human",
+                          "ensembl_gene_mouse_versioned",
+                          "ensembl_gene_mouse",
+                          "ensembl_gene_other",
+                          "ensembl_transcript",
+                          "refseq",
+                          "affy_probe",
+                          "illumina_probe",
+                          "agilent_probe",
+                          "stringtie_locus",
+                          "ensembl_prefixed",
+                          "composite_refseq",
+                          "composite_ensembl_symbol",
+                          "composite_symbol_entrez",
+                          "entrez",
+                          "symbol",
+                          "token"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "resolve_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "token_class": {
+                    "enum": [
+                      "ensembl_gene_human_versioned",
+                      "ensembl_gene_human",
+                      "ensembl_gene_mouse_versioned",
+                      "ensembl_gene_mouse",
+                      "ensembl_gene_other",
+                      "ensembl_transcript",
+                      "refseq",
+                      "affy_probe",
+                      "illumina_probe",
+                      "agilent_probe",
+                      "stringtie_locus",
+                      "ensembl_prefixed",
+                      "composite_refseq",
+                      "composite_ensembl_symbol",
+                      "composite_symbol_entrez",
+                      "integer",
+                      "number",
+                      "symbol_like",
+                      "text",
+                      "empty"
+                    ],
+                    "type": "string"
+                  },
+                  "untrusted_examples": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_header_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_header_name",
+                  "field",
+                  "distinct_fraction",
+                  "empty_fraction",
+                  "resolve_fraction",
+                  "kind",
+                  "token_class",
+                  "untrusted_examples"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "identifier_candidates_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "identifier_candidates_truncated": {
+              "type": "boolean"
+            },
+            "identifier_chosen": {
+              "type": "boolean"
+            },
+            "identifier_field": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "metadata_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "probes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "status": {
+              "const": "parsed",
+              "type": "string"
+            },
+            "untrusted_identifier_candidates_refusal": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_identifier_summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_inspected_file": {
+              "type": "string"
+            },
+            "untrusted_requested_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "untrusted_inspected_file",
+            "metadata_samples",
+            "identifier_candidates_total",
+            "untrusted_requested_identifier_column",
+            "identifier_candidates",
+            "identifier_candidates_truncated",
+            "untrusted_identifier_candidates_refusal",
+            "samples",
+            "probes",
+            "status",
+            "entrez_keyed",
+            "identifier_chosen",
+            "identifier_field",
+            "untrusted_identifier_summary",
+            "untrusted_identifier_column"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "identifier_candidates": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "distinct_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "empty_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "field": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "kind": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "ensembl_gene_human_versioned",
+                          "ensembl_gene_human",
+                          "ensembl_gene_mouse_versioned",
+                          "ensembl_gene_mouse",
+                          "ensembl_gene_other",
+                          "ensembl_transcript",
+                          "refseq",
+                          "affy_probe",
+                          "illumina_probe",
+                          "agilent_probe",
+                          "stringtie_locus",
+                          "ensembl_prefixed",
+                          "composite_refseq",
+                          "composite_ensembl_symbol",
+                          "composite_symbol_entrez",
+                          "entrez",
+                          "symbol",
+                          "token"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "resolve_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "token_class": {
+                    "enum": [
+                      "ensembl_gene_human_versioned",
+                      "ensembl_gene_human",
+                      "ensembl_gene_mouse_versioned",
+                      "ensembl_gene_mouse",
+                      "ensembl_gene_other",
+                      "ensembl_transcript",
+                      "refseq",
+                      "affy_probe",
+                      "illumina_probe",
+                      "agilent_probe",
+                      "stringtie_locus",
+                      "ensembl_prefixed",
+                      "composite_refseq",
+                      "composite_ensembl_symbol",
+                      "composite_symbol_entrez",
+                      "integer",
+                      "number",
+                      "symbol_like",
+                      "text",
+                      "empty"
+                    ],
+                    "type": "string"
+                  },
+                  "untrusted_examples": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_header_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_header_name",
+                  "field",
+                  "distinct_fraction",
+                  "empty_fraction",
+                  "resolve_fraction",
+                  "kind",
+                  "token_class",
+                  "untrusted_examples"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "identifier_candidates_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "identifier_candidates_truncated": {
+              "type": "boolean"
+            },
+            "identifier_choice_refused": {
+              "type": "boolean"
+            },
+            "identifier_refusal": {
+              "type": "boolean"
+            },
+            "metadata_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "status": {
+              "const": "refused",
+              "type": "string"
+            },
+            "untrusted_identifier_candidates_refusal": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_inspected_file": {
+              "type": "string"
+            },
+            "untrusted_refusal": {
+              "type": "string"
+            },
+            "untrusted_requested_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "untrusted_inspected_file",
+            "metadata_samples",
+            "identifier_candidates_total",
+            "untrusted_requested_identifier_column",
+            "identifier_candidates",
+            "identifier_candidates_truncated",
+            "untrusted_identifier_candidates_refusal",
+            "untrusted_refusal",
+            "status",
+            "identifier_refusal",
+            "identifier_choice_refused"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "identifier_candidates": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "distinct_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "empty_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "field": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "kind": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "ensembl_gene_human_versioned",
+                          "ensembl_gene_human",
+                          "ensembl_gene_mouse_versioned",
+                          "ensembl_gene_mouse",
+                          "ensembl_gene_other",
+                          "ensembl_transcript",
+                          "refseq",
+                          "affy_probe",
+                          "illumina_probe",
+                          "agilent_probe",
+                          "stringtie_locus",
+                          "ensembl_prefixed",
+                          "composite_refseq",
+                          "composite_ensembl_symbol",
+                          "composite_symbol_entrez",
+                          "entrez",
+                          "symbol",
+                          "token"
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "resolve_fraction": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "token_class": {
+                    "enum": [
+                      "ensembl_gene_human_versioned",
+                      "ensembl_gene_human",
+                      "ensembl_gene_mouse_versioned",
+                      "ensembl_gene_mouse",
+                      "ensembl_gene_other",
+                      "ensembl_transcript",
+                      "refseq",
+                      "affy_probe",
+                      "illumina_probe",
+                      "agilent_probe",
+                      "stringtie_locus",
+                      "ensembl_prefixed",
+                      "composite_refseq",
+                      "composite_ensembl_symbol",
+                      "composite_symbol_entrez",
+                      "integer",
+                      "number",
+                      "symbol_like",
+                      "text",
+                      "empty"
+                    ],
+                    "type": "string"
+                  },
+                  "untrusted_examples": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "untrusted_header_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_header_name",
+                  "field",
+                  "distinct_fraction",
+                  "empty_fraction",
+                  "resolve_fraction",
+                  "kind",
+                  "token_class",
+                  "untrusted_examples"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "identifier_candidates_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "identifier_candidates_truncated": {
+              "type": "boolean"
+            },
+            "metadata_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "status": {
+              "const": "not_recognized",
+              "type": "string"
+            },
+            "untrusted_identifier_candidates_refusal": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_inspected_file": {
+              "type": "string"
+            },
+            "untrusted_requested_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "untrusted_inspected_file",
+            "metadata_samples",
+            "identifier_candidates_total",
+            "untrusted_requested_identifier_column",
+            "identifier_candidates",
+            "identifier_candidates_truncated",
+            "untrusted_identifier_candidates_refusal",
+            "status"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "accession": {
+          "type": "string"
+        },
+        "files": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "automatic_candidate_rank": {
+                "anyOf": [
+                  {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "filename_truncated": {
+                "type": "boolean"
+              },
+              "parseable_extension": {
+                "type": "boolean"
+              },
+              "untrusted_filename": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_filename",
+              "filename_truncated",
+              "parseable_extension",
+              "automatic_candidate_rank"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "files_total": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "files_truncated": {
+          "type": "boolean"
+        },
+        "part_groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "files_truncated": {
+                "type": "boolean"
+              },
+              "part_count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "untrusted_files": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "untrusted_stem": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_stem",
+              "part_count",
+              "untrusted_files",
+              "files_truncated"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "accession",
+        "files_total",
+        "files",
+        "files_truncated",
+        "part_groups"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    }
+  },
+  "required": [
+    "data",
+    "display",
+    "provenance"
+  ],
+  "title": "GeneFox geo_supplementary_layout result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_supplementary_layout"
+}

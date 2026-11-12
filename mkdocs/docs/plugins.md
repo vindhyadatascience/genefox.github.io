@@ -6,9 +6,39 @@ This package connects Claude Code, Codex and OpenCode to the `genefox mcp` serve
 
 The plugin is Apache-2.0 (see [LICENSE](assets/plugin-LICENSE.txt) and [NOTICE](assets/plugin-NOTICE.txt)). The GeneFox app and the `genefox` command-line tool are proprietary Vindhya Data Science software and are outside this license. The GeneFox name and logo are not licensed. The plugin bundles no binary and no credentials.
 
-## Prerequisites
+## CLI setup
 
-You need an installed `genefox` CLI binary with its resources; see [Install & resources](install.md). The commands below run from the plugin package directory.
+This is version 0.1.0 of the plugin. It needs the GeneFox 1.1.0 CLI (or newer) with its
+resources; the GeneFox documentation describes how to obtain it. You can
+install the plugin first: when the CLI is missing, the setup skill offers a visible
+command for your approval:
+
+```sh
+"<installed-plugin-root>/bin/genefox-install"
+```
+
+On native Windows use `"<installed-plugin-root>\bin\genefox-install.cmd"`. It runs the
+installer with PowerShell's `RemoteSigned` execution policy for that process only; your
+machine's policy is unchanged (a Group Policy setting still takes precedence). If you
+installed the plugin from a downloaded archive, Windows marks its scripts as coming from
+the internet and `RemoteSigned` refuses them: the command stops and prints the exact
+`Unblock-File -LiteralPath ...` line for the plugin's two installer scripts
+(`libexec\genefox-plugin-install.ps1` and `libexec\install-genefox-cli.ps1`). Check that
+the plugin came from GeneFox, run that line in PowerShell, then run the command again. Claude Code
+can use `${CLAUDE_PLUGIN_ROOT}`; Codex and OpenCode use the resolved installed path.
+The launcher and SessionStart hook never download or install anything. Only the
+explicit installer command downloads the release, verifies GeneFox's pinned minisign
+signature and SHA-256, installs the CLI, and shows its third-party notice. The default
+prefix is `~/.local`; Windows uses `%LOCALAPPDATA%\Programs\GeneFox` and the release
+installer adds its bin directory to the user PATH. Pass `--prefix DIR` on POSIX or
+`-Prefix DIR -NoModifyPath` on Windows to use another destination. The plugin installer
+always uses the pinned release location and signing key: it refuses `--base` and
+`--pubkey-file` (`-Base`, `-PubkeyFile` or `GENEFOX_CLI_BASE` on Windows) and every
+account-helper option; run the release installer yourself for those. The `libexec/`
+release verifiers are source-identical to the repository release installers.
+After a successful install, restart or reconnect the GeneFox MCP server in your client
+and run `bin/genefox-check`. A signed public release must be available; this package
+contains no CLI binary. You can also supply an existing CLI through `GENEFOX_BIN`.
 
 `bin/genefox-locate.sh` finds the binary. It takes the first match in this order:
 
@@ -21,7 +51,7 @@ You need an installed `genefox` CLI binary with its resources; see [Install & re
 
 The macOS app's copy, including the Mac App Store version's, runs in its own App Sandbox. It reads its resources from the app, so it needs no other setup, but it cannot read your working directory, and it writes only to its own container and the GeneFox group container. For that copy the launcher drops a `GENEFOX_OUTPUT_DIR` outside the group container, and figures and exports go to `~/Library/Group Containers/6NXG8V2R8W.com.vds.GeneFox/Agent Output/` (the app's Settings shows it in Finder). The standalone CLI has none of these limits. The app finds its resources only when it is installed in `/Applications`.
 
-If none matches, the launcher prints `genefox not found: install it from https://genefox.app/docs/install/ or set GENEFOX_BIN` and exits 127.
+If none matches, the launcher offers the bundled explicit installer or `GENEFOX_BIN` and exits 127.
 
 ### Windows
 
@@ -29,14 +59,14 @@ The launcher and check are POSIX shell scripts, and `bin/genefox-launch.cmd` is 
 
 ## Install in Claude Code
 
-From the plugin package directory, add it as a marketplace and install the plugin:
+Add the public marketplace and install the plugin:
 
 ```sh
-claude plugin marketplace add .
+claude plugin marketplace add https://github.com/vindhyadatascience/genefox-plugins
 claude plugin install genefox@genefox
 ```
 
-Inside Claude Code, the equivalent commands are `/plugin marketplace add .` and `/plugin install genefox@genefox`. A git repository URL also works as the marketplace source if the marketplace files are at the root of that repository. The marketplace and plugin are both named `genefox`.
+Inside Claude Code, the equivalent commands are `/plugin marketplace add https://github.com/vindhyadatascience/genefox-plugins` and `/plugin install genefox@genefox`. For a local checkout of this public repository, use its root directory as the marketplace source. The marketplace and plugin are both named `genefox`.
 
 To verify, run `claude mcp list` and look for the plugin's `genefox` server, then run `/plugin` in a session to see the plugin and its skills.
 
@@ -55,12 +85,24 @@ Each skill lists its tools in its own `## Tools` section. This table repeats the
 | `genefox-setup` | Sets up, checks and troubleshoots the server. | `account_status`, `list_coverage`, `list_operations` |
 | `genefox-tcga-gene` | One gene in TCGA/GDC cohorts: expression by group, tumor vs normal, pan-cancer, isoforms, cohort and case exploration. | `tcga_projects`, `tcga_expression`, `tcga_tumor_normal`, `tcga_pan_cancer_expression`, `tcga_compare_cohorts`, `tcga_gene_isoforms`, `tcga_cohort_summary`, `tcga_cases`, `tcga_case_detail`, `tcga_case_expression`, `tcga_sample_pca` |
 | `genefox-survival` | Kaplan-Meier curves with log-rank and Cox results. | `tcga_survival`, `tcga_pan_cancer_survival`, `geo_survival` |
-| `genefox-differential` | Multi-gene work: differential expression, heatmaps, top correlates, gene signatures. | `tcga_differential_expression`, `tcga_heatmap`, `tcga_top_correlates`, `tcga_gene_signature`, `list_signature_presets` |
-| `genefox-geo` | Finds and analyzes GEO series. | `geo_search`, `geo_dataset_details`, `geo_supplementary_layout`, `geo_series_expression`, `geo_gene_correlation`, `geo_top_correlates`, `geo_sample_pca`, `geo_collection_summary` |
-| `genefox-reference` | Reference data: GTEx, CCLE, Treehouse, Expression Atlas, cBioPortal. | `gtex_tissue_expression`, `reference_ccle_expression`, `reference_treehouse_expression`, `reference_expression_atlas`, `reference_expression_atlas_catalog`, `cbioportal_studies`, `cbioportal_composition`, `cbioportal_expression`, `cbioportal_alterations` |
+| `genefox-differential` | Multi-gene work: differential expression, heatmaps, top correlates, gene signatures. | `tcga_differential_expression`, `tcga_heatmap`, `tcga_top_correlates`, `tcga_gene_signature`, `list_signature_presets`, `imported_de_enrichment` |
+| `genefox-geo` | Finds and analyzes GEO series. | `geo_search`, `geo_finder_plan`, `geo_dataset_details`, `geo_supplementary_layout`, `geo_series_expression`, `geo_gene_correlation`, `geo_top_correlates`, `geo_heatmap`, `geo_sample_pca`, `geo_collection_summary` |
+| `genefox-reference` | Reference data: GTEx, Human Protein Atlas, CCLE, Treehouse, Expression Atlas, ArrayExpress, ToxicoDB, cBioPortal. | `gene_info`, `gtex_tissue_expression`, `hpa_gene`, `reference_ccle_expression`, `reference_treehouse_expression`, `reference_expression_atlas`, `reference_expression_atlas_catalog`, `toxicodb_search`, `toxicodb_experiments`, `toxicodb_analysis`, `arrayexpress_search`, `arrayexpress_details`, `arrayexpress_expression`, `cbioportal_studies`, `cbioportal_composition`, `cbioportal_expression`, `cbioportal_alterations`, `cbioportal_cross_study_mutations`, `cbioportal_significantly_mutated_genes`, `cbioportal_structural_variants`, `cbioportal_treatment_counts`, `cbioportal_mutation_burden` |
 | `genefox-reporting` | How to report results faithfully, and how to plan questions and open app links. | `open_destination`, `tcga_ask_plan`, `tcga_validate_query`, `geo_ask_plan`, `tcga_chat_schema`, `geo_chat_schema` |
 
-The reporting skill also covers the per-call export options (`csv`, `recipe`, `html`) that the analysis tools accept.
+Report files are opt-in: by default the agent answers in the conversation and writes no
+report or export file, and it offers a report when one would help. When you ask for one,
+the reporting skill prefers one multipart report for related analyses, assembled by the
+host from the returned figures and findings, in matching PDF and HTML versions when
+both can be exported. It keeps each analysis's numbers, sample counts, sources and caveats
+in its own section. Both versions carry the GeneFox wordmark, product link and the credit
+"made with GeneFox"; the skill bundles the approved fox artwork, used unmodified as the
+NOTICE permits, for host-composed reports. Explicit HTML-only or other format
+requests and separate outputs retain their requested shape. Per-call exports (`csv`,
+`recipe`, `html`) remain available; `html` exports one figure with the shared GeneFox
+brand header and can support a combined report. PDF composition uses the host's document
+capabilities; analysis tools do not expose a `pdf` option. Missing output capabilities are
+disclosed rather than replaced with invented files.
 
 ## Trust model
 
@@ -68,19 +110,19 @@ Tool results can contain text from third parties, such as GEO sample labels and 
 
 The plugin starts the server with `--no-model-tools`. The agent host supplies the model; plugins never offer GeneFox's local or cloud model tools. They remain in the GeneFox app and the CLI. GeneFox's deterministic planning aids stay: `tcga_ask_plan`, `geo_ask_plan`, `tcga_validate_query` and the chat schemas give the agent the app's parser, policy and cohort capabilities to work within.
 
-The plugin enables nothing privileged. It pre-approves no tools, so each host keeps its normal permission prompts. It does not install the CLI or pass `--enable-legacy-tools` or `--imported-store`. Pro tools fail closed: the server lists them only when it grants the capability, and the plugin cannot grant it. Free tools need no GeneFox login. The server owns the network allowlist, resource integrity and output policy. See the [MCP server guide](mcp.md) for the full model.
+The plugin enables nothing privileged. It pre-approves no tools, so each host keeps its normal permission prompts. The launcher never installs the CLI or passes `--enable-legacy-tools` or `--imported-store`; installation requires the explicit command approved by the user. GeneFox Pro needs a linked GeneFox account, which the 1.1.0 CLI cannot use outside the GeneFox app, so the server lists no Pro tools and the plugin cannot grant them; arguments a tool schema marks "GeneFox Pro" are refused. Free tools need no GeneFox login. The server owns the network allowlist, resource integrity and output policy; the GeneFox MCP server guide in the GeneFox documentation describes the full model.
 
 ## Timeouts and output
 
-`.mcp.json` sets Claude Code's `timeout` to 960000 ms, and `.codex-mcp.json` sets Codex's per-tool `tool_timeout_sec` to 960 seconds (16 minutes). Codex's separate `startup_timeout_sec` is 30 seconds. OpenCode's `opencode/opencode.json` sets its per-server `timeout` to 960000 ms, which bounds every tool call. The server's longest per-call deadline is 900 seconds, leaving 60 seconds of transport margin. Cold calls download and parse large public datasets and can take minutes. A shorter host timeout cuts them off with a request-timed-out error. Claude Code's separate startup limit is `MCP_TIMEOUT`, for example `MCP_TIMEOUT=30000 claude`. See the [client guide](mcp.md#connecting-a-client) and [Codex MCP settings](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
+`.mcp.json` sets Claude Code's `timeout` to 960000 ms, and `.codex-mcp.json` sets Codex's per-tool `tool_timeout_sec` to 960 seconds (16 minutes). Codex's separate `startup_timeout_sec` is 30 seconds. OpenCode's `opencode/opencode.json` sets its per-server `timeout` to 960000 ms, which bounds every tool call. The server's longest per-call deadline is 900 seconds, leaving 60 seconds of transport margin. Cold calls download and parse large public datasets and can take minutes. A shorter host timeout cuts them off with a request-timed-out error. Claude Code's separate startup limit is `MCP_TIMEOUT`, for example `MCP_TIMEOUT=30000 claude`. See the client guide in the GeneFox documentation and [Codex MCP settings](https://developers.openai.com/codex/mcp).
 
 Claude Code writes figures and exports to `${CLAUDE_PLUGIN_DATA}/output` through `GENEFOX_OUTPUT_DIR`. Codex forwards an explicit `GENEFOX_OUTPUT_DIR` and otherwise the shared launcher uses `~/GeneFox/agent-output`; its MCP configuration uses a relative launcher and `cwd`, because Codex does not expand Claude plugin variables there. GeneFox never overwrites existing files. The macOS app's sandboxed copy writes to its group container instead (see the lookup order above).
 
 ## Troubleshooting
 
-Run `bin/genefox-check`. It prints the binary path and version, runs `genefox doctor`, and ends with `doctor: healthy` or `doctor: unhealthy`. It exits 0 only when the binary is found and doctor passes. A SessionStart hook runs `genefox-check --quiet`: it is silent on success and prints one fix line to stderr on failure. Neither mode installs anything.
+Run `bin/genefox-check` from the plugin directory. It prints the binary path and version, runs `genefox doctor`, and ends with `doctor: healthy` or `doctor: unhealthy`. It exits 0 only when the binary is found and doctor passes. A SessionStart hook runs `genefox-check --quiet`: it is silent when the CLI is current and healthy, offers one install line when missing, and warns when the CLI is older than 1.1.0 or its version cannot be read. Neither mode installs anything.
 
-- Binary not found: install the CLI or set `GENEFOX_BIN` to an executable file.
+- Binary missing or too old: approve the explicit bundled installer command, or set `GENEFOX_BIN` to an existing current executable.
 - Resource or font failures: use a complete install, or point `GENEFOX_RESOURCES` at a complete scientific resources directory.
 - Output failures: set `GENEFOX_OUTPUT_DIR` to a writable directory that is not a symlink.
 - Tools missing or timing out: check for a duplicate user-scope entry, then the timeout settings above.
@@ -99,10 +141,10 @@ Type these prompts in Claude Code with the plugin installed. Run `bin/genefox-ch
 
 ### Install in Codex
 
-From the plugin package directory, register its marketplace, install the plugin, and list it:
+Register the public marketplace, install the plugin, and list it:
 
 ```sh
-codex plugin marketplace add .
+codex plugin marketplace add https://github.com/vindhyadatascience/genefox-plugins
 codex plugin add genefox@genefox
 codex plugin list --marketplace genefox --json
 ```
@@ -113,14 +155,15 @@ With no plugin data folder, figures and exports go to `~/GeneFox/agent-output` u
 
 If you previously configured a direct `[mcp_servers.genefox]` entry, remove that entry from your Codex configuration before installing: it shadows the plugin's server. The plugin needs no separate MCP registration. Codex may discover the shared SessionStart check, but skips plugin hooks until the user reviews and trusts them; run `bin/genefox-check` through the setup skill when needed.
 
-After installation or a host upgrade, check skill discovery, run `bin/genefox-check`, then try an analysis and cancellation in a fresh session.
+Codex uses manifest skill discovery, with no `.agents/skills` symlink, and a Codex-specific MCP file beside the shared Claude one, with no manual MCP fallback. See [OpenAI's plugin packaging conventions](https://developers.openai.com/plugins/build/plugins) for the packaging contract. The installed-package smoke checks skill discovery, launcher resolution, environment forwarding, server connection, analysis calls and cancellation. Repeat it after changing the plugin or upgrading Codex.
 
 ### Install in OpenCode
 
 OpenCode has no plugin marketplace for MCP servers and skills, so this package ships one config file, `opencode/opencode.json`, that points OpenCode at the same `bin/genefox-launch` and the same seven `skills/` directories. Nothing is copied. Point two environment variables at the package, for example in your shell profile:
 
 ```sh
-export GENEFOX_PLUGIN_ROOT="$HOME/src/locus/Integrations/agent-plugins"   # this directory, absolute
+git clone https://github.com/vindhyadatascience/genefox-plugins.git "$HOME/src/genefox-plugins"
+export GENEFOX_PLUGIN_ROOT="$HOME/src/genefox-plugins"
 export OPENCODE_CONFIG="$GENEFOX_PLUGIN_ROOT/opencode/opencode.json"
 ```
 
@@ -144,9 +187,40 @@ OpenCode resolves relative `skills.paths` and `command` paths from the workspace
 
 - **`GENEFOX_PLUGIN_ROOT` must be set and absolute.** If it is unset, OpenCode substitutes an empty string, `opencode mcp list` shows `ENOENT ... posix_spawn '/bin/genefox-launch'`, and no genefox skills are listed.
 - **`OPENCODE_CONFIG` names one file.** OpenCode merges it over your global `~/.config/opencode/opencode.json` and under a project `opencode.json`. If you already use `OPENCODE_CONFIG` for something else, copy the `mcp.genefox` and `skills` blocks into your own config instead, with `GENEFOX_PLUGIN_ROOT` still exported (or replace `{env:GENEFOX_PLUGIN_ROOT}` with the absolute path).
-- **Remove any hand-written `mcp.genefox` entry** (from the [MCP server guide](mcp.md#opencode)) from your global or project config. Configs merge key by key, so a project `opencode.json` wins over `OPENCODE_CONFIG`, and leftover keys such as an old `environment` can merge into the plugin's entry.
+- **Remove any hand-written `mcp.genefox` entry** (from the GeneFox MCP server guide) from your global or project config. Configs merge key by key, so a project `opencode.json` wins over `OPENCODE_CONFIG`, and leftover keys such as an old `environment` can merge into the plugin's entry.
 - **A missing binary shows as `MCP error -32000: Connection closed`.** OpenCode does not display the launcher's stderr. Run `$GENEFOX_PLUGIN_ROOT/bin/genefox-check` to see the fix line.
 - **No SessionStart check.** OpenCode does not run the Claude Code hook; the `genefox-setup` skill runs `bin/genefox-check` when a call fails.
 - **Large results are truncated for the model.** OpenCode shortens long tool results and saves the full text under `~/.local/share/opencode/tool-output/`. Figures and exports are on disk in the output directory either way.
 - Tools are not pre-approved; OpenCode's normal permission settings apply.
 - **`opencode run` labels tool calls `Unknown`.** In non-interactive `run` mode the tool line reads like `⚙ genefox_tcga_projects Unknown`. That is OpenCode's status label, not an error; the result follows in full.
+
+## Data sources and terms
+
+GeneFox analyzes public data that it retrieves from its providers when a tool runs:
+TCGA and other projects through the NCI Genomic Data Commons, GEO, GTEx, the UCSC Xena
+and Toil recompute, CCLE, Treehouse, Expression Atlas and cBioPortal. That data remains
+subject to each provider's terms, data-use policies and citation requirements, which you
+are responsible for following. Results carry their source and provenance so you can cite
+them.
+
+## Research use only
+
+GeneFox is for research use only. It is not a medical device and must not be used to
+diagnose, treat or make clinical decisions about any person. The reporting skill tells the
+agent to say so in reports.
+
+## Notices
+
+See [LICENSE](assets/plugin-LICENSE.txt) and [NOTICE](assets/plugin-NOTICE.txt). The GeneFox name and logo are not licensed,
+except that the unmodified logo may accompany the credit "made with GeneFox" in reports
+produced with GeneFox, as NOTICE describes.
+
+## Maintaining this plugin
+
+Public issues and pull requests belong in [genefox-plugins](https://github.com/vindhyadatascience/genefox-plugins).
+The exported `genefox-source.json` identifies the corresponding development source and file hashes.
+Maintainers apply reviewed changes to the canonical development package and export a verified snapshot.
+The native engine and scientific resource bundles are released separately.
+The installers in `libexec/` are generated copies of the canonical release installers;
+change them through an issue or pull request here, and maintainers carry the change to
+the canonical copies.

@@ -1,0 +1,476 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_dataset_details. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "accession": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "accession"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_accession": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_accession"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "untrusted_accession": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "gpl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "gpl"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_gpl": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_gpl"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "gpl": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_gpl": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "sra_study": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "sra_study"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_sra_study": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_sra_study"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "sra_study": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_sra_study": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "bioproject": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "bioproject"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_bioproject": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_bioproject"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "bioproject": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_bioproject": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        {
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "sample_count": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "sample_count_status": {
+                  "const": "reported",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sample_count",
+                "sample_count_status"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "sample_count": {
+                  "type": "null"
+                },
+                "sample_count_note": {
+                  "type": "string"
+                },
+                "sample_count_status": {
+                  "const": "unknown",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sample_count",
+                "sample_count_status",
+                "sample_count_note"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "links": {
+          "additionalProperties": true,
+          "properties": {
+            "accession_page": {
+              "type": "string"
+            },
+            "soft_download": {
+              "type": "string"
+            },
+            "supplementary_directory": {
+              "type": "string"
+            },
+            "supplementary_tar": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "raw_data": {
+          "additionalProperties": true,
+          "properties": {
+            "availability": {
+              "enum": [
+                "confirmed",
+                "likely",
+                "none"
+              ],
+              "type": "string"
+            },
+            "untrusted_reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_reason",
+            "availability"
+          ],
+          "type": "object"
+        },
+        "untrusted_data_type": {
+          "type": "string"
+        },
+        "untrusted_entry_type": {
+          "type": "string"
+        },
+        "untrusted_gds_type": {
+          "type": "string"
+        },
+        "untrusted_organism": {
+          "type": "string"
+        },
+        "untrusted_platform_title": {
+          "type": "string"
+        },
+        "untrusted_publication_date": {
+          "type": "string"
+        },
+        "untrusted_samples": {
+          "items": {
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "additionalProperties": true,
+                "oneOf": [
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "accession"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": true,
+                    "properties": {
+                      "untrusted_accession": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "untrusted_accession"
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "properties": {
+                  "accession": {
+                    "type": "string"
+                  },
+                  "untrusted_accession": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            ],
+            "properties": {
+              "untrusted_title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_title"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "untrusted_summary": {
+          "type": "string"
+        },
+        "untrusted_title": {
+          "type": "string"
+        },
+        "usability": {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_reason": {
+              "type": "string"
+            },
+            "verdict": {
+              "enum": [
+                "likely",
+                "maybe",
+                "unsupported",
+                "unknown"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_reason",
+            "verdict"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "untrusted_organism",
+        "untrusted_entry_type",
+        "untrusted_gds_type",
+        "untrusted_data_type",
+        "untrusted_publication_date",
+        "untrusted_title",
+        "untrusted_summary",
+        "untrusted_platform_title",
+        "usability",
+        "raw_data",
+        "untrusted_samples",
+        "links"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {},
+      "required": [],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "recents_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "geo_dataset_details",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance",
+    "deep_link"
+  ],
+  "title": "GeneFox geo_dataset_details result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_dataset_details"
+}

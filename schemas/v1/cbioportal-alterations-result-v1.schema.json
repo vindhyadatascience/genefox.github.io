@@ -1,0 +1,700 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_alterations. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "mutated": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "plan": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "properties": {
+                        "mutation_profile_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "mutation_profile_id"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": true,
+                      "properties": {
+                        "untrusted_mutation_profile_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "untrusted_mutation_profile_id"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "plan",
+                "mutated"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "mutated": {
+                  "type": "null"
+                },
+                "plan": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "mutation_profile_id": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "mutation_profile_id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "plan",
+                "mutated"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "amplified": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "deep_deleted": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "mutations_only": {
+                  "const": false,
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "mutations_only",
+                "amplified",
+                "deep_deleted"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "amplified": {
+                  "type": "null"
+                },
+                "deep_deleted": {
+                  "type": "null"
+                },
+                "mutations_only": {
+                  "const": true,
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "mutations_only",
+                "amplified",
+                "deep_deleted"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "alteration_frequency": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "altered": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "amplified": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deep_deleted": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mutated": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mutation_types": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "percent_text": {
+                "type": "string"
+              },
+              "untrusted_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_name",
+              "percent_text",
+              "count"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "mutations_only": {
+          "type": "boolean"
+        },
+        "plan": {
+          "additionalProperties": true,
+          "allOf": [
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "mutation_profile_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "mutation_profile_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_mutation_profile_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_mutation_profile_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "mutation_profile_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "untrusted_mutation_profile_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "discrete_cna_profile_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "discrete_cna_profile_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_discrete_cna_profile_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_discrete_cna_profile_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "discrete_cna_profile_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "untrusted_discrete_cna_profile_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "sample_list_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "sample_list_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_sample_list_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_sample_list_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "sample_list_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "untrusted_sample_list_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "coverage_profile_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "coverage_profile_id"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_coverage_profile_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "untrusted_coverage_profile_id"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "coverage_profile_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "untrusted_coverage_profile_id": {
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "oneOf": [
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "coverage_profile_ids": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "coverage_profile_ids"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": true,
+                  "properties": {
+                    "untrusted_coverage_profile_ids": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "untrusted_coverage_profile_ids"
+                  ],
+                  "type": "object"
+                }
+              ],
+              "properties": {
+                "coverage_profile_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "untrusted_coverage_profile_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [],
+              "type": "object"
+            }
+          ],
+          "oneOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "hugo_symbol": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "hugo_symbol"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "untrusted_hugo_symbol": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untrusted_hugo_symbol"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "entrez_gene_id": {
+              "type": "integer"
+            },
+            "hugo_symbol": {
+              "type": "string"
+            },
+            "untrusted_hugo_symbol": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "entrez_gene_id"
+          ],
+          "type": "object"
+        },
+        "portal": {
+          "type": "string"
+        },
+        "profiled": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "study": {
+          "additionalProperties": true,
+          "properties": {
+            "group": {
+              "type": "string"
+            },
+            "group_name": {
+              "type": "string"
+            },
+            "native_project": {
+              "type": "string"
+            },
+            "open_link": {
+              "type": "string"
+            },
+            "open_link_title": {
+              "type": "string"
+            },
+            "sample_count": {
+              "type": "integer"
+            },
+            "served_as": {
+              "type": "string"
+            },
+            "study_id": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "untrusted_attribution": {
+              "type": "string"
+            },
+            "untrusted_title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "study_id",
+            "untrusted_title",
+            "group",
+            "group_name",
+            "subtitle",
+            "sample_count"
+          ],
+          "type": "object"
+        },
+        "study_wide": {
+          "const": true,
+          "type": "boolean"
+        },
+        "unaltered": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unprofiled_call_samples": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "portal",
+        "profiled",
+        "altered",
+        "unaltered",
+        "unprofiled_call_samples",
+        "study",
+        "plan",
+        "mutations_only",
+        "study_wide",
+        "alteration_frequency",
+        "mutation_types",
+        "mutated",
+        "amplified",
+        "deep_deleted"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "not": {
+        "required": [
+          "caveat",
+          "untrusted_caveat"
+        ]
+      },
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "headline": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "headline"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_headline": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_headline"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "caveat": {
+          "type": "string"
+        },
+        "class_rows": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "count": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "percent_text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "percent_text",
+              "count"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "scope_note": {
+          "type": "string"
+        },
+        "untrusted_caveat": {
+          "type": "string"
+        },
+        "untrusted_headline": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope_note",
+        "class_rows"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "catalogue_generated": {
+              "type": "string"
+            },
+            "credential": {
+              "type": "string"
+            },
+            "portal": {
+              "type": "string"
+            },
+            "portal_api": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "portal",
+            "portal_api",
+            "catalogue_generated",
+            "credential"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "tool": {
+      "const": "cbioportal_alterations",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats",
+    "deep_link_note"
+  ],
+  "title": "GeneFox cbioportal_alterations result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_alterations"
+}

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for list_signature_presets. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "description": "Limitations and disclosures.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "description": "Original structured result data.",
+      "properties": {
+        "count": {
+          "description": "Number of returned presets.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "presets": {
+          "description": "Validated presets in app order.",
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "category": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "citation": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "collection": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "description": {
+                "description": "Preset method and membership description.",
+                "type": "string"
+              },
+              "exact_source": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "gene_count": {
+                "description": "Number of validated member genes.",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "license": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "license_url": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Exact preset name accepted by signature analysis.",
+                "type": "string"
+              },
+              "recommended_method": {
+                "description": "Recommended scoring method token.",
+                "enum": [
+                  "mean_raw",
+                  "mean_z_score",
+                  "standardized_z_sum",
+                  "mean_expression_rank",
+                  "within_sample_transcriptome_rank"
+                ],
+                "type": "string"
+              },
+              "recommended_method_display_name": {
+                "description": "Human-readable recommended scoring method.",
+                "type": "string"
+              },
+              "retrieval_date": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "source_release": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "source_url": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "standard_name": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "systematic_name": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              },
+              "underlying_source_release": {
+                "description": "Recorded membership provenance; omitted when not recorded.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "description",
+              "gene_count",
+              "recommended_method",
+              "recommended_method_display_name"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "presets",
+        "count"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "description": "Display text.",
+      "properties": {
+        "summary": {
+          "description": "Display-ready result summary.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json",
+      "description": "Sources and runtime provenance."
+    },
+    "tool": {
+      "const": "list_signature_presets",
+      "description": "The called tool's identity.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance"
+  ],
+  "title": "GeneFox list_signature_presets result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "list_signature_presets"
+}

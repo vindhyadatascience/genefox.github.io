@@ -426,6 +426,61 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#free-enrichment-of-a-precomputed-de-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free enrichment of a precomputed DE table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-tool-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run a tool directly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measured-method-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measured method hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-geo-heatmaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public GEO heatmaps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rich-shell-arguments-and-schema-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rich shell arguments and schema help
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -678,6 +733,61 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#free-enrichment-of-a-precomputed-de-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free enrichment of a precomputed DE table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-tool-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run a tool directly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#measured-method-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measured method hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-geo-heatmaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public GEO heatmaps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rich-shell-arguments-and-schema-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rich shell arguments and schema help
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -699,8 +809,8 @@
 
 <h1 id="install-resources">Install &amp; resources<a class="headerlink" href="#install-resources" title="Permanent link">&para;</a></h1>
 <div class="admonition info">
-<p class="admonition-title">Binary downloads: coming soon</p>
-<p>Binary downloads are not published yet. This page describes the requirements and layout the CLI uses, so you can plan your setup.</p>
+<p class="admonition-title">Download</p>
+<p>Get the CLI from the <a href="https://genefox.app/download/">GeneFox download page</a>.</p>
 </div>
 <h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
 <p><code>genefox</code> targets these architectures. Availability depends on the published release:</p>
@@ -769,7 +879,7 @@ fallback to another root. Every source uses the same checks below.</p>
 <code>resources=/path (flag|environment|install-prefix|app-bundle)</code> and the existing
 <code>inventory=… reference=… font=… pin=…</code> fields. It also reports <code>cache=/path</code>. Without usable resources, for example:</p>
 <div class="highlight"><pre><span></span><code>genefox mcp: pid=111 resources=none inventory=loaderUnavailable reference=unavailable font=missing pin=mismatch cache=/home/user/.cache/GeneFoxCLI out=/tmp/gfout allowlist=on legacy=off deadline=per-tool calls=4 queue=16 entitlement=free(not-linked) flavor=release version=1.1.0+unknown
-genefox mcp: resources not ready; start the server with --resources &lt;dir&gt; (a copy of Sources/Locus/Resources)
+genefox mcp: resources not ready; start the server with --resources &lt;dir&gt;
 </code></pre></div>
 <p>If the named directory does not exist, the server logs that too. It never fails to start.
 Without resources:</p>
@@ -783,9 +893,9 @@ Without resources:</p>
   and figure font are required.", or "The bundled figure font is unavailable.").</li>
 </ul>
 <h2 id="bundled-report-resources">Bundled report resources<a class="headerlink" href="#bundled-report-resources" title="Permanent link">&para;</a></h2>
-<p>The binary ships with a resource bundle. It holds the report
+<p>The <code>locus_GenefoxTools</code> resource bundle holds the report
 brand marks (<code>GeneFoxReportMark256.png</code>, <code>GeneFoxReportMark2400.png</code>,
-<code>VDSLogoFullColor.png</code>, <code>VDSLogoSymbol.png</code>), the PDF faces (<code>SourceSans3-Regular</code>,
+<code>VDSLogoFullColor.png</code>, <code>VDSLogoSymbol.png</code>), the PDF fonts (<code>SourceSans3-Regular</code>,
 <code>-Semibold</code>, <code>-Bold</code>, <code>LiberationSans-Regular</code>, <code>-Bold</code>, <code>-Italic</code>) and their licence files.
 <code>report export</code> and the legacy <code>report_export_pdf</code> tool use these by default.</p>
 <p>A selected scientific resources directory (explicit or automatically discovered) is
@@ -797,8 +907,7 @@ with <code>resource_unavailable</code> and writes no PDF. The bundled copies are
 cache is the native host's default: Foundation's caches directory plus <code>GeneFoxCLI</code>, which is
 <code>~/Library/Caches/GeneFoxCLI</code> on macOS and <code>$XDG_CACHE_HOME/GeneFoxCLI</code> (or
 <code>~/.cache/GeneFoxCLI</code>) on Linux.</p>
-<p>The override is installed through <code>FoxStorageLocationRegistry.cacheRoot</code>, which download
-and curated payload caches use to resolve storage paths. Private store locations remain under <code>GeneFoxCLI</code>'s
+<p>Download and curated payload caches use the override to resolve storage paths. Private store locations remain under <code>GeneFoxCLI</code>'s
 native application-support root. The MCP startup line reports <code>cache=/path</code>, and <code>doctor</code>
 reports <code>cache root: path=/path</code>. This names the configured root; it does not probe cache
 write permissions. For containers, mount a persistent cache volume and pass its directory.
@@ -814,10 +923,12 @@ written under <strong>one output directory</strong> that is fixed at launch:</p>
    be a symbolic link. Otherwise the MCP server reports <code>out=unusable</code> and file outputs come
    back as <code>*_unavailable</code>, while <code>report export</code> exits 1.</li>
 </ol>
-<p>Every write goes through <code>MCPOutputFiles.writeCreateOnly</code>:</p>
+<p>Every write follows these rules:</p>
 <ul>
-<li><strong>No paths from arguments.</strong> File names come from the app's own export name for that output
-  (<code>ExportFileName</code>). No tool argument becomes a path.</li>
+<li><strong>No paths from arguments.</strong> CSV and HTML names come from the app's own export name for that
+  output; figure names come from the tool, the session's figure number and the
+  title's slug, with an optional <code>output_name</code> stem. No tool argument
+  becomes a path.</li>
 <li><strong>Name rules.</strong> A name that is not a plain file name falls back to a slug of letters,
   digits, <code>.</code>, <code>_</code> and <code>-</code>. A plain name has no control or format characters, none of
   <code>/ \ : * ? " &lt; &gt; |</code>, no leading <code>.</code>, <code>-</code> or space, no trailing <code>.</code> or space, and at most
@@ -827,7 +938,7 @@ written under <strong>one output directory</strong> that is fixed at launch:</p>
   <code>.withoutOverwriting</code>, so a concurrent call that picked the same name moves on to the next
   suffix.</li>
 <li><strong>Containment.</strong> Every candidate must sit inside the output directory, compared component
-  by component with this host's path convention (<code>FoxFilePath.isDescendantPath</code>), never as a
+  by component with this host's path convention, never as a
   string prefix. On Windows that comparison covers drive roots, UNC shares, both separators
   and case.</li>
 <li><strong>Windows device names.</strong> On every host, a name that is a Windows reserved device name
@@ -919,6 +1030,93 @@ credential-looking query/form/JSON fields (including NCBI <code>api_key</code>) 
 Request headers, URLs and bodies are never persisted; auth and cookie response headers are
 excluded. Cassettes retain the upstream response body verbatim, so use public-data tools
 and review response content before sharing recordings.</p>
+<h2 id="free-enrichment-of-a-precomputed-de-table">Free enrichment of a precomputed DE table<a class="headerlink" href="#free-enrichment-of-a-precomputed-de-table" title="Permanent link">&para;</a></h2>
+<p><code>genefox enrich complete.tsv --source "DE analysis export" --comparison "treated versus control" --complete-universe --output-dir ./reports</code>
+uses the same <code>imported_de_enrichment</code> endpoint as the app's free Home entry and MCP. Input must be UTF-8 CSV/TSV with <code>gene</code>, <code>log2FoldChange</code>, and raw <code>pValue</code> columns, at least 500 distinct exact gene symbols, every tested gene including nonsignificant genes, at most 50,000 rows and 2 MiB. Source and comparison labels are limited to 200 UTF-8 bytes with no control characters. Symbols use exact ASCII spelling and column duplicate checks use exact UTF-8 identity. The declaration is the user's; GeneFox cannot verify completeness and does not recompute DE or infer sample sizes. Duplicate symbols, malformed rows, nonfinite effects and raw p outside (0,1] are refused without dropping genes.</p>
+<p>The foreground contains up to 200 nonneutral genes per direction, adjustable with <code>--foreground-size 1..200</code>. Results retain each validated gene set, its overlap and expected overlap, conditional odds ratio and one-sided lower 95% bound, upper-tail p, BH q within direction, overlapping genes and unavailable reasons. <code>Inf</code> is an unbounded estimate/boundary. Every table records the declared background and source hash and carries the shared methods and membership provenance.</p>
+<p>By default one multipart PDF, matching branded HTML and complete CSV are written create-only; JSON results and actual file descriptors go to stdout. Use <code>--format pdf</code>, <code>html</code>, <code>csv</code>, or <code>none</code> for explicit choices, and <code>--generated-at &lt;ISO8601&gt;</code> for a fixed shared timestamp. <code>GENEFOX_RESOURCES</code> selects an authoritative resource directory as for other commands. This full-table analysis is separate from the selected-gene matrix DE screen and its 80-gene limit.</p>
+<h2 id="run-a-tool-directly">Run a tool directly<a class="headerlink" href="#run-a-tool-directly" title="Permanent link">&para;</a></h2>
+<p><code>genefox run --list</code> returns the same live tool list as MCP <code>tools/list</code>, including
+its current release, entitlement, legacy and model-tool filters. Any listed tool
+can be invoked through <code>genefox run &lt;tool&gt; --json '&lt;arguments&gt;'</code>. This calls the
+same request handler, deadlines, validation, access gates and output writer as
+<code>genefox mcp</code>; it has no separately maintained analysis dispatch table.</p>
+<p>For example, <code>genefox run list_operations</code> lists operations, and
+<code>genefox run tcga_expression --project TCGA-BRCA --gene TP53 --figure false</code>
+uses schema-named flags. String arguments retain their exact spelling, including
+numeric identifiers; arrays and objects use JSON literals. Use <code>--json</code> for a
+complete argument object, and do not mix it with individual tool flags. Repeated
+tool arguments are refused. Host options such as <code>--resources</code>, <code>--output-dir</code>,
+<code>--cache-dir</code> and <code>--enable-legacy-tools</code> work before or after the tool name.</p>
+<p>Stdout is one MCP result object, including content and optional error status, or
+the RPC error object for an unavailable tool. Diagnostics and notifications go to
+stderr. Exit codes are 0 for success, 1 for a tool/RPC failure, 64 for invalid CLI
+usage, and 78 for an unusable resource folder. Each invocation owns a fresh
+session: conversations or other handles spanning calls use <code>genefox mcp</code>.</p>
+<h2 id="measured-method-hints">Measured method hints<a class="headerlink" href="#measured-method-hints" title="Permanent link">&para;</a></h2>
+<p>GEO expression and sample PCA may add <code>data.method_hints</code>. These are deterministic
+advice derived from already available full-source library sizes and low-depth
+flags. Each item has a stable <code>code</code>, <code>advisory_only: true</code>, a message, measured
+<code>evidence</code>, and suggested <code>recommended_arguments</code> when applicable. The existing
+normalization, values, exclusions and captions remain the authoritative result;
+hints never rerun analysis, change methods, exclude samples or call a model.</p>
+<p>A figure whose value axis went to scientific notation over values that are all zero
+or more adds <code>figure.method_hints</code> with code <code>axis_log_scale</code>: its axis, range and
+tick labels as <code>evidence</code>, and <code>recommended_arguments</code> (for example <code>value_scale:
+log10</code>) only where this tool lists that scale and Publication Studio is granted. The
+figure is drawn as asked.</p>
+<p><code>count_depth_normalization</code> suggests reviewing <code>log_cpm</code> for unprocessed integer
+read/probe counts when source depths differ more than10-fold or low-depth samples
+are flagged. Its <code>normalization_applied: false</code> refers to the recommendation;
+it does not erase any transform explicitly requested for the result.
+<code>low_depth_samples</code> suggests reviewing the disclosed threshold and explicit
+<code>exclude_low_depth</code> when flagged samples remain included. <code>pca_library_size_qc</code>
+asks for a PC1/log-library-size check and explicitly states that this association
+has not been calculated by the hint. Zero source depth yields a null fold range,
+with <code>zero_library_count</code> retained, never infinity or a fabricated finite ratio.
+Integer-count eligibility does not identify the biological assay; source-published
+processing, including nCounter assay controls, must be respected. Guidance and
+evaluation cases live in the agent plugin's shared method-choice reference.</p>
+<h2 id="public-geo-heatmaps">Public GEO heatmaps<a class="headerlink" href="#public-geo-heatmaps" title="Permanent link">&para;</a></h2>
+<p><code>geo_heatmap</code> exposes the app's public GEO heatmap through MCP and the generated Python/R clients.
+For a one-shot CLI call, use the shared <code>genefox run</code> dispatcher:</p>
+<div class="highlight"><pre><span></span><code>genefox<span class="w"> </span>run<span class="w"> </span>geo_heatmap<span class="w"> </span>--json<span class="w"> </span><span class="s1">'{"accession":"GSE119933","probes":["1368934_at","1370269_at"],"annotations":["compound"],"group_by":"compound","keep_groups":["Wy","Ibup"],"z_normalize":true,"cluster_columns":false,"csv":true}'</span><span class="w"> </span>--output-dir<span class="w"> </span>./figures
+</code></pre></div>
+<p>The compatibility spelling <code>genefox geo-heatmap --arguments &lt;JSON&gt;</code> retains its plain JSON result and delegates execution to the shared native SDK session.</p>
+<p>Genes resolve through the platform annotation; ambiguous symbols require exact probes.
+Missing requested probes and cells are disclosed. Sample filters recompute normalization
+and clustering on the retained samples; count normalization retains full-source library
+sums across all rows. Exact identifiers are never case-folded or silently deduplicated.
+The app's shared heatmap analysis, annotation colors, trees and figure exporter draw the
+result. Single-strip raw/log2/TPM exports are byte-identical to the app's export for the
+same matrix and controls. Multiple strips and count-normalized input use that same engine,
+with the interface difference disclosed. GEO heatmap recipes remain unavailable, matching
+the app's in-memory series pane. The CSV uses the app's bounded displayed-cell projection
+and reports its unavailability above the portable export limit.</p>
+<h2 id="rich-shell-arguments-and-schema-help">Rich shell arguments and schema help<a class="headerlink" href="#rich-shell-arguments-and-schema-help" title="Permanent link">&para;</a></h2>
+<p><code>genefox run &lt;tool&gt; --help</code> shows the arguments from that tool's live schema,
+including required fields, defaults, types and descriptions. Hidden tools receive
+exactly the same refusal as unknown names. Help does not need scientific resources.</p>
+<p>Flags accept <code>--second-gene TP53</code> or <code>--second_gene=TP53</code>. A bare boolean flag means
+true; <code>--figure=false</code> supplies false. Repeat array flags or use comma-separated
+items (<code>--genes TP53,ESR1 --genes BRCA1</code>); a JSON array preserves commas inside an
+individual value. String identifiers retain leading zeros and their original spelling.
+The shared tool validator still decides whether values are valid.</p>
+<p>Use one <code>--args-file /path/arguments.json</code> instead of individual flags or <code>--json</code>
+for a bounded UTF-8 JSON object read through the native regular-file reader.
+Directories, non-regular files, oversized inputs, excessive nesting and malformed
+JSON are refused before host startup. A bare <code>--json</code> is also accepted as an alias
+for the default MCP output, including with <code>--list</code>.</p>
+<p>The default stdout remains the complete MCP result/error object and the standard
+exit contract remains 0 (success), 1 (tool/RPC failure), 64 (usage), 78 (resources).
+Python/R integrations need no changes. <code>--result-format text</code> explicitly selects
+text content or a readable tool list. When text omits inline non-text content,
+stderr identifies the omission; <code>--result-format mcp</code> retains every item.</p>
+<p>Opt in to <code>--exit-codes classified</code> for 2 (invalid arguments), 3 (gate/policy refusal
+or unavailable tool), 4 (upstream/network/timeout failure), and 1 (other tool failures).
+Unlisted/new tool error codes keep exit 1. Command-line usage and resource startup
+errors remain 64 and 78. This recovers the
+historical rich CLI capabilities while preserving the current SDK transport defaults.</p>
 
 
 

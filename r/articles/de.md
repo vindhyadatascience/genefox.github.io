@@ -1,0 +1,32 @@
+# Differential expression and enrichment
+
+TCGA panel DE compares groups; imported enrichment analyzes a complete
+precomputed DE table and does not recompute DE. TCGA DE takes 10–60 s
+cold; imported enrichment is free local computation, with no latency
+stated. Imported enrichment requires the complete tested universe
+including nonsignificant genes, at least 500 distinct symbols, and raw
+p-values.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above
+may be longer.
+
+These examples use the session from Getting started and require the
+runtime.
+
+TCGA DE can return an engine PNG at the requested dpi and size; imported
+enrichment produces optional reports rather than a figure.
+
+``` r
+de <- gf_tcga_differential_expression(s, project = "TCGA-BRCA", genes = c("ESR1", "GATA3"))
+# Supply a complete, precomputed table, not the panel result above.
+text <- paste(readLines("complete-de.tsv"), collapse = "\n")
+enrichment <- gf_imported_de_enrichment(s, table = text, source = "precomputed DE", comparison = "treated versus control", complete_universe = TRUE)
+```
+
+## Result fields
+
+`tcga-differential-expression`: `data` (object), `display` (object),
+`caveats` (array).
+
+`imported-de-enrichment`: `data` (object), `display` (object), `caveats`
+(array).

@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_chat_schema. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "analysis_arguments": {
+          "additionalProperties": true,
+          "properties": {
+            "project": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "project"
+          ],
+          "type": "object"
+        },
+        "analysis_tools": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "analysis": {
+                "type": "string"
+              },
+              "input_schema": {
+                "additionalProperties": true,
+                "properties": {
+                  "$defs": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "$id": {
+                    "type": "string"
+                  },
+                  "$ref": {
+                    "type": "string"
+                  },
+                  "$schema": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "allOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "anyOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "definitions": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "not": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "oneOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "properties": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "required": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    ]
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "tool": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "analysis",
+              "tool",
+              "input_schema"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "capability_schema_is_authoritative": {
+              "type": "boolean"
+            },
+            "distribution_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "omics_tracks_present": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "pairwise_color_by_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supported_analyses": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supported_distribution_charts": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supports_geneless": {
+              "type": "boolean"
+            },
+            "survival_outcomes_present": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "survival_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "supported_analyses",
+            "supported_distribution_charts",
+            "distribution_stratifications",
+            "survival_stratifications",
+            "pairwise_color_by_stratifications",
+            "omics_tracks_present",
+            "survival_outcomes_present",
+            "supports_geneless",
+            "capability_schema_is_authoritative"
+          ],
+          "type": "object"
+        },
+        "cases_judged": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "chat_execution_available": {
+          "const": false,
+          "type": "boolean"
+        },
+        "model_context": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "snapshot_only": {
+          "const": true,
+          "type": "boolean"
+        },
+        "suggestions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "capabilities",
+        "analysis_tools",
+        "chat_execution_available",
+        "snapshot_only",
+        "project",
+        "model_context",
+        "cases_judged",
+        "analysis_arguments",
+        "suggestions"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "untrusted_metadata_normalization_note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "tcga_chat_schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox tcga_chat_schema result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_chat_schema"
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for gene_info. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "entrez_id": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "organism": {
+          "const": "human",
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "untrusted_aliases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "untrusted_summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "symbol",
+        "entrez_id",
+        "source_url",
+        "organism",
+        "untrusted_aliases",
+        "full_name",
+        "location",
+        "untrusted_summary"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "gene_info",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance"
+  ],
+  "title": "GeneFox gene_info result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "gene_info"
+}

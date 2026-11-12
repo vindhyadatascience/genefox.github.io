@@ -1,0 +1,24 @@
+# GeneFox Python client
+
+GeneFox provides Python clients for the shared GeneFox scientific runtime. Install the package with `pip install genefox`.
+
+```{toctree}
+:maxdepth: 2
+
+reference
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Articles
+
+articles/getting-started
+articles/tcga
+articles/geo
+articles/cbioportal
+articles/arrayexpress
+articles/survival
+articles/pca
+articles/de
+articles/figures-recipes
+```

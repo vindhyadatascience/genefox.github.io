@@ -17,7 +17,7 @@ genefox mcp --resources /path/to/Resources --output-dir ~/genefox-out
 
 | Option | Meaning |
 | --- | --- |
-| `--resources <dir>` | A copy of the app's scientific resources directory; or `GENEFOX_RESOURCES`, then `<resolved executable directory>/../share/genefox/Resources`, then `<X>.app/Contents/Resources` for a `Contents/Helpers/genefox` or `Contents/MacOS/genefox` executable. Automatic roots require `ScientificResources.json`; every source uses the same integrity checks. Without usable resources, gene tools answer `resource_unavailable` and no figure is drawn. |
+| `--resources <dir>` | A copy of the app's scientific resources directory; or `GENEFOX_RESOURCES`, then `<resolved executable directory>/../share/genefox/Resources`, then `<X>.app/Contents/Resources` for a `Contents/Helpers/genefox` or `Contents/MacOS/genefox` executable. Automatic roots require `ScientificResources.json`; every source uses the same integrity checks. With no folder, a missing one, or one without `ScientificResources.json`, the server does not start (status 78, the reason on stderr). If its digests or the gene reference then fail the background check, gene tools answer `resource_unavailable` naming the reason, and no figure is drawn. |
 | `--cache-dir <dir>` | Download cache; or `GENEFOX_CACHE_DIR`. Default `~/Library/Caches/GeneFoxCLI` on macOS, `$XDG_CACHE_HOME/GeneFoxCLI` (or `~/.cache/GeneFoxCLI`) on Linux. Mount a persistent volume in containers; on WSL prefer the Linux filesystem. |
 | `--output-dir <dir>` | Where figures, CSVs, recipes and HTML are written; or set `GENEFOX_OUTPUT_DIR`. Default `<system temp>/genefox-mcp`. Files are only ever created there, never overwritten. |
 | `--enable-legacy-tools` | Also list the five [legacy tools](#legacy-tools), which take local paths or URLs. |
@@ -25,9 +25,11 @@ genefox mcp --resources /path/to/Resources --output-dir ~/genefox-out
 | `--allow-root <dir>` | An extra local read root for the legacy `validate_recipe`/`render_recipe` paths, repeatable; or `GENEFOX_MCP_ALLOWED_ROOTS` (path-separated). The output directory and the imported store are always roots; a model-named path outside every root is refused. |
 | `--warm <list>` | Prefetch `toil`, `pancan` and/or project ids such as `TCGA-BRCA`, in the background. |
 | `--call-timeout <seconds>` | One deadline (1–3600 s) for every call, replacing each tool's own. |
+| `--help`, `-h` | Print the usage and exit 0. |
 | `--max-concurrent-calls <n>` | How many `tools/call`s run at once (1–64; default half the processors, 2 to 4). Up to 16 more queue; beyond that a call answers `rate_limited`. See [Limits](#limits-deadlines-and-cancellation). |
 
-An option error exits with status 64 before the server reads any input. Otherwise the server
+An option error exits with status 64, and a missing resources folder with status 78, before the
+server reads any input. Otherwise the server
 prints one self-check line to stderr and then serves until stdin closes, for example:
 
 ```
@@ -40,6 +42,12 @@ Some fields in that line need explanation:
   public-data hosts, over HTTPS on port 443, and re-checks every redirect. PedcBioPortal, loopback and GeneFox's own cloud hosts are
   deliberately absent.
 - **`entitlement=free(not-linked)`**: see [Entitlements](#entitlements-genefox-pro).
+
+**Progress.** A `tools/call` whose request carries `params._meta.progressToken` gets a
+`notifications/progress` every 10 seconds until it answers, with the seconds elapsed as
+`progress` (no `total`: a call cannot know its own length), so a client that resets its timeout
+on progress keeps waiting through a slow first call. Without a token nothing is sent; each slow
+tool's description gives its expected time.
 
 Stdout carries only protocol messages. Logs, including one
 `genefox mcp: host_not_allowed …` line per refused request, go to stderr.
@@ -173,6 +181,29 @@ See the generated [tool catalogue](tools.md).
 
 ## Argument conventions
 
+TCGA/GDC human gene inputs use GeneFox's existing approved-symbol and curated-alias
+reference: for example, `Her2` resolves to `ERBB2` and `PD-L1` to `CD274`. An approved
+symbol takes precedence over an alias. Imported feature IDs and GEO probes retain
+their literal spelling and organism-specific meaning.
+
+Cohort expression, gene signatures, heatmaps and differential panels return
+`data.gene_resolution`: the original token, canonical symbol, exact dataset field,
+dataset version, mapping release and source checksums. GDC STAR expression uses
+the verified annotation declared by the dataset sidecar. A custom loader's unknown
+mapping source is represented as `null`. Provider-supplied dataset versions use the
+bounded `untrusted_dataset_version` key; reports and CSV retain the complete version.
+With `csv: true`, these tools also write
+`gene_resolution_csv`; the primary data CSV keeps its existing columns. Captured
+reports retain the mapping provenance, and saved views retain the requested tokens.
+
+
+`gene_info` accepts a symbol or a quoted Entrez ID and supports human genes only.
+A numeric ID must match the final human record exactly; a different or redirected
+record is refused as `gene_identity_mismatch`. A genuine missing record is
+`gene_not_found`; malformed or incomplete upstream metadata is `upstream_malformed`.
+The returned symbol is NCBI's official name, while summary and aliases remain
+under `untrusted_*` keys.
+
 Every tool reads its `arguments` under these rules:
 
 - **Closed schemas.** Every input schema has `additionalProperties: false`. An unknown key is
@@ -199,6 +230,56 @@ Every tool reads its `arguments` under these rules:
   `show_caption_color_keys`, `show_figure_legends`). A custom size must stay within the
   app's side limits, 8,192 px per side and 16 megapixels in total. `dpi` is accepted only
   together with `width_in` and `height_in`.
+- **Figure file name.** A tool with a `size` argument also accepts `output_name`, a stem for
+  the figure's file name in place of the tool name and the title's slug. It takes letters,
+  digits, `.`, `_` and `-`, starts with a letter or digit, and is at most 64 characters. A
+  name with a separator (`/`, `\`, `:`), a `..`, or any other character is refused before the
+  tool runs. Only the figure's descriptive part changes; see [Figures](#figures).
+- **A heatmap opened from a differential-expression result** (`from_differential_expression`) records its comparison and `top_n` in its `deep_link` and recipe (`de:` and
+  `de_top:` flags). `open_destination` and a recipe replay reopen it as one: the comparison is
+  rerun and its top genes taken again over its samples under the DE group strip, as the apps reopen it; a recipe flag this build cannot read runs nothing. A comparison by molecular
+  subtype does not draw the default Subtype strip beside the DE group strip that already shows it.
+- **Figure axes (GeneFox Pro).** The tools whose figures have continuous axes also accept
+  `x_min`, `x_max`, `x_scale`, `y_min`, `y_max`, `y_scale`, `value_min`, `value_max` and
+  `value_scale`, each tool only for the axes its
+  figures have: `x` and `y` for a scatter or volcano (`geo_gene_correlation`,
+  `tcga_top_correlates`, `geo_top_correlates`, `tcga_differential_expression`, and the PC1 x PC2
+  scatter of `tcga_sample_pca` and `geo_sample_pca`, which refuse a customization with
+  `biplot`, `scree` or `correlated_genes`, whose figures have no customizable axis), `value` for
+  a box, violin or strip (`tcga_tumor_normal`, `tcga_pan_cancer_expression`,
+  `tcga_compare_cohorts`, `reference_treehouse_expression`, `gtex_tissue_expression`,
+  `cbioportal_expression`), and the axes of whichever figure `figure_kind` or the grouping draws
+  (`tcga_expression`: all three; `tcga_gene_signature`: `x` for the histogram, `value` for the
+  grouped box; `geo_series_expression`: `x` for the ungrouped histogram, `value` for a one-factor
+  box, violin or strip (`tcga_expression`'s `ecdf` has no customizable axes), `x` and `y` for a continuous characteristic's scatter, none for a two-factor
+  view; without `geometry` a `value` key means the box and an `x` or `y` key the scatter, and a
+  characteristic the matrix shows to be the other kind is refused once it is read). A bound is a finite number in data units on either scale; a scale is `linear`
+  (the default) or `log10`. A histogram's x bounds restrict its binning range. Values outside a
+  bound, and values at or below zero on a log axis, are not drawn; the figure says how many in
+  its caption and its description. A reversed range, a non-positive bound on a log axis, an
+  axis the figure does not have, or a figure kind with no customizable axis (a survival curve,
+  a two-factor box, an ECDF) is refused with `invalid_argument`. Every one of these keys
+  is Pro (`publicationStudio`) and refused with `entitlement_required` unless the server's
+  context grants that capability (see Entitlements). A customization is saved with what the
+  call writes: a recipe records it as one `axes:` flag on its destination
+  (the same keys, `axes:value_min=7;value_max=12;value_scale=linear`) and in its presentation
+  metadata, whose Methods line names the axes; `open_destination` and `genefox render` pass a
+  recorded flag back to the tool, so a replay draws the same axes and stays Pro-gated, and a
+  flag this build cannot read runs nothing. A CSV is the data, unchanged (`csv.customization`
+  and `csv.customization_note` say so); an HTML document embeds the customized engine figure
+  (`html.parity: app_document_engine_figure`); `figure: false` returns the data and echoes
+  `customization` with a `customization_note`. Significance brackets on a customized value axis test the values it
+  shows, on its scale, as ggplot2 does. A caption that cannot fit, or would squeeze the plot, is
+  refused with the size that would work; it is never cropped. A drawn customized figure reports
+  `figure.customization` (the value's stable JSON) and `parity: engine_only`. `genefox render`
+  takes the same values as `--x-min`, `--x-scale` and so on, for an imported plot or signature
+  replay and for a signature's `--r-script` (`x` for the score histogram, `value` for the
+  one-factor box plot). The script draws them as GeneFox does: values outside a bound, and
+  values at or below zero on a log axis, are removed before anything is binned or summarized,
+  which is ggplot2's scale-limits behaviour (`scale_x_continuous(limits = )`,
+  `scale_x_log10()`), not `coord_cartesian()`'s zoom; the already-filtered geometry is drawn
+  with `oob = scales::oob_keep` and the figure's caption. A public recipe replays the axes it
+  recorded, and refuses the flags.
 
 Every refusal is a tool error whose `code` is `invalid_argument` and whose `field` names the
 argument. It happens before any network request.
@@ -230,12 +311,30 @@ reason. When a file name is derived from GEO text, the written path is returned 
 
 ## Figures
 
-A figure tool draws through GeneFox's shared engine and writes a PNG create-only under the output
-directory, named as the app names the same export. It then returns `figure` with these keys:
+TCGA and GEO expression offer a cumulative distribution (`geometry=ecdf`) over the
+retained observations, including constant-valued samples. GEO distribution exports
+retain grouping controls and apply any `keep_groups` subset before pooling values. It uses the same
+GeneFox engine as the cards on the apps. Its export recipe preserves the ECDF
+selection. ECDF axes are fixed; custom bounds or scales refuse before loading data.
+
+Expression distributions offer box, strip and violin plots, with histogram or ECDF where
+that screen's schema offers them. The expression bar option is retired. For one release,
+MCP accepts the older `bar` and `median_bar` spellings as box-plot aliases and returns a
+migration caveat. Saved views, links and recipes that recorded a bar also open as a box
+plot with a notice; `genefox render` writes the notice to stderr. Keep the returned caveat
+with the figure. Genuine count, proportion and ranked bar charts retain their own geometry.
+
+A figure tool draws through GeneFox's shared engine and writes its figure create-only under the output
+directory. The optional `format` argument picks the file: `png` (the default, a raster), `svg`
+(vector, with editable text) or `tiff` (raster, the extension `.tif`). Every figure is written in
+all three formats from the same drawing, and `format` follows the file's extension and media type
+(`format` and `mime_type` in the result). SVG keeps the figure's labels as editable text. It then
+returns `figure` with these keys:
 
 | Key | Meaning |
 | --- | --- |
-| `path`, `file_name`, `bytes`, `sha256`, `width_px`, `height_px` | The file written. The pixel size is read from the PNG itself. |
+| `path`, `file_name`, `bytes`, `sha256`, `width_px`, `height_px` | The file written. For a PNG the pixel size is read from the file itself. |
+| `format`, `mime_type` | The file's format (`png`, `svg` or `tiff`) and its media type. |
 | `geometry`, `size` | What was drawn. `size` is the preset token, or `custom`. |
 | `description` | The engine's description of the figure. |
 | `alt_text` | Alt text: the engine's own summary and caveat if it has one, otherwise the description, otherwise a sentence built from the title. |
@@ -243,6 +342,25 @@ directory, named as the app names the same export. It then returns `figure` with
 | `data_table_rows`, `data_table_truncated`, `data_table_note` | The table's row count before the cap; whether the table was cut; and, only when it was, a sentence saying so. |
 | `data_table_unavailable` | Replaces the table when the engine attached no element description. |
 | `parity`, `parity_screen`, `parity_note` | See [Parity tokens](#parity-tokens). |
+
+**File names.** A figure's file name is
+
+```
+<NN>_<tool>_<slug>_<W>x<H>in[_<dpi>dpi].<ext>
+```
+
+- `NN` is the figure's number in this server session, counted from 01 and never reused, so two
+  figures from one session never share a name, even when they come from the same tool.
+- `tool` is the tool that drew the figure, and `slug` is the title's slug. `output_name`, when
+  given, replaces `tool_slug` and nothing else.
+- `W` and `H` are the size in inches, to one decimal; `dpi` is the resolution. A vector file
+  (`svg`) has no resolution, so its name has no `_<dpi>dpi`.
+- `ext` is the one extension the format takes: `png`, `svg` or `tif`.
+
+Example: `01_tcga_pan_cancer_expression_box-plot_7.2x6.0in_300dpi.png`.
+
+A name that is already taken is never replaced. The file takes `-2`, `-3` and so on before its
+extension, so `01_..._300dpi-2.png` is the second file with that name.
 
 The data table is capped at **200 rows**. Only
 scatter and volcano figures, which have one row per point, reach that cap. Rows past it are
@@ -287,7 +405,7 @@ exports:
 | Token | Where | Meaning |
 | --- | --- | --- |
 | `app_export_identical` | `figure.parity` | The app screen's PNG export calls the same shared function with the same arguments. |
-| `engine_only` | `figure.parity` | Drawn by the shared engine, but the screen has no PNG export to match; for example, the screen snapshots the view. |
+| `engine_only` | `figure.parity` | Drawn by the shared engine, but the screen has no PNG export to match; for example, the screen snapshots the view, or the figure was drawn with customized axes, which no screen draws yet. |
 | `font_mismatch` | `figure.parity` | Replaces either value above when the figure font failed its SHA-256 pin. The glyph widths may differ from the app's. |
 | `app_document_engine_png` | `html.parity` | The app's HTML document over the screen's title, subtitle, source and table, embedding the engine's PNG bytes. Apple re-encodes the same pixels. |
 | `app_document_engine_figure` | `html.parity` | As above, but the screen snapshots this figure, so the app's own document embeds a snapshot where this one embeds the engine figure. |
@@ -304,10 +422,18 @@ The related fields are:
 
 The server **fails closed**. Pro tools are listed and callable only when the server grants the required capability. Hidden tools answer `-32602 Unknown tool`. No argument, flag, environment variable or file grants Pro access.
 
-This build registers **no Pro tools** (the catalogue shows `0 Pro`). `account_status`
+Pro tools: `batch_explorer_run`, `publication_studio_export`, `dataset_radar_check` and
+`dose_response`. Without a live grant a Pro tool is not listed, and a direct call is refused
+with `entitlement_required` before any file is opened. `genefox curated dose <view> <package-dir>`
+runs `dose_response` from a terminal.
+
+`account_status`
 reports `linked: false`, `entitlement: "not_linked"`, `granted_capabilities: []` and
-`cloud_assist: "off"`, with the caveat "Linking a GeneFox account to this server is not
+`cloud_ai: "off"`, with the caveat "Linking a GeneFox account to this server is not
 available in this version."
+
+`lab_collaboration_status`, `cloud_sync_status`, `cloud_sync_now` and `cloud_sync_store` are
+free. They need a linked account, so in this version they report that none is linked.
 
 ## Account and cloud authority
 
@@ -370,6 +496,7 @@ tree are:
 | Code | Meaning |
 | --- | --- |
 | `invalid_argument` | An argument was refused (`field` names it), or an input file or report was unreadable. |
+| `entitlement_required` | A GeneFox Pro argument (`field`) the context does not grant (`details.capability`); nothing was run. |
 | `resource_unavailable` | The scientific resources, gene reference, or a report asset is missing. |
 | `gene_not_found`, `ambiguous_gene` | The gene did not resolve, or resolved to more than one row (`details` lists the candidates). |
 | `no_data`, `no_expression_data` | Nothing to analyse, or no expression matrix (GEO, Expression Atlas, supplementary files). |
@@ -419,7 +546,8 @@ operation: `row`, `operation`, `app_screen`, `mcp_tool` (or `null`), `status` an
 `status` is one of `available`, `partial`, `planned` or `not_available_headless`. The result
 also has counts per status. On this build, `list_coverage` reported 54 available, 17
 partial, 12 planned and 6 not available headlessly. A final row summarises Pro operations
-without naming any. Call `list_coverage` for the current state rather than relying on these
+without naming any; a context granted a Pro tool's capability also gets that tool's row after
+it. Call `list_coverage` for the current state rather than relying on these
 numbers.
 
 Legacy local recipe paths are limited to the output directory, `--imported-store`, and

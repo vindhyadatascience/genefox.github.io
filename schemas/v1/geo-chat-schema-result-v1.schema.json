@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for geo_chat_schema. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "analysis_tools": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "analysis": {
+                "type": "string"
+              },
+              "input_schema": {
+                "additionalProperties": true,
+                "properties": {
+                  "$defs": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "$id": {
+                    "type": "string"
+                  },
+                  "$ref": {
+                    "type": "string"
+                  },
+                  "$schema": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "allOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "anyOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "definitions": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "not": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "oneOf": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "properties": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "required": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    ]
+                  }
+                },
+                "required": [],
+                "type": "object"
+              },
+              "tool": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "analysis",
+              "tool",
+              "input_schema"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "capability_schema_is_authoritative": {
+              "type": "boolean"
+            },
+            "distribution_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "omics_tracks_present": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "pairwise_color_by_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supported_analyses": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supported_distribution_charts": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "supports_geneless": {
+              "type": "boolean"
+            },
+            "survival_outcomes_present": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "survival_stratifications": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "supported_analyses",
+            "supported_distribution_charts",
+            "distribution_stratifications",
+            "survival_stratifications",
+            "pairwise_color_by_stratifications",
+            "omics_tracks_present",
+            "survival_outcomes_present",
+            "supports_geneless",
+            "capability_schema_is_authoritative"
+          ],
+          "type": "object"
+        },
+        "chat_execution_available": {
+          "const": false,
+          "type": "boolean"
+        },
+        "matrix": {
+          "additionalProperties": true,
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "detected_data_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "rnaseq_counts",
+                    "microarray_intensity",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "entrez_keyed": {
+              "type": "boolean"
+            },
+            "identifier_chosen": {
+              "type": "boolean"
+            },
+            "identifier_field": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "normalized_keys": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_display": {
+                    "type": "string"
+                  },
+                  "untrusted_key": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_key",
+                  "untrusted_display"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "normalized_keys_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "normalized_keys_truncated": {
+              "type": "boolean"
+            },
+            "organism_lookup_available": {
+              "type": "boolean"
+            },
+            "probes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "provenance": {
+              "type": "string"
+            },
+            "samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "selected_supplementary_file_truncated": {
+              "type": "boolean"
+            },
+            "untrusted_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_identifier_summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_organism_names": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "untrusted_organism_source": {
+              "type": "string"
+            },
+            "untrusted_requested_identifier_column": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_requested_supplementary_file": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "untrusted_selected_supplementary_file": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "accession",
+            "provenance",
+            "untrusted_organism_source",
+            "samples",
+            "probes",
+            "normalized_keys_total",
+            "selected_supplementary_file_truncated",
+            "entrez_keyed",
+            "normalized_keys_truncated",
+            "organism_lookup_available",
+            "identifier_chosen",
+            "untrusted_requested_supplementary_file",
+            "untrusted_selected_supplementary_file",
+            "untrusted_identifier_summary",
+            "untrusted_requested_identifier_column",
+            "untrusted_identifier_column",
+            "identifier_field",
+            "detected_data_type",
+            "normalized_keys",
+            "untrusted_organism_names"
+          ],
+          "type": "object"
+        },
+        "snapshot_only": {
+          "const": true,
+          "type": "boolean"
+        },
+        "untrusted_analysis_arguments": {
+          "additionalProperties": true,
+          "properties": {
+            "accession": {
+              "type": "string"
+            },
+            "supplementary_file": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "accession"
+          ],
+          "type": "object"
+        },
+        "untrusted_suggestions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "capabilities",
+        "analysis_tools",
+        "chat_execution_available",
+        "snapshot_only",
+        "matrix",
+        "untrusted_analysis_arguments",
+        "untrusted_suggestions"
+      ],
+      "type": "object"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "untrusted_metadata_normalization_note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "geo_chat_schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox geo_chat_schema result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "geo_chat_schema"
+}

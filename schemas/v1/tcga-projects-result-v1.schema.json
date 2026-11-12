@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for tcga_projects. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "description": "Limitations and disclosures.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "description": "Original structured result data.",
+      "properties": {
+        "gdc_projects": {
+          "description": "Total fetched GDC project count.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "hidden_without_expression": {
+          "description": "Projects excluded because no supported expression dataset is available.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "listed": {
+          "description": "Number of projects after filtering.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "programs": {
+          "description": "Projects grouped by program.",
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "count": {
+                "description": "Number of projects in this group.",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "program": {
+                "description": "Program grouping label.",
+                "type": "string"
+              },
+              "projects": {
+                "description": "Listed projects in display order.",
+                "items": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "case_count": {
+                      "description": "GDC-reported case count, or null when absent.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "disease_types": {
+                      "description": "Reported disease types.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "file_count": {
+                      "description": "GDC-reported file count, or null when absent.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "mcp_tools_accept": {
+                      "description": "Whether this server accepts the project in its cohort tools.",
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "description": "GDC project name, or null when absent.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "pancanatlas": {
+                      "description": "Present for TCGA project rows.",
+                      "type": "boolean"
+                    },
+                    "primary_site": {
+                      "description": "Display-ready primary site.",
+                      "type": "string"
+                    },
+                    "project_id": {
+                      "description": "GDC project identifier.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "project_id",
+                    "name",
+                    "primary_site",
+                    "disease_types",
+                    "case_count",
+                    "file_count",
+                    "mcp_tools_accept"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "program",
+              "count",
+              "projects"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "search": {
+          "description": "Applied search text, omitted when not supplied.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "programs",
+        "listed",
+        "gdc_projects",
+        "hidden_without_expression"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "description": "How project links map to supported destinations.",
+      "type": "string"
+    },
+    "derived": {
+      "description": "Names of fields computed by the application.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "display": {
+      "additionalProperties": true,
+      "description": "Display text.",
+      "properties": {
+        "summary": {
+          "description": "Display-ready result summary.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json",
+      "description": "Sources and runtime provenance."
+    },
+    "tool": {
+      "const": "tcga_projects",
+      "description": "The called tool's identity.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance",
+    "derived",
+    "deep_link_note"
+  ],
+  "title": "GeneFox tcga_projects result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_projects"
+}

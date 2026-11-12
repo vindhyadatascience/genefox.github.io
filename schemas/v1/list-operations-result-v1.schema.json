@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Successful result for list_operations. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "items": {
+    "additionalProperties": true,
+    "properties": {
+      "dataScope": {
+        "description": "Imported data or a public dataset.",
+        "enum": [
+          "imported",
+          "public_dataset"
+        ],
+        "type": "string"
+      },
+      "displayName": {
+        "description": "Human-readable operation name.",
+        "type": "string"
+      },
+      "id": {
+        "description": "Stable analysis operation identity.",
+        "type": "string"
+      },
+      "summary": {
+        "description": "What the operation computes.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "displayName",
+      "summary",
+      "dataScope"
+    ],
+    "type": "object"
+  },
+  "title": "GeneFox list_operations result",
+  "type": "array",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "list_operations"
+}

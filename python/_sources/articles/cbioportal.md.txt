@@ -1,0 +1,23 @@
+# cBioPortal
+
+List curated studies, inspect composition and gene alterations. Alterations are study-wide, not restricted to an expression subset. Listing takes 1–10 s; composition and alterations take 5–60 s.
+
+Cohort-wide analyses can take 5–60 s; the specific cold latencies above may be longer.
+
+These examples use the session from Getting started and require the runtime.
+
+These calls return rows, not figures.
+
+```python
+studies = api.cbioportal_studies(s)
+composition = api.cbioportal_composition(s, study_id="openpedcan_v15")
+alterations = api.cbioportal_alterations(s, study_id="openpedcan_v15", gene="TP53")
+```
+
+## Result fields
+
+`cbioportal-studies`: `data` (object), `display` (object), `caveats` (array).
+
+`cbioportal-composition`: `data` (object), `display` (object), `caveats` (array).
+
+`cbioportal-alterations`: `data` (object), `display` (object), `caveats` (array).

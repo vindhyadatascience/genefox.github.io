@@ -1,7 +1,7 @@
 # Install & resources
 
-!!! info "Binary downloads: coming soon"
-    Binary downloads are not published yet. This page describes the requirements and layout the CLI uses, so you can plan your setup.
+!!! info "Download"
+    Get the CLI from the [GeneFox download page](https://genefox.app/download/).
 
 ## Supported platforms
 

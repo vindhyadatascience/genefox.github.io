@@ -1,0 +1,5 @@
+# Pinned for reproducible builds of the committed /python output (installed 2026-11-11).
+sphinx==9.2.0
+furo==2025.12.19
+myst-parser==5.1.0
+sphinx-llms-txt==0.7.1

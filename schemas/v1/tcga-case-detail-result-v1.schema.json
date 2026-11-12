@@ -1,0 +1,554 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "anyOf": [
+    {
+      "additionalProperties": true,
+      "properties": {
+        "data": {
+          "additionalProperties": true,
+          "properties": {
+            "file_groups": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "category": {
+                    "type": "string"
+                  },
+                  "files": {
+                    "items": {
+                      "additionalProperties": true,
+                      "properties": {
+                        "access": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "data_format": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "data_type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "experimental_strategy": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "file_id": {
+                          "type": "string"
+                        },
+                        "file_name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "open": {
+                          "type": "boolean"
+                        },
+                        "size": {
+                          "type": "string"
+                        },
+                        "size_bytes": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "file_id",
+                        "size",
+                        "file_name",
+                        "data_type",
+                        "data_format",
+                        "experimental_strategy",
+                        "access",
+                        "size_bytes",
+                        "open"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "category",
+                  "files"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "file_total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "file_groups",
+            "file_total"
+          ],
+          "type": "object"
+        },
+        "display": {
+          "additionalProperties": true,
+          "properties": {
+            "files_summary": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "files_summary"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data",
+        "display"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": true,
+      "properties": {
+        "data": {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "file_groups"
+                ]
+              },
+              {
+                "required": [
+                  "file_total"
+                ]
+              }
+            ]
+          }
+        },
+        "display": {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "files_summary"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "data",
+        "display"
+      ],
+      "type": "object"
+    }
+  ],
+  "description": "Successful result for tcga_case_detail. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "demographic": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "age_at_index_years": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "days_to_death": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "ethnicity": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "race": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sex_at_birth": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "vital_status": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "sex_at_birth",
+                "race",
+                "ethnicity",
+                "vital_status",
+                "age_at_index_years",
+                "days_to_death"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "diagnoses": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "age_at_diagnosis_days": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "ajcc_clinical_stage": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ajcc_pathologic_stage": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "days_to_last_follow_up": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "figo_stage": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "grade": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "primary_diagnosis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "stage": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "primary_diagnosis",
+              "stage",
+              "ajcc_pathologic_stage",
+              "ajcc_clinical_stage",
+              "figo_stage",
+              "grade",
+              "age_at_diagnosis_days",
+              "days_to_last_follow_up"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "disease_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "file_groups": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "category": {
+                "type": "string"
+              },
+              "files": {
+                "items": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "access": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "data_format": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "data_type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "experimental_strategy": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "file_id": {
+                      "type": "string"
+                    },
+                    "file_name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "size": {
+                      "type": "string"
+                    },
+                    "size_bytes": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "file_id",
+                    "size",
+                    "file_name",
+                    "data_type",
+                    "data_format",
+                    "experimental_strategy",
+                    "access",
+                    "size_bytes",
+                    "open"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "category",
+              "files"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "file_total": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "overall_survival": {
+          "additionalProperties": true,
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "properties": {
+                "event": {
+                  "type": "null"
+                },
+                "time_days": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "time_days",
+                "event"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": true,
+              "properties": {
+                "event": {
+                  "type": "boolean"
+                },
+                "time_days": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "time_days",
+                "event"
+              ],
+              "type": "object"
+            }
+          ],
+          "properties": {
+            "event": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "time_days": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "time_days",
+            "event"
+          ],
+          "type": "object"
+        },
+        "primary_site": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "project": {
+          "type": "string"
+        },
+        "submitter_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "project",
+        "case_id",
+        "submitter_id",
+        "primary_site",
+        "disease_type",
+        "demographic",
+        "diagnoses",
+        "overall_survival"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "derived": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "files_summary": {
+          "type": "string"
+        },
+        "sections": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "rows": {
+                "items": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "rows"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "sections"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "$ref": "tool-provenance-v1.schema.json"
+    },
+    "tool": {
+      "const": "tcga_case_detail",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "caveats",
+    "provenance",
+    "derived",
+    "deep_link_note"
+  ],
+  "title": "GeneFox tcga_case_detail result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "tcga_case_detail"
+}

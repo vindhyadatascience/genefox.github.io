@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for cbioportal_studies. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "curated": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "listed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "portal": {
+          "type": "string"
+        },
+        "portal_name": {
+          "type": "string"
+        },
+        "studies": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "group": {
+                "type": "string"
+              },
+              "group_name": {
+                "type": "string"
+              },
+              "native_project": {
+                "type": "string"
+              },
+              "open_link": {
+                "type": "string"
+              },
+              "open_link_title": {
+                "type": "string"
+              },
+              "sample_count": {
+                "type": "integer"
+              },
+              "served_as": {
+                "type": "string"
+              },
+              "study_id": {
+                "type": "string"
+              },
+              "subtitle": {
+                "type": "string"
+              },
+              "untrusted_attribution": {
+                "type": "string"
+              },
+              "untrusted_title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "study_id",
+              "untrusted_title",
+              "group",
+              "group_name",
+              "subtitle",
+              "sample_count"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "portal",
+        "portal_name",
+        "curated",
+        "listed",
+        "studies"
+      ],
+      "type": "object"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "drift_note": {
+          "type": "string"
+        },
+        "empty": {
+          "type": "string"
+        },
+        "notice": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "caption"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "catalogue_generated": {
+              "type": "string"
+            },
+            "credential": {
+              "type": "string"
+            },
+            "portal": {
+              "type": "string"
+            },
+            "portal_api": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "portal",
+            "portal_api",
+            "catalogue_generated",
+            "credential"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "tool": {
+      "const": "cbioportal_studies",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats",
+    "deep_link_note"
+  ],
+  "title": "GeneFox cbioportal_studies result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "cbioportal_studies"
+}

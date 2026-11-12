@@ -1,0 +1,257 @@
+# Reference
+
+Generated GeneFox tool functions.
+
+## TCGA
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_case_detail
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_case_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_cases
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_chat_schema
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_cohort_summary
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_compare_cohorts
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_gene_isoforms
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_gene_signature
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_pan_cancer_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_projects
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_top_correlates
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_tumor_normal
+```
+
+## GEO
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_chat_schema
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_collection_summary
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_dataset_details
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_finder_plan
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_gene_correlation
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_search
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_series_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_supplementary_layout
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_top_correlates
+```
+
+## cBioPortal
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_alterations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_composition
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_cross_study_mutations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_mutation_burden
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_significantly_mutated_genes
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_structural_variants
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_studies
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.cbioportal_treatment_counts
+```
+
+## ArrayExpress
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_details
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.arrayexpress_search
+```
+
+## GTEx/HPA reference
+
+```{eval-rst}
+.. autofunction:: genefox.api.gtex_tissue_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.hpa_gene
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_ccle_expression
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_expression_atlas
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_expression_atlas_catalog
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.reference_treehouse_expression
+```
+
+## Survival
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_survival
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_pan_cancer_survival
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_survival
+```
+
+## Differential expression
+
+```{eval-rst}
+.. autofunction:: genefox.api.imported_de_enrichment
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_differential_expression
+```
+
+## PCA/dimensionality
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_sample_pca
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_sample_pca
+```
+
+## Figures and recipes
+
+```{eval-rst}
+.. autofunction:: genefox.api.geo_heatmap
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.open_destination
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.tcga_heatmap
+```
+
+## Gene and utilities
+
+```{eval-rst}
+.. autofunction:: genefox.api.gene_info
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_coverage
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_operations
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.list_signature_presets
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_analysis
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_experiments
+```
+
+```{eval-rst}
+.. autofunction:: genefox.api.toxicodb_search
+```
+
+## Account and tools
+
+```{eval-rst}
+.. autofunction:: genefox.api.account_status
+```

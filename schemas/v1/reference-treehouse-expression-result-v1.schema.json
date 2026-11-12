@@ -1,0 +1,578 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Successful result for reference_treehouse_expression. Structured failures use tool-error-v1.schema.json. Unknown extension fields are retained.",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "csv": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "headers_truncated": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "rows": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "rows",
+        "columns",
+        "headers"
+      ],
+      "type": "object"
+    },
+    "csv_unavailable": {
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "properties": {
+        "admitted_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "axis_label": {
+          "type": "string"
+        },
+        "chart": {
+          "enum": [
+            "box",
+            "bar",
+            "strip",
+            "violin"
+          ],
+          "type": "string"
+        },
+        "cohort_is_browsable": {
+          "type": "boolean"
+        },
+        "cohorts": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "samples": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "untrusted_disease": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "untrusted_disease",
+              "samples"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "distribution": {
+          "additionalProperties": true,
+          "properties": {
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "mean": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "median": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "n": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "q1": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "q3": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "n",
+            "median",
+            "q1",
+            "q3",
+            "mean",
+            "min",
+            "max"
+          ],
+          "type": "object"
+        },
+        "gene": {
+          "type": "string"
+        },
+        "groups": {
+          "items": {
+            "additionalProperties": true,
+            "oneOf": [
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": true,
+                "properties": {
+                  "untrusted_label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "untrusted_label"
+                ],
+                "type": "object"
+              }
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "mean": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "median": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "n": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "q1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "q3": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "untrusted_label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "n",
+              "median",
+              "q1",
+              "q3",
+              "mean"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "minimum_group_size": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "n": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "scoped_samples": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "stratify": {
+          "enum": [
+            "none",
+            "disease",
+            "pedaya",
+            "sex",
+            "study"
+          ],
+          "type": "string"
+        },
+        "stratify_label": {
+          "type": "string"
+        },
+        "untrusted_cohort": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gene",
+        "axis_label",
+        "stratify_label",
+        "admitted_samples",
+        "scoped_samples",
+        "n",
+        "minimum_group_size",
+        "stratify",
+        "chart",
+        "cohorts",
+        "distribution",
+        "groups"
+      ],
+      "type": "object"
+    },
+    "deep_link": {
+      "type": "string"
+    },
+    "deep_link_note": {
+      "type": "string"
+    },
+    "deep_link_unavailable": {
+      "type": "string"
+    },
+    "display": {
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "report_subtitle": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "report_subtitle"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "untrusted_report_subtitle": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "untrusted_report_subtitle"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "grouped_note": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        },
+        "provenance_note": {
+          "type": "string"
+        },
+        "report_subtitle": {
+          "type": "string"
+        },
+        "report_title": {
+          "type": "string"
+        },
+        "source_line": {
+          "type": "string"
+        },
+        "table_caption": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "untrusted_report_subtitle": {
+          "type": "string"
+        },
+        "untrusted_table": {
+          "$ref": "report-table-v1.schema.json"
+        }
+      },
+      "required": [
+        "header",
+        "source_line",
+        "title",
+        "report_title",
+        "provenance_note"
+      ],
+      "type": "object"
+    },
+    "figure": {
+      "$ref": "tool-figure-v1.schema.json"
+    },
+    "figure_refused": {
+      "type": "string"
+    },
+    "figure_token": {
+      "type": "string"
+    },
+    "figure_unavailable": {
+      "type": "string"
+    },
+    "html": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "parity_note": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "parity",
+        "parity_note"
+      ],
+      "type": "object"
+    },
+    "html_unavailable": {
+      "type": "string"
+    },
+    "provenance": {
+      "allOf": [
+        {
+          "$ref": "tool-provenance-v1.schema.json"
+        },
+        {
+          "additionalProperties": true,
+          "properties": {
+            "admission_rule": {
+              "type": "string"
+            },
+            "admitted_source_names": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "datasets": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "minimum_cohort_samples": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "official_release": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "admission_rule",
+            "official_release",
+            "admitted_source_names",
+            "datasets",
+            "minimum_cohort_samples"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "recipe": {
+      "additionalProperties": true,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deep_link": {
+          "type": "string"
+        },
+        "destination_kind": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "recipe_id": {
+          "type": "string"
+        },
+        "recipe_token": {
+          "type": "string"
+        },
+        "rerunnable": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "untrusted_deep_link": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "file_name",
+        "bytes",
+        "sha256",
+        "recipe_id",
+        "destination_kind",
+        "format",
+        "rerunnable"
+      ],
+      "type": "object"
+    },
+    "recipe_unavailable": {
+      "type": "string"
+    },
+    "tool": {
+      "const": "reference_treehouse_expression",
+      "type": "string"
+    },
+    "truncated": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "kept": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "field",
+            "kept",
+            "total"
+          ],
+          "type": "object"
+        },
+        {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "kept": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "total": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "field",
+              "kept",
+              "total"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "untrusted_deep_link": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool",
+    "data",
+    "display",
+    "provenance",
+    "caveats"
+  ],
+  "title": "GeneFox reference_treehouse_expression result",
+  "type": "object",
+  "x-genefox-schema-version": 1,
+  "x-genefox-tool": "reference_treehouse_expression"
+}
